@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SDatePickerRange > render correctly with default value width string 1`] = `undefined`;
+
+exports[`SDatePickerRange render correctly with default value width string 1`] = `undefined`;

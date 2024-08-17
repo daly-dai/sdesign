@@ -1,0 +1,52 @@
+{
+  "files": {
+    "ignore": ["node_modules"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "lineWidth": 100,
+    "indentWidth": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "organizeImports": {
+    "enabled": false
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "useImportType": "off",
+        "useNumberNamespace": "off",
+        "useNodejsImportProtocol": "off",
+        "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "off"
+      },
+      "complexity": {
+        "noUselessTypeConstraint": "off",
+        "noForEach": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off"
+      },
+      "suspicious": {
+        "noGlobalIsNan": "off",
+        "noGlobalIsFinite": "off",
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off",
+        "noConfusingVoidType": "off",
+        "noThenProperty": "off"
+      },
+      "performance": {
+        "noDelete": "off",
+        "noAccumulatingSpread": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off"
+      }
+    }
+  }
+}

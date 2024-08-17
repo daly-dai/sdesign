@@ -1,0 +1,319 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SRadioGroup > should options props priority dict props 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-outline css-dev-only-do-not-override-3rel02"
+  >
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="app_link"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        存量应用关联
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="register"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        发布注册
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`SRadioGroup > should render correctly 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-outline css-dev-only-do-not-override-3rel02"
+  />
+</div>
+`;
+
+exports[`SRadioGroup > should render dictKey 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-outline css-dev-only-do-not-override-3rel02"
+  >
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L1"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L2"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L3"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L4"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L5"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`SRadioGroup should options props priority dict props 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-outline css-dev-only-do-not-override-1r287do"
+  >
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="app_link"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        存量应用关联
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="register"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        发布注册
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`SRadioGroup should render correctly 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-outline css-dev-only-do-not-override-1r287do"
+  />
+</div>
+`;
+
+exports[`SRadioGroup should render dictKey 1`] = `
+<div>
+  <div
+    class="ant-radio-group ant-radio-group-outline css-dev-only-do-not-override-1r287do"
+  >
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L1"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L2"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L3"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L4"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-radio-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-radio ant-wave-target"
+      >
+        <input
+          class="ant-radio-input"
+          type="radio"
+          value="L5"
+        />
+        <span
+          class="ant-radio-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;

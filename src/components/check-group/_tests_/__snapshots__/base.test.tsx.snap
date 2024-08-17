@@ -1,0 +1,537 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`checkBoxGroup > should render correctly 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-3rel02"
+  />
+</div>
+`;
+
+exports[`checkBoxGroup > should support dict 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-3rel02"
+  >
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L1"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L2"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L3"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L4"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L5"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`checkBoxGroup > should support dictKey 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-3rel02"
+  >
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L1"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L2"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L3"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L4"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-3rel02"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-3rel02"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L5"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`checkBoxGroup should render correctly 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-1r287do"
+  />
+</div>
+`;
+
+exports[`checkBoxGroup should support children 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-1r287do"
+  >
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L1"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L2"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L3"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L4"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L5"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`checkBoxGroup should support dict 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-1r287do"
+  >
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L1"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L2"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L3"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L4"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L5"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`checkBoxGroup should support dictKey 1`] = `
+<div>
+  <div
+    class="ant-checkbox-group css-dev-only-do-not-override-1r287do"
+  >
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L1"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        不敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L2"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        低敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L3"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        较敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L4"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        敏感
+      </span>
+    </label>
+    <label
+      class="ant-checkbox-wrapper ant-checkbox-group-item css-dev-only-do-not-override-1r287do"
+    >
+      <span
+        class="ant-checkbox ant-wave-target css-dev-only-do-not-override-1r287do"
+      >
+        <input
+          class="ant-checkbox-input"
+          type="checkbox"
+          value="L5"
+        />
+        <span
+          class="ant-checkbox-inner"
+        />
+      </span>
+      <span>
+        极敏感
+      </span>
+    </label>
+  </div>
+</div>
+`;

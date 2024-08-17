@@ -1,0 +1,28 @@
+{
+  "cSpell.words": [
+    "ahooks",
+    "antd",
+    "commitlint",
+    "dumi",
+    "Echart",
+    "echarts",
+    "ename",
+    "gpddld",
+    "irsicon",
+    "Mobi",
+    "packagejson",
+    "pllqo",
+    "rgba",
+    "stylelint",
+    "szhz",
+    "umijs",
+    "wallhaven"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "aide.convertLanguagePairs": {
+    "typescript": "typescript"
+  }
+}

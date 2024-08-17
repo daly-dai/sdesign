@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`error-boundary > should render current 1`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-3rel02 ant-btn-primary"
+    type="button"
+  >
+    <span>
+      取 消
+    </span>
+  </button>
+  <button
+    class="ant-btn css-dev-only-do-not-override-3rel02 ant-btn-primary"
+    type="button"
+  >
+    <span>
+      提 交
+    </span>
+  </button>
+</div>
+`;
+
+exports[`error-boundary should render current 1`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-1r287do ant-btn-primary"
+    type="button"
+  >
+    <span>
+      取 消
+    </span>
+  </button>
+  <button
+    class="ant-btn css-dev-only-do-not-override-1r287do ant-btn-primary"
+    type="button"
+  >
+    <span>
+      提 交
+    </span>
+  </button>
+</div>
+`;

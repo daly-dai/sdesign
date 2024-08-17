@@ -1,0 +1,279 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SBtmContainer > fix renders {0} , 0 and {false} 1`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-3rel02 ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  >
+    <div
+      class="ant-space-item"
+    >
+      0
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer > fix renders {0} , 0 and {false} 2`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-3rel02 ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  >
+    <div
+      class="ant-space-item"
+    >
+      0
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer > fix renders {0} , 0 and {false} 3`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-3rel02 ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  />
+</div>
+`;
+
+exports[`SBtmContainer > should merge text if children using variable 1`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-3rel02 ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  >
+    <div
+      class="ant-space-item"
+    >
+      This 
+    </div>
+    <div
+      class="ant-space-item"
+    >
+      is
+    </div>
+    <div
+      class="ant-space-item"
+    >
+       a test 
+    </div>
+    <div
+      class="ant-space-item"
+    >
+      1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer > should render children correctly 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+  >
+    <div
+      class="ant-space css-dev-only-do-not-override-3rel02 ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+    >
+      <div
+        class="ant-space-item"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-3rel02 ant-btn-primary"
+          type="button"
+        >
+          <span>
+            取 消
+          </span>
+        </button>
+      </div>
+      <div
+        class="ant-space-item"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-3rel02 ant-btn-primary"
+          type="button"
+        >
+          <span>
+            提 交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer > should support custom icon className 1`] = `
+<div>
+  <div
+    class="custom-SBtmContainer"
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+  />
+</div>
+`;
+
+exports[`SBtmContainer > should support custom style 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(51, 51, 51); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+  />
+</div>
+`;
+
+exports[`SBtmContainer > should support full 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100% - 32px);"
+  />
+</div>
+`;
+
+exports[`SBtmContainer > should support props full 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100% - 32px);"
+  />
+</div>
+`;
+
+exports[`SBtmContainer fixbug renders {0} , 0 and {false} 1`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-1r287do ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  >
+    <div
+      class="ant-space-item"
+    >
+      0
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer fixbug renders {0} , 0 and {false} 2`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-1r287do ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  >
+    <div
+      class="ant-space-item"
+    >
+      0
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer fixbug renders {0} , 0 and {false} 3`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-1r287do ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  />
+</div>
+`;
+
+exports[`SBtmContainer should merge text if children using variable 1`] = `
+<div
+  style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+>
+  <div
+    class="ant-space css-dev-only-do-not-override-1r287do ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+  >
+    <div
+      class="ant-space-item"
+    >
+      This 
+    </div>
+    <div
+      class="ant-space-item"
+    >
+      is
+    </div>
+    <div
+      class="ant-space-item"
+    >
+       a test 
+    </div>
+    <div
+      class="ant-space-item"
+    >
+      1
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer should render children correctly 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+  >
+    <div
+      class="ant-space css-dev-only-do-not-override-1r287do ant-space-horizontal ant-space-align-center ant-space-gap-row-small ant-space-gap-col-small"
+    >
+      <div
+        class="ant-space-item"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-1r287do ant-btn-primary"
+          type="button"
+        >
+          <span>
+            取 消
+          </span>
+        </button>
+      </div>
+      <div
+        class="ant-space-item"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-1r287do ant-btn-primary"
+          type="button"
+        >
+          <span>
+            提 交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SBtmContainer should support custom icon className 1`] = `
+<div>
+  <div
+    class="custom-SBtmContainer"
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+  />
+</div>
+`;
+
+exports[`SBtmContainer should support custom style 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(51, 51, 51); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100vw - 264px);"
+  />
+</div>
+`;
+
+exports[`SBtmContainer should support full 1`] = `
+<div>
+  <div
+    style="position: fixed; bottom: 16px; background: rgb(255, 255, 255); padding: 16px 24px; box-shadow: 0px -9px 7px 0px rgba(0,0,0,0.04); display: flex; justify-content: flex-end; z-index: 1000; border-radius: 8px; width: calc(100% - 32px);"
+  />
+</div>
+`;

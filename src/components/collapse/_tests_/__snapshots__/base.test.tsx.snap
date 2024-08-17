@@ -1,0 +1,103 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SCollapse > should render correctly 1`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-3rel02 ant-btn-link"
+    style="font-size: 14px; padding: 4px 0px;"
+    type="button"
+  >
+    <span>
+      收起
+    </span>
+    <span
+      aria-label="caret-down"
+      class="anticon anticon-caret-down"
+      role="img"
+    >
+      <svg
+        aria-hidden="true"
+        data-icon="caret-down"
+        fill="currentColor"
+        focusable="false"
+        height="1em"
+        style="transform: rotate(180deg);"
+        viewBox="0 0 1024 1024"
+        width="1em"
+      >
+        <path
+          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+        />
+      </svg>
+    </span>
+  </button>
+</div>
+`;
+
+exports[`SCollapse should render 1`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-1r287do ant-btn-link"
+    style="font-size: 14px; padding: 4px 0px;"
+    type="button"
+  >
+    <span>
+      收起
+    </span>
+    <span
+      aria-label="caret-down"
+      class="anticon anticon-caret-down"
+      role="img"
+    >
+      <svg
+        aria-hidden="true"
+        data-icon="caret-down"
+        fill="currentColor"
+        focusable="false"
+        height="1em"
+        style="transform: rotate(180deg);"
+        viewBox="0 0 1024 1024"
+        width="1em"
+      >
+        <path
+          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+        />
+      </svg>
+    </span>
+  </button>
+</div>
+`;
+
+exports[`SCollapse should render correctly 1`] = `
+<div>
+  <button
+    class="ant-btn css-dev-only-do-not-override-1r287do ant-btn-link"
+    style="font-size: 14px; padding: 4px 0px;"
+    type="button"
+  >
+    <span>
+      收起
+    </span>
+    <span
+      aria-label="caret-down"
+      class="anticon anticon-caret-down"
+      role="img"
+    >
+      <svg
+        aria-hidden="true"
+        data-icon="caret-down"
+        fill="currentColor"
+        focusable="false"
+        height="1em"
+        style="transform: rotate(180deg);"
+        viewBox="0 0 1024 1024"
+        width="1em"
+      >
+        <path
+          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+        />
+      </svg>
+    </span>
+  </button>
+</div>
+`;

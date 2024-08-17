@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SDatePicker > calls onChange when the date is selected 1`] = `null`;
+
+exports[`SDatePicker > render correctly with default value width dayjs 1`] = `undefined`;
+
+exports[`SDatePicker > render correctly with default value width string 1`] = `undefined`;
+
+exports[`SDatePicker calls onChange when the date is selected 1`] = `null`;
+
+exports[`SDatePicker render correctly with default value 1`] = `undefined`;
+
+exports[`SDatePicker render correctly with default value width dayjs 1`] = `undefined`;
+
+exports[`SDatePicker render correctly with default value width string 1`] = `undefined`;

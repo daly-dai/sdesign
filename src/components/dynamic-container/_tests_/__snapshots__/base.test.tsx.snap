@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DynamicContainer > renders with default props 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-3rel02"
+    style="margin-bottom: 16px; padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    >
+      Default Content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DynamicContainer > renders without isCard 1`] = `
+<div>
+  No Card Content
+</div>
+`;
+
+exports[`DynamicContainer > should support customChildren 1`] = `
+<div>
+  <div
+    class="custom-container"
+  >
+    Custom Content
+  </div>
+</div>
+`;
+
+exports[`DynamicContainer > support render customContainer 1`] = `
+<div>
+  <div
+    class="custom-container"
+  >
+    Card Content
+  </div>
+</div>
+`;
+
+exports[`DynamicContainer renders with default props 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-1r287do"
+    style="margin-bottom: 16px; padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    >
+      Default Content
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DynamicContainer renders without isCard 1`] = `
+<div>
+  No Card Content
+</div>
+`;
+
+exports[`DynamicContainer should support customChildren 1`] = `
+<div>
+  <div
+    class="custom-container"
+  >
+    Custom Content
+  </div>
+</div>
+`;
+
+exports[`DynamicContainer support render customContainer 1`] = `
+<div>
+  <div
+    class="custom-container"
+  >
+    Card Content
+  </div>
+</div>
+`;

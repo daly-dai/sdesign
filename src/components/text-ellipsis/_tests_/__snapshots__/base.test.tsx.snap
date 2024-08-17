@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`STextEllipsis > should render Multi correctly 1`] = `
+<div>
+  <div
+    class="acss-hlsjwr"
+    style="font-size: 14px;"
+  />
+</div>
+`;
+
+exports[`STextEllipsis > should render correctly 1`] = `
+<div>
+  <div
+    class="acss-zifu8"
+    style="font-size: 14px;"
+  />
+</div>
+`;
+
+exports[`STextEllipsis should render Multi correctly 1`] = `
+<div>
+  <div
+    class="sd-ellipsis-multi  "
+    style="font-size: 14px;"
+  />
+</div>
+`;
+
+exports[`STextEllipsis should render correctly 1`] = `
+<div>
+  <div
+    class="sd-ellipsis-single  "
+    style="font-size: 14px;"
+  />
+</div>
+`;

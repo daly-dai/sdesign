@@ -1,0 +1,231 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SCard > should render children correctly 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-3rel02"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    >
+      <div>
+        test-children
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SCard > should render correctly 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-3rel02"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard > should support custom className 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered test-class css-dev-only-do-not-override-3rel02"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard > should support custom style 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-3rel02"
+    style="padding: 16px 24px; border-radius: 8px; background-color: red;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard > should support hasBottomPadding props 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered s-card-jest css-dev-only-do-not-override-3rel02"
+    style="margin-bottom: 16px; padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard > should support props extends Card Props 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered s-card-jest css-dev-only-do-not-override-3rel02"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-head"
+    >
+      <div
+        class="ant-card-head-wrapper"
+      >
+        <div
+          class="ant-card-head-title"
+        >
+          test-title
+        </div>
+        <div
+          class="ant-card-extra"
+        >
+          <div>
+            test-extra
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard > should support props style 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-3rel02"
+    style="padding: 16px 24px; border-radius: 8px; background-color: red;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard should render children correctly 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-1r287do"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    >
+      <div>
+        test-children
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SCard should render correctly 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-1r287do"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard should support custom className 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered test-class css-dev-only-do-not-override-1r287do"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard should support custom style 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered css-dev-only-do-not-override-1r287do"
+    style="padding: 16px 24px; border-radius: 8px; background-color: red;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard should support hasBottomPadding props 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered s-card-jest css-dev-only-do-not-override-1r287do"
+    style="margin-bottom: 16px; padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`SCard should support props extends Card Props 1`] = `
+<div>
+  <div
+    class="ant-card ant-card-bordered s-card-jest css-dev-only-do-not-override-1r287do"
+    style="padding: 16px 24px; border-radius: 8px;"
+  >
+    <div
+      class="ant-card-head"
+    >
+      <div
+        class="ant-card-head-wrapper"
+      >
+        <div
+          class="ant-card-head-title"
+        >
+          test-title
+        </div>
+        <div
+          class="ant-card-extra"
+        >
+          <div>
+            test-extra
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-card-body"
+      style="padding: 0px;"
+    />
+  </div>
+</div>
+`;

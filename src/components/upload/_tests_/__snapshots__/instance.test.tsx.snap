@@ -1,0 +1,250 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SUpload > should render Multi correctly 1`] = `
+<div>
+  <span
+    class="ant-upload-wrapper css-dev-only-do-not-override-3rel02 ant-upload-picture-card-wrapper"
+  >
+    <div
+      class="ant-upload-list ant-upload-list-picture-card"
+    >
+      <div
+        class="ant-upload ant-upload-select"
+      >
+        <span
+          class="ant-upload"
+        >
+          <input
+            accept=""
+            style="display: none;"
+            type="file"
+          />
+          <span
+            aria-label="plus"
+            class="anticon anticon-plus"
+            role="img"
+          >
+            <svg
+              aria-hidden="true"
+              data-icon="plus"
+              fill="currentColor"
+              focusable="false"
+              height="1em"
+              viewBox="64 64 896 896"
+              width="1em"
+            >
+              <path
+                d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+              />
+              <path
+                d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
+              />
+            </svg>
+          </span>
+        </span>
+      </div>
+    </div>
+  </span>
+</div>
+`;
+
+exports[`SUpload > should render correctly 1`] = `
+<div>
+  <div
+    class="upload"
+  >
+    <span
+      class="ant-upload-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <div
+        class="css-dev-only-do-not-override-3rel02 ant-upload ant-upload-drag"
+      >
+        <span
+          class="ant-upload ant-upload-btn"
+          role="button"
+          tabindex="0"
+        >
+          <input
+            accept=""
+            style="display: none;"
+            type="file"
+          />
+          <div
+            class="ant-upload-drag-container"
+          >
+            <div
+              style="margin-bottom: 10px;"
+            >
+              <span
+                style="color: rgb(45, 122, 247);"
+              >
+                点击上传
+              </span>
+               / 拖拽到此区域
+            </div>
+            <div
+              style="color: gray;"
+            >
+              单个文件不超过
+              ，暂无文件类型限制
+            </div>
+          </div>
+        </span>
+      </div>
+      <div
+        class="ant-upload-list ant-upload-list-text"
+      />
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SUpload > should support children 1`] = `
+<div>
+  <div
+    class="upload"
+  >
+    <span
+      class="ant-upload-wrapper css-dev-only-do-not-override-3rel02"
+    >
+      <div
+        class="css-dev-only-do-not-override-3rel02 ant-upload ant-upload-drag"
+      >
+        <span
+          class="ant-upload ant-upload-btn"
+          role="button"
+          tabindex="0"
+        >
+          <input
+            accept=""
+            style="display: none;"
+            type="file"
+          />
+          <div
+            class="ant-upload-drag-container"
+          >
+            <div
+              style="margin-bottom: 10px;"
+            >
+              <span
+                style="color: rgb(45, 122, 247);"
+              >
+                点击上传
+              </span>
+               / 拖拽到此区域
+            </div>
+            <div
+              style="color: gray;"
+            >
+              单个文件不超过
+              ，暂无文件类型限制
+            </div>
+          </div>
+        </span>
+      </div>
+      <div
+        class="ant-upload-list ant-upload-list-text"
+      />
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SUpload should render Multi correctly 1`] = `
+<div>
+  <span
+    class="ant-upload-wrapper css-dev-only-do-not-override-1r287do ant-upload-picture-card-wrapper"
+  >
+    <div
+      class="ant-upload-list ant-upload-list-picture-card"
+    >
+      <div
+        class="ant-upload ant-upload-select"
+      >
+        <span
+          class="ant-upload"
+        >
+          <input
+            accept=""
+            style="display: none;"
+            type="file"
+          />
+          <span
+            aria-label="plus"
+            class="anticon anticon-plus"
+            role="img"
+          >
+            <svg
+              aria-hidden="true"
+              data-icon="plus"
+              fill="currentColor"
+              focusable="false"
+              height="1em"
+              viewBox="64 64 896 896"
+              width="1em"
+            >
+              <path
+                d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+              />
+              <path
+                d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8z"
+              />
+            </svg>
+          </span>
+        </span>
+      </div>
+    </div>
+  </span>
+</div>
+`;
+
+exports[`SUpload should render correctly 1`] = `
+<div>
+  <div
+    class="upload"
+  >
+    <span
+      class="ant-upload-wrapper css-dev-only-do-not-override-1r287do"
+    >
+      <div
+        class="css-dev-only-do-not-override-1r287do ant-upload ant-upload-drag"
+      >
+        <span
+          class="ant-upload ant-upload-btn"
+          role="button"
+          tabindex="0"
+        >
+          <input
+            accept=""
+            style="display: none;"
+            type="file"
+          />
+          <div
+            class="ant-upload-drag-container"
+          >
+            <div
+              style="margin-bottom: 10px;"
+            >
+              <span
+                style="color: rgb(45, 122, 247);"
+              >
+                点击上传
+              </span>
+               / 拖拽到此区域
+            </div>
+            <div
+              style="color: gray;"
+            >
+              单个文件不超过
+              ，暂无文件类型限制
+            </div>
+          </div>
+        </span>
+      </div>
+      <div
+        class="ant-upload-list ant-upload-list-text"
+      />
+    </span>
+  </div>
+</div>
+`;
