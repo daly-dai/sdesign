@@ -1,11 +1,11 @@
 {
   "files": {
-    "ignore": ["node_modules"]
+    "ignore": ["node_modules", ".dumi", ".husky", ".vscode", ""]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "lineWidth": 100,
+    "lineWidth": 80,
     "indentWidth": 2
   },
   "javascript": {

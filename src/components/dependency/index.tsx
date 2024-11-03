@@ -60,7 +60,7 @@ const SDependency = <T,>({
     for (let i = 0; i < depNames.length; i++) {
       const itemName = flattenNames[i];
 
-      let value = form.getFieldValue?.(itemName);
+      const value = form.getFieldValue?.(itemName);
 
       if (typeof value !== 'undefined') {
         values = set(values, itemName, value);
