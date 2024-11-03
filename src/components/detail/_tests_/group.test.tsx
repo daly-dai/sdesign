@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import SDetail from '../index';
 import { SDetailGroupItem } from '../types';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 const items: SDetailGroupItem[] = [
   {

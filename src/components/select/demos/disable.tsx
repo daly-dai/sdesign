@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { SSelect } from '@daly/sdesign';
+import { SSelect } from '@dalydb/sdesign';
 
 const dictData = {
   L1: '不敏感',

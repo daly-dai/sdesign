@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 
 import { SSelectProps } from './types';
 
-import useDispatchDict from '@daly/sdesign/hooks/useDispatchDict';
-import useGetDict from '@daly/sdesign/hooks/useGetDictData';
+import useDispatchDict from '@dalydb/sdesign/hooks/useDispatchDict';
+import useGetDict from '@dalydb/sdesign/hooks/useGetDictData';
 
 const SSelect: FC<SSelectProps> = ({
   dict,

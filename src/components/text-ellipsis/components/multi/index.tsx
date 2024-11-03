@@ -5,7 +5,7 @@ import useTextEllipsis from '../../hook';
 import useStyles from '../../styles/multi.style';
 import { MultiEllipsisProps } from '../../types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
+import { useComStyle } from '@dalydb/sdesign/hooks';
 
 const Multi: FC<MultiEllipsisProps> = ({
   maxChars,

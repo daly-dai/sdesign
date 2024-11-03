@@ -5,8 +5,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import SConfirm from '../index'; // 假设这是你的SConfirm组件的路径
 
-import mountTest from '@daly/sdesign/tests/mountTest';
-import { waitFakeTimer } from '@daly/sdesign/tests/utils';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
+import { waitFakeTimer } from '@dalydb/sdesign/tests/utils';
 
 describe('SConfirm component', () => {
   mountTest(SConfirm);

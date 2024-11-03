@@ -11,7 +11,7 @@ import {
   SDetailItem,
   SRadioGroup,
   SSelect,
-} from '@daly/sdesign';
+} from '@dalydb/sdesign';
 
 const dictionaryMap = {
   dataPromise: {

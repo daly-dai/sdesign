@@ -5,7 +5,7 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { SDatePickerRange } from '@daly/sdesign';
+import { SDatePickerRange } from '@dalydb/sdesign';
 
 export default () => {
   const stringDefault = ['2022-01-01', '2022-01-05'];

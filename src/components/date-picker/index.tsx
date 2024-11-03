@@ -3,7 +3,7 @@ import React, { FC, useMemo } from 'react';
 
 import { SDatePickerType } from './types';
 
-import { getDateVal } from '@daly/sdesign/utils/date';
+import { getDateVal } from '@dalydb/sdesign/utils/date';
 
 import type { Dayjs } from 'dayjs';
 

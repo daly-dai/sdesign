@@ -12,8 +12,8 @@ export default defineConfig({
   },
   alias: {
     '@': './src',
-    '@daly/sdesign': '/src',
-    '@daly/sdesign/*': '/src/*',
+    '@dalydb/sdesign': '/src',
+    '@dalydb/sdesign/*': '/src/*',
   },
   // mako: {},
   themeConfig,

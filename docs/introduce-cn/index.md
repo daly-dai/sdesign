@@ -27,10 +27,10 @@ S 项目对常用的基础组件进行业务封装，满足特定功能与样式
 2. 安装
 
 ```
-npm install @daly/sdesign
+npm install @dalydb/sdesign
 // 或
-pnpm  install @daly/sdesign
+pnpm  install @dalydb/sdesign
 ```
 
 3. 使用
-   `import { STitle } from '@daly/sdesign';'`
+   `import { STitle } from '@dalydb/sdesign';'`

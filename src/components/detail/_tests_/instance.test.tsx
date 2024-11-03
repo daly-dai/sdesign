@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import SDetail from '../index';
 import { SDetailItem } from '../types';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('SDetail', () => {
   mountTest(SDetail);

@@ -5,7 +5,7 @@
 import { Typography } from 'antd';
 import React, { useState } from 'react';
 
-import { SRadioGroup } from '@daly/sdesign';
+import { SRadioGroup } from '@dalydb/sdesign';
 
 const dictData = {
   L1: '不敏感',

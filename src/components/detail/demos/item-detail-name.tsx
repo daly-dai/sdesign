@@ -6,7 +6,7 @@
 import { Typography } from 'antd';
 import React from 'react';
 
-import { SDetail, SDetailGroupItem, SDetailItem } from '@daly/sdesign';
+import { SDetail, SDetailGroupItem, SDetailItem } from '@dalydb/sdesign';
 
 const dataSource = {
   base: {

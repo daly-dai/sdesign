@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 
-import { SRadioGroup, SSpin } from '@daly/sdesign';
+import { SRadioGroup, SSpin } from '@dalydb/sdesign';
 
 const SizeType = {
   large: 'large',

@@ -1,8 +1,8 @@
 const themeConfig = {
-  name: '@daly/sdesign',
+  name: '@dalydb/sdesign',
   apiHeader: {
     // 组件库包名，可以从 package.json 中引入名称
-    pkg: '@daly/sdesign',
+    pkg: '@dalydb/sdesign',
     sourceUrl: false,
     docUrl: false,
     // 匹配路由，默认为 /api 或 /components

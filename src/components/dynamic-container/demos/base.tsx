@@ -1,6 +1,6 @@
 import React, { HTMLAttributes, ReactNode } from 'react';
 
-import { SDynamicContainer } from '@daly/sdesign';
+import { SDynamicContainer } from '@dalydb/sdesign';
 
 interface CustomProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;

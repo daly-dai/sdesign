@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
-import SCard from '@daly/sdesign/components/card';
-import { SCardProps } from '@daly/sdesign/components/card/types';
+import SCard from '@dalydb/sdesign/components/card';
+import { SCardProps } from '@dalydb/sdesign/components/card/types';
 
 export interface ContainerProps extends SCardProps {
   CustomContainer?: React.ComponentType<any>;

@@ -5,7 +5,7 @@
 import { Button, Form, Space } from 'antd';
 import React from 'react';
 
-import { GroupItemsType, SCard, SForm } from '@daly/sdesign';
+import { GroupItemsType, SCard, SForm } from '@dalydb/sdesign';
 
 const CustomContainer = ({ children }: any) => {
   return (

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { MIN_LABEL_WIDTH } from './constant';
 import { SDetailProps } from './types';
 
-import { createCode } from '@daly/sdesign/utils';
+import { createCode } from '@dalydb/sdesign/utils';
 
 const useDetail = ({ column }: Partial<SDetailProps>) => {
   const [containerWidth, setContainerWidth] = useState<number | null>(null);

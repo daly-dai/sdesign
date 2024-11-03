@@ -1,6 +1,6 @@
 import { SpinProps } from 'antd';
 
-import { LoadingSizeType } from '@daly/sdesign';
+import { LoadingSizeType } from '@dalydb/sdesign';
 
 export type LoadingProps = {
   loadingSize?: LoadingSizeType;

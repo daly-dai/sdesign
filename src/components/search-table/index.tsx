@@ -9,7 +9,7 @@ import STitle from '../title';
 
 import { SearchTableProps } from './types';
 
-import useSearchTable from '@daly/sdesign/hooks/useSearchTable';
+import useSearchTable from '@dalydb/sdesign/hooks/useSearchTable';
 
 const mockRequest = async () => {
   return {
@@ -45,14 +45,15 @@ const SSearchTable: FC<SearchTableProps> = ({
     return service ?? mockRequest;
   }, [service]);
 
-  const { getPageData, dataSource, loading, handleReset, pagination } = useSearchTable({
-    // 接口地址需自定义
-    requestFn: serviceInstance,
-    form: formInstance,
-    serviceProps,
-    extraParams,
-    dispatchParams,
-  });
+  const { getPageData, dataSource, loading, handleReset, pagination } =
+    useSearchTable({
+      // 接口地址需自定义
+      requestFn: serviceInstance,
+      form: formInstance,
+      serviceProps,
+      extraParams,
+      dispatchParams,
+    });
 
   const tableData = useMemo(() => {
     if (!dataSource) return [];

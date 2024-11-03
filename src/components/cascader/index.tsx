@@ -6,12 +6,19 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 
 import { SCascaderProps } from './types';
 
-import { dispatchCascader, echoCascader } from '@daly/sdesign/utils';
+import { dispatchCascader, echoCascader } from '@dalydb/sdesign/utils';
 
 const SCascader: FC<SCascaderProps> = (props) => {
   const [cascaderValue, setCascaderValue] = useState<any>();
 
-  const { multiple, value, onChange, allowClear = true, defaultValue, ...restProps } = props;
+  const {
+    multiple,
+    value,
+    onChange,
+    allowClear = true,
+    defaultValue,
+    ...restProps
+  } = props;
 
   const initValue = (value: any) => {
     if (!value) {

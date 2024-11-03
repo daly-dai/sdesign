@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest';
 
 import DetailItem from '../components/item-render';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('DetailItem', () => {
   mountTest(DetailItem);

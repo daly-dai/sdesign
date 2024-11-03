@@ -1,7 +1,7 @@
 import { Button, Form, Space } from 'antd';
 import React, { useState } from 'react';
 
-import { SForm, SFormItems } from '@daly/sdesign';
+import { SForm, SFormItems } from '@dalydb/sdesign';
 
 export default () => {
   const [form] = Form.useForm();

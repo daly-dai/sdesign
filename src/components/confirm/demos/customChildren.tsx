@@ -6,7 +6,7 @@
 import { Button } from 'antd';
 import React from 'react';
 
-import { SConfirm } from '@daly/sdesign';
+import { SConfirm } from '@dalydb/sdesign';
 
 const customChildren = () => {
   const confirm = () => {

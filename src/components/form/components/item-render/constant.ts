@@ -2,9 +2,9 @@ import { Variant } from 'antd/es/config-provider';
 import { Rule } from 'antd/es/form';
 import isBoolean from 'lodash/isBoolean';
 
-import { FormItemType } from '@daly/sdesign';
-import { RegKeyType } from '@daly/sdesign/types/reg';
-import { REG_KEY_MAP } from '@daly/sdesign/utils';
+import { FormItemType } from '@dalydb/sdesign';
+import { RegKeyType } from '@dalydb/sdesign/types/reg';
+import { REG_KEY_MAP } from '@dalydb/sdesign/utils';
 
 const InputPlaceholder = '请输入';
 const selectPlaceholder = '请选择';

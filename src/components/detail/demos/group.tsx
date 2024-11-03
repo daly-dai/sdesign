@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SDetail, SDetailGroupItem } from '@daly/sdesign';
+import { SDetail, SDetailGroupItem } from '@dalydb/sdesign';
 
 export default () => {
   const items: SDetailGroupItem[] = [

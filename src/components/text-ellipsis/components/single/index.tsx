@@ -5,7 +5,7 @@ import useTextEllipsis from '../../hook';
 import useStyles from '../../styles/single.style';
 import { SingleEllipsisProps } from '../../types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
+import { useComStyle } from '@dalydb/sdesign/hooks';
 
 const Single: FC<SingleEllipsisProps> = ({
   maxChars,

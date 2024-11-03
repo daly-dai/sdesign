@@ -10,7 +10,7 @@ export default () => (
       style={{ height: 600, width: '100%' }}
     >
       <Hero
-        title={' @daly/sdesign'}
+        title={' @dalydb/sdesign'}
         // actions={[
         //   { text: '主按钮', link: '/components/hero' },
         //   { text: '辅助按钮', link: '/' },

@@ -6,9 +6,9 @@ import DynamicItem from '../dynamic-item';
 
 import { genRequiredRule, getDefaultConfig, getRegData } from './constant';
 
-import SDependency from '@daly/sdesign/components/dependency';
-import SErrorBoundary from '@daly/sdesign/components/error-boundary';
-import { RegKeyType } from '@daly/sdesign/types/reg';
+import SDependency from '@dalydb/sdesign/components/dependency';
+import SErrorBoundary from '@dalydb/sdesign/components/error-boundary';
+import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
 const ItemRender: FC<ItemsProps> = memo(
   ({

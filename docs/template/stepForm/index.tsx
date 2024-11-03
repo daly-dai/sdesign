@@ -15,7 +15,7 @@ import {
   SErrorBoundary,
   SNoData,
   useStepForm,
-} from '@daly/sdesign';
+} from '@dalydb/sdesign';
 
 const stepsItems = [
   {

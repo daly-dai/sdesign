@@ -6,7 +6,7 @@
 import { Button, Space } from 'antd';
 import React from 'react';
 
-import { SColumnsType, STable } from '@daly/sdesign';
+import { SColumnsType, STable } from '@dalydb/sdesign';
 
 const STableCellEllipsis = () => {
   const data: any = [

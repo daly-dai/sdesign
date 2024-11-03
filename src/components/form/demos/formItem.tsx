@@ -6,7 +6,7 @@
 import { Button, Flex, Form, Input } from 'antd';
 import React from 'react';
 
-import { SForm } from '@daly/sdesign';
+import { SForm } from '@dalydb/sdesign';
 
 export default () => {
   const [techForm] = Form.useForm();

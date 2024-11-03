@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 import SSearchTable from '../index';
 
-import { waitFakeTimer } from '@daly/sdesign/tests/utils';
+import { waitFakeTimer } from '@dalydb/sdesign/tests/utils';
 
 let mockParams: null = null;
 

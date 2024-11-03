@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { SErrorCom } from '@daly/sdesign/components';
+import { SErrorCom } from '@dalydb/sdesign/components';
 
 export default () => {
   return <SErrorCom />;

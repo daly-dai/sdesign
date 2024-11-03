@@ -3,7 +3,7 @@ import copy from 'copy-to-clipboard';
 import keys from 'lodash/keys';
 import React from 'react';
 
-import * as SIcons from '@daly/sdesign/icons';
+import * as SIcons from '@dalydb/sdesign/icons';
 
 import './styles/index.less';
 

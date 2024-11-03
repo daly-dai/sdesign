@@ -5,8 +5,8 @@
 import { Button, Form, TableColumnsType } from 'antd';
 import React, { useState } from 'react';
 
-import { SCard, SForm, SFormItems, STable, STitle } from '@daly/sdesign';
-import useSearchTable from '@daly/sdesign/hooks/useSearchTable';
+import { SCard, SForm, SFormItems, STable, STitle } from '@dalydb/sdesign';
+import useSearchTable from '@dalydb/sdesign/hooks/useSearchTable';
 
 const mockRequest = async () => {
   return {

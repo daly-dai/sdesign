@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { LoadingSizeType, SLoading, SRadioGroup } from '@daly/sdesign';
+import { LoadingSizeType, SLoading, SRadioGroup } from '@dalydb/sdesign';
 
 const SizeType = {
   large: 'large',

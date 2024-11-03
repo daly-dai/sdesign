@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import { SDependencyProps } from './types';
 
-import { isDeepEqualReact } from '@daly/sdesign/utils/object';
+import { isDeepEqualReact } from '@dalydb/sdesign/utils/object';
 
 const SDependency = <T,>({
   depNames,

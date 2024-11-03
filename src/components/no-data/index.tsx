@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import useStyles from './index.style';
 import { NoDataTypes } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import { NoDataIcon } from '@daly/sdesign/icons';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import { NoDataIcon } from '@dalydb/sdesign/icons';
 
 const TEXT_COM_MAP: Record<string, boolean> = {
   Dropdown: true,

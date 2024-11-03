@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import useStyles from './index.style';
 import { SErrorComProps } from './types';
 
-import useComStyle from '@daly/sdesign/hooks/useComStyle';
-import { LoadErrorIcon } from '@daly/sdesign/icons';
+import useComStyle from '@dalydb/sdesign/hooks/useComStyle';
+import { LoadErrorIcon } from '@dalydb/sdesign/icons';
 
 const SErrorCom: FC<SErrorComProps> = ({
   text,

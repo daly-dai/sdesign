@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import SCascader from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 function toggleOpen(container: ReturnType<typeof render>['container']) {
   fireEvent.mouseDown(container.querySelector('.ant-select-selector')!);

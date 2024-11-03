@@ -6,9 +6,9 @@ import { describe, expect, it } from 'vitest';
 import { default as SForm, default as SFrom } from '../index';
 import { SFormItems } from '../types';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
-import rtlTest from '@daly/sdesign/tests/rtlTest';
-import { waitFakeTimer } from '@daly/sdesign/tests/utils';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
+import rtlTest from '@dalydb/sdesign/tests/rtlTest';
+import { waitFakeTimer } from '@dalydb/sdesign/tests/utils';
 
 describe('SFrom', () => {
   mountTest(SFrom);

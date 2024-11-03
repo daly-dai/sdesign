@@ -30,7 +30,7 @@ import SSelect from '../select';
 import SUpload from '../upload';
 import InternalUpload from '../upload/instance';
 
-import { RegKeyType } from '@daly/sdesign/types/reg';
+import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
 export type FormFieldMapType = {
   input: typeof Input;

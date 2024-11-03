@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { tuple } from '@daly/sdesign/utils/types';
+import { tuple } from '@dalydb/sdesign/utils/types';
 
 export type FileDataType = {
   id?: string;

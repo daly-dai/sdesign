@@ -9,9 +9,9 @@ import {
   FileItemType,
   ReflectFile,
   useComStyle,
-} from '@daly/sdesign';
-import { createCode, dispatchFileName } from '@daly/sdesign/utils/common';
-import { convertFileDataTypeToImg } from '@daly/sdesign/utils/fileList';
+} from '@dalydb/sdesign';
+import { createCode, dispatchFileName } from '@dalydb/sdesign/utils/common';
+import { convertFileDataTypeToImg } from '@dalydb/sdesign/utils/fileList';
 
 const SFileInstance: FC<FileItemType> = memo(
   ({
@@ -31,14 +31,21 @@ const SFileInstance: FC<FileItemType> = memo(
     });
 
     // 确保nameLimit是正整数
-    const effectiveNameLimit = useMemo(() => Math.max(0, Number(nameLimit)), [nameLimit]);
+    const effectiveNameLimit = useMemo(
+      () => Math.max(0, Number(nameLimit)),
+      [nameLimit],
+    );
 
     // 可以点击的class名称
-    const canClickNameCls = canClickName ? styles[`${prefixCls}-left-canClick`] : '';
+    const canClickNameCls = canClickName
+      ? styles[`${prefixCls}-left-canClick`]
+      : '';
 
     const fileConfig: FileDataType = useMemo<ReflectFile>(() => {
       return {
-        [FILE_NAME_FIELD]: reflect ? reflect?.[FILE_NAME_FIELD] : FILE_NAME_FIELD,
+        [FILE_NAME_FIELD]: reflect
+          ? reflect?.[FILE_NAME_FIELD]
+          : FILE_NAME_FIELD,
         [FILE_URL_FIELD]: reflect ? reflect?.[FILE_URL_FIELD] : FILE_URL_FIELD,
       };
     }, [reflect]);
@@ -65,13 +72,18 @@ const SFileInstance: FC<FileItemType> = memo(
 
     const getFileType = () => {
       return (
-        fileData?.[fileConfig[fileIconMapField] as FileIconMapFieldType]?.split('.').at(-1) ?? ''
+        fileData?.[fileConfig[fileIconMapField] as FileIconMapFieldType]
+          ?.split('.')
+          .at(-1) ?? ''
       );
     };
     const fileName = useMemo(() => {
       if (!fileData) return '';
 
-      return dispatchFileName(fileData[fileConfig.fileName as 'fileName'], effectiveNameLimit);
+      return dispatchFileName(
+        fileData[fileConfig.fileName as 'fileName'],
+        effectiveNameLimit,
+      );
     }, [effectiveNameLimit, fileData]);
 
     const fontSizeStyle = useMemo(() => {
@@ -97,13 +109,18 @@ const SFileInstance: FC<FileItemType> = memo(
           <div
             title={fileData[fileConfig.fileName as 'fileName']}
             style={fontSizeStyle}
-            className={cx(styles[`${prefixCls}-left-fileName`], canClickNameCls)}
+            className={cx(
+              styles[`${prefixCls}-left-fileName`],
+              canClickNameCls,
+            )}
           >
             {fileName}
           </div>
         </div>
 
-        {children && <div className={styles[`${prefixCls}-action`]}>{children}</div>}
+        {children && (
+          <div className={styles[`${prefixCls}-action`]}>{children}</div>
+        )}
       </div>
     );
   },

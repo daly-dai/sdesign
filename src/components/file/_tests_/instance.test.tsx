@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import SFile from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 const fileData = {
   fileName: 'test.png',

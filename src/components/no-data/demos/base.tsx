@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 
-import { SNoData, SRadioGroup, sizeType } from '@daly/sdesign';
+import { SNoData, SRadioGroup, sizeType } from '@dalydb/sdesign';
 
 const SizeType = {
   large: 'large',

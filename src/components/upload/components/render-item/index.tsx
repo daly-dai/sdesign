@@ -4,9 +4,9 @@ import React, { FC, memo, useMemo } from 'react';
 
 import { UploadItemProps } from './types';
 
-import SFile from '@daly/sdesign/components/file';
-import { FileDataType } from '@daly/sdesign/components/file/types';
-import { CircleCloseIcon } from '@daly/sdesign/icons';
+import SFile from '@dalydb/sdesign/components/file';
+import { FileDataType } from '@dalydb/sdesign/components/file/types';
+import { CircleCloseIcon } from '@dalydb/sdesign/icons';
 
 const UploadItem: FC<UploadItemProps> = ({
   dataSource,

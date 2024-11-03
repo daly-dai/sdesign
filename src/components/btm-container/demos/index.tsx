@@ -6,7 +6,7 @@
 import { Button } from 'antd';
 import React, { CSSProperties } from 'react';
 
-import { SBtmContainer } from '@daly/sdesign';
+import { SBtmContainer } from '@dalydb/sdesign';
 
 const styles: CSSProperties = {
   right: '64px',

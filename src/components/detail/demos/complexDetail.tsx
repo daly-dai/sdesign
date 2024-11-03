@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SDetail, SDetailItem } from '@daly/sdesign';
+import { SDetail, SDetailItem } from '@dalydb/sdesign';
 
 const objDict = {
   inner: '内链',

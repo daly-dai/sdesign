@@ -1,6 +1,6 @@
 import { ButtonProps, PopconfirmProps } from 'antd';
 
-import { tuple } from '@daly/sdesign/utils/types';
+import { tuple } from '@dalydb/sdesign/utils/types';
 
 const ConfirmTypes = tuple('pop', 'modal');
 export type ConfirmType = (typeof ConfirmTypes)[number];

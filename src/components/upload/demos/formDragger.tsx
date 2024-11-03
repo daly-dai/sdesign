@@ -6,7 +6,7 @@
 import { Button, Form, Space } from 'antd';
 import React from 'react';
 
-import { SForm, SUpload } from '@daly/sdesign';
+import { SForm, SUpload } from '@dalydb/sdesign';
 
 const DragUpload = () => {
   const [form] = Form.useForm();

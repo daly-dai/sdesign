@@ -2,8 +2,8 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 
-import { SUpload } from '@daly/sdesign';
-import mountTest from '@daly/sdesign/tests/mountTest';
+import { SUpload } from '@dalydb/sdesign';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('SUpload', () => {
   mountTest(SUpload.Dragger);

@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import { SErrorBoundary } from '@daly/sdesign';
+import { SErrorBoundary } from '@dalydb/sdesign';
 
 const ErrorBoundaryPage = () => {
   const renderSuccessCom = () => {

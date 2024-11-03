@@ -3,7 +3,7 @@ import React from 'react';
 import icon from '../assets/icon.png';
 import icon1 from '../assets/icon1.png';
 
-import { SFrameAnimation } from '@daly/sdesign';
+import { SFrameAnimation } from '@dalydb/sdesign';
 
 export default () => {
   return (

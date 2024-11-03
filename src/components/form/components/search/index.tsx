@@ -6,13 +6,13 @@ import ItemRender from '../item-render';
 
 import useStyles from './index.style';
 
-import SCollapse from '@daly/sdesign/components/collapse';
-import DynamicContainer from '@daly/sdesign/components/dynamic-container';
-import { useComStyle } from '@daly/sdesign/hooks';
-import useExpand from '@daly/sdesign/hooks/useExpand';
-import useResize from '@daly/sdesign/hooks/useResize';
-import useSearchLayout from '@daly/sdesign/hooks/useSearchLayout';
-import { createCode, genArrFromNum } from '@daly/sdesign/utils';
+import SCollapse from '@dalydb/sdesign/components/collapse';
+import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import useExpand from '@dalydb/sdesign/hooks/useExpand';
+import useResize from '@dalydb/sdesign/hooks/useResize';
+import useSearchLayout from '@dalydb/sdesign/hooks/useSearchLayout';
+import { createCode, genArrFromNum } from '@dalydb/sdesign/utils';
 
 /** 配置表单列变化的容器宽度断点 */
 const BREAKPOINTS = {

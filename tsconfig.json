@@ -11,8 +11,8 @@
     "baseUrl": "./",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
-      "@daly/sdesign": ["src"],
-      "@daly/sdesign/*": ["src/*", "*"]
+      "@dalydb/sdesign": ["src"],
+      "@dalydb/sdesign/*": ["src/*", "*"]
     }
   },
   "include": [

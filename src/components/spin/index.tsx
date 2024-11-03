@@ -4,8 +4,8 @@ import React, { FC } from 'react';
 import useStyles from './index.style';
 import { LoadingProps } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import LoadingIcon from '@daly/sdesign/icons/LoadingIcon';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import LoadingIcon from '@dalydb/sdesign/icons/LoadingIcon';
 
 const SSpin: FC<LoadingProps> = ({ size = 'small', indicator, ...props }) => {
   const { styles, cx, prefixCls } = useComStyle({

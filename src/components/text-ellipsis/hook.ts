@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { SingleHookType } from './types';
 
-import { getTextWidthByDom } from '@daly/sdesign/utils';
+import { getTextWidthByDom } from '@dalydb/sdesign/utils';
 
 const useTextEllipsis = ({
   maxChars,

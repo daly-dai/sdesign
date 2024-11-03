@@ -6,7 +6,7 @@ import { VerticalAlignTopOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import React from 'react';
 
-import { SConfigProvider, SUpload } from '@daly/sdesign';
+import { SConfigProvider, SUpload } from '@dalydb/sdesign';
 
 const DragUpload = () => {
   return (

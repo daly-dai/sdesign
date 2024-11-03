@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { SCheckGroup } from '@daly/sdesign';
+import { SCheckGroup } from '@dalydb/sdesign';
 
 const dictData = {
   L1: '不敏感',

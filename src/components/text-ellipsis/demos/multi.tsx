@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { STextEllipsis } from '@daly/sdesign';
+import { STextEllipsis } from '@dalydb/sdesign';
 
 const MultiDemo = () => {
   const demoText =

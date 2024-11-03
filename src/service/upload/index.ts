@@ -1,5 +1,5 @@
-import { requestUpload } from '@daly/sdesign/plugins/request';
-import { RequestType } from '@daly/sdesign/plugins/request/types';
+import { requestUpload } from '@dalydb/sdesign/plugins/request';
+import { RequestType } from '@dalydb/sdesign/plugins/request/types';
 
 interface SUploadReqProps {
   url?: string;

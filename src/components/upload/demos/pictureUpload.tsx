@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SUpload } from '@daly/sdesign';
+import { SUpload } from '@dalydb/sdesign';
 
 const PictureUpload = () => {
   const handleChange = (data: any) => {

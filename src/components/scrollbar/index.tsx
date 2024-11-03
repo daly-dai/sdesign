@@ -4,8 +4,8 @@ import Bar from './components/bar';
 import useStyles from './index.style';
 import { ScrollbarProps } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import { addUnit } from '@daly/sdesign/utils/style';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import { addUnit } from '@dalydb/sdesign/utils/style';
 
 const SScrollbar: FC<ScrollbarProps> = ({
   children,

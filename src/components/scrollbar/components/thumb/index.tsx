@@ -5,7 +5,7 @@ import { ThumbProps } from '../../types';
 
 import { BAR_MAP, renderThumbStyle } from './constant';
 
-import { useComStyle } from '@daly/sdesign/hooks';
+import { useComStyle } from '@dalydb/sdesign/hooks';
 
 const Thumb: FC<ThumbProps> = ({ always, vertical, ...restProps }) => {
   const { styles, cx, prefixCls } = useComStyle({

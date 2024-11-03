@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import useStyles from './index.style';
 import { SLoadingProps } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import { LoadingIcon } from '@daly/sdesign/icons';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import { LoadingIcon } from '@dalydb/sdesign/icons';
 
 const SLoading: FC<SLoadingProps> = ({ size = 'large', ...props }) => {
   const { styles, cx, prefixCls } = useComStyle({

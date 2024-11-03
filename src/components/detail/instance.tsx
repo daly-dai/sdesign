@@ -15,9 +15,12 @@ import { DETAIL_ITEM_KEY, DETAIL_LABEL_STYLE } from './constant';
 import useDetail from './hook';
 import { ItemType, SDetailItem, SDetailProps } from './types';
 
-import { createCode } from '@daly/sdesign/utils/common';
+import { createCode } from '@dalydb/sdesign/utils/common';
 
-const getItemLabelStyle = (type?: ItemType, labelStyle?: CSSProperties): CSSProperties => {
+const getItemLabelStyle = (
+  type?: ItemType,
+  labelStyle?: CSSProperties,
+): CSSProperties => {
   const defaultStyle = {
     width: type === 'placeholder' ? '100%' : ``,
     ...(labelStyle ?? {}),
@@ -26,7 +29,10 @@ const getItemLabelStyle = (type?: ItemType, labelStyle?: CSSProperties): CSSProp
   return defaultStyle;
 };
 
-const getDetailVal = (name?: string | string[], dataSource?: Record<string, any>) => {
+const getDetailVal = (
+  name?: string | string[],
+  dataSource?: Record<string, any>,
+) => {
   if (!dataSource) return null;
 
   if (!name) return null;
@@ -105,7 +111,10 @@ const DetailInstance: React.FC<SDetailProps> = ({
    * @param config
    * @returns
    */
-  const dispatchItemConfig = (config: SDetailItem, dataSource: Record<string, any>) => {
+  const dispatchItemConfig = (
+    config: SDetailItem,
+    dataSource: Record<string, any>,
+  ) => {
     const localConfig = cloneDeep(config);
 
     const valName = config?.name;
@@ -141,7 +150,10 @@ const DetailInstance: React.FC<SDetailProps> = ({
     (items ?? [])?.forEach((item) => {
       if (!item || item.hidden) return;
 
-      const { itemConfig, detailConfig } = dispatchItemConfig(item, memoizedDataSource);
+      const { itemConfig, detailConfig } = dispatchItemConfig(
+        item,
+        memoizedDataSource,
+      );
 
       result.push({
         ...itemConfig,

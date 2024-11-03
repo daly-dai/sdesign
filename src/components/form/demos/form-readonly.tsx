@@ -5,11 +5,11 @@
 import { Form, Switch } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import { SCard, SErrorBoundary, SForm, SFormItems } from '@daly/sdesign';
+import { SCard, SErrorBoundary, SForm, SFormItems } from '@dalydb/sdesign';
 
 const dataSource = {
   mlName: '张三',
-  enName: 'daly',
+  enName: 'dalydb',
   chName: '张三',
   birthDate: '1990-01-01',
   nationality: '中国',

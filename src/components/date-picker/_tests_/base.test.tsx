@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import SDatePicker from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('SDatePicker', () => {
   mountTest(SDatePicker);

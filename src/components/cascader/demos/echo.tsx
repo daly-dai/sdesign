@@ -6,11 +6,12 @@ import React, { useState } from 'react';
 
 import { MockTree } from './constant';
 
-import { SCascader } from '@daly/sdesign';
+import { SCascader } from '@dalydb/sdesign';
 
 const { SHOW_CHILD } = Cascader;
 
-const defaultValue = 'rootValue/child1Value/grandchild1Value/greatgrandchild1Value';
+const defaultValue =
+  'rootValue/child1Value/grandchild1Value/greatgrandchild1Value';
 const defaultValue2 = 'rootValue/child1Value/grandchild1Value';
 const defaultValue3 =
   'rootValue/child1Value/grandchild1Value/greatgrandchild1Value,rootValue/child1Value/grandchild1Value/greatgrandchild2Value';

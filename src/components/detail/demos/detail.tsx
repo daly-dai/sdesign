@@ -6,7 +6,7 @@
 import { Button, ConfigProvider, Space, Tag } from 'antd';
 import React, { useState } from 'react';
 
-import { SCard, SDetail, SDetailItem } from '@daly/sdesign';
+import { SCard, SDetail, SDetailItem } from '@dalydb/sdesign';
 
 const numberMap = {
   0: '有用',
@@ -26,8 +26,10 @@ const detailData = {
   startTime: '2020-01-01',
   endTime: '2020-02-21',
   checkboxGroup: '1,2,3',
-  imgUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  errorImgUrl: 'https://zos.alipayobjects.com/rmsportal/pUPVyRjUImniVslZfWPnJuuZ.png',
+  imgUrl:
+    'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+  errorImgUrl:
+    'https://zos.alipayobjects.com/rmsportal/pUPVyRjUImniVslZfWPnJuuZ.png',
   fileDTOList: [
     {
       fileName: '测试文件',

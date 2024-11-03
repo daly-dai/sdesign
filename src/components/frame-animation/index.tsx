@@ -3,9 +3,9 @@ import React, { FC, useMemo, useRef } from 'react';
 import useStyles from './index.style';
 import { FrameAnimationProps } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import useFrameAnimation from '@daly/sdesign/hooks/useFrameAnimation';
-import { getStyle } from '@daly/sdesign/utils';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import useFrameAnimation from '@dalydb/sdesign/hooks/useFrameAnimation';
+import { getStyle } from '@dalydb/sdesign/utils';
 
 const SFrameAnimation: FC<FrameAnimationProps> = ({
   imgNumber = 24,

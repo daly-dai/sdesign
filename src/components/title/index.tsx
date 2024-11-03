@@ -8,8 +8,8 @@ import { BASE_FONTSIZE_MAP } from './constant';
 import useStyles from './index.style';
 import { PageTitleProps } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import { ArrowLeftIcon, FormTitleIcon } from '@daly/sdesign/icons';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import { ArrowLeftIcon, FormTitleIcon } from '@dalydb/sdesign/icons';
 
 // ignore waring `"export 'useNavigate' (imported as 'rc') was not found in 'react-router'`
 const rc = tmp as any;
@@ -66,7 +66,9 @@ const STitle: React.FC<PageTitleProps> = (props) => {
     }
 
     // 面对非预期输入时的错误处理逻辑
-    console.error('Invalid type for hasBottomMargin. Expected boolean, string, or number.');
+    console.error(
+      'Invalid type for hasBottomMargin. Expected boolean, string, or number.',
+    );
     return '';
   };
 
@@ -126,7 +128,10 @@ const STitle: React.FC<PageTitleProps> = (props) => {
         {renderBackIcon}
         {renderFormIcon}
 
-        <div style={titleFontSize} className={styles[`${prefixCls}-left-title`]}>
+        <div
+          style={titleFontSize}
+          className={styles[`${prefixCls}-left-title`]}
+        >
           {children}
         </div>
 

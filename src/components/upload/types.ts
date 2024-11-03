@@ -1,8 +1,8 @@
 import { UploadProps } from 'antd';
 import { UploadListType } from 'antd/es/upload/interface';
 
-import { FileDataType, FileItemType, ReflectFile } from '@daly/sdesign';
-import { tuple } from '@daly/sdesign/utils/types';
+import { FileDataType, FileItemType, ReflectFile } from '@dalydb/sdesign';
+import { tuple } from '@dalydb/sdesign/utils/types';
 
 const fileSizeTypes = tuple('K', 'M');
 export type fileSizeType = (typeof fileSizeTypes)[number];

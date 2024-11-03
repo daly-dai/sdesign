@@ -6,9 +6,9 @@ import React, { FC, ReactNode, memo, useMemo } from 'react';
 import { GroupItemsType, SFormGroupProps } from '../../types';
 import ItemRender from '../item-render';
 
-import DynamicContainer from '@daly/sdesign/components/dynamic-container';
-import STitle from '@daly/sdesign/components/title';
-import { createCode } from '@daly/sdesign/utils';
+import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
+import STitle from '@dalydb/sdesign/components/title';
+import { createCode } from '@dalydb/sdesign/utils';
 
 function getItemFormName(
   itemName?: string,

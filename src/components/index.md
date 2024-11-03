@@ -16,7 +16,7 @@ toc: content
 ## 安装（推荐 pnpm）
 
 ```bash
-pnpm i @daly/sdesign
+pnpm i @dalydb/sdesign
 ```
 
 ## 全局配置

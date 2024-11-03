@@ -5,10 +5,10 @@ import React, { FC, ReactNode, memo, useMemo } from 'react';
 import DetailInstance from '../../instance';
 import { SDetailGroupProps, SDetailProps } from '../../types';
 
-import DynamicContainer from '@daly/sdesign/components/dynamic-container';
-import STitle from '@daly/sdesign/components/title';
-import { PageTitleProps } from '@daly/sdesign/components/title/types';
-import { createCode } from '@daly/sdesign/utils';
+import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
+import STitle from '@dalydb/sdesign/components/title';
+import { PageTitleProps } from '@dalydb/sdesign/components/title/types';
+import { createCode } from '@dalydb/sdesign/utils';
 
 const DetailGroup: FC<SDetailGroupProps> = ({ dataSource, items }) => {
   const memoizedDataSource = useMemo(() => dataSource, [dataSource]);

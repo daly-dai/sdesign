@@ -7,10 +7,14 @@ import { FALL_BACK_STRING } from '../../constant';
 import useStyles from '../../index.style';
 import { DetailItemType, ItemType } from '../../types';
 
-import { ConfigContext } from '@daly/sdesign/components/config-provider/contexts';
-import SFile from '@daly/sdesign/components/file';
-import { useComStyle } from '@daly/sdesign/hooks';
-import { dispatchCheckboxDictData, dispatchDictData, getDictMap } from '@daly/sdesign/utils';
+import { ConfigContext } from '@dalydb/sdesign/components/config-provider/contexts';
+import SFile from '@dalydb/sdesign/components/file';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import {
+  dispatchCheckboxDictData,
+  dispatchDictData,
+  getDictMap,
+} from '@dalydb/sdesign/utils';
 
 const DetailItem: FC<DetailItemType> = ({
   render,
@@ -35,7 +39,9 @@ const DetailItem: FC<DetailItemType> = ({
   const renderValue = useMemo(() => {
     if (render) {
       return (
-        <div className={styles[`${prefixCls}-value`]}>{render(value, dataSource) as ReactNode}</div>
+        <div className={styles[`${prefixCls}-value`]}>
+          {render(value, dataSource) as ReactNode}
+        </div>
       );
     }
 
@@ -54,7 +60,13 @@ const DetailItem: FC<DetailItemType> = ({
         if (isNil(value)) return '-';
 
         if (!isArray(value))
-          return <SFile {...fileProps} style={{ color: '#1677ff' }} fileData={value} />;
+          return (
+            <SFile
+              {...fileProps}
+              style={{ color: '#1677ff' }}
+              fileData={value}
+            />
+          );
 
         return <SFile.List {...fileProps} fileList={value ?? []} />;
       },
@@ -84,13 +96,26 @@ const DetailItem: FC<DetailItemType> = ({
       checkbox: () => {
         const localDictMap = getDictMap({ dictMap, globalDict, dictKey });
 
-        const result = dispatchCheckboxDictData(localDictMap, value, dictReflect);
+        const result = dispatchCheckboxDictData(
+          localDictMap,
+          value,
+          dictReflect,
+        );
 
         return result;
       },
     };
     return TYPE_MAP[type]();
-  }, [type, value, dictMap, fileProps, dictKey, dataSource, globalDict, render]);
+  }, [
+    type,
+    value,
+    dictMap,
+    fileProps,
+    dictKey,
+    dataSource,
+    globalDict,
+    render,
+  ]);
 
   return <div className={styles[`${prefixCls}-value`]}>{renderValue}</div>;
 };

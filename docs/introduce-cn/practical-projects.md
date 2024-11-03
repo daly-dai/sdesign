@@ -7,7 +7,7 @@ toc: content
 ## 项目引入
 
 1. 安装
-   `npm install @daly/sdesign --save `
+   `npm install @dalydb/sdesign --save `
 
 2. 使用
-   `import { Echart } from '@daly/sdesign';`
+   `import { Echart } from '@dalydb/sdesign';`

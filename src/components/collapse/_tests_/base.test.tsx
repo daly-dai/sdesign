@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import SCollapse from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('SCollapse', () => {
   mountTest(SCollapse);

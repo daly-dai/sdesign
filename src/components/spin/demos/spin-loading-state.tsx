@@ -6,7 +6,7 @@
 import { Alert, Switch } from 'antd';
 import React, { useState } from 'react';
 
-import { SSpin } from '@daly/sdesign';
+import { SSpin } from '@dalydb/sdesign';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);

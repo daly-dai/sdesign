@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import useResize from '../useResize';
 
-import { isBrowser } from '@daly/sdesign/utils';
+import { isBrowser } from '@dalydb/sdesign/utils';
 
 describe('useResize', () => {
   const defaultWidth = isBrowser() ? document?.body?.clientWidth : 1024;

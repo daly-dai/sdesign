@@ -7,7 +7,7 @@ import useBeforeUpload from '../../hooks/useBeforeUpload';
 import useUpload from '../../hooks/useUpload';
 import { SPictureProps } from '../../types';
 
-import { getBase64 } from '@daly/sdesign/utils/common';
+import { getBase64 } from '@dalydb/sdesign/utils/common';
 
 const Picture: FC<SPictureProps> = ({
   limit,

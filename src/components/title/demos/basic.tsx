@@ -6,7 +6,7 @@
 import { Button, ConfigProvider, Space } from 'antd';
 import React, { useState } from 'react';
 
-import { SCard, STitle } from '@daly/sdesign';
+import { SCard, STitle } from '@dalydb/sdesign';
 
 export default () => {
   const [fontSize, setFontSize] = useState(14);

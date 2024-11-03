@@ -4,7 +4,7 @@
 import { Button, Form, Typography } from 'antd';
 import React, { useState } from 'react';
 
-import { SConfigProvider, SForm, SFormItems } from '@daly/sdesign';
+import { SConfigProvider, SForm, SFormItems } from '@dalydb/sdesign';
 
 const items: SFormItems[] = [
   {

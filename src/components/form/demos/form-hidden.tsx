@@ -12,7 +12,7 @@ import {
   SForm,
   SFormItems,
   STitle,
-} from '@daly/sdesign';
+} from '@dalydb/sdesign';
 
 export default () => {
   const [hidden, setHidden] = useState(false);

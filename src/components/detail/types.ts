@@ -2,8 +2,8 @@ import { DescriptionsProps } from 'antd';
 import { DescriptionsItemType } from 'antd/es/descriptions';
 import React, { ReactNode } from 'react';
 
-import { FileListProps, PageTitleProps } from '@daly/sdesign';
-import { tuple } from '@daly/sdesign/utils/types';
+import { FileListProps, PageTitleProps } from '@dalydb/sdesign';
+import { tuple } from '@dalydb/sdesign/utils/types';
 
 const ItemTypes = tuple(
   'text',

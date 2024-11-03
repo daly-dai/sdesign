@@ -4,7 +4,7 @@ import { describe, expect, it, test } from 'vitest';
 
 import DynamicContainer from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('DynamicContainer', () => {
   mountTest(DynamicContainer);

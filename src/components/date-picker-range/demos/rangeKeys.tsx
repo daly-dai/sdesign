@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SDatePickerRange } from '@daly/sdesign';
+import { SDatePickerRange } from '@dalydb/sdesign';
 
 export default () => {
   const rangeKeys = ['startTime', 'endTime'];

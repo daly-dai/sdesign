@@ -7,7 +7,7 @@
 import { Button, Tag } from 'antd';
 import React from 'react';
 
-import { SDetail, SDetailItem } from '@daly/sdesign';
+import { SDetail, SDetailItem } from '@dalydb/sdesign';
 
 const detailData = {
   workAddress: '测试的地址',

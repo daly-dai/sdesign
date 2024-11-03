@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SForm, SFormItems } from '@daly/sdesign';
+import { SForm, SFormItems } from '@dalydb/sdesign';
 
 const dictData = {
   L1: '不敏感',

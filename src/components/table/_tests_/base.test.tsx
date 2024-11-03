@@ -5,8 +5,8 @@ import { describe, expect, it } from 'vitest';
 import STable from '../index';
 import { SColumnsType } from '../types';
 
-import SConfigProvider from '@daly/sdesign/components/config-provider';
-import { waitFakeTimer } from '@daly/sdesign/tests/utils';
+import SConfigProvider from '@dalydb/sdesign/components/config-provider';
+import { waitFakeTimer } from '@dalydb/sdesign/tests/utils';
 
 const globalDict = {
   processType: {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SCard } from '@daly/sdesign';
+import { SCard } from '@dalydb/sdesign';
 
 export default () => {
   return (

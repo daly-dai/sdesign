@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SFile } from '@daly/sdesign';
+import { SFile } from '@dalydb/sdesign';
 
 const fileList = [
   {

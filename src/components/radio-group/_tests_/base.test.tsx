@@ -4,9 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 
 import SRadioGroup from '../index';
 
-import SConfigProvider from '@daly/sdesign/components/config-provider';
-import mountTest from '@daly/sdesign/tests/mountTest';
-import { waitFakeTimer } from '@daly/sdesign/tests/utils';
+import SConfigProvider from '@dalydb/sdesign/components/config-provider';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
+import { waitFakeTimer } from '@dalydb/sdesign/tests/utils';
 
 const globalDict = {
   level: {

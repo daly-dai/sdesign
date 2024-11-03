@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 import SErrorBoundary from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 describe('error-boundary', () => {
   mountTest(SErrorBoundary);

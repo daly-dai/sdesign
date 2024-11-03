@@ -2,8 +2,8 @@ import React from 'react';
 
 import useStyles from './index.style';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import { NoPageIcon } from '@daly/sdesign/icons';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import { NoPageIcon } from '@dalydb/sdesign/icons';
 
 const SNoPage = ({ text }: { text?: any }) => {
   const { styles, prefixCls } = useComStyle({

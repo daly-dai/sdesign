@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { SConfigProvider, SUpload } from '@daly/sdesign';
+import { SConfigProvider, SUpload } from '@dalydb/sdesign';
 
 export default () => {
   return (

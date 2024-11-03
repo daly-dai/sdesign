@@ -1,10 +1,27 @@
 {
-  "name": "@daly/sdesign",
+  "name": "@dalydb/sdesign",
   "version": "1.0.0",
-  "description": "@daly/PC端组件库",
+  "description": "@dalydb/PC端组件库",
+  "keywords": [
+    "react",
+    "antd",
+    "ahooks",
+    "dumi",
+    "father",
+    "vitest",
+    "vite",
+    "typescript",
+    "antd-style"
+  ],
   "license": "MIT",
+  "author": "dsh",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
   "files": [
     "dist"
   ],

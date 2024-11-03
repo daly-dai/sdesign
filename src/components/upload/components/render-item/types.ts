@@ -1,6 +1,6 @@
 import { uploadStatusType } from '../../types';
 
-import { FileItemType, ReflectFile } from '@daly/sdesign';
+import { FileItemType, ReflectFile } from '@dalydb/sdesign';
 
 export type UploadItemProps = {
   dataSource: {

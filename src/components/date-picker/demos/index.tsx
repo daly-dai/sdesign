@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 
-import { SDatePicker } from '@daly/sdesign';
+import { SDatePicker } from '@dalydb/sdesign';
 
 export default () => {
   const [dateValue, setDateValue] = useState();

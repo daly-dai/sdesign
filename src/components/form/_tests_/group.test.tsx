@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest';
 import SForm from '../index';
 import { GroupItemsType } from '../types';
 
-import { waitFakeTimer } from '@daly/sdesign/tests/utils';
+import { waitFakeTimer } from '@dalydb/sdesign/tests/utils';
 
 const dataSource = {
   userName: '张三',

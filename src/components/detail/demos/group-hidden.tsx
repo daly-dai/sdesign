@@ -4,7 +4,7 @@
 import { Button } from 'antd';
 import React, { useState } from 'react';
 
-import { SCard, SDetail, SDetailGroupItem } from '@daly/sdesign';
+import { SCard, SDetail, SDetailGroupItem } from '@dalydb/sdesign';
 
 export default () => {
   const [hidden, setHidden] = useState(false);

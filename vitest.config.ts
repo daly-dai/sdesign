@@ -7,8 +7,8 @@ export default defineConfig({
     globals: true,
     alias: {
       '@': './src',
-      '@daly/sdesign': '/src',
-      '@daly/sdesign/*': '/src/*',
+      '@dalydb/sdesign': '/src',
+      '@dalydb/sdesign/*': '/src/*',
     },
     coverage: {
       provider: 'v8',

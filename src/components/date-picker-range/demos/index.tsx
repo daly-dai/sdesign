@@ -5,7 +5,7 @@
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
-import { SDatePickerRange } from '@daly/sdesign';
+import { SDatePickerRange } from '@dalydb/sdesign';
 
 const defaultValue = [dayjs('2000-01-01'), dayjs('2000-01-02')];
 

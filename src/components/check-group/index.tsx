@@ -5,8 +5,8 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { CheckboxValueType, SCheckGroupProps } from './types';
 
-import useDispatchDict from '@daly/sdesign/hooks/useDispatchDict';
-import useGetDict from '@daly/sdesign/hooks/useGetDictData';
+import useDispatchDict from '@dalydb/sdesign/hooks/useDispatchDict';
+import useGetDict from '@dalydb/sdesign/hooks/useGetDictData';
 
 const initValue = (data: any) => {
   if (!data) return data;

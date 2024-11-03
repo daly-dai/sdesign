@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { STitle } from '@daly/sdesign';
+import { STitle } from '@dalydb/sdesign';
 
 export default () => {
   const routerPage = () => {

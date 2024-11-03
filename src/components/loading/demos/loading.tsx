@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SLoading } from '@daly/sdesign';
+import { SLoading } from '@dalydb/sdesign';
 
 export default () => {
   return (

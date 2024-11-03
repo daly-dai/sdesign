@@ -1,7 +1,7 @@
 import { Checkbox } from 'antd';
 import { ComponentProps, HTMLAttributes, ReactNode } from 'react';
 
-import { ExtraComType } from '@daly/sdesign/types/base';
+import { ExtraComType } from '@dalydb/sdesign/types/base';
 
 export type CheckboxGroupType = HTMLAttributes<object> &
   Omit<ComponentProps<typeof Checkbox.Group>, 'onChange' | 'value'>;

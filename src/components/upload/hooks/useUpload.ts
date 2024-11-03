@@ -3,14 +3,14 @@ import { AxiosProgressEvent } from 'axios';
 import { assign, filter, get, isArray, isObject } from 'lodash';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-// import { SUploadReq } from '@daly/S-pc/service/upload';
-// import { createCode } from '@daly/S-pc/utils/common';
+// import { SUploadReq } from '@dalydb/S-pc/service/upload';
+// import { createCode } from '@dalydb/S-pc/utils/common';
 import { ConfigContext } from '../../config-provider';
 import { uploadFileType, UploadHookType } from '../types';
 
-import { FileDataType } from '@daly/sdesign/components/file/types';
-import { SUploadReq } from '@daly/sdesign/service/upload';
-import { createCode } from '@daly/sdesign/utils';
+import { FileDataType } from '@dalydb/sdesign/components/file/types';
+import { SUploadReq } from '@dalydb/sdesign/service/upload';
+import { createCode } from '@dalydb/sdesign/utils';
 
 const useUpload = ({
   value,

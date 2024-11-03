@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { SConfigProvider, SDetail } from '@daly/sdesign';
+import { SConfigProvider, SDetail } from '@dalydb/sdesign';
 
 const dictionaryMap = {
   numberMap: {

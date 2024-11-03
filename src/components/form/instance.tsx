@@ -4,7 +4,7 @@ import React, { FC, useMemo } from 'react';
 import ItemRender from './components/item-render';
 import { SFormProps } from './types';
 
-import { createCode, getPrefixCls } from '@daly/sdesign/utils';
+import { createCode, getPrefixCls } from '@dalydb/sdesign/utils';
 
 const InstanceForm: FC<SFormProps> = ({
   rowProps,

@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import SConfigProvider from '../../config-provider';
 import SCheckGroup from '../index';
 
-import mountTest from '@daly/sdesign/tests/mountTest';
+import mountTest from '@dalydb/sdesign/tests/mountTest';
 
 const globalDict = {
   level: {

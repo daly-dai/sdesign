@@ -19,7 +19,7 @@ group:
  * description: 当该字段为Dropdown，AutoComplete，Cascader，Select等渲染文案
  */
 
-import { SNoData } from '@daly/sdesign';
+import { SNoData } from '@dalydb/sdesign';
 
 export default () => {
   return <SNoData componentName="Select" type="middle" />;

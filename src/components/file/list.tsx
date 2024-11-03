@@ -4,8 +4,8 @@ import FileItem from './instance';
 import useStyles from './styles/list.style';
 import { FileListProps } from './types';
 
-import { useComStyle } from '@daly/sdesign/hooks';
-import { createCode } from '@daly/sdesign/utils/common';
+import { useComStyle } from '@dalydb/sdesign/hooks';
+import { createCode } from '@dalydb/sdesign/utils/common';
 
 const SFileList: FC<FileListProps> = ({
   fileList,

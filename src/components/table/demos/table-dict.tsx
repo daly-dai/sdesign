@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SColumnsType, SConfigProvider, STable } from '@daly/sdesign';
+import { SColumnsType, SConfigProvider, STable } from '@dalydb/sdesign';
 
 const globalDict = {
   processType: {

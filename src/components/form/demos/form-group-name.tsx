@@ -4,7 +4,7 @@
 import { Button, Form, Typography } from 'antd';
 import React, { useEffect } from 'react';
 
-import { GroupItemsType, SForm } from '@daly/sdesign';
+import { GroupItemsType, SForm } from '@dalydb/sdesign';
 
 const { Paragraph } = Typography;
 

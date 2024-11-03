@@ -1,4 +1,4 @@
-# @daly/sdesign
+# @dalydb/sdesign
 
 ### 基于 antd 二次封装的业务组件，主要用于提升管理页面相关业务组件的复用性。
 

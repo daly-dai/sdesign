@@ -5,7 +5,7 @@
 import { Button } from 'antd';
 import React, { useState } from 'react';
 
-import { SUpload } from '@daly/sdesign';
+import { SUpload } from '@dalydb/sdesign';
 
 const DragUpload = () => {
   const [fileList, setFileList] = useState([]);

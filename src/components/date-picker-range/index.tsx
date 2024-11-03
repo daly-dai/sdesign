@@ -12,7 +12,7 @@ import {
   SDatePickerRangeProps,
 } from './types';
 
-import { getDateVal } from '@daly/sdesign/utils/date';
+import { getDateVal } from '@dalydb/sdesign/utils/date';
 
 const SDatePickerRange: FC<SDatePickerRangeProps> = (props) => {
   const [dateValue, setDateValue] = useState<RangeDateValueType>(null);
