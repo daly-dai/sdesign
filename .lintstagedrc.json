@@ -1,4 +1,6 @@
 {
-  "*.{ts,tsx,js,jsx,json,css}": ["biome check --write"],
-  "*.{md,yml}": ["prettier --ignore-unknown --write"]
+  "*.{md,json}": ["prettier --write --no-error-on-unmatched-pattern"],
+  "*.{css,less}": ["stylelint --fix", "prettier --write"],
+  "*.{js,jsx}": ["eslint --fix", "prettier --write"],
+  "*.{ts,tsx}": ["eslint --fix", "prettier --parser=typescript --write"]
 }

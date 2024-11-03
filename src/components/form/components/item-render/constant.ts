@@ -1,5 +1,5 @@
+import { Variant } from 'antd/es/config-provider';
 import { Rule } from 'antd/es/form';
-import { Variant } from 'antd/es/form/hooks/useVariants';
 import isBoolean from 'lodash/isBoolean';
 
 import { FormItemType } from '@daly/sdesign';

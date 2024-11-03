@@ -5,9 +5,11 @@
   "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "biome": "biome check --write",
+    "biome": "biome check --write src",
     "build": "father build",
     "build:watch": "father dev",
     "dev": "dumi dev",
@@ -31,7 +33,9 @@
     "version:patch": "npm version patch"
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",

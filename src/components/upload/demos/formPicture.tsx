@@ -46,14 +46,10 @@ const DragUpload = () => {
     <SConfigProvider uploadUrl="/gateway/program/attachment/upload">
       <SForm form={form}>
         <Form.Item name="name" label="用户名称">
-          <Input placeholder="请输入名称"></Input>
+          <Input placeholder="请输入名称" variant="borderless" />
         </Form.Item>
         <Form.Item name="dragData" label="附件上传">
-          <SUpload.Picture
-            maxCount={5}
-            limit={15}
-            limitSizeType="M"
-          ></SUpload.Picture>
+          <SUpload.Picture maxCount={5} limit={15} limitSizeType="M" />
         </Form.Item>
         <SForm.Item
           label="单个上传图片"
