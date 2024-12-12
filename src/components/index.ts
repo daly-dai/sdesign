@@ -14,6 +14,7 @@ import SErrorCom from './error-com';
 import SFile from './file';
 import SForm from './form';
 import SFrameAnimation from './frame-animation';
+import SInput from './input';
 import SLoading from './loading';
 import SNoData from './no-data';
 import SNoPage from './no-page';
@@ -38,6 +39,7 @@ export * from './error-boundary/types';
 export * from './error-com/types';
 export * from './file/types';
 export * from './form/types';
+export * from './input/types';
 export * from './loading/types';
 export * from './no-data/types';
 export * from './radio-group/types';
@@ -65,6 +67,7 @@ export {
   SFile,
   SForm,
   SFrameAnimation,
+  SInput,
   SLoading,
   SNoData,
   SNoPage,

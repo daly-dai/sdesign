@@ -79,7 +79,7 @@
     "@typescript-eslint/parser": "^7.11.0",
     "@umijs/lint": "^4.0.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "dumi": "~2.4.5",
+    "dumi": "~2.4.15",
     "dumi-theme-antd-style": "^0.31.0",
     "eslint": "^8.23.0",
     "eslint-import-resolver-typescript": "^3.6.1",

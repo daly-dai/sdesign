@@ -15,7 +15,6 @@ export default defineConfig({
     '@dalydb/sdesign': '/src',
     '@dalydb/sdesign/*': '/src/*',
   },
-  // mako: {},
   themeConfig,
   analyze: {},
   favicons: [`/sdesign/favicon.ico`],
