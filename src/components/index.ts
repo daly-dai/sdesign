@@ -15,7 +15,6 @@ import SFile from './file';
 import SForm from './form';
 import SFrameAnimation from './frame-animation';
 import SInput from './input';
-import SLoading from './loading';
 import SNoData from './no-data';
 import SNoPage from './no-page';
 import SRadioGroup from './radio-group';
@@ -39,7 +38,6 @@ export * from './error-com/types';
 export * from './file/types';
 export * from './form/types';
 export * from './input/types';
-export * from './loading/types';
 export * from './no-data/types';
 export * from './radio-group/types';
 export * from './search-table/types';
@@ -66,7 +64,6 @@ export {
   SForm,
   SFrameAnimation,
   SInput,
-  SLoading,
   SNoData,
   SNoPage,
   SRadioGroup,
