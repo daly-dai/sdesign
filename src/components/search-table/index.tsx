@@ -1,9 +1,8 @@
-import { Form } from 'antd';
+import { Form, Spin } from 'antd';
 import React, { FC, useMemo } from 'react';
 
 import SCard from '../card';
 import SForm from '../form';
-import SSpin from '../spin';
 import STable from '../table';
 import STitle from '../title';
 
@@ -76,7 +75,7 @@ const SSearchTable: FC<SearchTableProps> = ({
           {title ?? '查询结果'}
         </STitle>
 
-        <SSpin spinning={loading}>
+        <Spin spinning={loading}>
           <STable
             isSeq
             columns={columns}
@@ -84,7 +83,7 @@ const SSearchTable: FC<SearchTableProps> = ({
             pagination={pagination}
             {...tableProps}
           />
-        </SSpin>
+        </Spin>
       </SCard>
     </>
   );

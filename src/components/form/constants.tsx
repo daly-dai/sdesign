@@ -19,6 +19,7 @@ import SCheckGroup from '../check-group';
 import SDatePicker from '../date-picker';
 import SDatePickerRange from '../date-picker-range';
 import SDependency from '../dependency';
+import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
 import SUpload from '../upload';
@@ -27,7 +28,7 @@ import InternalUpload from '../upload/instance';
 import { FormFieldMapType } from './types';
 
 export const FORM_ITEM_COM_MAP: FormFieldMapType = {
-  input: Input,
+  input: SInput,
   inputNumber: InputNumber,
   select: SSelect,
   textarea: Input.TextArea,

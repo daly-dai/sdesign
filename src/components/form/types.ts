@@ -25,6 +25,7 @@ import SDatePicker from '../date-picker';
 import SDatePickerRange from '../date-picker-range';
 import SDependency from '../dependency';
 import { RenderChildren } from '../dependency/types';
+import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
 import SUpload from '../upload';
@@ -33,7 +34,7 @@ import InternalUpload from '../upload/instance';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
 export type FormFieldMapType = {
-  input: typeof Input;
+  input: typeof SInput;
   inputNumber: typeof InputNumber;
   password: typeof Input.Password;
   textarea: typeof Input.TextArea;

@@ -21,7 +21,6 @@ import SNoPage from './no-page';
 import SRadioGroup from './radio-group';
 import SSearchTable from './search-table';
 import SSelect from './select';
-import SSpin from './spin';
 import STable from './table';
 import STextEllipsis from './text-ellipsis';
 import STitle from './title';
@@ -45,7 +44,6 @@ export * from './no-data/types';
 export * from './radio-group/types';
 export * from './search-table/types';
 export * from './select/types';
-export * from './spin/types';
 export * from './table/types';
 export * from './text-ellipsis/types';
 export * from './title/types';
@@ -74,7 +72,6 @@ export {
   SRadioGroup,
   SSearchTable,
   SSelect,
-  SSpin,
   STable,
   STextEllipsis,
   STitle,
