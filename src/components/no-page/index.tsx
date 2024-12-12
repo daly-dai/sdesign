@@ -14,9 +14,7 @@ const SNoPage = ({ text }: { text?: any }) => {
   return (
     <div className={styles[prefixCls]}>
       <NoPageIcon className={styles[`${prefixCls}-img`]} />
-      <p className={styles[`${prefixCls}-desc`]}>
-        {text || '页面失效或不存在'}
-      </p>
+      <p className={styles[`${prefixCls}-desc`]}>{text ?? ''}</p>
     </div>
   );
 };
