@@ -1,5 +1,5 @@
 import { Button, Modal, Popconfirm } from 'antd';
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 
 import { SConfirmProps } from './types';
 
@@ -25,7 +25,10 @@ const SConfirm: FC<SConfirmProps> = (props) => {
     onCancel?.();
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (event: MouseEvent<HTMLDivElement>) => {
+    // 阻止事件冒泡
+    event.stopPropagation();
+
     if (disabled) return;
 
     Modal.confirm({
