@@ -16,4 +16,5 @@ export interface SConfirmProps {
   popConfirmProps?: PopconfirmProps; // 弹出框的属性传参
   buttonProps?: ButtonProps; // 按钮的属性传参
   disabled?: boolean;
+  eventStop?: boolean; // 阻止事件冒泡
 }

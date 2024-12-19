@@ -15,6 +15,7 @@ const SConfirm: FC<SConfirmProps> = (props) => {
     title = '删除提示',
     description = '是否确认删除该条信息',
     disabled = false,
+    eventStop = false,
   } = props;
 
   const confirmFn = () => {
@@ -26,8 +27,10 @@ const SConfirm: FC<SConfirmProps> = (props) => {
   };
 
   const handleButtonClick = (event: MouseEvent<HTMLDivElement>) => {
-    // 阻止事件冒泡
-    event.stopPropagation();
+    if (eventStop) {
+      // 阻止事件冒泡
+      event.stopPropagation();
+    }
 
     if (disabled) return;
 
