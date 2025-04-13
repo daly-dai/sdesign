@@ -1,6 +1,5 @@
 import { Card } from 'antd';
-import assign from 'lodash/assign';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import SErrorBoundary from '../error-boundary';
 
@@ -17,19 +16,15 @@ function SCard({
   style,
   ...props
 }: SCardProps) {
-  const cardStyle = useMemo(() => {
-    if (!hasBottomPadding) return CARD_STYLE;
-
-    return assign({ marginBottom: '16px' }, CARD_STYLE);
-  }, [hasBottomPadding]);
+  const mergedStyle = {
+    ...(hasBottomPadding && { marginBottom: '16px' }),
+    ...CARD_STYLE,
+    ...style,
+  };
 
   return (
     <SErrorBoundary>
-      <Card
-        style={{ ...cardStyle, ...(style ?? {}) }}
-        styles={{ body: { padding: '0' } }}
-        {...props}
-      >
+      <Card style={mergedStyle} styles={{ body: { padding: '0' } }} {...props}>
         {children}
       </Card>
     </SErrorBoundary>
