@@ -4,7 +4,7 @@ import SCard from '@dalydb/sdesign/components/card';
 import { SCardProps } from '@dalydb/sdesign/components/card/types';
 
 export interface ContainerProps extends SCardProps {
-  CustomContainer?: React.ComponentType<any>;
+  CustomContainer?: React.ComponentType<unknown>;
   children?: ReactNode;
   hasBottomPadding?: boolean;
   isCard?: boolean;
@@ -25,7 +25,7 @@ const SDynamicContainer: FC<ContainerProps> = ({
       </CustomContainer>
     );
 
-  if (!isCard) return <>{children}</>;
+  if (!isCard) return children;
 
   return (
     <SCard hasBottomPadding={hasBottomPadding} {...cardProps}>
