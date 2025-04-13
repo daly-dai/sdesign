@@ -1,5 +1,5 @@
 import { DatePicker } from 'antd';
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 
 import { SDatePickerType } from './types';
 
@@ -17,9 +17,7 @@ const SDatePicker: FC<SDatePickerType> = (props) => {
     ...dateProps
   } = props;
 
-  const dateValue = useMemo(() => {
-    return getDateVal(value);
-  }, [value]);
+  const dateValue = getDateVal(value);
 
   const handleChange = (date: Dayjs, dateString: string | string[] | null) => {
     onChange?.(dateString, date);
@@ -29,7 +27,7 @@ const SDatePicker: FC<SDatePickerType> = (props) => {
     <DatePicker
       style={{ width: '100%', ...style }}
       allowClear={allowClear}
-      value={dateValue as any}
+      value={dateValue as Dayjs | null}
       placeholder={placeholder}
       onChange={handleChange as any}
       {...dateProps}
