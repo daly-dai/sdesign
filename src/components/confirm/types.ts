@@ -1,4 +1,4 @@
-import { ButtonProps, PopconfirmProps } from 'antd';
+import { ButtonProps, ModalFuncProps, PopconfirmProps } from 'antd';
 
 import { tuple } from '@dalydb/sdesign/utils/types';
 
@@ -17,4 +17,5 @@ export interface SConfirmProps {
   buttonProps?: ButtonProps; // 按钮的属性传参
   disabled?: boolean;
   eventStop?: boolean; // 阻止事件冒泡
+  modalProps?: ModalFuncProps;
 }

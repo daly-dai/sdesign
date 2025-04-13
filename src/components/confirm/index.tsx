@@ -16,6 +16,7 @@ const SConfirm: FC<SConfirmProps> = (props) => {
     description = '是否确认删除该条信息',
     disabled = false,
     eventStop = false,
+    modalProps,
   } = props;
 
   const confirmFn = () => {
@@ -41,6 +42,7 @@ const SConfirm: FC<SConfirmProps> = (props) => {
       content: description,
       onOk: confirmFn,
       onCancel: cancelFn,
+      ...modalProps,
     });
   };
 
