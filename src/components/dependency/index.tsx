@@ -19,7 +19,7 @@ const SDependency = <T,>({
     const result: string[] = [];
 
     depNames?.forEach((name) => {
-      if (!isString(name)) return;
+      if (!isString(name)) return '';
 
       result.push(name);
     });
@@ -60,7 +60,9 @@ const SDependency = <T,>({
     for (let i = 0; i < depNames.length; i++) {
       const itemName = flattenNames[i];
 
-      const value = form.getFieldValue?.(itemName);
+      const value = !itemName
+        ? undefined
+        : form.getFieldValue?.(itemName as any);
 
       if (typeof value !== 'undefined') {
         values = set(values, itemName, value);

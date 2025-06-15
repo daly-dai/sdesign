@@ -1,4 +1,3 @@
-import SBtmContainer from './btm-container';
 import SCard from './card';
 import SCascader from './cascader';
 import SCheckGroup from './check-group';
@@ -25,7 +24,6 @@ import STextEllipsis from './text-ellipsis';
 import STitle from './title';
 import SUpload from './upload';
 
-export * from './btm-container/types';
 export * from './cascader/types';
 export * from './check-group/types';
 export * from './confirm/types';
@@ -47,7 +45,6 @@ export * from './text-ellipsis/types';
 export * from './title/types';
 export * from './upload/types';
 export {
-  SBtmContainer,
   SCard,
   SCascader,
   SCheckGroup,
