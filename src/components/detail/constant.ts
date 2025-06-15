@@ -1,12 +1,9 @@
-// label最小的宽度
-export const MIN_LABEL_WIDTH = 98;
-
 export const DETAIL_LABEL_STYLE: React.CSSProperties = {
   color: 'rgba(8,16,30,0.55)',
   lineHeight: '22px',
   marginRight: '14px',
   display: 'inline-block',
-  minWidth: `${MIN_LABEL_WIDTH}px`,
+  minWidth: `${98}px`,
 };
 
 export const FALL_BACK_STRING =

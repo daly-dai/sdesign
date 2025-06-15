@@ -65,26 +65,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
     return dataSource?.[detailName] ?? {};
   }, [dataSource, detailName]);
 
-  const { CriterionLabelStyle, componentId } = useDetail({
-    column,
-  });
-
-  // label宽度样式
-  const labelWidthStyle = useMemo<CSSProperties>(() => {
-    if (layout === 'vertical') {
-      return {
-        width: '100%',
-      };
-    }
-
-    if (column === 1) {
-      return {
-        width: '40%',
-      };
-    }
-
-    return CriterionLabelStyle;
-  }, [CriterionLabelStyle, column]);
+  const { componentId } = useDetail();
 
   // 渲染标题
   const detailTitle = useMemo(() => {
@@ -186,7 +167,6 @@ const DetailInstance: React.FC<SDetailProps> = ({
         layout={layout}
         labelStyle={{
           ...DETAIL_LABEL_STYLE,
-          ...labelWidthStyle,
           ...labelStyle,
         }}
         {...props}
