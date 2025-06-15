@@ -53,7 +53,7 @@ const InstanceForm: FC<SFormProps> = ({
       onReset={handleReset}
       className={prefixCls}
     >
-      <Row gutter={[24, 16]} {...rowProps}>
+      <Row gutter={[24, 0]} {...rowProps}>
         {(items || []).map((item) => {
           if (item?.hidden) return <></>;
 
