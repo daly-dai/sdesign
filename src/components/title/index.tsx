@@ -20,8 +20,6 @@ const STitle: React.FC<PageTitleProps> = (props) => {
     useStylesHook: useStyles,
   });
 
-  // react-router v5
-  const history = rc.useHistory?.();
   // react-router v6
   const navigate = rc.useNavigate?.();
 
@@ -41,11 +39,6 @@ const STitle: React.FC<PageTitleProps> = (props) => {
   const handleClick = () => {
     if (onBackClick) {
       onBackClick();
-      return;
-    }
-
-    if (history) {
-      history.go(-1);
       return;
     }
 
