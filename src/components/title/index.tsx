@@ -76,8 +76,8 @@ const STitle: React.FC<PageTitleProps> = (props) => {
     const marginBottom = getBottomStyle();
 
     return {
-      ...(style ?? {}),
       marginBottom,
+      ...(style ?? {}),
     };
   }, [hasBottomMargin, style]);
 
