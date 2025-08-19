@@ -1,8 +1,9 @@
-import { Table, Tooltip } from 'antd';
+import { Table, Typography } from 'antd';
+import dayjs from 'dayjs';
+import { isString } from 'lodash';
 import React, { FC, useContext, useMemo } from 'react';
 
 import { ConfigContext } from '../config-provider';
-import STextEllipsis from '../text-ellipsis';
 
 import { cellStyle, convertToText } from './constant';
 import { SColumnsType, STableProps } from './types';
@@ -48,15 +49,24 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
     // 是否存在固定列
     const isFixed = columns?.some((item: any) => item.fixed) && props?.scroll;
     return (columns || []).map((col: any) => {
+      if (isString(col.render)) {
+        if (col.render === 'datetime') {
+          col.render = (t: any) => {
+            return dayjs(t).format('YYYY-MM-DD HH:mm:ss');
+          };
+        }
+
+        if (col.render === 'date') {
+          col.render = (t: any) => {
+            return dayjs(t).format('YYYY-MM-DD');
+          };
+        }
+
+        return col;
+      }
+
       // biome-ignore lint/complexity/noExtraBooleanCast: <explanation>
       if (!!col?.render) return { ...col };
-
-      // 控制Tooltip显隐
-      function showToolTip(e: any) {
-        if (e.target.clientWidth >= e.target.scrollWidth) {
-          e.target.style.pointerEvents = 'none'; // 阻止鼠标事件
-        }
-      }
 
       return {
         ...col,
@@ -70,33 +80,17 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
             text = dictData?.[text] || text;
           }
 
-          // @ts-ignore
-          // biome-ignore lint/complexity/noExtraBooleanCast: <explanation>
-          if (!!col?.maxChars) {
-            return (
-              <STextEllipsis.Single
-                maxChars={col?.maxChars || 12}
-                text={`${text}`} // fix: 数字0
-              />
-            );
-          }
-
           return (
-            <Tooltip
-              title={`${text}`}
-              // @ts-ignore
-              onMouseEnter={showToolTip}
+            <Typography.Text
+              style={
+                col?.width
+                  ? { ...cellStyle, width: !isFixed ? col?.width : '' }
+                  : { width: !isFixed ? col?.width : '' }
+              }
+              ellipsis={{ tooltip: text }}
             >
-              <span
-                style={
-                  col?.width
-                    ? { ...cellStyle, width: !isFixed ? col?.width : '' }
-                    : { width: !isFixed ? col?.width : '' }
-                }
-              >
-                {text}
-              </span>
-            </Tooltip>
+              {text}
+            </Typography.Text>
           );
         },
       };
@@ -115,7 +109,9 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
     return !!columnsSeq ? columnsSeq.concat(columnsNew) : columnsNew;
   }, [columns, globalDict]);
 
-  return <Table {...props} pagination={pagination} columns={columnsCell || []} />;
+  return (
+    <Table {...props} pagination={pagination} columns={columnsCell || []} />
+  );
 };
 
 export default STable;

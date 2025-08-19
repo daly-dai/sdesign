@@ -1,4 +1,5 @@
 import { Col, Form, Row } from 'antd';
+import { Gutter } from 'antd/es/grid/row';
 import React, { FC, useMemo } from 'react';
 
 import ItemRender from './components/item-render';
@@ -15,6 +16,8 @@ const InstanceForm: FC<SFormProps> = ({
   readonly = false,
   children,
   formName,
+  layout = 'vertical',
+  style,
   ...formProps
 }) => {
   const prefixCls = getPrefixCls('form');
@@ -43,20 +46,36 @@ const InstanceForm: FC<SFormProps> = ({
     onReset?.(e);
   };
 
+  const gutter = useMemo<[Gutter, Gutter]>(() => {
+    if (layout === 'vertical') return [24, 0];
+
+    return [24, 16];
+  }, [layout]);
+
+  const formStyle = useMemo(() => {
+    if (layout === 'inline') {
+      return {
+        marginBottom: 16,
+        ...style,
+      };
+    }
+
+    return style;
+  }, [layout, style]);
+
   return (
     <Form
       colon={false}
-      layout="vertical"
+      layout={layout}
+      style={formStyle}
       {...formProps}
       {...formTypeConfig}
       onFinish={handleFinish}
       onReset={handleReset}
       className={prefixCls}
     >
-      <Row gutter={[24, 0]} {...rowProps}>
-        {(items || []).map((item) => {
-          if (item?.hidden) return <></>;
-
+      <Row gutter={gutter} {...rowProps}>
+        {((items ?? []).filter((item) => !item.hidden) || []).map((item) => {
           return (
             <Col
               key={item.name ?? createCode(8)}

@@ -70,26 +70,26 @@ const Group: FC<SFormGroupProps> = ({
       <DynamicContainer key={createCode(6)} CustomContainer={itemContainer}>
         {renderTitle(groupItem?.title)}
         <Row gutter={[24, 16]} {...groupItem?.rowProps}>
-          {(groupItem?.items || []).map((item) => {
-            if (item?.hidden) return <></>;
+          {((groupItem.items ?? []).filter((item) => !item.hidden) || []).map(
+            (item) => {
+              const itemFormName = getItemFormName(
+                item?.formName,
+                groupItem?.formName,
+                formName,
+              );
 
-            const itemFormName = getItemFormName(
-              item?.formName,
-              groupItem?.formName,
-              formName,
-            );
-
-            return (
-              <Col key={createCode()} span={dynamicSpan} {...item?.colProps}>
-                <ItemRender
-                  readonly={readonly}
-                  key={createCode(6)}
-                  formName={itemFormName}
-                  {...item}
-                />
-              </Col>
-            );
-          })}
+              return (
+                <Col key={createCode()} span={dynamicSpan} {...item?.colProps}>
+                  <ItemRender
+                    readonly={readonly}
+                    key={createCode(6)}
+                    formName={itemFormName}
+                    {...item}
+                  />
+                </Col>
+              );
+            },
+          )}
         </Row>
       </DynamicContainer>
     );

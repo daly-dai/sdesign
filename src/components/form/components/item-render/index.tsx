@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import React, { FC, memo, ReactNode, useMemo } from 'react';
 
 import { ItemsProps } from '../../types';
-import DynamicItem from '../dynamic-item';
+import FormField from '../form-field';
 
 import { genRequiredRule, getDefaultConfig, getRegData } from './constant';
 
@@ -100,11 +100,7 @@ const ItemRender: FC<ItemsProps> = memo(
           {customCom ? (
             (customCom as ReactNode)
           ) : (
-            <DynamicItem
-              type={type as any}
-              {...defaultConfig}
-              {...fieldProps}
-            />
+            <FormField type={type as any} {...defaultConfig} {...fieldProps} />
           )}
         </Form.Item>
       </SErrorBoundary>

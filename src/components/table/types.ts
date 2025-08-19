@@ -1,6 +1,8 @@
 import { TableProps } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/es/table';
 import React from 'react';
+
+import { tuple } from '@dalydb/sdesign/utils';
 export interface DataType {
   dataIndex: React.Key;
   title: string;
@@ -9,11 +11,16 @@ export interface DataType {
   render: () => void;
 }
 
+const RenderTypes = tuple('datetime', 'date');
+export type RenderType = (typeof RenderTypes)[number];
+
 type SColumn<RecordType = any> = (
   | ColumnGroupType<RecordType>
-  | ColumnType<RecordType>
+  | Omit<ColumnType<RecordType>, 'render'>
 ) & {
   dictKey?: string | undefined;
+
+  render?: ColumnType<RecordType>['render'] | RenderType;
 };
 export type SColumnsType<RecordType> = SColumn<RecordType>[];
 

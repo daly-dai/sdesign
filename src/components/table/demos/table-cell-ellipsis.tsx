@@ -18,6 +18,8 @@ const STableCellEllipsis = () => {
       planCategoryName: '基础研究计划自然科学基金/杰出青年基金项目',
       selectionMethod: 'all_candidates',
       saveType: 'submit',
+      // 时间戳：1678447600000
+      createTime: '1678447600000',
       operateFlag: true,
     },
     {
@@ -28,6 +30,9 @@ const STableCellEllipsis = () => {
       planCategoryName: '基础研究计划自然科学基金/面上项目',
       selectionMethod: 'machine_candidates',
       saveType: 'save',
+      createTime: new Date(
+        Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000,
+      ).toISOString(),
       operateFlag: false,
     },
     {
@@ -38,6 +43,9 @@ const STableCellEllipsis = () => {
       planCategoryName: '基础研究计划自然科学基金/杰出青年基金项目',
       selectionMethod: 'all_candidates',
       saveType: 'submit',
+      createTime: new Date(
+        Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000,
+      ).toISOString(),
       operateFlag: false,
     },
     {
@@ -48,6 +56,9 @@ const STableCellEllipsis = () => {
       planCategoryName: '基础研究计划自然科学基金/杰出青年基金项目',
       selectionMethod: 'all_candidates',
       saveType: 'submit',
+      createTime: new Date(
+        Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000,
+      ).toISOString(),
       operateFlag: true,
     },
   ];
@@ -67,12 +78,18 @@ const STableCellEllipsis = () => {
       title: '项目数量',
       dataIndex: 'projectNum',
       dictKey: 'projectNum',
-      width: 120,
+      width: 60,
     },
     {
       title: '计划类别',
       dataIndex: 'planCategoryName',
       width: 120,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      width: 180,
+      render: 'datetime',
     },
     {
       title: '操作',
@@ -82,8 +99,6 @@ const STableCellEllipsis = () => {
           <Space>
             <Button type="link">项目列表</Button>
             <Button type="link">设置</Button>
-            {/* <Button type="link">专家遴选</Button>
-            <Button type="link">删除</Button> */}
           </Space>
         );
       },
@@ -91,14 +106,7 @@ const STableCellEllipsis = () => {
   ];
 
   return (
-    <STable
-      columns={columns}
-      dataSource={data || []}
-      scroll={{ x: 500 }}
-      isSeq={true}
-      // current={2}
-      // pageSize={5}
-    />
+    <STable columns={columns} dataSource={data || []} scroll={{ x: 700 }} />
   );
 };
 

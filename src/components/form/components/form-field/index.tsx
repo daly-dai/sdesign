@@ -4,17 +4,17 @@ import { FORM_ITEM_COM_MAP } from '../../constants';
 import { FormComType } from '../../types';
 
 // 泛型组件类型，用于约束props的类型
-type DynamicItemProps<T extends FormComType> = {
+type FormFieldProps<T extends FormComType> = {
   type: T;
   // 使用泛型P来约束传递给子组件的props
   [propName: string]: any; // 或者使用具体的props接口，但这里为了简单起见使用any
 };
 
 // 泛型动态组件
-function DynamicItem<T extends FormComType>({
+function FormField<T extends FormComType>({
   type,
   ...restProps
-}: DynamicItemProps<T>) {
+}: FormFieldProps<T>) {
   // 使用类型断言来确保Component是React.ComponentType<any>
   const Component = FORM_ITEM_COM_MAP[
     type ?? 'input'
@@ -30,4 +30,4 @@ function DynamicItem<T extends FormComType>({
   return <Component {...restProps} />;
 }
 
-export default memo(DynamicItem);
+export default memo(FormField);

@@ -9,9 +9,13 @@ group:
 
 ## 搜索组件
 
-### SForm
+### 基础使用
 
 <code src="./demos/form.tsx"></code>
+
+### layout inline 布局
+
+<code src="./demos/form-inline.tsx"></code>
 
 ### 占位类型
 
