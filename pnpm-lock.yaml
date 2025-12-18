@@ -11,9 +11,6 @@ importers:
       '@ant-design/icons':
         specifier: 6.0.0
         version: 6.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@radix-ui/react-slot':
-        specifier: ^1.2.3
-        version: 1.2.3(@types/react@18.3.16)(react@18.3.1)
       ahooks:
         specifier: ^3.7.4
         version: 3.8.4(react@18.3.1)
@@ -38,6 +35,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      lucide-react:
+        specifier: ^0.562.0
+        version: 0.562.0(react@18.3.1)
       react-error-boundary:
         specifier: 6.0.0
         version: 6.0.0(react@18.3.1)
@@ -1628,24 +1628,6 @@ packages:
   '@pkgr/utils@2.4.2':
     resolution: {integrity: sha512-POgTXhjrTfbTV63DiFXav4lBHiICLKKwDeaKn9Nphwj7WH6m0hMMCaJkMyRWjgtPFyRKRVoMXXjczsTQRDEhYw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
-
-  '@radix-ui/react-compose-refs@1.1.2':
-    resolution: {integrity: sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@radix-ui/react-slot@1.2.3':
-    resolution: {integrity: sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
 
   '@rc-component/async-validator@5.0.4':
     resolution: {integrity: sha512-qgGdcVIF604M9EqjNF0hbUTz42bz/RDtxWdWuU5EQe3hi7M8ob54B6B35rOsvX5eSvIHIzT9iH1R3n+hk3CGfg==}
@@ -5589,6 +5571,11 @@ packages:
   lru-cache@7.18.3:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
+
+  lucide-react@0.562.0:
+    resolution: {integrity: sha512-82hOAu7y0dbVuFfmO4bYF1XEwYk/mEbM5E+b1jgci/udUBEE/R7LF5Ip0CCEmXe8AybRM8L+04eP+LGZeDvkiw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -10136,19 +10123,6 @@ snapshots:
       open: 9.1.0
       picocolors: 1.1.1
       tslib: 2.8.1
-
-  '@radix-ui/react-compose-refs@1.1.2(@types/react@18.3.16)(react@18.3.1)':
-    dependencies:
-      react: 18.3.1
-    optionalDependencies:
-      '@types/react': 18.3.16
-
-  '@radix-ui/react-slot@1.2.3(@types/react@18.3.16)(react@18.3.1)':
-    dependencies:
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.16)(react@18.3.1)
-      react: 18.3.1
-    optionalDependencies:
-      '@types/react': 18.3.16
 
   '@rc-component/async-validator@5.0.4':
     dependencies:
@@ -15169,6 +15143,10 @@ snapshots:
       yallist: 4.0.0
 
   lru-cache@7.18.3: {}
+
+  lucide-react@0.562.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   lz-string@1.5.0: {}
 

@@ -1,3 +1,4 @@
+import SButton from './button';
 import SCard from './card';
 import SCascader from './cascader';
 import SCheckGroup from './check-group';
@@ -14,6 +15,7 @@ import SFile from './file';
 import SForm from './form';
 import SFrameAnimation from './frame-animation';
 import SInput from './input';
+import SLucideIcon from './lucide-icon';
 import SNoData from './no-data';
 import SNoPage from './no-page';
 import SRadioGroup from './radio-group';
@@ -24,6 +26,7 @@ import STextEllipsis from './text-ellipsis';
 import STitle from './title';
 import SUpload from './upload';
 
+export * from './button/types';
 export * from './cascader/types';
 export * from './check-group/types';
 export * from './confirm/types';
@@ -36,6 +39,7 @@ export * from './error-com/types';
 export * from './file/types';
 export * from './form/types';
 export * from './input/types';
+export * from './lucide-icon/types';
 export * from './no-data/types';
 export * from './radio-group/types';
 export * from './search-table/types';
@@ -44,7 +48,9 @@ export * from './table/types';
 export * from './text-ellipsis/types';
 export * from './title/types';
 export * from './upload/types';
+
 export {
+  SButton,
   SCard,
   SCascader,
   SCheckGroup,
@@ -61,6 +67,7 @@ export {
   SForm,
   SFrameAnimation,
   SInput,
+  SLucideIcon,
   SNoData,
   SNoPage,
   SRadioGroup,
