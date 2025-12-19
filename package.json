@@ -80,12 +80,12 @@
     "@typescript-eslint/parser": "^7.11.0",
     "@umijs/lint": "^4.0.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "dumi": "~2.4.15",
-    "dumi-theme-antd-style": "^0.31.0",
+    "dumi": "~2.4.21",
+    "dumi-theme-antd-style": "^0.31.1",
     "eslint": "^8.23.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
-    "father": "^4.4.1",
+    "father": "^4.6.11",
     "husky": "^8.0.1",
     "jsdom": "^25.0.1",
     "lint-staged": "^13.0.3",
@@ -120,7 +120,8 @@
       "@swc/core",
       "core-js",
       "core-js-pure",
-      "esbuild"
+      "esbuild",
+      "less"
     ]
   },
   "authors": []

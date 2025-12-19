@@ -1,4 +1,5 @@
 import SButton from './button';
+import SButtonGroup from './button-group';
 import SCard from './card';
 import SCascader from './cascader';
 import SCheckGroup from './check-group';
@@ -26,6 +27,7 @@ import STextEllipsis from './text-ellipsis';
 import STitle from './title';
 import SUpload from './upload';
 
+export * from './button-group/types';
 export * from './button/types';
 export * from './cascader/types';
 export * from './check-group/types';
@@ -51,6 +53,7 @@ export * from './upload/types';
 
 export {
   SButton,
+  SButtonGroup,
   SCard,
   SCascader,
   SCheckGroup,
