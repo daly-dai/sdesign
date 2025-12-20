@@ -8,7 +8,6 @@ const defaultConfig: Record<SButtonType, Partial<ButtonProps>> = {
   primary: {
     type: 'primary',
   },
-
   link: {
     type: 'link',
   },

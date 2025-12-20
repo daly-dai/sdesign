@@ -1,3 +1,4 @@
+import { Flex } from 'antd';
 import isBoolean from 'lodash/isBoolean';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
@@ -33,6 +34,8 @@ const STitle: React.FC<PageTitleProps> = (props) => {
     hasBottomMargin = true,
     fontSize,
     children,
+    prefix,
+    gap = '12px',
     ...restProps
   } = props;
 
@@ -112,15 +115,17 @@ const STitle: React.FC<PageTitleProps> = (props) => {
   }, [fontSize, type, token.fontSize]);
 
   return (
-    <div
+    <Flex
+      justify="space-between"
+      align="center"
       className={cx(styles[prefixCls], styles[`${prefixCls}-${type}`])}
       style={titleStyle}
       {...restProps}
     >
-      <div className={styles[`${prefixCls}-left`]}>
+      <Flex align="center" gap={gap}>
         {renderBackIcon}
         {renderFormIcon}
-
+        {prefix}
         <div
           style={titleFontSize}
           className={styles[`${prefixCls}-left-title`]}
@@ -129,9 +134,9 @@ const STitle: React.FC<PageTitleProps> = (props) => {
         </div>
 
         {titleDesc && titleDesc}
-      </div>
+      </Flex>
       <div className={styles[`${prefixCls}-right`]}>{actionNode}</div>
-    </div>
+    </Flex>
   );
 };
 

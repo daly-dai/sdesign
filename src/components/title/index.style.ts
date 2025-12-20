@@ -12,16 +12,8 @@ const useStyles = createStyles(({}, { prefixCls }: { prefixCls: string }) => {
       textAlign: 'left',
       color: '#08101e',
       lineHeight: '30px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    [`${prefixCls}-left`]: {
-      display: 'flex',
-      alignItems: 'center',
     },
     [`${prefixCls}-left-title`]: {
-      marginRight: '8px',
       fontSize: '20px',
       fontWeight: '550',
     },
@@ -30,13 +22,14 @@ const useStyles = createStyles(({}, { prefixCls }: { prefixCls: string }) => {
       height: '32px',
       backgroundColor: 'rgba(0, 0, 0, 5%)',
       borderRadius: '4px',
-      marginRight: '12px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
     },
-    [`${prefixCls}-left-form-icon`]: { fontSize: '16px', marginRight: '8px' },
+    [`${prefixCls}-left-form-icon`]: {
+      fontSize: '16px',
+    },
     [`${prefixCls}-right`]: { display: 'flex' },
   };
 });
