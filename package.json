@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "biome": "biome check --write src",
-    "build": "father build",
+    "build": "rslib build",
     "build:watch": "father dev",
     "dev": "dumi dev",
     "docs:build": "dumi build",
@@ -63,6 +63,9 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@rsbuild/plugin-less": "^1.5.0",
+    "@rsbuild/plugin-react": "^1.4.2",
+    "@rslib/core": "^0.18.5",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
     "@types/lodash": "^4.17.1",
