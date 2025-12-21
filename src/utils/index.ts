@@ -1,7 +1,6 @@
 export * from './common';
 export * from './data-types';
 export * from './dict';
-export * from './fileList';
 export * from './number';
 export * from './reg';
 export * from './string';
