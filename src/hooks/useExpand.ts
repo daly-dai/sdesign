@@ -30,21 +30,11 @@ export default function useExpand({
     return true;
   }, [showExpand, columns]);
 
-  // 展示收起form渲染的个数
   const expandNum = useMemo(() => {
     if (!items?.length) return 0;
-
     if (!showCollapse) return items.length;
-
-    if (items?.length < columns) return items?.length;
-
-    if (!collapse) return items?.length;
-
-    // 以下为所有收起的逻辑
-    if (items?.length >= columns) {
-      return columns - 1 ?? 0;
-    }
-  }, [columns, showCollapse, collapse]);
+    return collapse ? Math.min(columns - 1, items.length) : items.length;
+  }, [columns, showCollapse, collapse, items]);
 
   return {
     showCollapse,

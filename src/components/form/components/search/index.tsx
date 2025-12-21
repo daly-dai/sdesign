@@ -10,25 +10,13 @@ import SCollapse from '@dalydb/sdesign/components/collapse';
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import { useComStyle } from '@dalydb/sdesign/hooks';
 import useExpand from '@dalydb/sdesign/hooks/useExpand';
-import useResize from '@dalydb/sdesign/hooks/useResize';
 import useSearchLayout from '@dalydb/sdesign/hooks/useSearchLayout';
-import { createCode, genArrFromNum } from '@dalydb/sdesign/utils';
-
-/** 配置表单列变化的容器宽度断点 */
-const BREAKPOINTS = {
-  default: [
-    [513, 1],
-    [701, 2],
-    [1062, 3],
-    [1440, 3],
-    [Infinity, 4],
-  ],
-};
+import { genArrFromNum } from '@dalydb/sdesign/utils';
 
 const Search: FC<SearchProps> = memo(
   ({
     rowProps,
-    columns,
+    columns = 4,
     items,
     actionNode,
     showExpand = true,
@@ -43,33 +31,15 @@ const Search: FC<SearchProps> = memo(
       useStylesHook: useStyles,
     });
 
-    // const prefixCls = getPrefixCls('form-search');
-    const { width } = useResize();
-
-    /**
-     * 动态列数
-     */
-    const dynamicColumns = useMemo(() => {
-      if (columns && typeof columns === 'number') return columns;
-
-      const breakPoint = BREAKPOINTS.default.find(
-        (item) => width < (item[0] as number) + 16, // 16 = 2 * (ant-row -8px margin)
-      );
-
-      if (!breakPoint) return 4;
-
-      return breakPoint[1] as number;
-    }, [columns, width]);
-
     const { showCollapse, expandNum, collapse, setCollapse } = useExpand({
-      columns: dynamicColumns,
+      columns,
       items,
       showExpand,
       defaultExpand,
     });
 
     const { actionAlign, dynamicOffset, dynamicSpan } = useSearchLayout({
-      columns: dynamicColumns,
+      columns,
       items: genArrFromNum(expandNum ?? 0),
       styles,
       prefixCls,
@@ -93,39 +63,26 @@ const Search: FC<SearchProps> = memo(
     };
 
     const renderItemFields = (items: SFormItems[] | undefined) => {
-      if (!expandNum || !items) {
-        return <></>;
-      }
+      if (!expandNum || !items?.length) return <></>;
 
-      const children = [];
-
-      if (!items?.length) {
-        return <></>;
-      }
-
-      for (let i = 0; i < expandNum; i++) {
-        const item = items[i];
-
-        if (item?.hidden) continue;
-
-        children.push(
-          <Col key={createCode()} span={dynamicSpan} {...item?.colProps}>
+      return items.slice(0, expandNum).map((item, index) => {
+        if (item?.hidden) return null;
+        return (
+          <Col key={item.name || index} span={dynamicSpan} {...item?.colProps}>
             <ItemRender
               readonly={readonly}
               style={{ marginBottom: '0' }}
-              key={createCode(6)}
+              key={item.name || index}
               {...item}
             />
-          </Col>,
+          </Col>
         );
-      }
-
-      return children;
+      });
     };
 
     const itemFields = useMemo(() => {
       return renderItemFields(items);
-    }, [expandNum, dynamicColumns, items]);
+    }, [expandNum, columns, items]);
 
     const renderCollapse = useMemo(() => {
       if (!showCollapse) return <></>;
@@ -135,9 +92,9 @@ const Search: FC<SearchProps> = memo(
           collapse={collapse}
           setCollapse={setCollapse}
           onExpand={props?.onExpand}
-        ></SCollapse>
+        />
       );
-    }, [showCollapse, collapse, dynamicColumns]);
+    }, [showCollapse, collapse, columns]);
 
     return (
       <DynamicContainer isCard={isCard} CustomContainer={container}>
