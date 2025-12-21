@@ -1,3 +1,4 @@
+import { Flex } from 'antd';
 import React, { FC, memo, useMemo } from 'react';
 
 import { FILE_NAME_FIELD, FILE_URL_FIELD, fileTypeToIcon } from './constant';
@@ -8,7 +9,6 @@ import {
   FileIconMapFieldType,
   FileItemType,
   ReflectFile,
-  SLucideIcon,
   useComStyle,
 } from '@dalydb/sdesign';
 import { createCode, dispatchFileName } from '@dalydb/sdesign/utils/common';
@@ -43,23 +43,19 @@ const SFileInstance: FC<FileItemType> = memo(
 
     const fileConfig: FileDataType = useMemo<ReflectFile>(() => {
       return {
-        [FILE_NAME_FIELD]: reflect
-          ? reflect?.[FILE_NAME_FIELD]
-          : FILE_NAME_FIELD,
-        [FILE_URL_FIELD]: reflect ? reflect?.[FILE_URL_FIELD] : FILE_URL_FIELD,
+        [FILE_NAME_FIELD]: reflect?.[FILE_NAME_FIELD] || FILE_NAME_FIELD,
+        [FILE_URL_FIELD]: reflect?.[FILE_URL_FIELD] || FILE_URL_FIELD,
       };
     }, [reflect]);
 
     /**
      * 点击文件标题
      * @param file
-     * @returns
      */
     const handleFileClick = (file: FileDataType) => {
       if (!canClickName) return;
 
       const fileUrl = file[fileConfig.fileUrl as 'fileUrl'];
-
       if (!fileUrl) return;
 
       if (onFileHandle) {
@@ -67,22 +63,18 @@ const SFileInstance: FC<FileItemType> = memo(
         return;
       }
 
-      window.open(file[fileConfig.fileUrl as 'fileUrl']);
-    };
-
-    const getFileType = () => {
-      return (
-        fileData?.[fileConfig[fileIconMapField] as FileIconMapFieldType]
-          ?.split('.')
-          .at(-1) ?? ''
-      );
+      window.open(fileUrl);
     };
 
     // 获取对应的SLucideIcon图标名称
-    const getFileIcon = () => {
-      const type = getFileType().toUpperCase();
-      return fileTypeToIcon?.[type] || 'File';
-    };
+    const fileIcon = useMemo(() => {
+      const fileType =
+        fileData?.[fileConfig[fileIconMapField] as FileIconMapFieldType]
+          ?.split('.')
+          .at(-1) || '';
+      const type = fileType.toUpperCase();
+      return fileTypeToIcon?.[type] || fileTypeToIcon['TXT'];
+    }, [fileData, fileConfig, fileIconMapField]);
 
     const fileName = useMemo(() => {
       if (!fileData) return '';
@@ -91,32 +83,27 @@ const SFileInstance: FC<FileItemType> = memo(
         fileData[fileConfig.fileName as 'fileName'],
         effectiveNameLimit,
       );
-    }, [effectiveNameLimit, fileData]);
+    }, [effectiveNameLimit, fileData, fileConfig]);
 
-    const fontSizeStyle = useMemo(() => {
-      return {
-        fontSize: token.fontSize,
-      };
-    }, [token.fontSize]);
+    // 直接在使用处内联fontSize样式
 
     if (!fileData) return <></>;
 
     return (
-      <div
+      <Flex
+        align="center"
+        justify="space-between"
         style={{ ...style }}
         className={cx(prefixCls, className)}
         onClick={() => handleFileClick(fileData)}
         key={createCode()}
       >
-        <div className={styles[`${prefixCls}-left`]}>
-          <SLucideIcon
-            name={getFileIcon()}
-            className={styles[`${prefixCls}-left-icon`]}
-          />
+        <Flex gap={12} className={styles[`${prefixCls}-left`]}>
+          {fileIcon}
 
           <div
             title={fileData[fileConfig.fileName as 'fileName']}
-            style={fontSizeStyle}
+            style={{ fontSize: token.fontSize }}
             className={cx(
               styles[`${prefixCls}-left-fileName`],
               canClickNameCls,
@@ -124,12 +111,12 @@ const SFileInstance: FC<FileItemType> = memo(
           >
             {fileName}
           </div>
-        </div>
+        </Flex>
 
         {children && (
           <div className={styles[`${prefixCls}-action`]}>{children}</div>
         )}
-      </div>
+      </Flex>
     );
   },
 );
