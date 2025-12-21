@@ -9,8 +9,8 @@ import { BASE_FONTSIZE_MAP } from './constant';
 import useStyles from './index.style';
 import { PageTitleProps } from './types';
 
+import { SLucideIcon } from '@dalydb/sdesign';
 import { useComStyle } from '@dalydb/sdesign/hooks';
-import { ArrowLeftIcon, FormTitleIcon } from '@dalydb/sdesign/icons';
 
 // ignore waring `"export 'useNavigate' (imported as 'rc') was not found in 'react-router'`
 const rc = tmp as any;
@@ -85,7 +85,7 @@ const STitle: React.FC<PageTitleProps> = (props) => {
 
     return (
       <div className={styles[`${prefixCls}-left-bk`]} onClick={handleClick}>
-        <ArrowLeftIcon style={{ fontSize: '16px' }} />
+        <SLucideIcon name="ArrowLeft" size="16px" />
       </div>
     );
   }, []);
@@ -96,7 +96,12 @@ const STitle: React.FC<PageTitleProps> = (props) => {
       return <></>;
     }
 
-    return <FormTitleIcon className={styles[`${prefixCls}-left-form-icon`]} />;
+    return (
+      <SLucideIcon
+        name="AlignLeft"
+        className={styles[`${prefixCls}-left-form-icon`]}
+      />
+    );
   }, [type]);
 
   // 标题的字体大小

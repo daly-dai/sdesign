@@ -33,9 +33,7 @@ const getDetailVal = (
   name?: string | string[],
   dataSource?: Record<string, any>,
 ) => {
-  if (!dataSource) return null;
-
-  if (!name) return null;
+  if (!dataSource || !name) return null;
 
   if (isString(name)) return dataSource?.[name];
 
@@ -129,7 +127,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
     if (!isArray(items) || items?.length === 0) return result;
 
     (items ?? [])?.forEach((item) => {
-      if (!item || item.hidden) return;
+      if (!item || item.hidden) return <></>;
 
       const { itemConfig, detailConfig } = dispatchItemConfig(
         item,

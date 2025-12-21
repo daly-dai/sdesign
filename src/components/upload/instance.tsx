@@ -1,4 +1,3 @@
-import { UploadOutlined } from '@ant-design/icons';
 import { Button, Upload } from 'antd';
 import React, { FC } from 'react';
 
@@ -6,6 +5,8 @@ import UploadItem from './components/render-item';
 import useBeforeUpload from './hooks/useBeforeUpload';
 import useUpload from './hooks/useUpload';
 import { SUploadProps } from './types';
+
+import { SLucideIcon } from '@dalydb/sdesign';
 
 const InternalUpload: FC<SUploadProps> = ({
   limit,
@@ -68,7 +69,9 @@ const InternalUpload: FC<SUploadProps> = ({
         );
       }}
     >
-      {props?.children ?? <Button icon={<UploadOutlined />}>上传文件</Button>}
+      {props?.children ?? (
+        <Button icon={<SLucideIcon name="Upload" />}>上传文件</Button>
+      )}
     </Upload>
   );
 };

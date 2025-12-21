@@ -1,8 +1,9 @@
-import { CaretDownFilled } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
 
 import { SCollapseProps } from './types';
+
+import { SLucideIcon } from '@dalydb/sdesign';
 
 const SCollapse = ({
   collapse,
@@ -28,7 +29,10 @@ const SCollapse = ({
       {...props}
     >
       {collapse ? '展开' : '收起'}
-      <CaretDownFilled rotate={collapse ? 0 : 180} />
+      <SLucideIcon
+        name="ChevronDown"
+        style={{ transform: `rotate(${collapse ? 0 : 180}deg)` }}
+      />
     </Button>
   );
 };

@@ -4,9 +4,8 @@ import React, { FC, memo, useMemo } from 'react';
 
 import { UploadItemProps } from './types';
 
-import SFile from '@dalydb/sdesign/components/file';
+import { SFile, SLucideIcon } from '@dalydb/sdesign';
 import { FileDataType } from '@dalydb/sdesign/components/file/types';
-import { CircleCloseIcon } from '@dalydb/sdesign/icons';
 
 const UploadItem: FC<UploadItemProps> = ({
   dataSource,
@@ -93,7 +92,9 @@ const UploadItem: FC<UploadItemProps> = ({
         fileIconMapField={fileIconMapField}
         canClickName={false}
       >
-        <CircleCloseIcon
+        <SLucideIcon
+          name="XCircle"
+          size="16px"
           style={{ position: 'relative', top: '1px' }}
           onClick={() => deleteUploaded(fileData.irsId)}
         />

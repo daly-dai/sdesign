@@ -1,6 +1,6 @@
 import React, { FC, memo, useMemo } from 'react';
 
-import { FILE_NAME_FIELD, FILE_URL_FIELD } from './constant';
+import { FILE_NAME_FIELD, FILE_URL_FIELD, fileTypeToIcon } from './constant';
 import useStyles from './styles/file.style';
 
 import {
@@ -8,10 +8,10 @@ import {
   FileIconMapFieldType,
   FileItemType,
   ReflectFile,
+  SLucideIcon,
   useComStyle,
 } from '@dalydb/sdesign';
 import { createCode, dispatchFileName } from '@dalydb/sdesign/utils/common';
-import { convertFileDataTypeToImg } from '@dalydb/sdesign/utils/fileList';
 
 const SFileInstance: FC<FileItemType> = memo(
   ({
@@ -77,6 +77,13 @@ const SFileInstance: FC<FileItemType> = memo(
           .at(-1) ?? ''
       );
     };
+
+    // 获取对应的SLucideIcon图标名称
+    const getFileIcon = () => {
+      const type = getFileType().toUpperCase();
+      return fileTypeToIcon?.[type] || 'File';
+    };
+
     const fileName = useMemo(() => {
       if (!fileData) return '';
 
@@ -102,9 +109,10 @@ const SFileInstance: FC<FileItemType> = memo(
         key={createCode()}
       >
         <div className={styles[`${prefixCls}-left`]}>
-          {convertFileDataTypeToImg(getFileType())({
-            className: styles[`${prefixCls}-left-icon`],
-          })}
+          <SLucideIcon
+            name={getFileIcon()}
+            className={styles[`${prefixCls}-left-icon`]}
+          />
 
           <div
             title={fileData[fileConfig.fileName as 'fileName']}

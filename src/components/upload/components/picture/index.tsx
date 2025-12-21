@@ -1,4 +1,3 @@
-import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload, UploadFile } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import React, { FC, useMemo, useState } from 'react';
@@ -7,6 +6,7 @@ import useBeforeUpload from '../../hooks/useBeforeUpload';
 import useUpload from '../../hooks/useUpload';
 import { SPictureProps } from '../../types';
 
+import { SLucideIcon } from '@dalydb/sdesign';
 import { getBase64 } from '@dalydb/sdesign/utils/common';
 
 const Picture: FC<SPictureProps> = ({
@@ -98,7 +98,7 @@ const Picture: FC<SPictureProps> = ({
   const renderContent = useMemo(() => {
     if (children) return children;
 
-    return <PlusOutlined />;
+    return <SLucideIcon name="Plus" />;
   }, [children]);
 
   return (
