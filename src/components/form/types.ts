@@ -87,6 +87,8 @@ export interface ItemsProps
   render?: RenderChildren<any>;
   // 是否为必填
   required?: string | boolean;
+  // 是否禁用
+  disabled?: boolean;
   // 只读模式
   readonly?: boolean;
   // 嵌套的数据结构
@@ -106,8 +108,8 @@ export interface SFormProps extends FormProps {
   columns?: number;
   // 是否为必填,提示文字
   required?: string | boolean;
-  onFinish?: (e: any) => void;
-  onReset?: (e: any) => void;
+  onFinish?: (e?: any) => void;
+  onReset?: (e?: any) => void;
   // 只读模式
   readonly?: boolean;
   // 嵌套的数据结构

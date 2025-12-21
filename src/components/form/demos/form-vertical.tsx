@@ -1,6 +1,6 @@
 /**
  * title: 基本使用
- * description:
+ * description: vertical layout
  */
 import { Button, Form, Space } from 'antd';
 import React from 'react';
@@ -81,7 +81,13 @@ export default () => {
   };
   return (
     <>
-      <SForm name="basicName" items={items} columns={3} form={form} />
+      <SForm
+        layout="vertical"
+        name="basicName"
+        items={items}
+        columns={3}
+        form={form}
+      />
       <Space>
         <Button onClick={handleReset}>重置</Button>
         <Button type="primary" onClick={handleSubmit}>

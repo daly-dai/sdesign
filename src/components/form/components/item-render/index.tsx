@@ -25,6 +25,7 @@ const ItemRender: FC<ItemsProps> = memo(
     readonly,
     formName,
     children,
+    disabled,
     ...restProps
   }) => {
     // 获取默认的配置
@@ -33,11 +34,7 @@ const ItemRender: FC<ItemsProps> = memo(
     }, [type, readonly]);
 
     // 合并之后的属性
-    const formItemProps = useMemo(() => {
-      return {
-        ...restProps,
-      };
-    }, [restProps]);
+    const formItemProps = restProps;
 
     // 生成表单校验规则
     const itemRules = useMemo(() => {
@@ -100,7 +97,12 @@ const ItemRender: FC<ItemsProps> = memo(
           {customCom ? (
             (customCom as ReactNode)
           ) : (
-            <FormField type={type as any} {...defaultConfig} {...fieldProps} />
+            <FormField
+              type={type as any}
+              {...defaultConfig}
+              disabled={disabled}
+              {...fieldProps}
+            />
           )}
         </Form.Item>
       </SErrorBoundary>

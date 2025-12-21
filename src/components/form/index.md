@@ -7,51 +7,53 @@ group:
 
 # SForm 表单组件
 
-## 搜索组件
-
-### 基础使用
+## 基础使用
 
 <code src="./demos/form.tsx"></code>
 
-### layout inline 布局
+## layout vertical 布局
+
+<code src="./demos/form-vertical.tsx"></code>
+
+## layout inline 布局
 
 <code src="./demos/form-inline.tsx"></code>
 
-### 占位类型
+## 占位类型
 
 <code src="./demos/placeholder.tsx"></code>
 
-### 嵌套的数据结构
+## 嵌套的数据结构
 
 <code src="./demos/form-name.tsx"></code>
 
 <code src="./demos/form-group-name.tsx"></code>
 
-### 表单项依赖
+## 表单项依赖
 
 <code src="./demos/dependency.tsx"></code>
 
-### 预置正则校验
+## 预置正则校验
 
 <code src="./demos/reg.tsx"></code>
 
-### 表单项隐藏模式
+## 表单项隐藏模式
 
 <code src="./demos/form-hidden.tsx"></code>
 
-### 只读模式
+## 只读模式
 
 <code src="./demos/form-readonly.tsx"></code>
 
 <code src="./demos/formItem.tsx"></code>
 
-### SForm.Group
+## SForm.Group
 
 <code src="./demos/group.tsx"></code>
 
 <code src="./demos/customGroupContainer.tsx"></code>
 
-### SForm.Search
+## SForm.Search
 
 <code src="./demos/search.tsx"></code>
 
@@ -121,6 +123,7 @@ group:
 | render     | 自定义渲染，只有 type 为 dependency 时生效 | ReactNode                                                               |        |
 | readonly   | 是否为只读模式                             | boolean                                                                 | false  |
 | formName   | 传入后表单的数据为嵌套的数据格式           | string                                                                  |        |
+| disabled   | 是否禁用                                   | boolean                                                                 | false  |
 
 ## type 类型及其相关配置
 

@@ -124,9 +124,7 @@ export function getDefaultConfig(
   type: FormItemType = 'input',
   readonly?: boolean,
 ) {
-  if (!type) return {};
-
-  if (!DEFAULT_CONFIG_MAP?.[type]) return {};
+  if (!type || !DEFAULT_CONFIG_MAP?.[type]) return {};
 
   if (!readonly) return DEFAULT_CONFIG_MAP?.[type]?.default ?? {};
 
