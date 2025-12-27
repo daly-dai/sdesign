@@ -11,7 +11,7 @@ export interface DataType {
   render: () => void;
 }
 
-const RenderTypes = tuple('datetime', 'date');
+const RenderTypes = tuple('datetime', 'date', 'ellipsis');
 export type RenderType = (typeof RenderTypes)[number];
 
 type SColumn<RecordType = any> = (

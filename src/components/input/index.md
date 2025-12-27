@@ -1,7 +1,7 @@
 ---
   toc: content
   group:
-    title: 数据录入
+    title: 基础组件
     order: 2
 ---
 

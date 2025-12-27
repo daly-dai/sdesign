@@ -1,12 +1,26 @@
-import { Table, Typography } from 'antd';
+import { Table } from 'antd';
 import dayjs from 'dayjs';
 import { isString } from 'lodash';
 import React, { FC, useContext, useMemo } from 'react';
 
 import { ConfigContext } from '../config-provider';
+import STextEllipsis from '../text-ellipsis';
 
-import { cellStyle, convertToText } from './constant';
+import { convertToText } from './constant';
 import { SColumnsType, STableProps } from './types';
+
+const renderTime = (
+  time: string | number | Date,
+  format = 'YYYY-MM-DD HH:mm:ss',
+) => {
+  // 通过dayjs 校验时间是否合法
+  if (!dayjs(time).isValid()) {
+    return time ?? '';
+  }
+
+  // 格式化时间
+  return dayjs(time).format(format);
+};
 
 const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
   const { globalDict } = useContext(ConfigContext);
@@ -46,19 +60,23 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
 
   // 默认添加table cell单行展示
   const getColumnsNew = (columns: SColumnsType<any>) => {
-    // 是否存在固定列
-    const isFixed = columns?.some((item: any) => item.fixed) && props?.scroll;
     return (columns || []).map((col: any) => {
       if (isString(col.render)) {
         if (col.render === 'datetime') {
           col.render = (t: any) => {
-            return dayjs(t).format('YYYY-MM-DD HH:mm:ss');
+            return renderTime(t, 'YYYY-MM-DD HH:mm:ss');
           };
         }
 
         if (col.render === 'date') {
           col.render = (t: any) => {
-            return dayjs(t).format('YYYY-MM-DD');
+            return renderTime(t, 'YYYY-MM-DD');
+          };
+        }
+
+        if (col.render === 'ellipsis' && col?.width) {
+          col.render = (t: string) => {
+            return <STextEllipsis width={col?.width}>{t}</STextEllipsis>;
           };
         }
 
@@ -66,7 +84,7 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
       }
 
       // biome-ignore lint/complexity/noExtraBooleanCast: <explanation>
-      if (!!col?.render) return { ...col };
+      if (!!col?.render) return col;
 
       return {
         ...col,
@@ -80,18 +98,7 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
             text = dictData?.[text] || text;
           }
 
-          return (
-            <Typography.Text
-              style={
-                col?.width
-                  ? { ...cellStyle, width: !isFixed ? col?.width : '' }
-                  : { width: !isFixed ? col?.width : '' }
-              }
-              ellipsis={{ tooltip: text }}
-            >
-              {text}
-            </Typography.Text>
-          );
+          return <>{text}</>;
         },
       };
     });
