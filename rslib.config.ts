@@ -1,23 +1,37 @@
 import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { defineConfig } from '@rslib/core';
+import { defineConfig, rspack } from '@rslib/core';
 
 export default defineConfig({
   source: {
     entry: {
       index: ['./src/**'],
     },
-    exclude: ['**/demo/**', '**/demos/**', '**/*.md'],
+    // exclude: [/\.md$/, /\/demo\//, /\/demos\//],
+    // exclude: ['**/demo/*.tsx', '**/demos/*.tsx', '**/*.md'],
   },
   tools: {
-    rspack: (config, { rspack }) => {
+    rspack: (config, {}) => {
+      config.module?.rules?.push({
+        test: /\.md$/, // 忽略 md 文件
+        // 忽略所有md文件,/demo/demos/docs目录下的所有文件
+        exclude: [/\.md$/, /\/demo\//, /\/demos\//],
+        loader: 'ignore-loader',
+      });
+
       config.plugins?.push(
         new rspack.IgnorePlugin({
           // 过滤所有md文件和/demo或者demos目录下的所有文件
           resourceRegExp: /\.md$/, // 忽略 md 文件
-          contextRegExp: /(demo|demos|docs)/, // 忽略 demo/demos 目录下的所有文件
         }),
       );
+
+      config.plugins?.push(
+        new rspack.IgnorePlugin({
+          resourceRegExp: /\/(demo|demos)\/.*/, // 匹配任意路径下的 demo/ 或 demos/ 子目录
+        }),
+      );
+
       return config;
     },
   },
