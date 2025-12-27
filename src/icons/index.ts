@@ -1,4 +1,3 @@
-import ArrowLeftIcon from './ArrowLeftIcon';
 import ErrorImgIcon from './ErrorImgIcon';
 import FormTitleIcon from './FormTitleIcon';
 import LoadErrorIcon from './LoadErrorIcon';
@@ -9,7 +8,6 @@ import NoPageIcon from './NoPageIcon';
 import NoPermissionIcon from './NoPermissionIcon';
 
 export {
-  ArrowLeftIcon,
   ErrorImgIcon,
   FormTitleIcon,
   LoadErrorIcon,

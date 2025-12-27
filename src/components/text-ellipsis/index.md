@@ -11,9 +11,7 @@ group:
 
 ### 文本省略组件
 
-<code src="./demos/single.tsx"></code>
-
-<code src="./demos/multi.tsx"></code>
+<code src="./demos/index.tsx"></code>
 
 ## API
 
