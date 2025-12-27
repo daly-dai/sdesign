@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SButtonGroup } from '@dalydb/sdesign';
+import { SButton } from '@dalydb/sdesign';
 
 // 自定义间距
 export default () => {
@@ -8,7 +8,7 @@ export default () => {
     <div>
       <div style={{ marginBottom: '20px' }}>
         <strong>基础类型 - 自定义间距：</strong>
-        <SButtonGroup
+        <SButton.Group
           spaceProps={{ size: 20 }}
           items={[
             { children: '按钮1', type: 'primary' },
@@ -19,7 +19,7 @@ export default () => {
       </div>
       <div>
         <strong>自定义类型 - 自定义间距：</strong>
-        <SButtonGroup
+        <SButton.Group
           spaceProps={{ size: 20 }}
           items={[{ type: 'save' }, { type: 'cancel' }, { type: 'reset' }]}
         />

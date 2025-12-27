@@ -1,11 +1,10 @@
 import { Space } from 'antd';
 import React, { FC } from 'react';
 
-import SButton from '../button';
+import SButton from './instance';
+import { SButtonsProps } from './types';
 
-import { SButtonGroupProps } from './types';
-
-const SButtonGroup: FC<SButtonGroupProps> = ({
+const SButtonGroup: FC<SButtonsProps> = ({
   items = [],
   size = 'middle',
   disabled = false,

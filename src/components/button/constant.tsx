@@ -47,7 +47,7 @@ const defaultConfig: Record<SButtonType, Partial<ButtonProps>> = {
   delete: {
     type: 'default',
     danger: true,
-    icon: <LucideIcon name="Delete" />,
+    icon: <LucideIcon name="Trash" />,
     children: '删除',
   },
   create: {

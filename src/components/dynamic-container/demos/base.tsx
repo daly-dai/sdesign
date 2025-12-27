@@ -6,9 +6,9 @@ interface CustomProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
-function Custom({ children, ...props }: CustomProps) {
+const Custom: React.FC<CustomProps> = ({ children, ...props }) => {
   return <div {...props}>{children}</div>;
-}
+};
 
 export default () => {
   return (

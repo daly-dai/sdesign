@@ -6,6 +6,6 @@ export default defineConfig({
     output: 'dist',
     ignores: ['**/tests/**', '**/_tests_/**'],
   },
-  cjs: { output: 'dist', ignores: ['**/tests/**', '**/_tests_/**'] },
+  // cjs: { output: 'dist', ignores: ['**/tests/**', '**/_tests_/**'] },
   sourcemap: true,
 });

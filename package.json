@@ -28,6 +28,7 @@
   "scripts": {
     "biome": "biome check --write src",
     "build": "rslib build",
+    "build:f": "father build",
     "build:watch": "father dev",
     "dev": "dumi dev",
     "docs:build": "dumi build",

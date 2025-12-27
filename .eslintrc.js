@@ -34,8 +34,6 @@ module.exports = {
             position: 'after',
           },
         ],
-        // 是否开启独特组，用于区分自定义规则分组和其他规则分组
-        distinctGroup: true,
         // 每个分组之间换行
         'newlines-between': 'always',
         // 相同分组排列规则 按字母升序排序

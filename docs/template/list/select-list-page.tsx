@@ -73,7 +73,7 @@ export default () => {
     <>
       <STitle>模板标题</STitle>
       <SForm.Search
-        hasCardBg
+        isCard
         items={formItems}
         form={form}
         onFinish={getPageData}

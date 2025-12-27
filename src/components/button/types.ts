@@ -1,4 +1,5 @@
-import { ButtonProps } from 'antd';
+import { ButtonProps, Space } from 'antd';
+import { ReactNode } from 'react';
 
 import { tuple } from '@dalydb/sdesign/utils';
 
@@ -33,4 +34,18 @@ export type SButtonType = (typeof SButtonTypes)[number];
 
 export interface SButtonProps extends Omit<ButtonProps, 'type'> {
   type?: SButtonType;
+}
+
+export interface SButtonsItem extends Partial<SButtonProps> {
+  key?: React.Key;
+  visible?: boolean;
+  render?: ReactNode | (() => ReactNode);
+}
+
+export interface SButtonsProps {
+  items?: SButtonsItem[];
+  size?: SButtonProps['size'];
+  spaceProps?: React.ComponentProps<typeof Space>;
+  disabled?: boolean;
+  loading?: boolean;
 }

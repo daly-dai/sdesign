@@ -1,17 +1,14 @@
-import { Button } from 'antd';
-import React, { FC } from 'react';
+import SButtonGroup from './Buttons';
+import InstanceButton from './instance';
 
-import defaultConfig from './constant';
-import { SButtonProps } from './types';
+type InternalSButtonType = typeof InstanceButton;
 
-const SButton: FC<SButtonProps> = ({
-  type = 'default',
-  size = 'middle',
-  ...restProps
-}) => {
-  const config = type ? defaultConfig[type] : {};
-
-  return <Button size={size} {...config} {...restProps} />;
+export type SButtonType = InternalSButtonType & {
+  Group: typeof SButtonGroup;
 };
+
+const SButton: SButtonType = InstanceButton as SButtonType;
+
+SButton.Group = SButtonGroup;
 
 export default SButton;

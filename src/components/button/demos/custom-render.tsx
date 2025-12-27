@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import React from 'react';
 
-import { SButtonGroup } from '@dalydb/sdesign';
+import { SButton } from '@dalydb/sdesign';
 
 // 自定义渲染
 export default () => {
@@ -9,7 +9,7 @@ export default () => {
     <div>
       <div style={{ marginBottom: '20px' }}>
         <strong>基础类型与自定义渲染：</strong>
-        <SButtonGroup
+        <SButton.Group
           items={[
             { children: '普通按钮', type: 'primary' },
             {
@@ -34,7 +34,7 @@ export default () => {
       </div>
       <div>
         <strong>自定义类型与自定义渲染：</strong>
-        <SButtonGroup
+        <SButton.Group
           items={[
             { type: 'save' },
             {

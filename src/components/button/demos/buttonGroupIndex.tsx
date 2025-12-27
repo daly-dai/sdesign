@@ -1,7 +1,7 @@
 import { Divider } from 'antd';
 import React from 'react';
 
-import { SButtonGroup } from '@dalydb/sdesign';
+import { SButton } from '@dalydb/sdesign';
 
 // 按钮组组件演示
 export default () => {
@@ -10,7 +10,7 @@ export default () => {
       <h2>按钮组组件演示</h2>
 
       <h3>基本用法</h3>
-      <SButtonGroup
+      <SButton.Group
         items={[
           {
             children: '按钮1',

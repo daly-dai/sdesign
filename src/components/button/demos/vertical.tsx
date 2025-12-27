@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SButtonGroup } from '@dalydb/sdesign';
+import { SButton } from '@dalydb/sdesign';
 
 // 垂直排列
 export default () => {
@@ -8,7 +8,7 @@ export default () => {
     <div>
       <div style={{ marginBottom: '20px' }}>
         <strong>基础类型 - 垂直排列：</strong>
-        <SButtonGroup
+        <SButton.Group
           spaceProps={{ direction: 'vertical' }}
           items={[
             { children: '按钮1', type: 'primary' },
@@ -19,7 +19,7 @@ export default () => {
       </div>
       <div>
         <strong>自定义类型 - 垂直排列：</strong>
-        <SButtonGroup
+        <SButton.Group
           spaceProps={{ direction: 'vertical' }}
           items={[{ type: 'save' }, { type: 'cancel' }, { type: 'reset' }]}
         />

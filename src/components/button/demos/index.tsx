@@ -1,3 +1,23 @@
+/**
+ * title: 基础使用
+ * description: 展示 SButton 组件的基础使用，自定义的类型有save、cancel、reset、upload、download、export、import、delete、view、
+  back、
+  next、
+  previous、
+  finish、
+  create、
+  edit、
+  confirm、
+  close、
+  refresh、
+  default、
+  primary、
+  dashed、
+  link、
+  text、
+  search、
+ */
+
 import { Space, Typography } from 'antd';
 import { ButtonType } from 'antd/es/button';
 import React from 'react';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SButtonGroup } from '@dalydb/sdesign';
+import { SButton } from '@dalydb/sdesign';
 
 // 自定义按钮显示
 export default () => {
@@ -8,7 +8,7 @@ export default () => {
     <div>
       <div style={{ marginBottom: '20px' }}>
         <strong>基础类型 - 可见性控制：</strong>
-        <SButtonGroup
+        <SButton.Group
           items={[
             { children: '显示按钮', type: 'primary' },
             { children: '隐藏按钮', visible: false },
@@ -18,7 +18,7 @@ export default () => {
       </div>
       <div>
         <strong>自定义类型 - 可见性控制：</strong>
-        <SButtonGroup
+        <SButton.Group
           items={[
             { type: 'save' },
             { type: 'cancel', visible: false },

@@ -8,6 +8,8 @@ module.exports = {
   proseWrap: 'never',
   singleQuote: true,
   trailingComma: 'all',
+  // 过滤文件夹node_modules
+  ignorePath: ['**/node_modules/**'],
   overrides: [
     {
       files: '*.md',
