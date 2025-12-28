@@ -16,6 +16,7 @@
   link、
   text、
   search、
+  t-link
  */
 
 import { Space, Typography } from 'antd';
