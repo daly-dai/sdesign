@@ -7,8 +7,6 @@ export default defineConfig({
     entry: {
       index: ['./src/**'],
     },
-    // exclude: [/\.md$/, /\/demo\//, /\/demos\//],
-    // exclude: ['**/demo/*.tsx', '**/demos/*.tsx', '**/*.md'],
   },
   tools: {
     rspack: (config, {}) => {
@@ -75,22 +73,6 @@ export default defineConfig({
     target: 'web',
     distPath: 'dist',
     sourceMap: true,
-    externals: [
-      'react',
-      'react-dom',
-      'antd',
-      'dayjs',
-      'lucide-react',
-      '@ant-design/icons',
-    ],
   },
-  plugins: [
-    pluginReact(),
-    pluginLess(),
-    // new IgnorePlugin({
-    //   // 过滤所有md文件和/demo或者demos目录下的所有文件
-    //   resourceRegExp: /\.md$/,
-    //   contextRegExp: /\/(demo|demos)$/,
-    // }),
-  ],
+  plugins: [pluginReact(), pluginLess()],
 });

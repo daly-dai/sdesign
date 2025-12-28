@@ -1,6 +1,6 @@
 {
   "name": "@dalydb/sdesign",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "@dalydb/PC端组件库",
   "keywords": [
     "react",
@@ -27,8 +27,7 @@
   ],
   "scripts": {
     "biome": "biome check --write src",
-    "build": "rslib build",
-    "build:f": "father build",
+    "build": "father build",
     "build:watch": "father dev",
     "dev": "dumi dev",
     "docs:build": "dumi build",
