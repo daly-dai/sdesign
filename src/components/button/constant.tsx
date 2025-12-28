@@ -5,6 +5,13 @@ import { SButtonType } from '../button/types';
 import LucideIcon from '../lucide-icon';
 
 const defaultConfig: Record<SButtonType, Partial<ButtonProps>> = {
+  't-link': {
+    type: 'link',
+    children: 't-link',
+    style: {
+      padding: 0,
+    },
+  },
   primary: {
     type: 'primary',
   },

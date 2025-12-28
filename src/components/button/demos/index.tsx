@@ -58,9 +58,13 @@ export default () => {
 
       <div style={{ marginBottom: '30px' }}>
         <Text strong>扩展类型：</Text>
-        <Space wrap style={{ marginTop: '10px' }}>
+        <Space wrap size="large" style={{ marginTop: '10px' }}>
           {extendedTypes.map((type) => (
-            <SButton key={type} type={type as any} />
+            <SButton
+              key={type}
+              type={type as any}
+              style={{ marginBottom: 10 }}
+            />
           ))}
         </Space>
       </div>

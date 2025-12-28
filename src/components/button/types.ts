@@ -28,6 +28,7 @@ const SButtonTypes = tuple(
   'link',
   'text',
   'search',
+  't-link',
 );
 
 export type SButtonType = (typeof SButtonTypes)[number];

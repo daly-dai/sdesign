@@ -8,5 +8,5 @@ export default defineConfig({
   },
 
   // cjs: { output: 'dist', ignores: ['**/tests/**', '**/_tests_/**'] },
-  sourcemap: true,
+  // sourcemap: true,
 });
