@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["@testing-library/jest-dom"],
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
