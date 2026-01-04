@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, Space } from 'antd';
+import { Button, Col, Flex, Form, Row } from 'antd';
 import React, { FC, memo, useMemo } from 'react';
 
 import { SearchProps, SFormItems } from '../../types';
@@ -6,6 +6,7 @@ import ItemRender from '../item-render';
 
 import useStyles from './index.style';
 
+import { ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import SCollapse from '@dalydb/sdesign/components/collapse';
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import { useComStyle } from '@dalydb/sdesign/hooks';
@@ -112,13 +113,19 @@ const Search: FC<SearchProps> = memo(
               <div>
                 {actionNode ?? (
                   <div className={actionAlign}>
-                    <Space style={{ columnGap: '12px' }}>
-                      {renderCollapse}
-                      <Button htmlType="reset">重置</Button>
-                      <Button type="primary" htmlType="submit">
+                    <Flex gap={12}>
+                      <Button
+                        icon={<SearchOutlined />}
+                        type="primary"
+                        htmlType="submit"
+                      >
                         查询
                       </Button>
-                    </Space>
+                      <Button icon={<ReloadOutlined />} htmlType="reset">
+                        重置
+                      </Button>
+                      {renderCollapse}
+                    </Flex>
                   </div>
                 )}
               </div>

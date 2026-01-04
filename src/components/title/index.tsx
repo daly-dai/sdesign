@@ -7,7 +7,7 @@ import * as tmp from 'react-router';
 
 import { BASE_FONTSIZE_MAP } from './constant';
 import useStyles from './index.style';
-import { PageTitleProps } from './types';
+import { STitleProps } from './types';
 
 import { SLucideIcon } from '@dalydb/sdesign';
 import { useComStyle } from '@dalydb/sdesign/hooks';
@@ -15,7 +15,7 @@ import { useComStyle } from '@dalydb/sdesign/hooks';
 // ignore waring `"export 'useNavigate' (imported as 'rc') was not found in 'react-router'`
 const rc = tmp as any;
 
-const STitle: React.FC<PageTitleProps> = (props) => {
+const STitle: React.FC<STitleProps> = (props) => {
   const { styles, cx, prefixCls, token } = useComStyle({
     prefixCls: 'title',
     useStylesHook: useStyles,

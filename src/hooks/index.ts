@@ -7,7 +7,10 @@ import useNumInput from './useNumInput';
 import useScale from './useScale';
 import useSearchLayout from './useSearchLayout';
 import useSearchTable from './useSearchTable';
+import useSTable from './useSTable';
 import useStepForm from './useStepForm';
+
+export * from './useSTable/types';
 
 export {
   useComStyle,
@@ -16,6 +19,7 @@ export {
   useFrameAnimation,
   useGetDictData,
   useNumInput,
+  useSTable,
   useScale,
   useSearchLayout,
   useSearchTable,

@@ -117,7 +117,12 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
   }, [columns, globalDict]);
 
   return (
-    <Table {...props} pagination={pagination} columns={columnsCell || []} />
+    <Table
+      size="small"
+      {...props}
+      pagination={pagination}
+      columns={columnsCell || []}
+    />
   );
 };
 

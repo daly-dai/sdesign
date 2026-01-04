@@ -6,7 +6,7 @@ const TitleTypes = tuple('page', 'table', 'form');
 
 export type TitleType = (typeof TitleTypes)[number];
 
-export interface PageTitleProps
+export interface STitleProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'prefix'> {
   // 前缀
   prefix?: ReactNode;

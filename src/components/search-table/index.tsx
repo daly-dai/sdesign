@@ -1,89 +1,66 @@
-import { Form, Spin } from 'antd';
-import React, { FC, useMemo } from 'react';
+import { Form } from 'antd';
+import React, { FC } from 'react';
 
 import SCard from '../card';
 import SForm from '../form';
 import STable from '../table';
 import STitle from '../title';
 
+import { useSTable } from '@dalydb/sdesign/hooks';
 import { SearchTableProps } from './types';
-
-import useSearchTable from '@dalydb/sdesign/hooks/useSearchTable';
 
 const mockRequest = async () => {
   return {
-    dataList: [],
-    pageNum: 1,
+    list: [],
+    current: 1,
     pageSize: 10,
     total: 0,
   };
 };
 
 const SSearchTable: FC<SearchTableProps> = ({
-  title,
-  titleAction,
-  titleProps,
-  service,
-  extraParams,
-  form,
-  searchItems,
-  columns,
+  headTitle,
+  tableTitle,
   serviceProps,
   tableProps,
-  dispatchParams,
-  handleDataSource,
   formProps,
 }) => {
   const [searchForm] = Form.useForm();
 
-  const formInstance = useMemo(() => {
-    return form ?? searchForm;
-  }, [searchForm, form]);
+  const { search, tableProps: tablePropsFromHook } = useSTable(
+    serviceProps?.service ?? mockRequest,
+    {
+      ...serviceProps?.serviceProps,
+      form: serviceProps?.serviceProps?.form ?? searchForm,
+    },
+  );
 
-  const serviceInstance = useMemo(() => {
-    return service ?? mockRequest;
-  }, [service]);
-
-  const { getPageData, dataSource, loading, handleReset, pagination } =
-    useSearchTable({
-      // 接口地址需自定义
-      requestFn: serviceInstance,
-      form: formInstance,
-      serviceProps,
-      extraParams,
-      dispatchParams,
-    });
-
-  const tableData = useMemo(() => {
-    if (!dataSource) return [];
-
-    return handleDataSource ? handleDataSource(dataSource) : dataSource;
-  }, [handleDataSource, dataSource]);
+  console.log(tablePropsFromHook, 'tablePropsFromHook');
 
   return (
     <>
+      <STitle type="page" {...headTitle} />
+
       <SForm.Search
-        items={searchItems}
-        form={form}
-        onFinish={getPageData}
-        onReset={handleReset}
+        onFinish={search.submit}
+        onReset={search.reset}
         {...formProps}
       />
 
       <SCard>
-        <STitle type="table" {...titleProps} actionNode={titleAction}>
-          {title ?? '查询结果'}
-        </STitle>
+        <STitle type="table" {...tableTitle} />
 
-        <Spin spinning={loading}>
-          <STable
-            isSeq
-            columns={columns}
-            dataSource={tableData}
-            pagination={pagination}
-            {...tableProps}
-          />
-        </Spin>
+        <STable
+          isSeq
+          {...tablePropsFromHook}
+          pagination={{
+            size: 'small',
+            showTotal: (total) => `共 ${total} 条`,
+            showSizeChanger: true,
+            ...tablePropsFromHook.pagination,
+          }}
+          {...tableProps}
+        />
       </SCard>
     </>
   );
