@@ -7,7 +7,7 @@ import { SDetailGroupProps, SDetailProps } from '../../types';
 
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import STitle from '@dalydb/sdesign/components/title';
-import { PageTitleProps } from '@dalydb/sdesign/components/title/types';
+import { STitleProps } from '@dalydb/sdesign/components/title/types';
 import { createCode } from '@dalydb/sdesign/utils';
 
 const DetailGroup: FC<SDetailGroupProps> = ({ dataSource, items }) => {
@@ -16,7 +16,7 @@ const DetailGroup: FC<SDetailGroupProps> = ({ dataSource, items }) => {
   // 渲染标题
   const renderTitle = (
     title: string | ReactNode,
-    titleProps?: Omit<PageTitleProps, 'title'>,
+    titleProps?: Omit<STitleProps, 'title'>,
   ) => {
     if (!title) return '';
 

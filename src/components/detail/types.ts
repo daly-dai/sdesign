@@ -2,7 +2,7 @@ import { DescriptionsProps } from 'antd';
 import { DescriptionsItemType } from 'antd/es/descriptions';
 import React, { ReactNode } from 'react';
 
-import { FileListProps, PageTitleProps } from '@dalydb/sdesign';
+import { FileListProps, STitleProps } from '@dalydb/sdesign';
 import { tuple } from '@dalydb/sdesign/utils/types';
 
 const ItemTypes = tuple(
@@ -63,7 +63,7 @@ export interface SDetailProps
 
 export interface SDetailGroupItem {
   groupTitle?: string | ReactNode;
-  groupTitleProps?: Omit<PageTitleProps, 'title'>;
+  groupTitleProps?: Omit<STitleProps, 'title'>;
   groupContainer?: React.ComponentType<any>;
   groupItems?: SDetailProps[];
   items?: SDetailItem[];

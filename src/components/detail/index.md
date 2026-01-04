@@ -68,7 +68,7 @@ group:
 | 属性名          | 描述                 | 类型                | 默认值 |
 | --------------- | -------------------- | ------------------- | ------ |
 | groupTitle      | 分组标题             | string              | ""     |
-| groupTitleProps | 标题配置项           | PageTitleProps      |        |
+| groupTitleProps | 标题配置项           | STitleProps         |        |
 | groupContainer  | 分组容器             | ReactNode           |        |
 | groupItems      | 分组详情配置项       | SDetailProps        |        |
 | items           | 单个详情配置项       | SDetailItem[]       |        |
