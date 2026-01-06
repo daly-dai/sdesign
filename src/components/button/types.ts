@@ -35,6 +35,7 @@ export type SButtonType = (typeof SButtonTypes)[number];
 
 export interface SButtonProps extends Omit<ButtonProps, 'type'> {
   type?: SButtonType;
+  tLink?: boolean;
 }
 
 export interface SButtonsItem extends Partial<SButtonProps> {

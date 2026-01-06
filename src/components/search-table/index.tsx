@@ -51,7 +51,6 @@ const SSearchTable: FC<SearchTableProps> = ({
         <STitle type="table" {...tableTitle} />
 
         <STable
-          isSeq
           {...tablePropsFromHook}
           pagination={{
             size: 'small',

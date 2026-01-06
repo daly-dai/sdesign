@@ -83,7 +83,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
     }
 
     return title;
-  }, []);
+  }, [title]);
 
   /**
    * 处理传入的配置项
@@ -126,25 +126,25 @@ const DetailInstance: React.FC<SDetailProps> = ({
 
     if (!isArray(items) || items?.length === 0) return result;
 
-    (items ?? [])?.forEach((item) => {
-      if (!item || item.hidden) return <></>;
+    (items ?? [])
+      ?.filter((item) => !item.hidden)
+      .forEach((item) => {
+        const { itemConfig, detailConfig } = dispatchItemConfig(
+          item,
+          memoizedDataSource,
+        );
 
-      const { itemConfig, detailConfig } = dispatchItemConfig(
-        item,
-        memoizedDataSource,
-      );
-
-      result.push({
-        ...itemConfig,
-        children: (
-          <DetailItem
-            key={createCode(6)}
-            dataSource={memoizedDataSource}
-            {...omit(detailConfig, ['key'])}
-          />
-        ),
+        result.push({
+          ...itemConfig,
+          children: (
+            <DetailItem
+              key={createCode(6)}
+              dataSource={memoizedDataSource}
+              {...omit(detailConfig, ['key'])}
+            />
+          ),
+        });
       });
-    });
 
     return result;
   }, [items]);

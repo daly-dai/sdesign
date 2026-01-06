@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import dayjs from 'dayjs';
 import { isString } from 'lodash';
-import React, { FC, useContext, useMemo } from 'react';
+import React, { FC, memo, useContext, useMemo } from 'react';
 
 import { ConfigContext } from '../config-provider';
 import STextEllipsis from '../text-ellipsis';
@@ -22,7 +22,12 @@ const renderTime = (
   return dayjs(time).format(format);
 };
 
-const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
+const STable: FC<STableProps> = ({
+  isSeq = false,
+  pagination,
+  columns,
+  ...props
+}) => {
   const { globalDict } = useContext(ConfigContext);
 
   const getDictDataByKey = useMemo(
@@ -126,4 +131,4 @@ const STable: FC<STableProps> = ({ isSeq, pagination, columns, ...props }) => {
   );
 };
 
-export default STable;
+export default memo(STable);

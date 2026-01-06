@@ -1,16 +1,16 @@
 import { ButtonProps } from 'antd';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { SButtonType } from '../button/types';
 import LucideIcon from '../lucide-icon';
+
+export const tLinkStyle: CSSProperties = { padding: 'unset', margin: 'unset' };
 
 const defaultConfig: Record<SButtonType, Partial<ButtonProps>> = {
   't-link': {
     type: 'link',
     children: 't-link',
-    style: {
-      padding: 0,
-    },
+    style: tLinkStyle,
   },
   primary: {
     type: 'primary',

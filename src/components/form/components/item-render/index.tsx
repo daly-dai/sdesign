@@ -49,9 +49,7 @@ const ItemRender: FC<ItemsProps> = memo(
 
     // FormItem的name
     const itemName = useMemo(() => {
-      if (!formName) return name;
-
-      if (!name) return name;
+      if (!formName || !name) return name;
 
       return [formName, name];
     }, [name, formName]);

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { NoPageIcon } from '@dalydb/sdesign/icons';
 import { Button } from 'antd';
 import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
@@ -159,27 +160,29 @@ export default () => {
   };
 
   return (
-    <SSearchTable
-      headTitle={headTitle}
-      tableTitle={tableTitle}
-      serviceProps={{
-        service: mockRequest,
-        serviceProps: {
-          defaultPageSize: 10,
-        },
-      }}
-      formProps={{
-        items: formItems,
-        columns: 3,
-        showExpand: true,
-        defaultExpand: false,
-      }}
-      tableProps={{
-        isSeq: true,
-        columns: columns,
-        rowKey: 'id',
-        scroll: { x: 1200 },
-      }}
-    />
+    <>
+      <NoPageIcon />
+      <SSearchTable
+        headTitle={headTitle}
+        tableTitle={tableTitle}
+        serviceProps={{
+          service: mockRequest,
+          serviceProps: {
+            defaultPageSize: 10,
+          },
+        }}
+        formProps={{
+          items: formItems,
+          columns: 3,
+          showExpand: true,
+          defaultExpand: false,
+        }}
+        tableProps={{
+          columns,
+          rowKey: 'id',
+          scroll: { x: 1200 },
+        }}
+      />
+    </>
   );
 };
