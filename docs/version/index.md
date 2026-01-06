@@ -1,5 +1,24 @@
 # 版本更新记录
 
+## 1.1.5 (2026-01-06)
+
+### 🌟 新特性
+
+- `feat(useSTable)`: 添加分页字段映射及参数转换支持
+
+### 🔧 优化
+
+- `refactor(button)`: 优化 SButton 组件样式与类型支持
+- `refactor(detail)`: 将 PageTitleProps 替换为 STitleProps
+
+### 🐛 修复
+
+### 📚 文档
+
+### 🗑️ 移除
+
+- `build`: 移除 jest-dom 类型声明
+
 ## 1.1.4 (2026-01-04)
 
 ### 🌟 新特性
