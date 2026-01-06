@@ -8,9 +8,13 @@ import type {
 export interface STableOptions<TData extends Data, TParams extends Params>
   extends AntdTableOptions<TData, TParams> {
   /**
-   * 自定义分页参数转换函数
+   * 分页参数字段映射，默认为 { current: 'current', pageSize: 'pageSize' }
    */
-  transformPaginationParams?: (pagination: any) => any;
+  paginationFields?: {
+    current?: string;
+    pageSize?: string;
+    total?: string;
+  };
 
   /**
    * 对所有请求参数进行二次处理
