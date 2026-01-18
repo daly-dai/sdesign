@@ -3,7 +3,8 @@ import { ReactNode } from 'react';
 
 import { tuple } from '@dalydb/sdesign/utils';
 
-const SButtonTypes = tuple(
+// 操作按钮类型
+export const SButtonActionTypes = tuple(
   'save',
   'cancel',
   'reset',
@@ -22,20 +23,37 @@ const SButtonTypes = tuple(
   'confirm',
   'close',
   'refresh',
-  'default',
-  'primary',
-  'dashed',
-  'link',
-  'text',
   'search',
   't-link',
 );
 
-export type SButtonType = (typeof SButtonTypes)[number];
+export type SButtonActionType = (typeof SButtonActionTypes)[number];
 
-export interface SButtonProps extends Omit<ButtonProps, 'type'> {
-  type?: SButtonType;
-  tLink?: boolean;
+// 标准按钮类型 (antd Button的type类型)
+// export const SButtonStandardTypes = tuple(
+//   'default',
+//   'primary',
+//   'dashed',
+//   'link',
+//   'text',
+
+// );
+
+// export type SButtonStandardType = (typeof SButtonStandardTypes)[number];
+
+// // 所有可能的按钮类型 (用于向后兼容)
+// export const SButtonTypes = tuple(
+//   ...SButtonActionTypes,
+//   ...SButtonStandardTypes,
+// );
+
+// export type SButtonType = (typeof SButtonTypes)[number];
+
+export interface SButtonProps extends ButtonProps {
+  // 使用antd的ButtonType作为type类型
+  type?: ButtonProps['type'];
+  // 添加actionType属性用于操作按钮类型
+  actionType?: SButtonActionType;
 }
 
 export interface SButtonsItem extends Partial<SButtonProps> {

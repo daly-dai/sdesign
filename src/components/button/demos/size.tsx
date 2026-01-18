@@ -10,7 +10,11 @@ export default () => {
         <strong>大尺寸</strong>
         <SButton.Group
           size="large"
-          items={[{ type: 'save' }, { type: 'cancel' }, { type: 'reset' }]}
+          items={[
+            { actionType: 'save' },
+            { actionType: 'cancel' },
+            { actionType: 'reset' },
+          ]}
         />
       </div>
 
@@ -18,7 +22,11 @@ export default () => {
         <strong>中尺寸</strong>
         <SButton.Group
           size="middle"
-          items={[{ type: 'upload' }, { type: 'download' }, { type: 'export' }]}
+          items={[
+            { actionType: 'upload' },
+            { actionType: 'download' },
+            { actionType: 'export' },
+          ]}
         />
       </div>
 
@@ -26,7 +34,11 @@ export default () => {
         <strong>小尺寸</strong>
         <SButton.Group
           size="small"
-          items={[{ type: 'import' }, { type: 'delete' }, { type: 'view' }]}
+          items={[
+            { actionType: 'import' },
+            { actionType: 'delete' },
+            { actionType: 'view' },
+          ]}
         />
       </div>
     </div>

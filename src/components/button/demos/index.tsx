@@ -19,7 +19,7 @@
   t-link
  */
 
-import { Flex, Space, Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import { ButtonType } from 'antd/es/button';
 import React from 'react';
 
@@ -46,30 +46,16 @@ export default () => {
       <Title level={3}>SButton 按钮组件演示</Title>
 
       <div style={{ marginBottom: '30px' }}>
-        <Text strong>扩展类型：</Text>
+        <Text strong>扩展类型（actionType）：</Text>
         <Space wrap size="large" style={{ marginTop: '10px' }}>
           {extendedTypes.map((type) => (
             <SButton
               key={type}
-              type={type as any}
+              actionType={type as any}
               style={{ marginBottom: 10 }}
             />
           ))}
         </Space>
-      </div>
-
-      <div style={{ marginBottom: '30px' }}>
-        <Text strong>tLink状态</Text>
-        <Flex gap={12} wrap style={{ marginTop: '10px' }}>
-          {extendedTypes.map((type) => (
-            <SButton
-              tLink
-              key={type}
-              type={type as any}
-              style={{ marginBottom: 10 }}
-            />
-          ))}
-        </Flex>
       </div>
     </div>
   );

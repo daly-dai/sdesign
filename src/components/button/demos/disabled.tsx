@@ -49,10 +49,10 @@ export default () => {
           disabled={disabled}
           loading={loading}
           items={[
-            { type: 'save' },
-            { type: 'cancel' },
-            { type: 'reset' },
-            { type: 'upload' },
+            { actionType: 'save' },
+            { actionType: 'cancel' },
+            { actionType: 'reset' },
+            { actionType: 'upload' },
           ]}
         />
       </div>

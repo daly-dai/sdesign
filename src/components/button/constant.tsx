@@ -1,12 +1,12 @@
 import { ButtonProps } from 'antd';
 import React, { CSSProperties } from 'react';
 
-import { SButtonType } from '../button/types';
 import LucideIcon from '../lucide-icon';
 
 export const tLinkStyle: CSSProperties = { padding: 'unset', margin: 'unset' };
 
-const defaultConfig: Record<SButtonType, Partial<ButtonProps>> = {
+// defaultConfig包含操作按钮类型和标准按钮类型的配置
+const defaultConfig: Record<string, Partial<ButtonProps>> = {
   't-link': {
     type: 'link',
     children: 't-link',
