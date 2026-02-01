@@ -9,6 +9,7 @@ import useSearchLayout from './useSearchLayout';
 import useSearchTable from './useSearchTable';
 import useSTable from './useSTable';
 import useStepForm from './useStepForm';
+export { useFormPerformance } from './useFormPerformance';
 
 export * from './useSTable/types';
 

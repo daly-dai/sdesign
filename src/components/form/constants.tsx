@@ -55,3 +55,8 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   SUploadPicture: SUpload.Picture,
   SDatePickerRange: SDatePickerRange,
 };
+
+// 优化组件查找性能
+export const FORM_ITEM_COM_MAP_BY_KEY: Map<string, any> = new Map(
+  Object.entries(FORM_ITEM_COM_MAP),
+);

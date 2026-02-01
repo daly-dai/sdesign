@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import React, { FC, memo, ReactNode, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 
 import { ItemsProps } from '../../types';
 import FormField from '../form-field';
@@ -10,102 +10,104 @@ import SDependency from '@dalydb/sdesign/components/dependency';
 import SErrorBoundary from '@dalydb/sdesign/components/error-boundary';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
-const ItemRender: FC<ItemsProps> = memo(
-  ({
-    type,
-    label,
-    name,
-    fieldProps,
-    style,
-    customCom,
-    depNames,
-    render,
-    regKey,
-    required,
-    readonly,
-    formName,
-    children,
-    disabled,
-    ...restProps
-  }) => {
-    // 获取默认的配置
-    const defaultConfig = useMemo(() => {
-      return getDefaultConfig(type, readonly);
-    }, [type, readonly]);
+const ItemRender: FC<ItemsProps> = ({
+  type,
+  label,
+  name,
+  fieldProps,
+  style,
+  customCom,
+  depNames,
+  render,
+  regKey,
+  required,
+  readonly,
+  formName,
+  children,
+  disabled,
+  ...restProps
+}) => {
+  // 缓存默认配置
+  const defaultConfig = useMemo(() => {
+    return getDefaultConfig(type, readonly);
+  }, [type, readonly]);
 
-    // 合并之后的属性
-    const formItemProps = restProps;
+  // 缓存表单校验规则
+  const itemRules = useMemo(() => {
+    const defaultRules = restProps?.rules ?? [];
+    const curReg = getRegData(regKey as RegKeyType) ?? [];
+    const requiredRule = genRequiredRule(required) ?? [];
 
-    // 生成表单校验规则
-    const itemRules = useMemo(() => {
-      const defaultRules = formItemProps?.rules ?? [];
+    return [...defaultRules, ...requiredRule, ...curReg];
+  }, [restProps?.rules, regKey, required]);
 
-      const curReg = getRegData(regKey as RegKeyType) ?? [];
+  // 计算FormItem的name
+  const itemName = useMemo(() => {
+    if (!formName || !name) return name;
 
-      const requiredRule = genRequiredRule(required) ?? [];
+    return [formName, name];
+  }, [name, formName]);
 
-      return [...defaultRules, ...requiredRule, ...curReg];
-    }, [formItemProps?.rules, regKey, required]);
+  // 缓存事件处理器
+  const handleDependencies = useMemo(() => {
+    return restProps?.dependencies;
+  }, [restProps?.dependencies]);
 
-    // FormItem的name
-    const itemName = useMemo(() => {
-      if (!formName || !name) return name;
-
-      return [formName, name];
-    }, [name, formName]);
-
-    if (children) {
-      return (
-        <Form.Item
-          style={style}
-          label={label}
-          name={itemName}
-          rules={itemRules}
-          {...formItemProps}
-        >
-          {children}
-        </Form.Item>
-      );
-    }
-
-    if (type === 'placeholder') {
-      return <div style={style}>{label}</div>;
-    }
-
-    if (type === 'dependency') {
-      return (
-        <SDependency depNames={depNames ?? []} {...formItemProps}>
-          {(values, form) => {
-            return render?.(values, form);
-          }}
-        </SDependency>
-      );
-    }
-
+  if (children) {
     return (
-      <SErrorBoundary>
-        <Form.Item
-          style={style}
-          label={label}
-          name={itemName}
-          {...formItemProps}
-          rules={itemRules}
-          dependencies={formItemProps?.dependencies}
-        >
-          {customCom ? (
-            (customCom as ReactNode)
-          ) : (
-            <FormField
-              type={type as any}
-              {...defaultConfig}
-              disabled={disabled}
-              {...fieldProps}
-            />
-          )}
-        </Form.Item>
-      </SErrorBoundary>
+      <Form.Item
+        style={style}
+        label={label}
+        name={itemName}
+        rules={itemRules}
+        {...restProps}
+      >
+        {children}
+      </Form.Item>
     );
-  },
-);
+  }
+
+  if (type === 'placeholder') {
+    return <div style={style}>{label}</div>;
+  }
+
+  if (type === 'dependency') {
+    return (
+      <SDependency depNames={depNames ?? []} {...restProps}>
+        {(values, form) => {
+          return render ? render(values, form) : null;
+        }}
+      </SDependency>
+    );
+  }
+
+  return (
+    <SErrorBoundary>
+      <Form.Item
+        style={style}
+        label={label}
+        name={itemName}
+        {...restProps}
+        rules={itemRules}
+        dependencies={handleDependencies}
+      >
+        {customCom ? (
+          typeof customCom === 'function' ? (
+            customCom({}, {} as any)
+          ) : (
+            customCom
+          )
+        ) : (
+          <FormField
+            type={type as any}
+            {...defaultConfig}
+            disabled={disabled}
+            {...fieldProps}
+          />
+        )}
+      </Form.Item>
+    </SErrorBoundary>
+  );
+};
 
 export default memo(ItemRender);

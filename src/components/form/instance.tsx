@@ -1,6 +1,6 @@
 import { Col, Form, Row } from 'antd';
 import { Gutter } from 'antd/es/grid/row';
-import React, { FC, useMemo } from 'react';
+import React, { FC, memo, useCallback, useMemo } from 'react';
 
 import ItemRender from './components/item-render';
 import { SFormProps } from './types';
@@ -22,36 +22,44 @@ const InstanceForm: FC<SFormProps> = ({
 }) => {
   const prefixCls = getPrefixCls('form');
 
+  // 性能监控
+  // const { logItemCount } = useFormPerformance(formName);
+
+  // 使用useCallback优化事件处理器
+  const handleFinish = useCallback(
+    (values: any) => {
+      onFinish?.(values);
+    },
+    [onFinish],
+  );
+
+  const handleReset = useCallback(
+    (e: any) => {
+      onReset?.(e);
+    },
+    [onReset],
+  );
+
+  // 优化配置计算
   const formTypeConfig = useMemo(() => {
     if (!readonly) return {};
 
-    if (readonly)
-      return {
-        disabled: true,
-      };
+    return {
+      disabled: true,
+    };
   }, [readonly]);
 
-  /**
-   * @description 动态的占比
-   */
+  // 动态占比计算
   const dynamicSpan = useMemo(() => {
     return 24 / columns;
   }, [columns]);
 
-  const handleFinish = (values: any) => {
-    onFinish?.(values);
-  };
-
-  const handleReset = (e: any) => {
-    onReset?.(e);
-  };
-
+  // 间距配置
   const gutter = useMemo<[Gutter, Gutter]>(() => {
-    if (layout === 'vertical') return [24, 0];
-
-    return [24, 16];
+    return layout === 'vertical' ? [24, 0] : [24, 16];
   }, [layout]);
 
+  // 样式配置
   const formStyle = useMemo(() => {
     if (layout === 'inline') {
       return {
@@ -59,9 +67,13 @@ const InstanceForm: FC<SFormProps> = ({
         ...style,
       };
     }
-
     return style;
   }, [layout, style]);
+
+  // 过滤隐藏项
+  const visibleItems = useMemo(() => {
+    return (items ?? []).filter((item) => !item.hidden);
+  }, [items]);
 
   return (
     <Form
@@ -75,24 +87,21 @@ const InstanceForm: FC<SFormProps> = ({
       className={prefixCls}
     >
       <Row gutter={gutter} {...rowProps}>
-        {((items ?? []).filter((item) => !item.hidden) || []).map(
-          (item, index) => {
-            return (
-              <Col
-                key={item.name ?? index}
-                span={dynamicSpan}
-                {...item?.colProps}
-              >
-                <ItemRender readonly={readonly} formName={formName} {...item} />
-              </Col>
-            );
-          },
-        )}
-      </Row>
+        {visibleItems.map((item, index) => {
+          const itemKey = item.name
+            ? `${formName ? `${formName}.` : ''}${item.name}`
+            : `index_${index}`;
 
+          return (
+            <Col key={itemKey} span={dynamicSpan} {...item?.colProps}>
+              <ItemRender readonly={readonly} formName={formName} {...item} />
+            </Col>
+          );
+        })}
+      </Row>
       {children}
     </Form>
   );
 };
 
-export default InstanceForm;
+export default memo(InstanceForm);
