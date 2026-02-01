@@ -24,7 +24,6 @@ import SSelect from './select';
 import STable from './table';
 import STextEllipsis from './text-ellipsis';
 import STitle from './title';
-import SUpload from './upload';
 
 export * from './button/types';
 export * from './cascader/types';
@@ -47,7 +46,6 @@ export * from './select/types';
 export * from './table/types';
 export * from './text-ellipsis/types';
 export * from './title/types';
-export * from './upload/types';
 
 export {
   SButton,
@@ -76,5 +74,4 @@ export {
   STable,
   STextEllipsis,
   STitle,
-  SUpload,
 };

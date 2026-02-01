@@ -22,8 +22,7 @@ import SDependency from '../dependency';
 import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
-import SUpload from '../upload';
-import InternalUpload from '../upload/instance';
+// import SUpload from '../upload';
 
 import { FormFieldMapType } from './types';
 
@@ -50,9 +49,6 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   SCascader: SCascader,
   table: Table,
   dependency: SDependency,
-  SUpload: InternalUpload,
-  SUploadDragger: SUpload.Dragger,
-  SUploadPicture: SUpload.Picture,
   SDatePickerRange: SDatePickerRange,
 };
 

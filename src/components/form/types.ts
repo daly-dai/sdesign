@@ -28,8 +28,6 @@ import { RenderChildren } from '../dependency/types';
 import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
-import SUpload from '../upload';
-import InternalUpload from '../upload/instance';
 
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
@@ -45,9 +43,6 @@ export type FormFieldMapType = {
   switch: typeof Switch;
   treeSelect: typeof TreeSelect;
   upload: typeof Upload;
-  SUpload: typeof InternalUpload;
-  SUploadDragger: typeof SUpload.Dragger;
-  SUploadPicture: typeof SUpload.Picture;
   datePicker: typeof DatePicker;
   SDatePicker: typeof SDatePicker;
   datePickerRange: typeof DatePicker.RangePicker;
