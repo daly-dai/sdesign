@@ -11,15 +11,15 @@ export default () => {
         <strong>基础使用</strong>
         <SButton.Group
           items={[
-            { actionType: 'save' },
-            { actionType: 'cancel' },
-            { actionType: 'reset' },
-            { actionType: 'upload' },
-            { actionType: 'delete' },
+            { type: 'save' },
+            { type: 'cancel' },
+            { type: 'reset' },
+            { type: 'upload' },
+            { type: 'delete' },
             {
-              actionType: 'create',
+              type: 'create',
             },
-            { actionType: 'download' },
+            { type: 'download' },
           ]}
         />
       </Flex>

@@ -59,13 +59,20 @@
 
 <code src="./demos/vertical.tsx"></code>
 
+## 紧凑模式
+
+紧凑模式下按钮将采用类似链接的样式，适合在空间有限的场景使用
+
+<code src="./demos/compact.tsx"></code>
+
 [更多属性请查看 Button 文档](https://4x-ant-design.antgroup.com/components/button-cn/#Button?_blank)
 
 ## API
 
-| 属性名 | 描述                                                                                                                                                                                                                                         | 类型   | 默认值    |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------- |
-| type   | 按钮类型，支持基础类型和扩展类型<br/>基础类型：primary, secondary, danger, link, text<br/>扩展类型：save, cancel, reset, upload, download, export, import, delete, view, back, next, previous, finish, create, edit, confirm, close, refresh | string | 'primary' |
+| 属性名  | 描述                                                                                                                                                                                                                                         | 类型    | 默认值    |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------- |
+| type    | 按钮类型，支持基础类型和扩展类型<br/>基础类型：primary, secondary, danger, link, text<br/>扩展类型：save, cancel, reset, upload, download, export, import, delete, view, back, next, previous, finish, create, edit, confirm, close, refresh | string  | 'primary' |
+| compact | 紧凑模式，当为 true 时按钮样式与 t-link 相同                                                                                                                                                                                                 | boolean | false     |
 
 ## SButton.Group 按钮组组件
 

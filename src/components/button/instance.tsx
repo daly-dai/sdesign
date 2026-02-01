@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import React, { CSSProperties, FC, useMemo } from 'react';
+import React, { CSSProperties, FC, memo, useMemo } from 'react';
 
 import defaultConfig from './constant';
 import { SButtonProps } from './types';
@@ -7,6 +7,7 @@ import { SButtonProps } from './types';
 const InstanceButton: FC<SButtonProps> = ({
   type,
   actionType,
+  compact,
   size = 'middle',
   ...restProps
 }) => {
@@ -17,29 +18,21 @@ const InstanceButton: FC<SButtonProps> = ({
   // 合并配置，actionType优先级高于type
   const config = { ...typeConfig, ...actionConfig };
 
-  const btnStyle = useMemo<CSSProperties>(() => {
+  // 如果启用紧凑模式，应用 t-link 配置
+  const finalConfig = compact
+    ? { ...config, ...defaultConfig['t-link'] }
+    : config;
+
+  const mergedStyle = useMemo<CSSProperties>(() => {
     return {
-      ...config.style,
+      ...finalConfig.style,
       ...restProps.style,
     };
-  }, [config, restProps.style]);
+  }, [finalConfig, restProps.style]);
 
-  // const btnType = useMemo<ButtonType | undefined>(() => {
-  //   // 优先使用用户直接传递的type
-  //   if (type) {
-  //     return type;
-  //   }
-
-  //   // 然后使用配置中的type
-  //   if (config.type) {
-  //     return config.type;
-  //   }
-
-  //   // 默认类型
-  //   return 'default';
-  // }, [type, config.type]);
-
-  return <Button size={size} {...config} {...restProps} style={btnStyle} />;
+  return (
+    <Button size={size} {...finalConfig} {...restProps} style={mergedStyle} />
+  );
 };
 
-export default InstanceButton;
+export default memo(InstanceButton);

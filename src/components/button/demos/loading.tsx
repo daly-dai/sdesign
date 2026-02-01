@@ -22,10 +22,10 @@ export default () => {
         <SButton.Group
           loading
           items={[
-            { actionType: 'save' },
-            { actionType: 'cancel' },
-            { actionType: 'reset' },
-            { actionType: 'upload' },
+            { type: 'save' },
+            { type: 'cancel' },
+            { type: 'reset' },
+            { type: 'upload' },
           ]}
         />
       </div>

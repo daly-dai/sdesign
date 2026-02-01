@@ -54,6 +54,8 @@ export interface SButtonProps extends ButtonProps {
   type?: ButtonProps['type'];
   // 添加actionType属性用于操作按钮类型
   actionType?: SButtonActionType;
+  // 紧凑模式，当为true时按钮样式与t-link相同
+  compact?: boolean;
 }
 
 export interface SButtonsItem extends Partial<SButtonProps> {

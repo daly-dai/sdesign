@@ -20,9 +20,9 @@ export default () => {
         <strong>自定义类型 - 可见性控制：</strong>
         <SButton.Group
           items={[
-            { actionType: 'save' },
-            { actionType: 'cancel', visible: false },
-            { actionType: 'reset' },
+            { type: 'save' },
+            { type: 'cancel', visible: false },
+            { type: 'reset' },
           ]}
         />
       </div>

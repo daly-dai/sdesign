@@ -21,11 +21,7 @@ export default () => {
         <strong>自定义类型 - 垂直排列：</strong>
         <SButton.Group
           spaceProps={{ direction: 'vertical' }}
-          items={[
-            { actionType: 'save' },
-            { actionType: 'cancel' },
-            { actionType: 'reset' },
-          ]}
+          items={[{ type: 'save' }, { type: 'cancel' }, { type: 'reset' }]}
         />
       </div>
     </div>
