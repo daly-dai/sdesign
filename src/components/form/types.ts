@@ -63,17 +63,19 @@ export type FormComPropsType = HTMLAttributes<object> &
   ComponentProps<FormFieldMapType[FormComType]>;
 
 export type FormItemType = FormComType | 'placeholder';
-export interface ItemsProps
+export interface ItemsProps<T extends FormItemType = FormItemType>
   extends Omit<FormItemProps, 'label | name' | 'required'> {
   label?: ReactNode;
   name?: NamePath;
   style?: React.CSSProperties;
   // 组件的类型
-  type?: FormItemType;
+  type?: T;
   // 依赖的字段，只在type为dependency时生效
   depNames?: string[];
-  // 组件的配置项
-  fieldProps?: FormComPropsType;
+  // 组件的配置项，根据type字段动态确定类型
+  fieldProps?: T extends keyof FormFieldMapType
+    ? HTMLAttributes<object> & ComponentProps<FormFieldMapType[T]>
+    : undefined;
   // 自定义组件
   customCom?: ReactNode | RenderChildren<any>;
   // 校验规则
@@ -91,7 +93,8 @@ export interface ItemsProps
   children?: ReactNode;
 }
 
-export interface SFormItems extends ItemsProps {
+export interface SFormItems<T extends FormItemType = FormItemType>
+  extends ItemsProps<T> {
   colProps?: ColProps;
   hidden?: boolean;
 }
@@ -99,7 +102,7 @@ export interface SFormItems extends ItemsProps {
 export interface SFormProps extends FormProps {
   rowProps?: RowProps;
   children?: ReactNode;
-  items?: SFormItems[];
+  items?: Array<SFormItems<FormItemType>>;
   columns?: number;
   // 是否为必填,提示文字
   required?: string | boolean;
@@ -115,7 +118,7 @@ export type GroupItemsType = {
   container?: React.ComponentType<any>;
   columns?: number;
   title?: ReactNode;
-  items?: SFormItems[];
+  items?: Array<SFormItems<FormItemType>>;
   rowProps?: RowProps;
   // 嵌套的数据结构
   formName?: string;

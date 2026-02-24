@@ -1,5 +1,4 @@
 import { Col, Form, Row } from 'antd';
-import { Gutter } from 'antd/es/grid/row';
 import React, { FC, memo, useCallback, useMemo } from 'react';
 
 import ItemRender from './components/item-render';
@@ -21,9 +20,6 @@ const InstanceForm: FC<SFormProps> = ({
   ...formProps
 }) => {
   const prefixCls = getPrefixCls('form');
-
-  // 性能监控
-  // const { logItemCount } = useFormPerformance(formName);
 
   // 使用useCallback优化事件处理器
   const handleFinish = useCallback(
@@ -54,11 +50,6 @@ const InstanceForm: FC<SFormProps> = ({
     return 24 / columns;
   }, [columns]);
 
-  // 间距配置
-  const gutter = useMemo<[Gutter, Gutter]>(() => {
-    return layout === 'vertical' ? [24, 0] : [24, 16];
-  }, [layout]);
-
   // 样式配置
   const formStyle = useMemo(() => {
     if (layout === 'inline') {
@@ -86,7 +77,7 @@ const InstanceForm: FC<SFormProps> = ({
       onReset={handleReset}
       className={prefixCls}
     >
-      <Row gutter={gutter} {...rowProps}>
+      <Row gutter={[24, 16]} {...rowProps}>
         {visibleItems.map((item, index) => {
           const itemKey = item.name
             ? `${formName ? `${formName}.` : ''}${item.name}`

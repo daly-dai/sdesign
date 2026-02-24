@@ -26,6 +26,7 @@ import SSelect from '../select';
 
 import { FormFieldMapType } from './types';
 
+// 完整的组件映射（保持向后兼容）
 export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   input: SInput,
   inputNumber: InputNumber,
@@ -51,6 +52,20 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   dependency: SDependency,
   SDatePickerRange: SDatePickerRange,
 };
+
+// Bundle 优化配置 - 标记重型组件
+export const HEAVY_COMPONENTS = [
+  'cascader',
+  'table',
+  'upload',
+  'treeSelect',
+  'SCascader',
+] as const;
+
+// 轻量级组件
+export const LIGHT_COMPONENTS = Object.keys(FORM_ITEM_COM_MAP).filter(
+  (key) => !HEAVY_COMPONENTS.includes(key as any),
+);
 
 // 优化组件查找性能
 export const FORM_ITEM_COM_MAP_BY_KEY: Map<string, any> = new Map(

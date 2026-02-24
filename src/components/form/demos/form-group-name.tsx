@@ -51,6 +51,28 @@ const groupItems: GroupItemsType[] = [
         name: 'userMsg11',
         required: '请输入用户信息',
       },
+      {
+        label: '用户信息',
+        name: 'userMsg12',
+        required: '请输入用户信息',
+        type: 'select',
+        fieldProps: {
+          options: [
+            {
+              label: '不敏感',
+              value: 'L1',
+            },
+            {
+              label: '低敏感',
+              value: 'L2',
+            },
+            {
+              label: '较敏感',
+              value: 'L3',
+            },
+          ],
+        },
+      },
     ],
   },
   {

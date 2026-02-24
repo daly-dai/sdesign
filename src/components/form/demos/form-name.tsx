@@ -26,6 +26,14 @@ export default () => {
       type: 'input',
       rules: [{ required: true, message: '请输入年龄' }],
     },
+    {
+      name: 'sex',
+      label: '性别',
+      type: 'select',
+      fieldProps: {
+        allowClear: true,
+      },
+    },
   ];
 
   const handleChange = (values: any) => {
