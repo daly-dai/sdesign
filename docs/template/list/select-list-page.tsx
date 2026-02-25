@@ -2,7 +2,7 @@
  * title: 多选列表功能页面
  * background: rgba(42, 46, 54, 0.04)
  */
-import { Button, Form, TableColumnsType } from 'antd';
+import { Button, TableColumnsType } from 'antd';
 import React, { useState } from 'react';
 
 import { SCard, SForm, SFormItems, STable, STitle } from '@dalydb/sdesign';
@@ -53,12 +53,8 @@ const columns: TableColumnsType<any> = [
 
 // todo  loading,多选,依赖某个参数更新，弹框模板，导出功能，入库申请审核
 export default () => {
-  const [form] = Form.useForm();
-
-  const { getPageData, dataSource, pagination, handleReset } = useSearchTable({
-    // 接口地址需自定义
-    requestFn: mockRequest,
-    form,
+  const { tableProps, form, formConfig } = useSearchTable(mockRequest, {
+    // 使用配置式表单，不需要手动创建 Form 实例
   });
 
   // 多选的值
@@ -74,10 +70,9 @@ export default () => {
       <STitle>模板标题</STitle>
       <SForm.Search
         isCard
-        items={formItems}
         form={form}
-        onFinish={getPageData}
-        onReset={handleReset}
+        items={formItems}
+        {...formConfig} // 只需要传一个属性！
       ></SForm.Search>
 
       <SCard>
@@ -89,8 +84,7 @@ export default () => {
             onChange: onSelectChange,
           }}
           columns={columns}
-          dataSource={dataSource}
-          pagination={pagination}
+          {...tableProps}
         ></STable>
       </SCard>
     </>

@@ -1,24 +1,73 @@
 import { useRequest } from 'ahooks';
-import { TablePaginationConfig } from 'antd';
-import { isBoolean } from 'lodash';
-import { useCallback, useEffect, useMemo } from 'react';
+import { Form, TablePaginationConfig, TableProps } from 'antd';
+import { useCallback, useMemo } from 'react';
 
-import { useSearchTableProps, useSearchTableReturnType } from './types';
+import { useSearchTableOptions, useSearchTableReturnType } from './types';
 
-function useSearchTable({
-  requestFn,
-  form,
-  extraParams,
-  manual = true,
-  dispatchParams,
-  serviceProps,
-}: useSearchTableProps): useSearchTableReturnType {
+// 默认分页字段配置
+const defaultPaginationFields = {
+  current: 'pageNum',
+  pageSize: 'pageSize',
+  total: 'totalSize',
+  list: 'dataList',
+};
+
+function useSearchTable(
+  requestFn: (data?: any) => Promise<any>,
+  options: useSearchTableOptions = {},
+): useSearchTableReturnType {
+  const {
+    form: externalForm,
+    extraParams,
+    manual = false, // 默认自动请求
+    dispatchParams,
+    serviceProps,
+    paginationFields,
+    transformRequestParams,
+    transformResponseData,
+  } = options;
+
+  // 如果没有传入外部 form，自动创建一个
+  const [internalForm] = Form.useForm();
+  const form = externalForm || internalForm;
+
+  // 合并分页字段配置
+  const mergedPaginationFields = {
+    ...defaultPaginationFields,
+    ...paginationFields,
+  };
+
+  // 包装请求函数，添加参数转换和数据转换
+  const wrappedRequestFn = useCallback(
+    async (params: any) => {
+      let requestParams = params;
+
+      // 请求参数转换
+      if (transformRequestParams) {
+        requestParams = transformRequestParams(params);
+      }
+
+      // 调用原始请求函数
+      const response = await requestFn(requestParams);
+
+      let processedResponse = response;
+
+      // 响应数据转换
+      if (transformResponseData) {
+        processedResponse = transformResponseData(response);
+      }
+
+      return processedResponse;
+    },
+    [requestFn, transformRequestParams, transformResponseData],
+  );
+
   // 请求体
   const {
     run: getListData,
     data: resultData = {} as any,
     loading,
-  } = useRequest(requestFn, {
+  } = useRequest(wrappedRequestFn, {
     ...(serviceProps ?? {}),
     manual,
   });
@@ -29,8 +78,8 @@ function useSearchTable({
       const options = form?.getFieldsValue() ?? {};
 
       const paramsData = {
-        pageNum: 1,
-        pageSize: 10,
+        [mergedPaginationFields.current]: 1,
+        [mergedPaginationFields.pageSize]: 10,
         ...(extraParams || {}),
         ...options,
         ...params,
@@ -44,7 +93,14 @@ function useSearchTable({
 
       getListData(requestParams);
     },
-    [form, extraParams, dispatchParams, getListData],
+    [
+      form,
+      extraParams,
+      dispatchParams,
+      getListData,
+      mergedPaginationFields.current,
+      mergedPaginationFields.pageSize,
+    ],
   );
 
   // 重置数据
@@ -53,27 +109,18 @@ function useSearchTable({
     getPageData();
   }, [form, getPageData]);
 
-  // 初始化请求
-  useEffect(() => {
-    if (!isBoolean(serviceProps?.ready)) {
-      getPageData();
-      return;
-    }
-
-    if (serviceProps?.ready) {
-      getPageData();
-    }
-  }, [serviceProps?.ready]);
-
   // 表格相关数据
   const dataSource = useMemo(() => {
     if (!resultData) return [];
 
-    return resultData?.dataList ?? [];
-  }, [resultData]);
+    return resultData?.[mergedPaginationFields.list] ?? [];
+  }, [resultData, mergedPaginationFields.list]);
 
   const handleTableChange = (pageNum: number, pageSize: number) => {
-    getPageData({ pageNum, pageSize });
+    getPageData({
+      [mergedPaginationFields.current]: pageNum,
+      [mergedPaginationFields.pageSize]: pageSize,
+    });
   };
 
   // 分页相关配置
@@ -81,15 +128,32 @@ function useSearchTable({
     if (!resultData) return false;
 
     return {
-      pageNum: resultData?.pageNum,
-      pageSize: resultData?.pageSize,
-      total: resultData?.totalSize,
+      current: resultData?.[mergedPaginationFields.current],
+      pageSize: resultData?.[mergedPaginationFields.pageSize],
+      total: resultData?.[mergedPaginationFields.total],
       showSizeChanger: true,
       showQuickJumper: true,
       onChange: handleTableChange,
       hideOnSinglePage: true,
     };
-  }, [resultData]);
+  }, [resultData, mergedPaginationFields]);
+
+  // 整合的 tableProps，便于直接用于 Ant Design Table 组件
+  const tableProps = useMemo<TableProps<any>>(() => {
+    return {
+      dataSource,
+      pagination,
+      loading,
+    };
+  }, [dataSource, pagination, loading]);
+
+  // 专门为 SForm.Search 设计的配置对象
+  const formConfig = useMemo(() => {
+    return {
+      onFinish: getPageData,
+      onReset: handleReset,
+    };
+  }, [getPageData, handleReset]);
 
   return {
     getPageData,
@@ -97,6 +161,9 @@ function useSearchTable({
     handleReset,
     pagination,
     loading,
+    tableProps, // 新增：整合的 table props
+    form, // 返回 form 实例供外部使用
+    formConfig, // 新增：专门为 SForm.Search 设计的配置
   };
 }
 

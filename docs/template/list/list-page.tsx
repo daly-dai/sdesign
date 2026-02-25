@@ -2,7 +2,7 @@
  * title: 基础列表页面开发模板
  * background: rgba(42, 46, 54, 0.04)
  */
-import { Button, Form, Space, TableColumnsType } from 'antd';
+import { Button, Space, TableColumnsType } from 'antd';
 import React from 'react';
 
 import { SCard, SForm, SFormItems, STable, STitle } from '@dalydb/sdesign';
@@ -53,32 +53,22 @@ const columns: TableColumnsType<any> = [
 ];
 
 export default () => {
-  const [form] = Form.useForm();
-
-  const { getPageData, dataSource, handleReset, pagination } = useSearchTable({
-    // 接口地址需自定义
-    requestFn: mockRequest,
-    form,
+  const { tableProps, form, formConfig } = useSearchTable(mockRequest, {
+    // 使用配置式表单，不需要手动创建 Form 实例
   });
 
   return (
     <>
       <STitle>模板标题</STitle>
       <SForm.Search
-        items={formItems}
         form={form}
-        onFinish={getPageData}
-        onReset={handleReset}
+        items={formItems}
+        {...formConfig} // 只需要传一个属性！
       ></SForm.Search>
 
       <SCard>
         <STitle type="table">查询结果</STitle>
-        <STable
-          isSeq
-          columns={columns}
-          dataSource={dataSource}
-          pagination={pagination}
-        ></STable>
+        <STable isSeq columns={columns} {...tableProps}></STable>
       </SCard>
     </>
   );
