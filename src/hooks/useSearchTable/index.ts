@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 import { Form, TablePaginationConfig, TableProps } from 'antd';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useSearchTableOptions, useSearchTableReturnType } from './types';
 
@@ -108,6 +108,17 @@ function useSearchTable(
     form?.resetFields();
     getPageData();
   }, [form, getPageData]);
+
+  // 初始化请求 - 当组件挂载时自动加载数据
+  useEffect(() => {
+    if (!manual) {
+      // 延迟一点执行，确保 form 初始化完成
+      const timer = setTimeout(() => {
+        getPageData();
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [manual, getPageData]);
 
   // 表格相关数据
   const dataSource = useMemo(() => {

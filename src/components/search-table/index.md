@@ -19,6 +19,26 @@
 
 <code src="./demos/advanced.tsx"></code>
 
+### 自定义分页字段
+
+<code src="./demos/custom-search.tsx"></code>
+
+### 手动触发搜索
+
+<code src="./demos/manual-trigger.tsx"></code>
+
+### 参数转换
+
+<code src="./demos/with-parameter-transform.tsx"></code>
+
+### 行选择功能
+
+<code src="./demos/with-row-selection.tsx"></code>
+
+### 展开行功能
+
+<code src="./demos/with-expanded-row.tsx"></code>
+
 ## API
 
 | 属性名     | 描述                                           | 类型                                            | 默认值 |
