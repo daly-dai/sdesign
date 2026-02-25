@@ -56,6 +56,7 @@ export interface useSearchTableReturnType {
   dataSource: any[];
   pagination?: false | TablePaginationConfig;
   loading?: boolean;
+  error?: any; // 错误信息
   /**
    * 表单实例，用于外部组件挂载
    */

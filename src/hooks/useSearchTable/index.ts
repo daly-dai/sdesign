@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks';
 import { Form, TablePaginationConfig, TableProps } from 'antd';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useSearchTableOptions, useSearchTableReturnType } from './types';
 
@@ -32,10 +32,16 @@ function useSearchTable(
   const form = externalForm || internalForm;
 
   // 合并分页字段配置
-  const mergedPaginationFields = {
-    ...defaultPaginationFields,
-    ...paginationFields,
-  };
+  const mergedPaginationFields = useMemo(
+    () => ({
+      ...defaultPaginationFields,
+      ...paginationFields,
+    }),
+    [paginationFields],
+  );
+
+  // 使用 useRef 来跟踪是否是首次加载
+  const isFirstLoad = useRef(true);
 
   // 包装请求函数，添加参数转换和数据转换
   const wrappedRequestFn = useCallback(
@@ -67,6 +73,7 @@ function useSearchTable(
     run: getListData,
     data: resultData = {} as any,
     loading,
+    error,
   } = useRequest(wrappedRequestFn, {
     ...(serviceProps ?? {}),
     manual,
@@ -74,12 +81,18 @@ function useSearchTable(
 
   // 获取页面数据
   const getPageData = useCallback(
-    (params = {}) => {
+    (params: any = {}) => {
       const options = form?.getFieldsValue() ?? {};
 
-      const paramsData = {
-        [mergedPaginationFields.current]: 1,
-        [mergedPaginationFields.pageSize]: 10,
+      // 验证参数，确保分页参数是有效的数字
+      const pageNum = Number(params[mergedPaginationFields.current] ?? 1);
+      const pageSize = Number(params[mergedPaginationFields.pageSize] ?? 10);
+
+      const paramsData: Record<string, any> = {
+        [mergedPaginationFields.current]:
+          isNaN(pageNum) || pageNum < 1 ? 1 : pageNum,
+        [mergedPaginationFields.pageSize]:
+          isNaN(pageSize) || pageSize < 1 ? 10 : pageSize,
         ...(extraParams || {}),
         ...options,
         ...params,
@@ -93,14 +106,7 @@ function useSearchTable(
 
       getListData(requestParams);
     },
-    [
-      form,
-      extraParams,
-      dispatchParams,
-      getListData,
-      mergedPaginationFields.current,
-      mergedPaginationFields.pageSize,
-    ],
+    [form, extraParams, dispatchParams, getListData, mergedPaginationFields],
   );
 
   // 重置数据
@@ -115,6 +121,7 @@ function useSearchTable(
       // 延迟一点执行，确保 form 初始化完成
       const timer = setTimeout(() => {
         getPageData();
+        isFirstLoad.current = false;
       }, 0);
       return () => clearTimeout(timer);
     }
@@ -127,12 +134,15 @@ function useSearchTable(
     return resultData?.[mergedPaginationFields.list] ?? [];
   }, [resultData, mergedPaginationFields.list]);
 
-  const handleTableChange = (pageNum: number, pageSize: number) => {
-    getPageData({
-      [mergedPaginationFields.current]: pageNum,
-      [mergedPaginationFields.pageSize]: pageSize,
-    });
-  };
+  const handleTableChange = useCallback(
+    (pageNum: number, pageSize: number) => {
+      getPageData({
+        [mergedPaginationFields.current]: pageNum,
+        [mergedPaginationFields.pageSize]: pageSize,
+      });
+    },
+    [getPageData, mergedPaginationFields],
+  );
 
   // 分页相关配置
   const pagination = useMemo<false | TablePaginationConfig>(() => {
@@ -147,7 +157,7 @@ function useSearchTable(
       onChange: handleTableChange,
       hideOnSinglePage: true,
     };
-  }, [resultData, mergedPaginationFields]);
+  }, [resultData, mergedPaginationFields, handleTableChange]);
 
   // 整合的 tableProps，便于直接用于 Ant Design Table 组件
   const tableProps = useMemo<TableProps<any>>(() => {
@@ -172,6 +182,7 @@ function useSearchTable(
     handleReset,
     pagination,
     loading,
+    error, // 返回错误信息
     tableProps, // 新增：整合的 table props
     form, // 返回 form 实例供外部使用
     formConfig, // 新增：专门为 SForm.Search 设计的配置
