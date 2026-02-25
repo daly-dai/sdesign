@@ -15,7 +15,7 @@ group:
 
 <code src="./demos/backClick.tsx"></code>
 
-<code src="./demos/titleDesc.tsx"></code>
+<code src="./demos/desc.tsx"></code>
 
 <code src="./demos/actionNode.tsx"></code>
 
@@ -28,7 +28,7 @@ group:
 | title           | 标题名称                                         | ReactNode               |        |
 | goBack          | 返回上一页功能                                   | boolean                 | false  |
 | type            | 标题类型                                         | page、table、form       | page   |
-| titleDesc       | 标题后面的内容                                   | ReactNode               |        |
+| desc            | 标题后面的内容                                   | ReactNode               |        |
 | actionNode      | 操作相关的内容                                   | ReactNode               |        |
 | column          | 是否为 column 排列方式                           | boolean                 |        |
 | fontSize        | 设置标题大小                                     | number、string          |        |

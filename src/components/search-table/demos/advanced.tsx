@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { SButton } from '@dalydb/sdesign';
-import { Button, Form, Modal, Space, Tag } from 'antd';
+import { Button, Modal, Space, Tag } from 'antd';
 import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
@@ -13,20 +12,15 @@ const generateAdvancedMockData = (current: number, pageSize: number) => {
   const startIndex = (current - 1) * pageSize;
   const endIndex = Math.min(startIndex + pageSize, total);
 
-  // 部门字典
-
-  // 角色列表
   const roleList = ['管理员', '编辑', '查看员', '审核员'];
 
   for (let i = startIndex; i < endIndex; i++) {
-    // 随机分配1-3个角色
     const roles = [];
     const roleCount = Math.floor(Math.random() * 3) + 1;
     for (let j = 0; j < roleCount; j++) {
       roles.push(roleList[Math.floor(Math.random() * roleList.length)]);
     }
 
-    // 随机分配技能标签
     const skills: string[] = [];
     const skillCount = Math.floor(Math.random() * 4) + 1;
     const skillList = [
@@ -56,7 +50,7 @@ const generateAdvancedMockData = (current: number, pageSize: number) => {
       ).toISOString(),
       roles: roles,
       skills: skills,
-      performance: Math.floor(Math.random() * 5) + 1, // 1-5分
+      performance: Math.floor(Math.random() * 5) + 1,
       projects: [
         { id: 1, name: '项目A', role: '开发' },
         { id: 2, name: '项目B', role: '测试' },
@@ -76,7 +70,6 @@ const generateAdvancedMockData = (current: number, pageSize: number) => {
 const advancedMockRequest = async (params: any) => {
   console.log('高级搜索请求参数:', params);
 
-  // 模拟网络延迟
   await new Promise((resolve) => {
     setTimeout(resolve, 800);
   });
@@ -88,13 +81,13 @@ export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
-  const [form] = Form.useForm();
 
   // 高级搜索表单配置
   const advancedFormItems: SFormItems[] = [
     {
       label: '员工姓名',
       name: 'name',
+      type: 'input',
     },
     {
       label: '部门',
@@ -102,17 +95,18 @@ export default () => {
       type: 'select',
       fieldProps: {
         options: [
-          { value: 1, label: '部门A' },
-          { value: 2, label: '部门B' },
-          { value: 3, label: '部门C' },
-          { value: 4, label: '部门D' },
-          { value: 5, label: '部门E' },
+          { value: 1, label: '技术部' },
+          { value: 2, label: '产品部' },
+          { value: 3, label: '设计部' },
+          { value: 4, label: '运营部' },
+          { value: 5, label: '市场部' },
         ],
       },
     },
     {
       label: '职位',
       name: 'position',
+      type: 'input',
     },
     {
       label: '入职日期',
@@ -122,10 +116,21 @@ export default () => {
     {
       label: '薪资范围',
       name: 'salary',
+      type: 'inputNumber',
     },
     {
       label: '绩效评分',
       name: 'performance',
+      type: 'select',
+      fieldProps: {
+        options: [
+          { value: 1, label: '1分' },
+          { value: 2, label: '2分' },
+          { value: 3, label: '3分' },
+          { value: 4, label: '4分' },
+          { value: 5, label: '5分' },
+        ],
+      },
     },
   ];
 
@@ -138,7 +143,15 @@ export default () => {
   // 处理编辑
   const handleEdit = (record: any) => {
     console.log('编辑员工:', record);
-    // 这里可以实现编辑逻辑
+  };
+
+  // 处理批量操作
+  const handleBatchOperation = () => {
+    console.log('批量操作选中的员工:', selectedRowKeys);
+    Modal.info({
+      title: '批量操作',
+      content: `已选中 ${selectedRowKeys.length} 名员工`,
+    });
   };
 
   // 高级表格列配置
@@ -147,15 +160,11 @@ export default () => {
       title: '员工姓名',
       dataIndex: 'name',
       width: 120,
-      render: (text: string) => {
-        return <strong>{text}</strong>;
-      },
     },
     {
       title: '部门',
       dataIndex: 'department',
       width: 100,
-      dictKey: 'department',
     },
     {
       title: '职位',
@@ -174,7 +183,6 @@ export default () => {
       title: '入职日期',
       dataIndex: 'entryDate',
       width: 150,
-      render: 'date',
     },
     {
       title: '角色',
@@ -218,80 +226,61 @@ export default () => {
     },
     {
       title: '操作',
-      dataIndex: 'action',
+      key: 'action',
       fixed: 'right',
       width: 150,
       render: (_: any, record: any) => {
         return (
           <Space>
-            <SButton
-              type="t-link"
-              onClick={() => handleViewDetails(record)}
-              style={{ marginRight: 8 }}
-            >
+            <Button type="link" onClick={() => handleViewDetails(record)}>
               详情
-            </SButton>
-            <SButton type="edit" onClick={() => handleEdit(record)}>
+            </Button>
+            <Button type="link" onClick={() => handleEdit(record)}>
               编辑
-            </SButton>
+            </Button>
           </Space>
         );
       },
     },
   ];
 
-  // 处理批量操作
-  const handleBatchOperation = () => {
-    console.log('批量操作选中的员工:', selectedRowKeys);
-    Modal.info({
-      title: '批量操作',
-      content: `已选中 ${selectedRowKeys.length} 名员工`,
-    });
-  };
-
-  // 页面标题配置
-  const advancedHeadTitle = {
-    children: '员工管理系统',
-    titleDesc: '高级员工信息管理，支持复杂搜索条件和批量操作',
-  };
-
-  // 表格标题配置
-  const advancedTableTitle = {
-    children: '员工详细列表',
-    action: (
-      <>
-        <Button type="primary" style={{ marginRight: 8 }}>
-          新增员工
-        </Button>
-        <Button
-          disabled={selectedRowKeys.length === 0}
-          onClick={handleBatchOperation}
-        >
-          批量操作 ({selectedRowKeys.length})
-        </Button>
-      </>
-    ),
-  };
-
   return (
     <>
       <SSearchTable
-        headTitle={advancedHeadTitle}
-        tableTitle={advancedTableTitle}
-        serviceProps={{
-          service: advancedMockRequest,
-          serviceProps: {
-            defaultPageSize: 10,
-            refreshDeps: [selectedRowKeys],
+        headTitle={{
+          children: '员工管理系统',
+          desc: '高级员工信息管理，支持复杂搜索条件和批量操作',
+        }}
+        tableTitle={{
+          children: '员工详细列表',
+          actionNode: (
+            <>
+              <Button type="primary" style={{ marginRight: 8 }}>
+                新增员工
+              </Button>
+              <Button
+                disabled={selectedRowKeys.length === 0}
+                onClick={handleBatchOperation}
+              >
+                批量操作 ({selectedRowKeys.length})
+              </Button>
+            </>
+          ),
+        }}
+        requestFn={advancedMockRequest}
+        options={{
+          paginationFields: {
+            current: 'current',
+            pageSize: 'pageSize',
+            total: 'total',
+            list: 'list',
           },
         }}
         formProps={{
-          form,
           items: advancedFormItems,
           columns: 3,
           showExpand: true,
           defaultExpand: false,
-          isCard: false,
         }}
         tableProps={{
           isSeq: true,
@@ -301,10 +290,6 @@ export default () => {
           rowSelection: {
             selectedRowKeys,
             onChange: setSelectedRowKeys,
-            selections: [
-              { key: 'all', text: '全选' },
-              { key: 'current', text: '当前页选择' },
-            ],
           },
           expandable: {
             expandedRowRender: (record: any) => {

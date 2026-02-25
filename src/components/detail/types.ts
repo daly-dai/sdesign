@@ -48,7 +48,7 @@ export type SDetailItem = SDetailItemType &
 
 export interface SDetailProps
   extends Omit<DescriptionsProps, 'items' | 'title'> {
-  titleDesc?: ReactNode;
+  desc?: ReactNode;
   titleAction?: ReactNode;
   dataSource?: Record<string, any>;
   items?: SDetailItem[];

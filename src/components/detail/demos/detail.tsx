@@ -141,7 +141,7 @@ const FileList = () => {
           </Button>
           <SDetail
             title="详情页回显示例"
-            titleDesc={<Tag color="blue">测试标签</Tag>}
+            desc={<Tag color="blue">测试标签</Tag>}
             titleAction={<Button type="primary">测试按钮</Button>}
             dataSource={detailData}
             items={businessItems}

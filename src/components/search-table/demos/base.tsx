@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { NoPageIcon } from '@dalydb/sdesign/icons';
-import { Button } from 'antd';
 import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
@@ -12,10 +10,6 @@ const generateMockData = (current: number, pageSize: number) => {
   const total = 50;
   const startIndex = (current - 1) * pageSize;
   const endIndex = Math.min(startIndex + pageSize, total);
-
-  // 性别字典
-
-  // 状态字典
 
   for (let i = startIndex; i < endIndex; i++) {
     list.push({
@@ -61,28 +55,45 @@ export default () => {
     {
       label: '姓名',
       name: 'name',
+      type: 'input',
     },
     {
       label: '年龄',
       name: 'age',
+      type: 'inputNumber',
     },
     {
       label: '性别',
       name: 'gender',
       type: 'select',
+      fieldProps: {
+        options: [
+          { value: 1, label: '男' },
+          { value: 2, label: '女' },
+        ],
+      },
     },
     {
       label: '状态',
       name: 'status',
       type: 'select',
+      fieldProps: {
+        options: [
+          { value: 1, label: '启用' },
+          { value: 2, label: '禁用' },
+          { value: 3, label: '待审核' },
+        ],
+      },
     },
     {
       label: '邮箱',
       name: 'email',
+      type: 'input',
     },
     {
       label: '手机号',
       name: 'phone',
+      type: 'input',
     },
   ];
 
@@ -102,19 +113,16 @@ export default () => {
       title: '性别',
       dataIndex: 'gender',
       width: 80,
-      dictKey: 'gender',
     },
     {
       title: '状态',
       dataIndex: 'status',
       width: 80,
-      dictKey: 'status',
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       width: 200,
-      render: 'ellipsis',
     },
     {
       title: '手机号',
@@ -125,64 +133,38 @@ export default () => {
       title: '创建时间',
       dataIndex: 'createTime',
       width: 180,
-      render: 'datetime',
-    },
-    {
-      title: '最后登录时间',
-      dataIndex: 'lastLoginTime',
-      width: 180,
-      render: (time: string) => {
-        return {
-          props: {
-            style: { color: 'red' },
-          },
-          children: new Date(time).toLocaleString(),
-        };
-      },
     },
   ];
 
-  // 页面标题配置
-  const headTitle = {
-    children: '用户管理',
-    titleDesc: '管理系统用户信息，包括添加、编辑、删除等操作',
-  };
-
-  // 表格标题配置
-  const tableTitle = {
-    children: '用户列表',
-    action: (
-      <>
-        <Button style={{ marginRight: 8 }}>添加用户</Button>
-        <Button>批量操作</Button>
-      </>
-    ),
-  };
-
   return (
-    <>
-      <NoPageIcon />
-      <SSearchTable
-        headTitle={headTitle}
-        tableTitle={tableTitle}
-        serviceProps={{
-          service: mockRequest,
-          serviceProps: {
-            defaultPageSize: 10,
-          },
-        }}
-        formProps={{
-          items: formItems,
-          columns: 3,
-          showExpand: true,
-          defaultExpand: false,
-        }}
-        tableProps={{
-          columns,
-          rowKey: 'id',
-          scroll: { x: 1200 },
-        }}
-      />
-    </>
+    <SSearchTable
+      headTitle={{
+        children: '用户管理',
+        desc: '管理系统用户信息，包括添加、编辑、删除等操作',
+      }}
+      tableTitle={{
+        children: '用户列表',
+      }}
+      requestFn={mockRequest}
+      options={{
+        paginationFields: {
+          current: 'current',
+          pageSize: 'pageSize',
+          total: 'total',
+          list: 'list',
+        },
+      }}
+      formProps={{
+        items: formItems,
+        columns: 3,
+        showExpand: true,
+        defaultExpand: false,
+      }}
+      tableProps={{
+        columns,
+        rowKey: 'id',
+        scroll: { x: 1200 },
+      }}
+    />
   );
 };

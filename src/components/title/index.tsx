@@ -26,7 +26,7 @@ const STitle: React.FC<STitleProps> = (props) => {
 
   const {
     goBack,
-    titleDesc,
+    desc,
     actionNode,
     style,
     type = 'page',
@@ -138,7 +138,7 @@ const STitle: React.FC<STitleProps> = (props) => {
           {children}
         </div>
 
-        {titleDesc && titleDesc}
+        {desc && desc}
       </Flex>
       <div className={styles[`${prefixCls}-right`]}>{actionNode}</div>
     </Flex>

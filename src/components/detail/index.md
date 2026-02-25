@@ -38,7 +38,7 @@ group:
 | showFormTitle | 展示表单标题             | boolean         | true   |
 | items         | 描述列表                 | SDetailItem[]   | []     |
 | whiteBg       | 白色背景样式             | boolean         | false  |
-| titleDesc     | 标题描述                 | ReactNode       | {}     |
+| desc          | 标题描述                 | ReactNode       | {}     |
 | titleAction   | 标题操作栏               | ReactNode       | {}     |
 | column        | 列                       | number          | 3      |
 | detailName    | 渲染嵌套数据的 key 值    | string          |        |

@@ -49,7 +49,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
   style = {},
   className,
   colon = false,
-  titleDesc,
+  desc,
   titleAction,
   hasCardBg = false,
   layout = 'horizontal',
@@ -74,7 +74,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
         <STitle
           style={{ marginBottom: '0' }}
           type="form"
-          titleDesc={titleDesc}
+          desc={desc}
           actionNode={titleAction}
         >
           {title}

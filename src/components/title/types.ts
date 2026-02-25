@@ -14,7 +14,7 @@ export interface STitleProps
   gap?: number | string;
   goBack?: boolean;
   type?: TitleType;
-  titleDesc?: ReactNode;
+  desc?: ReactNode;
   actionNode?: ReactNode;
   style?: React.CSSProperties;
   hasBottomMargin?: boolean | number | string;
