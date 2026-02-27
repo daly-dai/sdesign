@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import React, { FC, memo, useMemo } from 'react';
+import React, { FC, memo, useCallback, useMemo } from 'react';
 
 import { ItemsProps } from '../../types';
 import FormField from '../form-field';
@@ -53,6 +53,17 @@ const ItemRender: FC<ItemsProps> = ({
     return restProps?.dependencies;
   }, [restProps?.dependencies]);
 
+  // 优化自定义组件渲染
+  const renderCustomCom = useCallback(() => {
+    if (!customCom) return null;
+
+    if (typeof customCom === 'function') {
+      return customCom({}, {} as any);
+    }
+
+    return customCom;
+  }, [customCom]);
+
   if (children) {
     return (
       <Form.Item
@@ -92,11 +103,7 @@ const ItemRender: FC<ItemsProps> = ({
         dependencies={handleDependencies}
       >
         {customCom ? (
-          typeof customCom === 'function' ? (
-            customCom({}, {} as any)
-          ) : (
-            customCom
-          )
+          renderCustomCom()
         ) : (
           <FormField
             type={type as any}

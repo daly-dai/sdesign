@@ -22,7 +22,6 @@ import SDependency from '../dependency';
 import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
-// import SUpload from '../upload';
 
 import { FormFieldMapType } from './types';
 

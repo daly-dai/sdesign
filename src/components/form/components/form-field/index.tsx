@@ -1,6 +1,6 @@
-import React, { memo } from 'react';
+import React, { lazy, memo, Suspense } from 'react';
 
-import { FORM_ITEM_COM_MAP_BY_KEY } from '../../constants';
+import { FORM_ITEM_COM_MAP_BY_KEY, HEAVY_COMPONENTS } from '../../constants';
 import { FormComType } from '../../types';
 
 // 泛型组件类型，用于约束props的类型
@@ -10,15 +10,25 @@ type FormFieldProps<T extends FormComType> = {
   [propName: string]: any; // 或者使用具体的props接口，但这里为了简单起见使用any
 };
 
+// 动态导入重型组件
+const HeavyComponentMap = {
+  cascader: lazy(() => import('../../../cascader')),
+  table: lazy(() => import('../../../table')),
+  SCascader: lazy(() => import('../../../cascader')),
+};
+
 // 泛型动态组件
 function FormField<T extends FormComType>({
   type,
   ...restProps
 }: FormFieldProps<T>) {
+  // 检查是否为重型组件
+  const isHeavyComponent = HEAVY_COMPONENTS.includes(type as any);
+
   // 使用Map优化查找性能
-  const Component = FORM_ITEM_COM_MAP_BY_KEY.get(
-    type ?? 'input',
-  ) as React.ComponentType<any>;
+  const Component = isHeavyComponent
+    ? HeavyComponentMap[type as keyof typeof HeavyComponentMap]
+    : FORM_ITEM_COM_MAP_BY_KEY.get(type ?? 'input');
 
   // 验证Component是否存在
   if (!Component) {
@@ -27,6 +37,14 @@ function FormField<T extends FormComType>({
   }
 
   // 渲染组件并传递props
+  if (isHeavyComponent) {
+    return (
+      <Suspense fallback={<div>加载中...</div>}>
+        <Component {...restProps} />
+      </Suspense>
+    );
+  }
+
   return <Component {...restProps} />;
 }
 

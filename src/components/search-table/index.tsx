@@ -1,32 +1,57 @@
-import React, { FC } from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 
 import { SCard, SForm, STable, STitle } from '@dalydb/sdesign';
 import useSearchTable from '@dalydb/sdesign/hooks/useSearchTable';
-import { SearchTableProps } from './types';
+import { SearchTableProps, SearchTableRef } from './types';
 
-const SSearchTable: FC<SearchTableProps> = ({
-  headTitle,
-  tableTitle,
-  requestFn,
-  options = {},
-  tableProps: externalTableProps,
-  formProps,
-}) => {
-  const { tableProps, form, formConfig } = useSearchTable(requestFn, options);
+const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
+  (
+    {
+      headTitle,
+      tableTitle,
+      requestFn,
+      options = {},
+      tableProps: externalTableProps,
+      formProps,
+    },
+    ref,
+  ) => {
+    const { tableProps, form, formConfig, getPageData, handleReset } =
+      useSearchTable(requestFn, {
+        ...options,
+        form: formProps?.form,
+      });
 
-  return (
-    <>
-      {headTitle && <STitle type="page" {...headTitle} />}
+    useImperativeHandle(
+      ref,
+      () => ({
+        refresh: (params?: any) => {
+          getPageData(params);
+        },
+        reset: () => {
+          handleReset();
+        },
+        getForm: () => form,
+      }),
+      [getPageData, handleReset, form],
+    );
 
-      <SForm.Search form={form} {...formConfig} {...formProps} />
+    return (
+      <>
+        {headTitle && <STitle type="page" {...headTitle} />}
 
-      <SCard>
-        {tableTitle && <STitle type="table" {...tableTitle} />}
+        <SForm.Search form={form} {...formConfig} {...formProps} />
 
-        <STable {...tableProps} {...externalTableProps} />
-      </SCard>
-    </>
-  );
-};
+        <SCard>
+          {tableTitle && <STitle type="table" {...tableTitle} />}
+
+          <STable {...tableProps} {...externalTableProps} />
+        </SCard>
+      </>
+    );
+  },
+);
+
+SSearchTable.displayName = 'SSearchTable';
 
 export default SSearchTable;

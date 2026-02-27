@@ -40,7 +40,7 @@ export default () => {
     {
       type: 'input',
       label: '查询输入框',
-      name: 'key',
+      name: 'key44',
       fieldProps: {
         allowClear: true,
       },
@@ -48,7 +48,7 @@ export default () => {
     {
       type: 'select',
       label: '查询下拉框',
-      name: 'key1',
+      name: 'key122',
       fieldProps: {
         dict: dictData,
         allowClear: true,
@@ -60,7 +60,7 @@ export default () => {
     {
       type: 'input',
       label: '查询输入框',
-      name: 'key',
+      name: 'key123',
     },
     {
       type: 'select',
@@ -73,7 +73,7 @@ export default () => {
     {
       type: 'select',
       label: '查询下拉框',
-      name: 'key1',
+      name: 'key122',
       fieldProps: {
         dict: dictData,
       },

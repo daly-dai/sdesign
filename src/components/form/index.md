@@ -128,7 +128,7 @@ group:
 ## type 类型及其相关配置
 
 | 组件类型名称     | 组件类型相关配置                                                                         |
-| ---------------- | ---------------------------------------------------------------------------------------- |
+| ---------------- | ---------------------------------------------------------------------------------------- | --- |
 | input            | [input](https://ant-design.antgroup.com/components/input-cn#input)                       |
 | inputNumber      | [inputNumber](https://ant-design.antgroup.com/components/input-number-cn#api)            |
 | select           | [Select](/components/select#api)                                                         |
@@ -138,10 +138,7 @@ group:
 | radioGroup       | [radioGroup](/components/radio-group#api)                                                |
 | switch           | [SSelect](https://ant-design.antgroup.com/components/switch-cn#api)                      |
 | treeSelect       | [treeSelect](https://ant-design.antgroup.com/components/tree-select-cn#api)              |
-| upload           | [antd upload](/components/select#api)                                                    |
-| SUpload          | [SUpload](/components/upload#api)                                                        |
-| SUploadDragger   | [SUploadDragger](/components/upload#api)                                                 |
-| SUploadPicture   | [SUploadDragger](/components/upload#api)                                                 |
+| upload           | [antd upload](/components/select#api)                                                    |     |
 | datePicker       | [datePicker](https://ant-design.antgroup.com/components/date-picker-cn#datepicker)       |
 | SDatePicker      | [datePicker](/components/date-picker#api)                                                |
 | datePickerRange  | [datePickerRange](https://ant-design.antgroup.com/components/date-picker-cn#rangepicker) |

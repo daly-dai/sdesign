@@ -1,10 +1,37 @@
 import { Col, Form, Row } from 'antd';
-import React, { FC, memo, useCallback, useMemo } from 'react';
+import React, {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 
 import ItemRender from './components/item-render';
 import { SFormProps } from './types';
 
 import { getPrefixCls } from '@dalydb/sdesign/utils';
+
+// 性能监控Hook
+const useFormPerformance = () => {
+  const renderTimeRef = useRef<number>(0);
+  const itemCountRef = useRef<number>(0);
+
+  const startRender = () => {
+    renderTimeRef.current = performance.now();
+  };
+
+  const endRender = (itemCount: number) => {
+    itemCountRef.current = itemCount;
+    const renderTime = performance.now() - renderTimeRef.current;
+    console.log(
+      `Form rendered ${itemCount} items in ${renderTime.toFixed(2)}ms`,
+    );
+  };
+
+  return { startRender, endRender };
+};
 
 const InstanceForm: FC<SFormProps> = ({
   rowProps,
@@ -20,6 +47,7 @@ const InstanceForm: FC<SFormProps> = ({
   ...formProps
 }) => {
   const prefixCls = getPrefixCls('form');
+  const { startRender, endRender } = useFormPerformance();
 
   // 使用useCallback优化事件处理器
   const handleFinish = useCallback(
@@ -65,6 +93,12 @@ const InstanceForm: FC<SFormProps> = ({
   const visibleItems = useMemo(() => {
     return (items ?? []).filter((item) => !item.hidden);
   }, [items]);
+
+  // 性能监控
+  useEffect(() => {
+    startRender();
+    return () => endRender(visibleItems.length);
+  }, [visibleItems, startRender, endRender]);
 
   return (
     <Form

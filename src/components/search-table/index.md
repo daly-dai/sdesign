@@ -39,7 +39,21 @@
 
 <code src="./demos/with-expanded-row.tsx"></code>
 
+### 删除数据后刷新
+
+演示如何在删除数据后调用刷新方法更新列表。
+
+<code src="./demos/with-delete.tsx"></code>
+
+### 外部表单实例
+
+演示如何通过 `formProps.form` 传入外部创建的 Form 实例，实现更灵活的表单控制。
+
+<code src="./demos/with-external-form.tsx"></code>
+
 ## API
+
+### 组件 Props
 
 | 属性名     | 描述                                           | 类型                                            | 默认值 |
 | ---------- | ---------------------------------------------- | ----------------------------------------------- | ------ |
@@ -49,6 +63,16 @@
 | options    | useSearchTable 的配置选项                      | [useSearchTableOptions](#usesearchtableoptions) | `{}`   |
 | formProps  | 搜索表单配置，继承自 SForm.Search 的 props     | [SearchProps](/components/form#api)             | 无     |
 | tableProps | 表格配置，会合并到 useSearchTable 返回的 props | [STableProps](/components/table#api)            | 无     |
+
+### 组件 Ref 方法
+
+通过 `ref` 可以访问以下方法：
+
+| 方法名  | 描述                   | 类型                      |
+| ------- | ---------------------- | ------------------------- |
+| refresh | 手动刷新表格数据       | `(params?: any) => void`  |
+| reset   | 重置搜索条件并刷新列表 | `() => void`              |
+| getForm | 获取表单实例           | `() => FormInstance<any>` |
 
 ## useSearchTableOptions
 

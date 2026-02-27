@@ -78,12 +78,6 @@ export default () => {
       required: true,
       type: 'input',
     },
-    {
-      label: '附件上传',
-      type: 'SUpload',
-      name: 'file',
-      required: true,
-    },
   ];
 
   const toggleFormType = () => {

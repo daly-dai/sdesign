@@ -11,10 +11,6 @@
 
 <code src="./demos/detail.tsx"></code>
 
-### 全局配置 upload 组件的请求地址
-
-<code src="./demos/uploadUrl.tsx"></code>
-
 ## API
 
 | 属性名     | 描述         | 类型               | 默认值 |
