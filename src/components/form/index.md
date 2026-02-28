@@ -73,6 +73,93 @@ group:
 
 [其他属性请参考 form](https://ant-design.antgroup.com/components/form-cn#api)
 
+## SForm 静态方法与组件
+
+### Hook 方法
+
+| 方法名                  | 描述           | 用法                                          |
+| ----------------------- | -------------- | --------------------------------------------- |
+| `SForm.useForm`         | 创建表单实例   | `const [form] = SForm.useForm()`              |
+| `SForm.useWatch`        | 监听字段值变化 | `const value = SForm.useWatch('field', form)` |
+| `SForm.useFormInstance` | 获取表单实例   | `const form = SForm.useFormInstance()`        |
+
+### 静态组件
+
+| 组件名            | 描述                      | 用法                                                             |
+| ----------------- | ------------------------- | ---------------------------------------------------------------- |
+| `SForm.FormItem`  | Ant Design 原生 Form.Item | `<SForm.FormItem label="字段" name="field">...</SForm.FormItem>` |
+| `SForm.ErrorList` | 错误列表组件              | `<SForm.ErrorList errors={errors} />`                            |
+| `SForm.List`      | 动态表单列表组件          | `<SForm.List name="users">...</SForm.List>`                      |
+
+### 使用示例
+
+#### 使用 Hook 方法
+
+```tsx
+import { SForm } from '@dalydb/sdesign';
+
+export default () => {
+  // 创建表单实例
+  const [form] = SForm.useForm();
+
+  // 监听字段值变化
+  const username = SForm.useWatch('username', form);
+
+  // 获取表单实例（在子组件中使用）
+  // const form = SForm.useFormInstance();
+
+  return (
+    <SForm form={form} onFinish={(values) => console.log(values)}>
+      <SForm.Item label="用户名" name="username" required>
+        <input />
+      </SForm.Item>
+      <SForm.Item label="密码" name="password" required>
+        <input type="password" />
+      </SForm.Item>
+    </SForm>
+  );
+};
+```
+
+#### 使用动态表单列表
+
+```tsx
+import { SForm, Button } from '@dalydb/sdesign';
+
+export default () => {
+  const [form] = SForm.useForm();
+
+  return (
+    <SForm form={form}>
+      <SForm.List name="users">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field, index) => (
+              <div key={field.key} style={{ marginBottom: 16 }}>
+                <SForm.Item
+                  {...field}
+                  label={`用户 ${index + 1}`}
+                  name={[field.name, 'name']}
+                  required
+                >
+                  <input placeholder="请输入姓名" />
+                </SForm.Item>
+                <Button danger onClick={() => remove(field.name)}>
+                  删除
+                </Button>
+              </div>
+            ))}
+            <Button type="dashed" onClick={() => add()}>
+              + 添加用户
+            </Button>
+          </>
+        )}
+      </SForm.List>
+    </SForm>
+  );
+};
+```
+
 ## SForm.Group
 
 | 属性名     | 描述                             | 类型                                                  | 默认值    |
