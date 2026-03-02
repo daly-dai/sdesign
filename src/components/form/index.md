@@ -57,6 +57,26 @@ group:
 
 <code src="./demos/search.tsx"></code>
 
+## 自定义组件
+
+<code src="./demos/custom-component.tsx"></code>
+
+## 表单校验
+
+<code src="./demos/validation.tsx"></code>
+
+## 动态表单
+
+<code src="./demos/dynamic-form.tsx"></code>
+
+## 表单联动 (useWatch)
+
+<code src="./demos/use-watch.tsx"></code>
+
+## 完整示例
+
+<code src="./demos/full-example.tsx"></code>
+
 ## SForm
 
 | 属性名     | 描述                                   | 类型                                                               | 默认值    |

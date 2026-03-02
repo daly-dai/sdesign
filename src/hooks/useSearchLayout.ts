@@ -40,7 +40,7 @@ const useSearchLayout = ({
     return styles
       ? styles[`${prefixCls}-action-right`]
       : `${prefixCls}-action-right`;
-  }, [dynamicOffset, items]);
+  }, [styles, prefixCls]);
 
   return {
     actionAlign,

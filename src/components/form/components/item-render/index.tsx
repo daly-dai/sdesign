@@ -10,6 +10,9 @@ import SDependency from '@dalydb/sdesign/components/dependency';
 import SErrorBoundary from '@dalydb/sdesign/components/error-boundary';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
+const EMPTY_OBJECT = {};
+const EMPTY_FORM_INSTANCE = {} as any;
+
 const ItemRender: FC<ItemsProps> = ({
   type,
   label,
@@ -58,7 +61,7 @@ const ItemRender: FC<ItemsProps> = ({
     if (!customCom) return null;
 
     if (typeof customCom === 'function') {
-      return customCom({}, {} as any);
+      return customCom(EMPTY_OBJECT, EMPTY_FORM_INSTANCE);
     }
 
     return customCom;

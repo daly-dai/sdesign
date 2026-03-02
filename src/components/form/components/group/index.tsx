@@ -1,14 +1,13 @@
 import { Col, Form, Row } from 'antd';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
-import React, { FC, ReactNode, memo, useMemo } from 'react';
+import React, { FC, ReactNode, memo, useCallback, useMemo } from 'react';
 
 import { GroupItemsType, SFormGroupProps } from '../../types';
 import ItemRender from '../item-render';
 
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import STitle from '@dalydb/sdesign/components/title';
-import { createCode } from '@dalydb/sdesign/utils';
 
 function getItemFormName(
   itemName?: string,
@@ -41,13 +40,19 @@ const Group: FC<SFormGroupProps> = ({
       };
   }, [readonly]);
 
-  const handleFinish = (values: any) => {
-    onFinish?.(values);
-  };
+  const handleFinish = useCallback(
+    (values: any) => {
+      onFinish?.(values);
+    },
+    [onFinish],
+  );
 
-  const handleReset = (e: any) => {
-    onReset?.(e);
-  };
+  const handleReset = useCallback(
+    (e: any) => {
+      onReset?.(e);
+    },
+    [onReset],
+  );
 
   // 获取占比
   const getDynamicSpan = (column: number = 1) => {
@@ -62,27 +67,37 @@ const Group: FC<SFormGroupProps> = ({
     return <>{title}</>;
   };
 
-  const renderItem = (groupItem: GroupItemsType) => {
+  const renderItem = (groupItem: GroupItemsType, groupIndex: number) => {
     const dynamicSpan = getDynamicSpan(groupItem?.columns);
     const itemContainer = groupItem?.container ?? container;
 
     return (
-      <DynamicContainer key={createCode(6)} CustomContainer={itemContainer}>
+      <DynamicContainer
+        key={groupItem.formName || groupIndex}
+        CustomContainer={itemContainer}
+      >
         {renderTitle(groupItem?.title)}
         <Row gutter={[24, 16]} {...groupItem?.rowProps}>
           {((groupItem.items ?? []).filter((item) => !item.hidden) || []).map(
-            (item) => {
+            (item, itemIndex) => {
               const itemFormName = getItemFormName(
                 item?.formName,
                 groupItem?.formName,
                 formName,
               );
 
+              // 生成稳定的 key：优先使用 name（转字符串），否则使用 index
+              const itemKey =
+                item.name !== null && item.name !== undefined
+                  ? Array.isArray(item.name)
+                    ? item.name.join('.')
+                    : String(item.name)
+                  : itemIndex;
+
               return (
-                <Col key={createCode()} span={dynamicSpan} {...item?.colProps}>
+                <Col key={itemKey} span={dynamicSpan} {...item?.colProps}>
                   <ItemRender
                     readonly={readonly}
-                    key={createCode(6)}
                     formName={itemFormName}
                     {...item}
                   />
@@ -98,8 +113,8 @@ const Group: FC<SFormGroupProps> = ({
   const renderGroupItems = useMemo(() => {
     if (!isArray(groupItems)) return <></>;
 
-    return groupItems?.map((groupItem) => renderItem(groupItem));
-  }, [groupItems]);
+    return groupItems?.map((groupItem, index) => renderItem(groupItem, index));
+  }, [groupItems, readonly, container, formName]);
 
   return (
     <Form

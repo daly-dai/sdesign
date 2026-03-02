@@ -138,7 +138,7 @@ export default UserList;
 
 ### Hooks 工具
 
-- **数据处理** - useSearchTable、useSTable 等数据处理 Hooks
+- **数据处理** - useSearchTable 等数据处理 Hooks
 - **表单增强** - useFormPerformance、useDispatchDict 等表单相关 Hooks
 - **UI 交互** - useExpand、useFrameAnimation 等交互增强 Hooks
 

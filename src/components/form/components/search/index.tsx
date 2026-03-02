@@ -1,5 +1,5 @@
 import { Button, Col, Flex, Form, Row } from 'antd';
-import React, { FC, memo, useMemo } from 'react';
+import React, { FC, memo, useCallback, useMemo } from 'react';
 
 import { SearchProps, SFormItems } from '../../types';
 import ItemRender from '../item-render';
@@ -55,13 +55,19 @@ const Search: FC<SearchProps> = memo(
         };
     }, [readonly]);
 
-    const handleFinish = (values: any) => {
-      props?.onFinish?.(values);
-    };
+    const handleFinish = useCallback(
+      (values: any) => {
+        props?.onFinish?.(values);
+      },
+      [props?.onFinish],
+    );
 
-    const handleReset = (e: any) => {
-      props?.onReset?.(e);
-    };
+    const handleReset = useCallback(
+      (e: any) => {
+        props?.onReset?.(e);
+      },
+      [props?.onReset],
+    );
 
     const renderItemFields = (items: SFormItems[] | undefined) => {
       if (!expandNum || !items?.length) return <></>;
@@ -83,7 +89,7 @@ const Search: FC<SearchProps> = memo(
 
     const itemFields = useMemo(() => {
       return renderItemFields(items);
-    }, [expandNum, columns, items]);
+    }, [expandNum, columns, items, dynamicSpan, readonly]);
 
     const renderCollapse = useMemo(() => {
       if (!showCollapse) return <></>;

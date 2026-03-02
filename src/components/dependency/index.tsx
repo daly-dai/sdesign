@@ -4,7 +4,7 @@ import isBoolean from 'lodash/isBoolean';
 import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 import set from 'lodash/set';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { SDependencyProps } from './types';
 
@@ -19,13 +19,13 @@ const SDependency = <T,>({
     const result: string[] = [];
 
     depNames?.forEach((name) => {
-      if (!isString(name)) return '';
+      if (!isString(name)) return;
 
       result.push(name);
     });
 
     return result;
-  }, []);
+  }, [depNames]);
 
   /**
    * 更新判断
@@ -34,21 +34,24 @@ const SDependency = <T,>({
    * @param info
    * @returns
    */
-  const handleUpdate = (prevValues: T, nextValues: T, info: any) => {
-    if (isBoolean(rest.shouldUpdate)) {
-      return rest.shouldUpdate;
-    }
+  const handleUpdate = useCallback(
+    (prevValues: T, nextValues: T, info: any) => {
+      if (isBoolean(rest.shouldUpdate)) {
+        return rest.shouldUpdate;
+      }
 
-    if (isFunction(rest.shouldUpdate)) {
-      return rest.shouldUpdate?.(prevValues, nextValues, info);
-    }
+      if (isFunction(rest.shouldUpdate)) {
+        return rest.shouldUpdate?.(prevValues, nextValues, info);
+      }
 
-    if (!flattenNames?.length) return false;
+      if (!flattenNames?.length) return false;
 
-    return flattenNames?.some((name) => {
-      return !isDeepEqualReact(get(prevValues, name), get(nextValues, name));
-    });
-  };
+      return flattenNames?.some((name) => {
+        return !isDeepEqualReact(get(prevValues, name), get(nextValues, name));
+      });
+    },
+    [flattenNames, rest.shouldUpdate],
+  );
 
   /**
    * 获取当前依赖的相关数据
