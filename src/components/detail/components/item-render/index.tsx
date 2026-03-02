@@ -1,5 +1,4 @@
 import { Image } from 'antd';
-import isArray from 'lodash/isArray';
 import isNil from 'lodash/isNil';
 import React, { FC, ReactNode, memo, useContext, useMemo } from 'react';
 
@@ -16,6 +15,60 @@ import {
   getDictMap,
 } from '@dalydb/sdesign/utils';
 
+// 渲染器参数类型
+interface RendererProps extends DetailItemType {
+  globalDict?: Record<string, any>;
+}
+
+// 在模块级别定义类型渲染器，避免每次渲染重新创建
+const TYPE_RENDERERS: Record<ItemType, (props: RendererProps) => ReactNode> = {
+  text: ({ value }) => (isNil(value) ? '-' : value),
+  empty: () => '-',
+  placeholder: () => '',
+  dict: ({ value, dictMap, dictKey, dictReflect, globalDict }) => {
+    const localDictMap = getDictMap({ dictMap, globalDict, dictKey });
+    return dispatchDictData(
+      localDictMap,
+      value,
+      dictReflect ?? { label: 'label', name: 'name' },
+    );
+  },
+  file: ({ value, fileProps }) => {
+    if (isNil(value)) return '-';
+    if (!Array.isArray(value)) {
+      return (
+        <SFile {...fileProps} style={{ color: '#1677ff' }} fileData={value} />
+      );
+    }
+    return <SFile.List {...fileProps} fileList={value} />;
+  },
+  img: ({ value }) => (
+    <Image
+      style={{
+        backgroundColor: 'rgba(8, 16, 30, 0.15)',
+        objectFit: 'scale-down',
+      }}
+      placeholder
+      width={88}
+      height={88}
+      src={value}
+      fallback={FALL_BACK_STRING}
+    />
+  ),
+  rangeTime: ({ value }) => {
+    if (!Array.isArray(value) || value.length !== 2) return '-';
+    return `${value[0] ?? ''} - ${value[1] ?? ''}`;
+  },
+  checkbox: ({ value, dictMap, dictKey, dictReflect, globalDict }) => {
+    const localDictMap = getDictMap({ dictMap, globalDict, dictKey });
+    return dispatchCheckboxDictData(
+      localDictMap,
+      value,
+      dictReflect ?? { label: 'label', name: 'name' },
+    );
+  },
+};
+
 const DetailItem: FC<DetailItemType> = ({
   render,
   type = 'text',
@@ -24,10 +77,7 @@ const DetailItem: FC<DetailItemType> = ({
   fileProps,
   dictKey,
   dataSource,
-  dictReflect = {
-    label: 'label',
-    name: 'name',
-  },
+  dictReflect = { label: 'label', name: 'name' },
 }) => {
   const { styles, prefixCls } = useComStyle({
     prefixCls: 'detail',
@@ -36,85 +86,30 @@ const DetailItem: FC<DetailItemType> = ({
 
   const { globalDict } = useContext(ConfigContext);
 
-  const renderValue = useMemo(() => {
+  const renderValue = useMemo<ReactNode>(() => {
     if (render) {
-      return (
-        <div className={styles[`${prefixCls}-value`]}>
-          {render(value, dataSource) as ReactNode}
-        </div>
-      );
+      return render(value, dataSource);
     }
-
-    const TYPE_MAP: Record<ItemType, () => ReactNode> = {
-      text: () => (isNil(value) ? '-' : value),
-      empty: () => '-',
-      placeholder: () => '',
-      dict: () => {
-        const localDictMap = getDictMap({ dictMap, globalDict, dictKey });
-
-        const result = dispatchDictData(localDictMap, value, dictReflect);
-
-        return result;
-      },
-      file: () => {
-        if (isNil(value)) return '-';
-
-        if (!isArray(value))
-          return (
-            <SFile
-              {...fileProps}
-              style={{ color: '#1677ff' }}
-              fileData={value}
-            />
-          );
-
-        return <SFile.List {...fileProps} fileList={value ?? []} />;
-      },
-      img: () => {
-        return (
-          <Image
-            style={{
-              backgroundColor: 'rgba(8, 16, 30, 0.15)',
-              objectFit: 'scale-down',
-            }}
-            placeholder
-            width={88}
-            height={88}
-            src={value}
-            fallback={FALL_BACK_STRING}
-          />
-        );
-      },
-      rangeTime: () => {
-        if (!value?.length || value?.length !== 2) return '-';
-
-        const startTime = value?.[0];
-        const endTime = value?.[1];
-
-        return `${startTime ?? ''} - ${endTime ?? ''}`;
-      },
-      checkbox: () => {
-        const localDictMap = getDictMap({ dictMap, globalDict, dictKey });
-
-        const result = dispatchCheckboxDictData(
-          localDictMap,
-          value,
-          dictReflect,
-        );
-
-        return result;
-      },
-    };
-    return TYPE_MAP[type]();
+    return TYPE_RENDERERS[type]({
+      type,
+      value,
+      dictMap,
+      dictKey,
+      dataSource,
+      dictReflect,
+      globalDict,
+      fileProps,
+    });
   }, [
+    render,
     type,
     value,
     dictMap,
-    fileProps,
     dictKey,
     dataSource,
+    dictReflect,
     globalDict,
-    render,
+    fileProps,
   ]);
 
   return <div className={styles[`${prefixCls}-value`]}>{renderValue}</div>;

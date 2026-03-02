@@ -1,6 +1,5 @@
-import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
-import React, { FC, ReactNode, memo, useMemo } from 'react';
+import React, { FC, ReactNode, memo, useId } from 'react';
 
 import DetailInstance from '../../instance';
 import { SDetailGroupProps, SDetailProps } from '../../types';
@@ -8,75 +7,78 @@ import { SDetailGroupProps, SDetailProps } from '../../types';
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import STitle from '@dalydb/sdesign/components/title';
 import { STitleProps } from '@dalydb/sdesign/components/title/types';
-import { createCode } from '@dalydb/sdesign/utils';
+
+// 渲染标题
+const renderTitle = (
+  title: string | ReactNode,
+  titleProps?: Omit<STitleProps, 'title'>,
+) => {
+  if (!title) return null;
+  if (!isString(title)) return title;
+  return <STitle {...titleProps}>{title}</STitle>;
+};
+
+// 渲染详情实例
+const renderGroupDetail = (
+  props: SDetailProps | undefined,
+  fallbackDataSource: Record<string, any> | undefined,
+  key: string,
+) => {
+  if (!props?.items?.length) return null;
+
+  return (
+    <DetailInstance
+      key={key}
+      {...props}
+      hasCardBg
+      dataSource={props.dataSource ?? fallbackDataSource ?? {}}
+    />
+  );
+};
 
 const DetailGroup: FC<SDetailGroupProps> = ({ dataSource, items }) => {
-  const memoizedDataSource = useMemo(() => dataSource, [dataSource]);
+  const groupId = useId();
 
-  // 渲染标题
-  const renderTitle = (
-    title: string | ReactNode,
-    titleProps?: Omit<STitleProps, 'title'>,
-  ) => {
-    if (!title) return '';
+  if (!Array.isArray(items) || items.length === 0) return null;
 
-    if (isString(title)) {
-      return <STitle {...titleProps}>{title}</STitle>;
-    }
+  return (
+    <>
+      {items.map((item, index) => {
+        const {
+          groupTitleProps,
+          groupTitle,
+          groupContainer,
+          groupItems,
+          items: detailItems,
+          dataSource: itemDataSource,
+          itemProps,
+          hidden,
+        } = item;
 
-    return title;
-  };
+        if (hidden) return null;
 
-  // 渲染详情实例
-  const renderGroupDetail = (props: SDetailProps | undefined) => {
-    if (!props) return <></>;
+        const containerKey = `${groupId}-group-${index}`;
 
-    if (!isArray(props?.items) || !props?.items?.length) return <></>;
-
-    const data = props?.dataSource ?? memoizedDataSource;
-
-    return (
-      <DetailInstance
-        key={createCode(6)}
-        {...props}
-        hasCardBg={true}
-        dataSource={data ?? {}}
-      ></DetailInstance>
-    );
-  };
-
-  const renderGroup = useMemo(() => {
-    if (!items || !Array(items)) return <></>;
-
-    return items.map((item) => {
-      const {
-        groupTitleProps,
-        groupTitle,
-        groupContainer,
-        groupItems,
-        items,
-        dataSource,
-        itemProps,
-        hidden,
-      } = item;
-
-      if (hidden) return <></>;
-
-      return (
-        <DynamicContainer key={createCode(6)} CustomContainer={groupContainer}>
-          {renderTitle(groupTitle, groupTitleProps)}
-
-          {renderGroupDetail({ items, dataSource, ...itemProps })}
-
-          {(groupItems ?? []).map((detailItem) =>
-            renderGroupDetail(detailItem),
-          )}
-        </DynamicContainer>
-      );
-    });
-  }, [items, dataSource]);
-
-  return <>{renderGroup}</>;
+        return (
+          <DynamicContainer key={containerKey} CustomContainer={groupContainer}>
+            {renderTitle(groupTitle, groupTitleProps)}
+            {renderGroupDetail(
+              { items: detailItems, dataSource: itemDataSource, ...itemProps },
+              dataSource,
+              `${containerKey}-detail`,
+            )}
+            {(groupItems ?? []).map((detailItem, idx) =>
+              renderGroupDetail(
+                detailItem,
+                dataSource,
+                `${containerKey}-sub-${idx}`,
+              ),
+            )}
+          </DynamicContainer>
+        );
+      })}
+    </>
+  );
 };
 
 export default memo(DetailGroup);
