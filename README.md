@@ -154,7 +154,7 @@ export default UserList;
 - [🚀 快速开始](https://your-docs-url.com/guide)
 - [🔧 组件列表](https://your-docs-url.com/components)
 - [🛠️ Hooks 指南](https://your-docs-url.com/hooks)
-- [📦 更新日志](https://your-docs-url.com/changelog)
+- [📦 更新日志](./CHANGELOG.md)
 
 ## 🔧 技术栈
 
