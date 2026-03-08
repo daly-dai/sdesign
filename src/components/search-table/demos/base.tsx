@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { SFormItems } from '../../form/types';
-import { SColumnsType } from '../../table/types';
-import SSearchTable from '../index';
+import { SColumnsType, SFormItems, SSearchTable } from '@dalydb/sdesign';
 
 // 模拟数据
 const generateMockData = (current: number, pageSize: number) => {

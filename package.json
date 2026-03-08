@@ -16,14 +16,20 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "sdesign-ai": "./scripts/cli/sdesign-ai.ts"
+  },
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "files": [
-    "dist"
+    "dist",
+    "ai",
+    "scripts/cli"
   ],
   "scripts": {
+    "ai:generate": "tsx scripts/gen-llms-txt.ts",
     "biome": "biome check --write src",
     "build": "father build",
     "build:watch": "father dev",
@@ -38,7 +44,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "lint:es-fix": "npm run lint:es -- --fix",
     "prepare": "husky install && dumi setup",
-    "prepublishOnly": "father doctor && npm run build",
+    "prepublishOnly": "father doctor && npm run build && npm run ai:generate",
     "start": "npm run dev",
     "version:major": "npm version major",
     "version:minor": "npm version minor",
@@ -88,6 +94,7 @@
     "react-router": "^6.16.0",
     "react-router-dom": "^6.23.1",
     "stylelint": "^14.9.1",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   },
   "peerDependencies": {

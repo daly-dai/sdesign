@@ -12,22 +12,63 @@ export interface DataType {
 }
 
 const RenderTypes = tuple('datetime', 'date', 'ellipsis');
+
+/**
+ * 列 render 快捷类型
+ *
+ * 在 columns 的 render 中可直接传字符串：
+ * - `'datetime'` — 渲染为日期时间格式
+ * - `'date'` — 渲染为日期格式
+ * - `'ellipsis'` — 超出省略显示
+ */
 export type RenderType = (typeof RenderTypes)[number];
 
 type SColumn<RecordType = any> = (
   | ColumnGroupType<RecordType>
   | Omit<ColumnType<RecordType>, 'render'>
 ) & {
+  /** 字典映射 key，配合 SConfigProvider 的 globalDict 自动转换 */
   dictKey?: string | undefined;
-
+  /**
+   * 列渲染器
+   *
+   * 除标准 render 函数外，支持字符串快捷类型:
+   * - `'datetime'` — 渲染为日期时间
+   * - `'date'` — 渲染为日期
+   * - `'ellipsis'` — 超出省略
+   */
   render?: ColumnType<RecordType>['render'] | RenderType;
 };
+
+/** STable 列定义类型 */
 export type SColumnsType<RecordType> = SColumn<RecordType>[];
 
+/**
+ * STable 增强表格 Props
+ *
+ * 继承 antd Table 全部属性，扩展了字典映射、序号列、快捷 render 等能力。
+ *
+ * @example
+ * ```tsx
+ * <STable
+ *   columns={[
+ *     { title: '姓名', dataIndex: 'name' },
+ *     { title: '状态', dataIndex: 'status', dictKey: 'userStatus' },
+ *     { title: '时间', dataIndex: 'createTime', render: 'datetime' },
+ *   ]}
+ *   dataSource={data}
+ *   isSeq
+ * />
+ * ```
+ */
 export interface STableProps<RecordType = any>
   extends Omit<TableProps<RecordType>, 'columns'> {
+  /** 列定义，支持 dictKey 和字符串 render */
   columns?: SColumnsType<RecordType>;
+  /** 是否显示序号列 */
   isSeq?: boolean;
+  /** 当前页码（用于序号计算） */
   current?: number;
+  /** 每页条数（用于序号计算） */
   pageSize?: number;
 }
