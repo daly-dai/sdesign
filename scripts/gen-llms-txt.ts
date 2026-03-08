@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
 /**
- * scripts/gen-llms-txt.ts — 一键生成精简版 llms.txt（~2.7K token）
+ * scripts/gen-llms-txt.ts — 一键生成精简版 llms.txt
  *
- * 合并了原 scripts/gen-ai-docs/ 下的全部提取 + 生成逻辑。
- * 完整 API 文档通过 .d.ts 中的 JSDoc 自动携带，此脚本只负责概览。
+ * 通用提取逻辑：自动扫描所有组件 types.ts 和 hook 文件，
+ * 提取全部 interface/type 定义，无需手动维护硬编码列表。
  *
  * 用法: npx tsx scripts/gen-llms-txt.ts
  */
@@ -57,6 +57,20 @@ interface PropInfo {
   description: string;
 }
 
+/** 一个 interface 或 type 的完整定义 */
+interface TypeDef {
+  name: string;
+  kind: 'interface' | 'type';
+  /** extends 声明（仅 interface 有） */
+  extendsFrom?: string;
+  /** 提取到的属性列表（type alias 无法结构化解析时为空） */
+  props: PropInfo[];
+  /** type alias 的原始定义文本（当 props 为空时用于输出） */
+  rawType?: string;
+  /** JSDoc 描述 */
+  description: string;
+}
+
 interface SubComponent {
   name: string;
   source: 'internal' | 'antd';
@@ -66,8 +80,10 @@ interface SubComponent {
 interface ComponentMeta {
   name: string;
   description: string;
-  propsInterfaceName: string;
-  props: PropInfo[];
+  /** 主 Props 接口名 */
+  mainPropsName: string;
+  /** 该组件 types.ts 中所有类型定义 */
+  typeDefs: TypeDef[];
   extendsFrom?: string;
   subComponents: SubComponent[];
   staticMethods: string[];
@@ -76,8 +92,10 @@ interface ComponentMeta {
 interface HookMeta {
   name: string;
   description: string;
-  params: PropInfo[];
-  returns: PropInfo[];
+  /** 所有相关类型定义（参数、返回值等） */
+  typeDefs: TypeDef[];
+  /** 主签名文本（从 hook 函数声明提取） */
+  signature: string;
 }
 
 interface LibraryMeta {
@@ -87,160 +105,219 @@ interface LibraryMeta {
   hooks: HookMeta[];
 }
 
-/**
- * 将 llms.txt 内容作为模块级 JSDoc 注入 dist/index.d.ts 顶部
- *
- * 原理: AI 模型解析 `import { SForm } from '@dalydb/sdesign'` 时，
- * 会读取 package.json.types 指向的 dist/index.d.ts。
- * 模块顶部的 JSDoc 注释会被 AI 作为上下文自动获取。
- */
-function injectIntoDistDts(llmsContent: string): void {
-  const DIST_DIR = path.join(ROOT, 'dist');
-  const dtsPath = path.join(DIST_DIR, 'index.d.ts');
+// ─── 工具：注释提取 ─────────────────────────────────────────────
 
-  if (!fs.existsSync(dtsPath)) {
-    console.log('  ⚠ dist/index.d.ts 不存在，跳过注入（请先运行 build）');
-    return;
-  }
-
-  const original = fs.readFileSync(dtsPath, 'utf-8');
-
-  // 移除旧注入（如果有）
-  const cleaned = original.replace(
-    /\/\*\*\n \* @module @dalydb\/sdesign[\s\S]*?\*\/\n/m,
-    '',
-  );
-
-  // 将 llms.txt 内容转为 JSDoc 块注释
-  const jsdocLines = llmsContent
+/** 提取紧贴在某位置之前的 JSDoc 注释文本 */
+function extractLeadingJSDoc(content: string, pos: number): string {
+  const before = content.slice(0, pos).trimEnd();
+  const commentEndMatch = before.match(/\*\/\s*$/);
+  if (!commentEndMatch) return '';
+  const commentEnd =
+    before.length - (before.length - before.lastIndexOf('/**'));
+  const commentBlock = before.slice(commentEnd);
+  return commentBlock
+    .replace(/\/\*\*|\*\//g, '')
     .split('\n')
-    .map((line) => ` * ${line}`)
-    .join('\n');
-
-  const jsdocBlock = `/**\n * @module @dalydb/sdesign\n *\n${jsdocLines}\n */\n`;
-
-  fs.writeFileSync(dtsPath, jsdocBlock + cleaned, 'utf-8');
-  console.log(`  ✓ dist/index.d.ts 已注入 llms.txt 内容`);
+    .map((l) =>
+      l
+        .replace(/^\s*\*\s?/, '')
+        .replace(/@\w+[^\n]*/g, '')
+        .trim(),
+    )
+    .filter(Boolean)
+    .join(' ')
+    .trim();
 }
 
-// ─── 提取: Props ────────────────────────────────────────────────
+// ─── 工具：属性块解析 ───────────────────────────────────────────
 
-function parseInterfaceProps(
-  content: string,
-  interfaceName: string,
-): PropInfo[] {
-  const regex = new RegExp(
-    `export\\s+interface\\s+${interfaceName}[^{]*\\{([\\s\\S]*?)\\n\\}`,
-    'm',
-  );
-  const match = content.match(regex);
-  if (!match) return [];
-
+/** 解析 interface / object type 的属性块 `{ ... }` */
+function parsePropsBlock(block: string): PropInfo[] {
   const props: PropInfo[] = [];
   let currentComment = '';
+  let depth = 0;
+  let currentProp = '';
 
-  for (const line of match[1].split('\n')) {
+  for (const line of block.split('\n')) {
     const trimmed = line.trim();
 
     // 收集注释
     if (
-      trimmed.startsWith('//') ||
+      trimmed.startsWith('/**') ||
       trimmed.startsWith('*') ||
-      trimmed.startsWith('/**')
+      trimmed.startsWith('//')
     ) {
       const text = trimmed
         .replace(/^\/\*\*?\s*/, '')
         .replace(/\*\/\s*$/, '')
         .replace(/^\*\s?/, '')
         .replace(/^\/\/\s?/, '')
-        .replace(/@description\s?/, '')
-        .replace(/@desc\s?/, '')
+        .replace(/@\w+[^\n]*/g, '')
         .trim();
       if (text)
         currentComment = currentComment ? `${currentComment} ${text}` : text;
       continue;
     }
 
-    // 匹配属性: name?: Type;
-    const propMatch = trimmed.match(/^(\w+)(\??):\s*(.+?);?\s*$/);
-    if (propMatch) {
-      props.push({
-        name: propMatch[1],
-        type: propMatch[3].replace(/;$/, '').trim(),
-        required: propMatch[2] !== '?',
-        description: currentComment,
-      });
-      currentComment = '';
-      continue;
-    }
+    // 累积属性（处理多行类型）
+    depth += (trimmed.match(/[{(<[]/g) || []).length;
+    depth -= (trimmed.match(/[}>)\]]/g) || []).length;
+    currentProp += (currentProp ? ' ' : '') + trimmed;
 
-    if (trimmed && !trimmed.startsWith('{') && !trimmed.startsWith('}')) {
+    if (depth <= 0) {
+      // 匹配属性：name??: Type; 或 readonly name?: Type;
+      const propMatch = currentProp.match(
+        /^(?:readonly\s+)?(\w+)(\??):\s*(.+?);?\s*$/,
+      );
+      if (propMatch && !propMatch[1].startsWith('[')) {
+        props.push({
+          name: propMatch[1],
+          type: propMatch[3].replace(/;$/, '').trim(),
+          required: propMatch[2] !== '?',
+          description: currentComment,
+        });
+      }
       currentComment = '';
+      currentProp = '';
+      depth = 0;
     }
   }
   return props;
 }
 
-function parseAllInterfaces(content: string): Record<string, PropInfo[]> {
-  const result: Record<string, PropInfo[]> = {};
-  const names = (content.match(/export\s+interface\s+(\w+)/g) || []).map((m) =>
-    m.replace(/export\s+interface\s+/, ''),
-  );
-  for (const n of names) result[n] = parseInterfaceProps(content, n);
-  return result;
-}
+// ─── 核心：从文件内容提取所有 TypeDef ──────────────────────────
 
-function extractTypes(typesFile: string, componentName: string) {
-  if (!fs.existsSync(typesFile))
-    return {
-      props: [] as PropInfo[],
-      propsInterfaceName: '',
-      extendsFrom: undefined as string | undefined,
-    };
+/**
+ * 从 TypeScript 源文件中提取所有 export interface 和 export type。
+ * 支持多行定义、嵌套泛型、extends 子句。
+ */
+function extractAllTypeDefs(content: string): TypeDef[] {
+  const defs: TypeDef[] = [];
 
-  const content = fs.readFileSync(typesFile, 'utf-8');
+  // ── interface ──
+  const ifaceRegex =
+    /export\s+interface\s+(\w+)(?:<[^>]*>)?(\s+extends\s+([^{]+))?\s*\{/g;
+  let m: RegExpExecArray | null;
 
-  // 找主 Props 接口
-  const names = (
-    content.match(/export\s+interface\s+(S?\w*Props)\b/g) || []
-  ).map((m) => m.replace(/export\s+interface\s+/, ''));
-  const mainName =
-    names.find((n) => n === `${componentName}Props`) ||
-    names.find((n) => n.startsWith('S') && n.endsWith('Props')) ||
-    names[0] ||
-    '';
+  while ((m = ifaceRegex.exec(content)) !== null) {
+    const name = m[1];
+    const extendsFrom = m[3]?.trim();
+    const startBrace = m.index + m[0].length - 1;
 
-  // 提取 Props
-  const allProps: PropInfo[] = [];
-  for (const n of names) {
-    const props = parseInterfaceProps(content, n);
-    if (n === mainName) {
-      allProps.unshift(...props);
+    // 找对应的闭合 }
+    let depth = 1;
+    let i = startBrace + 1;
+    while (i < content.length && depth > 0) {
+      if (content[i] === '{') depth++;
+      else if (content[i] === '}') depth--;
+      i++;
+    }
+    const block = content.slice(startBrace + 1, i - 1);
+    const description = extractLeadingJSDoc(content, m.index);
+
+    defs.push({
+      name,
+      kind: 'interface',
+      extendsFrom,
+      props: parsePropsBlock(block),
+      description,
+    });
+  }
+
+  // ── type alias（export type Foo = { ... } 或 export type Foo = ...） ──
+  const typeRegex = /export\s+type\s+(\w+)(?:<[^>]*>)?\s*=\s*/g;
+  while ((m = typeRegex.exec(content)) !== null) {
+    const name = m[1];
+    const afterEq = m.index + m[0].length;
+    const description = extractLeadingJSDoc(content, m.index);
+
+    if (content[afterEq] === '{') {
+      // 对象类型，提取属性块
+      let depth = 1;
+      let i = afterEq + 1;
+      while (i < content.length && depth > 0) {
+        if (content[i] === '{') depth++;
+        else if (content[i] === '}') depth--;
+        i++;
+      }
+      const block = content.slice(afterEq + 1, i - 1);
+      defs.push({
+        name,
+        kind: 'type',
+        props: parsePropsBlock(block),
+        description,
+      });
     } else {
-      allProps.push(
-        ...props.map((p) => ({
-          ...p,
-          description: p.description ? `[${n}] ${p.description}` : `[${n}]`,
-        })),
-      );
+      // 非对象类型（联合类型、交叉类型等），取到分号或换行
+      const rest = content.slice(afterEq);
+      // 找到语句结束（考虑泛型嵌套）
+      let depth = 0;
+      let end = 0;
+      for (let i = 0; i < rest.length; i++) {
+        const ch = rest[i];
+        if (ch === '<' || ch === '(' || ch === '{') depth++;
+        else if (ch === '>' || ch === ')' || ch === '}') depth--;
+        else if (ch === ';' && depth === 0) {
+          end = i;
+          break;
+        } else if (ch === '\n' && depth === 0 && i > 0) {
+          end = i;
+          break;
+        }
+      }
+      const rawType = rest.slice(0, end).trim().replace(/;$/, '');
+      // 只保留有意义的类型（非纯 import 引用）
+      if (rawType && !rawType.startsWith('import(')) {
+        defs.push({
+          name,
+          kind: 'type',
+          props: [],
+          rawType,
+          description,
+        });
+      }
     }
   }
 
-  // extends
-  const extMatch = content.match(
-    new RegExp(
-      `export\\s+interface\\s+${mainName}\\s+extends\\s+([\\w.]+(?:<[^>]*>)?(?:\\s*,\\s*[\\w.]+(?:<[^>]*>)?)*)`,
-    ),
-  );
+  return defs;
+}
+
+// ─── 提取：组件类型 ─────────────────────────────────────────────
+
+function extractComponentTypes(
+  typesFile: string,
+  componentName: string,
+): { typeDefs: TypeDef[]; mainPropsName: string; extendsFrom?: string } {
+  const empty = {
+    typeDefs: [] as TypeDef[],
+    mainPropsName: '',
+    extendsFrom: undefined as string | undefined,
+  };
+  if (!fs.existsSync(typesFile)) return empty;
+
+  const content = fs.readFileSync(typesFile, 'utf-8');
+  const typeDefs = extractAllTypeDefs(content);
+
+  // 找主 Props 接口：优先精确匹配 ComponentNameProps，其次 S*Props
+  const propsNames = typeDefs
+    .filter((d) => d.name.endsWith('Props'))
+    .map((d) => d.name);
+  const mainPropsName =
+    propsNames.find((n) => n === `${componentName}Props`) ||
+    propsNames.find((n) => n.startsWith('S') && n.endsWith('Props')) ||
+    propsNames[0] ||
+    '';
+
+  const mainDef = typeDefs.find((d) => d.name === mainPropsName);
 
   return {
-    props: allProps,
-    propsInterfaceName: mainName,
-    extendsFrom: extMatch?.[1]?.trim(),
+    typeDefs,
+    mainPropsName,
+    extendsFrom: mainDef?.extendsFrom,
   };
 }
 
-// ─── 提取: 复合子组件 ──────────────────────────────────────────
+// ─── 提取：复合子组件 ───────────────────────────────────────────
 
 function extractStructure(indexFile: string) {
   const subs: SubComponent[] = [];
@@ -279,7 +356,41 @@ function extractStructure(indexFile: string) {
   return { subComponents: subs, staticMethods: methods };
 }
 
-// ─── 提取: Hooks ────────────────────────────────────────────────
+// ─── 提取：Hook 签名 ────────────────────────────────────────────
+
+/**
+ * 从 hook 文件中提取函数签名（参数 + 返回值）
+ * 支持 `const useFoo = (...) =>` 和 `function useFoo(...)` 两种风格
+ */
+function extractHookSignature(content: string, hookName: string): string {
+  // 匹配 const hookName = (...): ReturnType =>
+  const arrowMatch = content.match(
+    new RegExp(
+      `const\\s+${hookName}\\s*=\\s*\\(([^)]*)\\)\\s*(?::\\s*([^=>{]+))?\\s*=>`,
+    ),
+  );
+  if (arrowMatch) {
+    const params = arrowMatch[1].replace(/\s+/g, ' ').trim();
+    const ret = arrowMatch[2]?.trim();
+    return ret ? `${hookName}(${params}): ${ret}` : `${hookName}(${params})`;
+  }
+
+  // 匹配 function hookName(...): ReturnType
+  const fnMatch = content.match(
+    new RegExp(
+      `function\\s+${hookName}\\s*\\(([^)]*)\\)\\s*(?::\\s*([^{]+))?\\s*\\{`,
+    ),
+  );
+  if (fnMatch) {
+    const params = fnMatch[1].replace(/\s+/g, ' ').trim();
+    const ret = fnMatch[2]?.trim();
+    return ret ? `${hookName}(${params}): ${ret}` : `${hookName}(${params})`;
+  }
+
+  return hookName;
+}
+
+// ─── 提取：Hooks ────────────────────────────────────────────────
 
 function extractHooks(hooksDir: string): HookMeta[] {
   const indexPath = path.join(hooksDir, 'index.ts');
@@ -287,8 +398,10 @@ function extractHooks(hooksDir: string): HookMeta[] {
 
   const indexContent = fs.readFileSync(indexPath, 'utf-8');
   const hooks: HookMeta[] = [];
+
+  // 匹配所有 import/export 的 hook 名称和路径
   const exportMatches = indexContent.matchAll(
-    /(?:import\s+(\w+)|export\s+\{\s*(\w+)\s*\})\s+from\s+['"](\.\/\w+)['"]/g,
+    /(?:import\s+(\w+)|export\s+\{\s*(\w+)\s*(?:as\s+\w+)?\s*\})\s+from\s+['"](\.[^'"]+)['"]/g,
   );
 
   for (const match of exportMatches) {
@@ -296,58 +409,116 @@ function extractHooks(hooksDir: string): HookMeta[] {
     const hookPath = match[3];
     if (!hookName?.startsWith('use')) continue;
 
+    // 解析文件路径（支持 ./useXxx、./useXxx/index.ts 等）
     let filePath = path.join(hooksDir, `${hookPath}.ts`);
+    if (!fs.existsSync(filePath))
+      filePath = path.join(hooksDir, `${hookPath}.tsx`);
     if (!fs.existsSync(filePath))
       filePath = path.join(hooksDir, hookPath, 'index.ts');
     if (!fs.existsSync(filePath)) continue;
 
-    // 顶部注释作为描述
     const content = fs.readFileSync(filePath, 'utf-8');
+
+    // 顶部 JSDoc 作为描述
     const topComment = content.match(/^\/\*\*[\s\S]*?\*\//);
     let description = `${hookName} hook`;
     if (topComment) {
-      description =
-        topComment[0]
-          .replace(/\/\*\*|\*\//g, '')
-          .split('\n')
-          .map((l) => l.replace(/^\s*\*\s?/, '').trim())
-          .filter(Boolean)
-          .join(' ') || description;
+      const parsed = topComment[0]
+        .replace(/\/\*\*|\*\//g, '')
+        .split('\n')
+        .map((l) =>
+          l
+            .replace(/^\s*\*\s?/, '')
+            .replace(/@\w+[^\n]*/g, '')
+            .trim(),
+        )
+        .filter(Boolean)
+        .join(' ')
+        .trim();
+      if (parsed) description = parsed;
     }
 
-    // 从同级 types.ts 提取参数/返回值
-    let params: PropInfo[] = [];
-    let returns: PropInfo[] = [];
+    // 提取类型定义：优先从同级 types.ts，再从 hook 文件本身
+    let typeDefs: TypeDef[] = [];
     const typesPath = path.join(path.dirname(filePath), 'types.ts');
     if (fs.existsSync(typesPath)) {
-      const ifaces = parseAllInterfaces(fs.readFileSync(typesPath, 'utf-8'));
-      const paramKey = Object.keys(ifaces).find((k) =>
-        /options|props/i.test(k),
-      );
-      const retKey = Object.keys(ifaces).find((k) => /return/i.test(k));
-      if (paramKey) params = ifaces[paramKey];
-      if (retKey) returns = ifaces[retKey];
+      typeDefs = extractAllTypeDefs(fs.readFileSync(typesPath, 'utf-8'));
+    }
+    // 从 hook 文件本身补充内联类型（不重复）
+    const inlineTypes = extractAllTypeDefs(content);
+    for (const t of inlineTypes) {
+      if (!typeDefs.some((d) => d.name === t.name)) {
+        typeDefs.push(t);
+      }
     }
 
-    hooks.push({ name: hookName, description, params, returns });
+    const signature = extractHookSignature(content, hookName);
+
+    hooks.push({ name: hookName, description, typeDefs, signature });
   }
+
   return hooks;
 }
 
-// ─── 生成: llms.txt ─────────────────────────────────────────────
+// ─── 生成：格式化输出 ────────────────────────────────────────────
 
-function compactProps(props: PropInfo[]): string {
-  const own = props.filter((p) => !p.description.startsWith('['));
-  if (own.length === 0) return '';
-  return own
-    .map(
-      (p) =>
-        `  - ${p.name}${p.required ? '' : '?'}: ${p.type}${
-          p.description ? ' — ' + p.description : ''
-        }`,
-    )
+function formatProps(props: PropInfo[], indent = '  '): string {
+  if (props.length === 0) return '';
+  return props
+    .map((p) => {
+      const comment = p.description ? ` — ${p.description}` : '';
+      return `${indent}- ${p.name}${p.required ? '' : '?'}: ${
+        p.type
+      }${comment}`;
+    })
     .join('\n');
 }
+
+function formatTypeDef(def: TypeDef): string {
+  const lines: string[] = [];
+  const ext = def.extendsFrom ? ` extends ${def.extendsFrom}` : '';
+  if (def.props.length > 0) {
+    lines.push(
+      `**${def.name}**${ext}${def.description ? ` — ${def.description}` : ''}`,
+    );
+    lines.push(formatProps(def.props));
+  } else if (def.rawType) {
+    lines.push(
+      `**${def.name}**${def.description ? ` — ${def.description}` : ''}: \`${
+        def.rawType
+      }\``,
+    );
+  }
+  return lines.join('\n');
+}
+
+// ─── 生成：注入 dist/index.d.ts ─────────────────────────────────
+
+function injectIntoDistDts(llmsContent: string): void {
+  const DIST_DIR = path.join(ROOT, 'dist');
+  const dtsPath = path.join(DIST_DIR, 'index.d.ts');
+
+  if (!fs.existsSync(dtsPath)) {
+    console.log('  ⚠ dist/index.d.ts 不存在，跳过注入（请先运行 build）');
+    return;
+  }
+
+  const original = fs.readFileSync(dtsPath, 'utf-8');
+  const cleaned = original.replace(
+    /\/\*\*\n \* @module @dalydb\/sdesign[\s\S]*?\*\/\n/m,
+    '',
+  );
+  const jsdocLines = llmsContent
+    .split('\n')
+    .map((line) => ` * ${line}`)
+    .join('\n');
+  const jsdocBlock = `/**\n * @module @dalydb/sdesign\n *\n${jsdocLines}\n */\n`;
+
+  fs.writeFileSync(dtsPath, jsdocBlock + cleaned, 'utf-8');
+  console.log(`  ✓ dist/index.d.ts 已注入 llms.txt 内容`);
+}
+
+// ─── 生成：llms.txt ──────────────────────────────────────────────
 
 function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   const L: string[] = [];
@@ -357,9 +528,9 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   L.push('基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。');
   L.push('');
 
-  // 导入
+  // ── 导入示例
   L.push('## 导入');
-  L.push('```');
+  L.push('```ts');
   L.push(
     "import { SForm, STable, SSearchTable, SButton, SDetail } from '@dalydb/sdesign';",
   );
@@ -370,8 +541,8 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   L.push('```');
   L.push('');
 
-  // 组件速查
-  L.push('## 组件');
+  // ── 组件速查表
+  L.push('## 组件列表');
   for (const c of meta.components) {
     const subs =
       c.subComponents.length > 0
@@ -385,175 +556,62 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   }
   L.push('');
 
-  // 核心 Props
-  const keyComponents = [
-    'SForm',
-    'SSearchTable',
-    'STable',
-    'SDetail',
-    'SButton',
-  ];
-  L.push('## 核心组件 Props');
-  for (const name of keyComponents) {
-    const c = meta.components.find((x) => x.name === name);
-    if (!c) continue;
-    const ext = c.extendsFrom ? ` (extends ${c.extendsFrom})` : '';
-    L.push(`### ${c.name}${ext}`);
-    const propsStr = compactProps(c.props);
-    L.push(propsStr || '  (无自有 Props，使用继承属性)');
+  // ── 所有组件类型定义
+  L.push('## 组件类型定义');
+  L.push('');
+  for (const c of meta.components) {
+    if (c.typeDefs.length === 0) continue;
+    L.push(`### ${c.name}`);
+    if (c.description) L.push(`> ${c.description}`);
     L.push('');
-  }
 
-  // 关键配置类型
-  L.push('## 关键配置类型');
-  L.push('');
-  L.push('### SFormItems (表单项配置)');
-  L.push('extends Omit<FormItemProps, "label | name" | "required">');
-  L.push('```ts');
-  L.push(`{
-  label?: ReactNode;              // 表单项标签
-  name?: NamePath;                // 字段名，支持嵌套 ['user', 'name']
-  type?: FormComType;             // 控件类型，默认 'input'，见下方 type 值表
-  fieldProps?: ComponentProps;    // 控件属性，类型根据 type 自动推导（如 type='select' 则为 SelectProps）
-  required?: string | boolean;    // true=默认提示 | string=自定义提示
-  disabled?: boolean;
-  readonly?: boolean;             // 只读模式，展示文本
-  regKey?: RegKeyType;            // 内置校验: 'phone' | 'percentage' 等
-  customCom?: ReactNode;          // 自定义组件，替代 type 内置组件
-  render?: (form) => ReactNode;   // 自定义渲染函数
-  depNames?: string[];            // 依赖字段名，仅 type='dependency' 生效
-  formName?: string;              // 嵌套表单字段前缀
-  colProps?: ColProps;            // 栅格布局，控制单项列宽
-  hidden?: boolean;               // 隐藏（仍参与表单提交）
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SColumnsType<T> (表格列定义)');
-  L.push('extends antd ColumnType<T>，额外属性:');
-  L.push('```ts');
-  L.push(`{
-  // ...antd ColumnType 所有属性（title, dataIndex, width, fixed, sorter 等）
-  dictKey?: string;               // 字典映射 key，配合 SConfigProvider globalDict 自动转换值
-  render?: ((text, record, index) => ReactNode) | 'datetime' | 'date' | 'ellipsis';
-                                  // 除函数外支持字符串快捷类型
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SDetailItem (详情项配置)');
-  L.push('```ts');
-  L.push(`{
-  label?: ReactNode;              // 详情项标签
-  name?: string | string[];       // 数据源字段名，支持嵌套
-  type?: 'text' | 'dict' | 'file' | 'img' | 'rangeTime' | 'checkbox' | 'empty' | 'placeholder';
-                                  // 渲染类型，默认 'text'
-  dictKey?: string;               // 字典 key，type='dict' 时配合 SConfigProvider
-  dictMap?: Record<string, string> | any[];  // 直接提供字典数据
-  render?: (value, dataSource) => ReactNode; // 自定义渲染
-  fileProps?: Partial<FileListProps>;        // type='file' 时文件展示配置
-  span?: number;                  // 栅格占位
-  hidden?: boolean;
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SearchProps (搜索表单配置)');
-  L.push('extends SFormProps，额外属性:');
-  L.push('```ts');
-  L.push(`{
-  defaultExpand?: boolean;        // 是否默认展开，默认 false
-  showExpand?: boolean;           // 是否显示展开/收起按钮
-  expandLine?: number;            // 收起时显示的行数
-  actionNode?: ReactNode;         // 搜索栏右侧自定义操作
-  isCard?: boolean;               // 是否包裹在卡片中
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SButton.Group items 配置');
-  L.push('```ts');
-  L.push(`{
-  actionType?: SButtonActionType; // 预设类型
-  onClick?: () => void;
-  visible?: boolean;              // 是否可见
-  render?: ReactNode | (() => ReactNode); // 自定义渲染
-  // ...其他 SButtonProps 属性
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SForm.Group groupItems 配置');
-  L.push('```ts');
-  L.push(`{
-  title?: ReactNode;              // 分组标题
-  items?: SFormItems[];           // 该分组的表单项
-  columns?: number;               // 该分组的列数
-  formName?: string;              // 嵌套表单字段前缀
-  container?: React.ComponentType; // 自定义分组容器
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SDetail.Group items 配置');
-  L.push('```ts');
-  L.push(`{
-  groupTitle?: string | ReactNode;
-  items?: SDetailItem[];          // 分组内详情项
-  groupItems?: SDetailProps[];    // 分组内多个详情面板
-  dataSource?: Record<string, any>;
-  hidden?: boolean;
-}`);
-  L.push('```');
-  L.push('');
-  L.push('### SButtonActionType 可选值');
-  L.push(
-    'save | cancel | reset | upload | download | export | import | delete | view | back | next | previous | finish | create | edit | confirm | close | refresh | search | t-link',
-  );
-  L.push('');
+    // 主 Props 优先输出
+    const mainDef = c.typeDefs.find((d) => d.name === c.mainPropsName);
+    const otherDefs = c.typeDefs.filter((d) => d.name !== c.mainPropsName);
 
-  // FormComType
-  L.push('## SForm 表单控件 type 值');
-  L.push(
-    'input | inputNumber | password | textarea | select | slider | radio | radioGroup | switch | treeSelect | upload | datePicker | SDatePicker | datePickerRange | SDatePickerRange | timePicker | timePickerRange | checkbox | checkGroup | cascader | SCascader | table | dependency',
-  );
-  L.push('');
-  L.push('fieldProps 类型根据 type 自动推导。');
-  L.push('');
-
-  // STable render
-  L.push('## STable columns');
-  L.push('render 除函数外可传字符串: "datetime" | "date" | "ellipsis"');
-  L.push('dictKey 配合 SConfigProvider globalDict 自动映射。');
-  L.push('');
-
-  // useSearchTable
-  const hook = meta.hooks.find((h) => h.name === 'useSearchTable');
-  if (hook) {
-    L.push('## useSearchTable');
-    L.push('```');
-    L.push(
-      'const { tableProps, formConfig, form, getPageData, handleReset } = useSearchTable(requestFn, options);',
-    );
-    L.push('```');
-    if (hook.params.length > 0) {
-      L.push('Options:');
-      for (const p of hook.params) {
-        L.push(
-          `  - ${p.name}${p.required ? '' : '?'}: ${p.type}${
-            p.description ? ' — ' + p.description : ''
-          }`,
-        );
+    if (mainDef) {
+      const formatted = formatTypeDef(mainDef);
+      if (formatted) {
+        L.push(formatted);
+        L.push('');
       }
     }
-    if (hook.returns.length > 0) {
-      L.push('Returns:');
-      for (const p of hook.returns) {
-        L.push(
-          `  - ${p.name}: ${p.type}${
-            p.description ? ' — ' + p.description : ''
-          }`,
-        );
+
+    for (const def of otherDefs) {
+      const formatted = formatTypeDef(def);
+      if (formatted) {
+        L.push(formatted);
+        L.push('');
       }
     }
-    L.push('');
   }
 
-  // 示例
+  // ── 所有 Hook 类型定义
+  L.push('## Hook 列表与类型定义');
+  L.push('');
+  for (const h of meta.hooks) {
+    L.push(`### ${h.name}`);
+    if (h.description && h.description !== `${h.name} hook`) {
+      L.push(`> ${h.description}`);
+    }
+    L.push('');
+    if (h.signature && h.signature !== h.name) {
+      L.push('**签名**');
+      L.push('```ts');
+      L.push(h.signature);
+      L.push('```');
+      L.push('');
+    }
+    for (const def of h.typeDefs) {
+      const formatted = formatTypeDef(def);
+      if (formatted) {
+        L.push(formatted);
+        L.push('');
+      }
+    }
+  }
+
+  // ── 使用示例
   L.push('## 示例');
   L.push('');
   L.push('### 搜索表格页面');
@@ -605,7 +663,7 @@ const items: SDetailItem[] = [
   L.push('```');
   L.push('');
 
-  // 注意事项
+  // ── 注意事项
   L.push('## 注意事项');
   L.push('1. 优先使用 S 前缀组件而非 antd 原生组件');
   L.push('2. SForm 通过 items 数组配置，不需要手动写 Form.Item');
@@ -627,11 +685,10 @@ const items: SDetailItem[] = [
     )} tokens)`,
   );
 
-  // 注入到 dist/index.d.ts 顶部，让 AI 通过 import 自动读取
   injectIntoDistDts(content);
 }
 
-// ─── 主流程 ─────────────────────────────────────────────────────
+// ─── 主流程 ──────────────────────────────────────────────────────
 
 function dirToComponentName(dirName: string): string {
   return (
@@ -650,7 +707,7 @@ function main(): void {
   );
   console.log(`📦 ${pkg.name} v${pkg.version}`);
 
-  // 扫描组件
+  // 扫描组件目录
   const componentDirs = fs.readdirSync(COMPONENTS_DIR).filter((d) => {
     const p = path.join(COMPONENTS_DIR, d);
     return (
@@ -661,25 +718,30 @@ function main(): void {
   const components: ComponentMeta[] = componentDirs.map((dirName) => {
     const dir = path.join(COMPONENTS_DIR, dirName);
     const name = dirToComponentName(dirName);
-    const types = extractTypes(path.join(dir, 'types.ts'), name);
+    const { typeDefs, mainPropsName, extendsFrom } = extractComponentTypes(
+      path.join(dir, 'types.ts'),
+      name,
+    );
     const structure = extractStructure(path.join(dir, 'index.tsx'));
 
     return {
       name,
       description: COMPONENT_DESCRIPTIONS[name] || name,
-      propsInterfaceName: types.propsInterfaceName,
-      props: types.props,
-      extendsFrom: types.extendsFrom,
+      mainPropsName,
+      typeDefs,
+      extendsFrom,
       subComponents: structure.subComponents,
       staticMethods: structure.staticMethods,
     };
   });
 
-  console.log(`  ${components.length} 个组件`);
+  const totalTypes = components.reduce((s, c) => s + c.typeDefs.length, 0);
+  console.log(`  ${components.length} 个组件，${totalTypes} 个类型定义`);
 
   // 扫描 Hooks
   const hooks = extractHooks(HOOKS_DIR);
-  console.log(`  ${hooks.length} 个 hooks`);
+  const totalHookTypes = hooks.reduce((s, h) => s + h.typeDefs.length, 0);
+  console.log(`  ${hooks.length} 个 hooks，${totalHookTypes} 个类型定义`);
 
   const meta: LibraryMeta = {
     name: pkg.name,

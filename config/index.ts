@@ -18,7 +18,6 @@ const themeConfig = {
   //单语言时配置数组即可
   nav: [
     { title: '基础组件', link: '/components' },
-    { title: '业务模板', link: '/template' },
     { title: '日志', link: '/version' },
   ],
 };
