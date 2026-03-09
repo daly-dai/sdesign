@@ -483,10 +483,21 @@ function formatTypeDef(def: TypeDef): string {
     );
     lines.push(formatProps(def.props));
   } else if (def.rawType) {
+    // 将多行类型定义压缩为单行，移除内部注释，避免 JSDoc 解析错误
+    const singleLineType = def.rawType
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(
+        (l) =>
+          !l.startsWith('/**') && !l.startsWith('*') && !l.startsWith('//'),
+      )
+      .join(' ')
+      .replace(/\s+/g, ' ')
+      .trim();
     lines.push(
-      `**${def.name}**${def.description ? ` — ${def.description}` : ''}: \`${
-        def.rawType
-      }\``,
+      `**${def.name}**${
+        def.description ? ` — ${def.description}` : ''
+      }: \`${singleLineType}\``,
     );
   }
   return lines.join('\n');
@@ -504,10 +515,15 @@ function injectIntoDistDts(llmsContent: string): void {
   }
 
   const original = fs.readFileSync(dtsPath, 'utf-8');
+
+  // 移除旧的 JSDoc 注释块
+  // 匹配从 /** @module 开始，到第一个后面跟着非注释行的 */ 结束
+  // 这样可以正确处理多行注释块，避免匹配到代码中的 */
   const cleaned = original.replace(
-    /\/\*\*\n \* @module @dalydb\/sdesign[\s\S]*?\*\/\n/m,
+    /\/\*\*\s*\n\s*\*\s*@module\s+@dalydb\/sdesign[\s\S]*?\*\/\n(?!\s*\*\s)/,
     '',
   );
+
   const jsdocLines = llmsContent
     .split('\n')
     .map((line) => ` * ${line}`)
