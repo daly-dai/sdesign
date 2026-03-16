@@ -1,0 +1,8 @@
+{
+  "useWhen": ["展示错误状态提示 UI（配合错误边界使用）"],
+  "dontUseWhen": [
+    "表单校验错误提示，使用 SForm 内置校验",
+    "API 请求错误提示，使用 message.error"
+  ],
+  "prefer": {}
+}

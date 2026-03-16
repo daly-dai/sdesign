@@ -1,0 +1,14 @@
+{
+  "useWhen": [
+    "页面中需要操作按钮（新增、编辑、删除、导出等）",
+    "需要 actionType 预设按钮文字和样式",
+    "需要按钮组（SButton.Group）批量配置按钮"
+  ],
+  "dontUseWhen": [
+    "导航链接跳转，应使用 react-router Link",
+    "图标按钮无文字无操作语义，直接用 antd Button + icon"
+  ],
+  "prefer": {
+    "SButton.Group": "多个操作按钮并排时，不要手动排列多个 SButton"
+  }
+}

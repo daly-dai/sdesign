@@ -77,8 +77,17 @@ interface SubComponent {
   importName: string;
 }
 
+/** 组件使用边界（从 metadata.json 读取） */
+interface ComponentBoundary {
+  useWhen: string[];
+  dontUseWhen: string[];
+  prefer: Record<string, string>;
+}
+
 interface ComponentMeta {
   name: string;
+  /** 组件目录名（如 form, search-table） */
+  dirName: string;
   description: string;
   /** 主 Props 接口名 */
   mainPropsName: string;
@@ -87,6 +96,8 @@ interface ComponentMeta {
   extendsFrom?: string;
   subComponents: SubComponent[];
   staticMethods: string[];
+  /** 使用边界（从 metadata.json 提取） */
+  boundary?: ComponentBoundary;
 }
 
 interface HookMeta {
@@ -280,6 +291,25 @@ function extractAllTypeDefs(content: string): TypeDef[] {
   }
 
   return defs;
+}
+
+// ─── 提取：组件边界 metadata.json ────────────────────────────────
+
+function extractMetadata(componentDir: string): ComponentBoundary | undefined {
+  const metaPath = path.join(componentDir, 'metadata.json');
+  if (!fs.existsSync(metaPath)) return undefined;
+
+  try {
+    const raw = JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
+    return {
+      useWhen: raw.useWhen || [],
+      dontUseWhen: raw.dontUseWhen || [],
+      prefer: raw.prefer || {},
+    };
+  } catch {
+    console.log(`  ⚠ metadata.json 解析失败: ${metaPath}`);
+    return undefined;
+  }
 }
 
 // ─── 提取：组件类型 ─────────────────────────────────────────────
@@ -534,7 +564,7 @@ function injectIntoDistDts(llmsContent: string): void {
   console.log(`  ✓ dist/index.d.ts 已注入 llms.txt 内容`);
 }
 
-// ─── 生成：llms.txt ──────────────────────────────────────────────
+// ─── 生成：llms.txt（索引层，含边界，不含完整类型） ──────────────
 
 function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   const L: string[] = [];
@@ -542,6 +572,18 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   L.push(`# ${meta.name} v${meta.version}`);
   L.push('');
   L.push('基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。');
+  L.push('');
+
+  // ── 渐进式读取指南
+  L.push('## 渐进式读取指南');
+  L.push('');
+  L.push('本文件是组件索引，包含每个组件的用途和使用边界。');
+  L.push('每个组件的完整类型定义和使用示例在独立文件中：');
+  L.push(
+    '- 需要某个组件的详细 API 时，读取 `ai/components/{ComponentName}.md`',
+  );
+  L.push('- 不要一次性读取所有组件文件，按当前场景按需读取');
+  L.push('- 使用边界中的"不适用"描述了该组件不应使用的场景，请严格遵守');
   L.push('');
 
   // ── 导入示例
@@ -557,8 +599,9 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   L.push('```');
   L.push('');
 
-  // ── 组件速查表
-  L.push('## 组件列表');
+  // ── 组件速查表（含边界）
+  L.push('## 组件速查表');
+  L.push('');
   for (const c of meta.components) {
     const subs =
       c.subComponents.length > 0
@@ -568,20 +611,130 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
       c.staticMethods.length > 0
         ? ` [${c.staticMethods.map((m) => `.${m}`).join(', ')}]`
         : '';
-    L.push(`- **${c.name}**${subs}${methods}: ${c.description}`);
+    L.push(`### ${c.name}${subs}${methods} — ${c.description}`);
+    L.push(`> 详细 API: ai/components/${c.name}.md`);
+    L.push('');
+
+    if (c.boundary) {
+      if (c.boundary.useWhen.length > 0) {
+        L.push(`- **适用场景**: ${c.boundary.useWhen.join('; ')}`);
+      }
+      if (c.boundary.dontUseWhen.length > 0) {
+        L.push(`- **不适用**: ${c.boundary.dontUseWhen.join('; ')}`);
+      }
+      const preferEntries = Object.entries(c.boundary.prefer);
+      if (preferEntries.length > 0) {
+        const preferStr = preferEntries
+          .map(([comp, reason]) => `${comp} → ${reason}`)
+          .join('; ');
+        L.push(`- **优先使用**: ${preferStr}`);
+      }
+    } else {
+      L.push(`- **适用场景**: ${c.description}`);
+    }
+    L.push('');
+  }
+
+  // ── Hook 速查
+  L.push('## Hook 列表');
+  L.push('');
+  for (const h of meta.hooks) {
+    const desc =
+      h.description !== `${h.name} hook` ? ` — ${h.description}` : '';
+    L.push(`- **${h.name}**${desc} (详细 API: ai/components/${h.name}.md)`);
   }
   L.push('');
 
-  // ── 所有组件类型定义
-  L.push('## 组件类型定义');
-  L.push('');
+  // ── 注意事项
+  L.push('## 注意事项');
+  L.push('1. 优先使用 S 前缀组件而非 antd 原生组件');
+  L.push('2. SForm 通过 items 数组配置，不需要手动写 Form.Item');
+  L.push('3. SSearchTable = SForm.Search + STable 一体化，列表页首选');
+  L.push('4. SConfigProvider 提供全局字典，STable/SDetail 自动读取');
+  L.push('5. SButton 用 actionType 选择预设类型，无需设置 children');
+  L.push(
+    '6. 使用组件前，先在本索引中确认场景是否匹配，再读取对应 ai/components/ 下的详细文档',
+  );
+
+  const content = L.join('\n');
+  const outputPath = path.join(outputDir, 'llms.txt');
+  fs.writeFileSync(outputPath, content, 'utf-8');
+
+  const bytes = Buffer.byteLength(content);
+  console.log(
+    `  ✓ llms.txt 索引 (${(bytes / 1024).toFixed(1)}KB, ~${Math.round(
+      bytes / 3,
+    )} tokens)`,
+  );
+
+  injectIntoDistDts(content);
+}
+
+// ─── 生成：ai/components/{Name}.md（每个组件独立详细文档） ────────
+
+function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
+  const componentsDir = path.join(outputDir, 'components');
+
+  // 清理并重建 components 目录
+  if (fs.existsSync(componentsDir)) {
+    for (const f of fs.readdirSync(componentsDir)) {
+      fs.unlinkSync(path.join(componentsDir, f));
+    }
+  } else {
+    fs.mkdirSync(componentsDir, { recursive: true });
+  }
+
+  let count = 0;
+
   for (const c of meta.components) {
     if (c.typeDefs.length === 0) continue;
-    L.push(`### ${c.name}`);
-    if (c.description) L.push(`> ${c.description}`);
+
+    const L: string[] = [];
+    L.push(`# ${c.name} — ${c.description}`);
     L.push('');
 
-    // 主 Props 优先输出
+    // 子组件和静态方法
+    if (c.subComponents.length > 0 || c.staticMethods.length > 0) {
+      L.push('## 子组件与静态方法');
+      for (const sub of c.subComponents) {
+        L.push(`- ${c.name}.${sub.name}`);
+      }
+      for (const method of c.staticMethods) {
+        L.push(`- ${c.name}.${method}`);
+      }
+      L.push('');
+    }
+
+    // 使用边界
+    if (c.boundary) {
+      L.push('## 使用边界');
+      if (c.boundary.useWhen.length > 0) {
+        L.push('**适用场景:**');
+        for (const s of c.boundary.useWhen) {
+          L.push(`- ${s}`);
+        }
+      }
+      if (c.boundary.dontUseWhen.length > 0) {
+        L.push('**不适用:**');
+        for (const s of c.boundary.dontUseWhen) {
+          L.push(`- ${s}`);
+        }
+      }
+      const preferEntries = Object.entries(c.boundary.prefer);
+      if (preferEntries.length > 0) {
+        L.push('**优先使用:**');
+        for (const [comp, reason] of preferEntries) {
+          L.push(`- ${comp} → ${reason}`);
+        }
+      }
+      L.push('');
+    }
+
+    // 完整类型定义
+    L.push('## 类型定义');
+    L.push('');
+
+    // 主 Props 优先
     const mainDef = c.typeDefs.find((d) => d.name === c.mainPropsName);
     const otherDefs = c.typeDefs.filter((d) => d.name !== c.mainPropsName);
 
@@ -600,108 +753,50 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
         L.push('');
       }
     }
+
+    const content = L.join('\n');
+    const filePath = path.join(componentsDir, `${c.name}.md`);
+    fs.writeFileSync(filePath, content, 'utf-8');
+    count++;
   }
 
-  // ── 所有 Hook 类型定义
-  L.push('## Hook 列表与类型定义');
-  L.push('');
+  // Hook 文档也写入 components 目录
   for (const h of meta.hooks) {
-    L.push(`### ${h.name}`);
-    if (h.description && h.description !== `${h.name} hook`) {
-      L.push(`> ${h.description}`);
-    }
+    if (h.typeDefs.length === 0 && h.signature === h.name) continue;
+
+    const L: string[] = [];
+    const desc =
+      h.description !== `${h.name} hook` ? ` — ${h.description}` : '';
+    L.push(`# ${h.name}${desc}`);
     L.push('');
+
     if (h.signature && h.signature !== h.name) {
-      L.push('**签名**');
+      L.push('## 签名');
       L.push('```ts');
       L.push(h.signature);
       L.push('```');
       L.push('');
     }
-    for (const def of h.typeDefs) {
-      const formatted = formatTypeDef(def);
-      if (formatted) {
-        L.push(formatted);
-        L.push('');
+
+    if (h.typeDefs.length > 0) {
+      L.push('## 类型定义');
+      L.push('');
+      for (const def of h.typeDefs) {
+        const formatted = formatTypeDef(def);
+        if (formatted) {
+          L.push(formatted);
+          L.push('');
+        }
       }
     }
+
+    const content = L.join('\n');
+    const filePath = path.join(componentsDir, `${h.name}.md`);
+    fs.writeFileSync(filePath, content, 'utf-8');
+    count++;
   }
 
-  // ── 使用示例
-  L.push('## 示例');
-  L.push('');
-  L.push('### 搜索表格页面');
-  L.push('```tsx');
-  L.push(`import { SSearchTable, SFormItems, SColumnsType } from '@dalydb/sdesign';
-
-const formItems: SFormItems[] = [
-  { label: '姓名', name: 'name', type: 'input' },
-  { label: '状态', name: 'status', type: 'select', fieldProps: { options: statusOptions } },
-];
-const columns: SColumnsType<any> = [
-  { title: '姓名', dataIndex: 'name' },
-  { title: '状态', dataIndex: 'status', dictKey: 'userStatus' },
-  { title: '创建时间', dataIndex: 'createTime', render: 'datetime' },
-];
-
-<SSearchTable
-  headTitle={{ children: '用户管理' }}
-  requestFn={api.getUsers}
-  formProps={{ items: formItems, columns: 3 }}
-  tableProps={{ columns, rowKey: 'id' }}
-/>`);
-  L.push('```');
-  L.push('');
-  L.push('### 配置化表单');
-  L.push('```tsx');
-  L.push(`import { SForm, SFormItems } from '@dalydb/sdesign';
-
-const items: SFormItems[] = [
-  { label: '姓名', name: 'name', type: 'input', required: '请输入姓名' },
-  { label: '部门', name: 'dept', type: 'select', fieldProps: { options: deptOptions } },
-  { label: '日期', name: 'date', type: 'SDatePicker' },
-];
-
-<SForm items={items} columns={2} onFinish={(values) => save(values)} />`);
-  L.push('```');
-  L.push('');
-  L.push('### 详情展示');
-  L.push('```tsx');
-  L.push(`import { SDetail, SDetailItem } from '@dalydb/sdesign';
-
-const items: SDetailItem[] = [
-  { label: '姓名', name: 'name' },
-  { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' },
-  { label: '附件', name: 'files', type: 'file' },
-];
-
-<SDetail title="用户详情" dataSource={data} items={items} column={2} />`);
-  L.push('```');
-  L.push('');
-
-  // ── 注意事项
-  L.push('## 注意事项');
-  L.push('1. 优先使用 S 前缀组件而非 antd 原生组件');
-  L.push('2. SForm 通过 items 数组配置，不需要手动写 Form.Item');
-  L.push('3. SSearchTable = SForm.Search + STable 一体化，列表页首选');
-  L.push('4. SConfigProvider 提供全局字典，STable/SDetail 自动读取');
-  L.push('5. SButton 用 actionType 选择预设类型，无需设置 children');
-  L.push(
-    '6. 完整类型定义和 @example 见 node_modules/@dalydb/sdesign/dist 中的 .d.ts 声明文件',
-  );
-
-  const content = L.join('\n');
-  const outputPath = path.join(outputDir, 'llms.txt');
-  fs.writeFileSync(outputPath, content, 'utf-8');
-
-  const bytes = Buffer.byteLength(content);
-  console.log(
-    `  ✓ llms.txt (${(bytes / 1024).toFixed(1)}KB, ~${Math.round(
-      bytes / 3,
-    )} tokens)`,
-  );
-
-  injectIntoDistDts(content);
+  console.log(`  ✓ ai/components/ (${count} 个独立文档)`);
 }
 
 // ─── 主流程 ──────────────────────────────────────────────────────
@@ -717,7 +812,7 @@ function dirToComponentName(dirName: string): string {
 }
 
 function main(): void {
-  console.log('🔍 @dalydb/sdesign AI 文档生成');
+  console.log('🔍 @dalydb/sdesign AI 文档生成（渐进式）');
   const pkg = JSON.parse(
     fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'),
   );
@@ -739,20 +834,26 @@ function main(): void {
       name,
     );
     const structure = extractStructure(path.join(dir, 'index.tsx'));
+    const boundary = extractMetadata(dir);
 
     return {
       name,
+      dirName,
       description: COMPONENT_DESCRIPTIONS[name] || name,
       mainPropsName,
       typeDefs,
       extendsFrom,
       subComponents: structure.subComponents,
       staticMethods: structure.staticMethods,
+      boundary,
     };
   });
 
   const totalTypes = components.reduce((s, c) => s + c.typeDefs.length, 0);
-  console.log(`  ${components.length} 个组件，${totalTypes} 个类型定义`);
+  const withBoundary = components.filter((c) => c.boundary).length;
+  console.log(
+    `  ${components.length} 个组件，${totalTypes} 个类型定义，${withBoundary} 个含边界定义`,
+  );
 
   // 扫描 Hooks
   const hooks = extractHooks(HOOKS_DIR);
@@ -786,6 +887,7 @@ function main(): void {
 
   console.log('');
   generateLlmsTxt(meta, OUTPUT_DIR);
+  generateComponentDocs(meta, OUTPUT_DIR);
   console.log('\n✅ 完成!');
 }
 

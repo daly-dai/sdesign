@@ -1,0 +1,11 @@
+{
+  "useWhen": [
+    "日期范围选择，需要 rangeKeys 将范围拆分为两个独立字段提交",
+    "onChange 需要直接返回格式化字符串"
+  ],
+  "dontUseWhen": [
+    "单日期选择，应使用 SDatePicker",
+    "不需要拆分字段，直接用 antd RangePicker"
+  ],
+  "prefer": {}
+}

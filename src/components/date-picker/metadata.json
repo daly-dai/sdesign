@@ -1,0 +1,11 @@
+{
+  "useWhen": [
+    "日期选择，onChange 需要直接返回格式化字符串而非 Dayjs 对象",
+    "表单中的日期字段，简化值处理"
+  ],
+  "dontUseWhen": [
+    "需要日期范围选择，应使用 SDatePickerRange",
+    "需要 Dayjs 对象做复杂日期计算，直接用 antd DatePicker"
+  ],
+  "prefer": {}
+}

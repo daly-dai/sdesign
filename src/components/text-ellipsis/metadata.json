@@ -1,0 +1,8 @@
+{
+  "useWhen": ["长文本需要省略显示并支持展开/收起或 Tooltip 提示"],
+  "dontUseWhen": [
+    "STable 列已支持 ellipsis 和 maxChars，表格内无需额外使用",
+    "单行文本省略，CSS text-overflow: ellipsis 即可"
+  ],
+  "prefer": {}
+}

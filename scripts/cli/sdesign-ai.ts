@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * sdesign-ai CLI — 将 llms.txt 分发到用户项目
+ * sdesign-ai CLI — 将 AI 文档分发到用户项目
  *
- * 核心思路：只有一份 llms.txt 内容，复制到不同 AI 编辑器约定的文件位置。
+ * 核心思路：渐进式文档结构 — llms.txt 索引 + ai/components/ 详细文档。
  *
  * 用法:
- *   npx sdesign-ai init              # 复制 llms.txt 到项目根目录
+ *   npx sdesign-ai init              # 复制 llms.txt + components/ 到项目根目录
  *   npx sdesign-ai init --all        # 复制到所有 AI 编辑器位置
  *   npx sdesign-ai init --cursor     # 额外生成 .cursorrules
  *   npx sdesign-ai init --claude     # 额外生成 CLAUDE.md
@@ -40,6 +40,29 @@ function copyTo(srcName: string, targetPath: string): void {
   console.log(`  ✓ ${path.relative(process.cwd(), targetPath)}`);
 }
 
+/** 复制 ai/components/ 目录到目标位置 */
+function copyComponentsDir(targetDir: string): void {
+  const srcDir = path.join(AI_DIR, 'components');
+  if (!fs.existsSync(srcDir)) {
+    console.log('  ⚠ ai/components/ 不存在，请先运行 npm run ai:generate');
+    return;
+  }
+
+  if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
+
+  const files = fs.readdirSync(srcDir);
+  let count = 0;
+  for (const file of files) {
+    const srcPath = path.join(srcDir, file);
+    if (!fs.statSync(srcPath).isFile()) continue;
+    fs.copyFileSync(srcPath, path.join(targetDir, file));
+    count++;
+  }
+  console.log(
+    `  ✓ ${path.relative(process.cwd(), targetDir)}/ (${count} 个组件文档)`,
+  );
+}
+
 function main(): void {
   const args = process.argv.slice(2);
   const cmd = args[0];
@@ -48,7 +71,9 @@ function main(): void {
     console.log(`sdesign-ai v${getVersion()}`);
     console.log('');
     console.log('用法:');
-    console.log('  npx sdesign-ai init          # 复制 llms.txt 到项目');
+    console.log(
+      '  npx sdesign-ai init          # 复制 llms.txt + components/ 到项目',
+    );
     console.log('  npx sdesign-ai init --all    # 复制到所有 AI 编辑器位置');
     console.log('  npx sdesign-ai init --cursor # 额外生成 .cursorrules');
     console.log('  npx sdesign-ai init --claude # 额外生成 CLAUDE.md');
@@ -61,8 +86,9 @@ function main(): void {
 
   console.log(`\n🚀 @dalydb/sdesign AI 文档初始化 (v${getVersion()})\n`);
 
-  // 始终复制 llms.txt
+  // 始终复制 llms.txt（索引） + components/（详细文档）
   copyTo('llms.txt', path.join(root, 'llms.txt'));
+  copyComponentsDir(path.join(root, 'ai', 'components'));
 
   if (all || flags.has('--cursor')) {
     copyTo('llms.txt', path.join(root, '.cursorrules'));
@@ -74,7 +100,9 @@ function main(): void {
     copyTo('llms.txt', path.join(root, '.github', 'copilot-instructions.md'));
   }
 
-  console.log('\n✅ 完成! 同一份文档，文件名适配不同 AI 编辑器的加载约定。');
+  console.log(
+    '\n✅ 完成! 渐进式文档结构：llms.txt（索引）+ ai/components/（按需读取）。',
+  );
   console.log('💡 组件库更新后运行 npx sdesign-ai update 同步。');
 }
 

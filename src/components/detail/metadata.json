@@ -1,0 +1,15 @@
+{
+  "useWhen": [
+    "详情页展示键值对数据",
+    "需要 8 种渲染类型自动格式化（text/dict/file/img/rangeTime/checkbox 等）",
+    "需要字典映射（dictKey 配合 SConfigProvider）"
+  ],
+  "dontUseWhen": [
+    "数据是列表形式（多行同结构），应使用 STable",
+    "需要编辑数据，应使用 SForm",
+    "自定义卡片式布局展示，直接用 antd 原生组件"
+  ],
+  "prefer": {
+    "SDetail.Group": "详情需要分组展示时，不要手动拼多个 SDetail"
+  }
+}

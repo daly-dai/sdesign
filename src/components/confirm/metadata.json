@@ -1,0 +1,11 @@
+{
+  "useWhen": [
+    "操作前需要二次确认（删除、提交等危险操作）",
+    "需要 Popconfirm 气泡确认或 Modal 对话框确认"
+  ],
+  "dontUseWhen": [
+    "不需要确认的普通操作，直接用 SButton onClick",
+    "需要复杂表单输入的确认弹窗，使用 antd Modal + SForm"
+  ],
+  "prefer": {}
+}

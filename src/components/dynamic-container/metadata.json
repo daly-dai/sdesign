@@ -1,0 +1,5 @@
+{
+  "useWhen": ["需要动态调整容器尺寸或布局"],
+  "dontUseWhen": ["静态布局容器，直接用 div 或 antd Layout"],
+  "prefer": {}
+}

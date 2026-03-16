@@ -1,0 +1,8 @@
+{
+  "useWhen": ["多项选择场景", "选项较少（<= 7 个）且需要全部可见"],
+  "dontUseWhen": [
+    "单选场景，应使用 SRadioGroup",
+    "选项很多（> 7 个），应使用 SSelect mode='multiple'"
+  ],
+  "prefer": {}
+}

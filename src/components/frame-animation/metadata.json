@@ -1,0 +1,8 @@
+{
+  "useWhen": ["精灵图帧动画（Loading 动效、交互动画）"],
+  "dontUseWhen": [
+    "简单 Loading 状态，使用 antd Spin",
+    "CSS 动画可实现的效果，不需要帧动画组件"
+  ],
+  "prefer": {}
+}
