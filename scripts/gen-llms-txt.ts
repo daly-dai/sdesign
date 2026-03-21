@@ -7,6 +7,7 @@
  *
  * 用法: npx tsx scripts/gen-llms-txt.ts
  */
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -17,6 +18,24 @@ const SRC = path.join(ROOT, 'src');
 const COMPONENTS_DIR = path.join(SRC, 'components');
 const HOOKS_DIR = path.join(SRC, 'hooks');
 const OUTPUT_DIR = path.join(ROOT, 'ai');
+
+// 需要格式化的文件列表
+const filesToFormat: string[] = [];
+
+/** 使用 biome 格式化指定文件 */
+function formatFiles(): void {
+  if (filesToFormat.length === 0) return;
+
+  try {
+    // 使用 biome 格式化生成的文件
+    const cmd = `npx biome format --write ${filesToFormat.join(' ')}`;
+    execSync(cmd, { cwd: ROOT, stdio: 'pipe' });
+    console.log(`  ✓ 已格式化 ${filesToFormat.length} 个文件`);
+  } catch {
+    // biome 格式化失败不影响主流程
+    console.log(`  ⚠ 格式化失败，跳过`);
+  }
+}
 
 const COMPONENT_DESCRIPTIONS: Record<string, string> = {
   SButton: '增强按钮，支持 actionType 预设操作类型和按钮组',
@@ -675,6 +694,7 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
     console.log(`  ✓ README.md 内容无变化，跳过写入`);
   } else {
     fs.writeFileSync(outputPath, content, 'utf-8');
+    filesToFormat.push(outputPath);
     console.log(`  ✓ README.md 已写入`);
   }
 
@@ -783,6 +803,7 @@ function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
       : '';
     if (existingContent !== content) {
       fs.writeFileSync(filePath, content, 'utf-8');
+      filesToFormat.push(filePath);
       writeCount++;
     }
     count++;
@@ -829,6 +850,7 @@ function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
       : '';
     if (existingContent !== content) {
       fs.writeFileSync(filePath, content, 'utf-8');
+      filesToFormat.push(filePath);
       writeCount++;
     }
     count++;
@@ -933,6 +955,10 @@ function main(): void {
   console.log('');
   generateLlmsTxt(meta, OUTPUT_DIR);
   generateComponentDocs(meta, OUTPUT_DIR);
+
+  // 格式化所有生成的文件
+  formatFiles();
+
   console.log('\n✅ 完成!');
 }
 
