@@ -1,6 +1,5 @@
 import { createStyles } from 'antd-style';
 
-// biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const useStyles = createStyles(({}, { prefixCls }: { prefixCls: string }) => {
   return {
     [prefixCls]: {

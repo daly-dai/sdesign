@@ -22,17 +22,17 @@ const OUTPUT_DIR = path.join(ROOT, 'ai');
 // 需要格式化的文件列表
 const filesToFormat: string[] = [];
 
-/** 使用 biome 格式化指定文件 */
+/** 使用 prettier 格式化指定文件 */
 function formatFiles(): void {
   if (filesToFormat.length === 0) return;
 
   try {
-    // 使用 biome 格式化生成的文件
-    const cmd = `npx biome format --write ${filesToFormat.join(' ')}`;
+    // 使用 prettier 格式化生成的文件
+    const cmd = `npx prettier --write ${filesToFormat.join(' ')}`;
     execSync(cmd, { cwd: ROOT, stdio: 'pipe' });
     console.log(`  ✓ 已格式化 ${filesToFormat.length} 个文件`);
   } catch {
-    // biome 格式化失败不影响主流程
+    // prettier 格式化失败不影响主流程
     console.log(`  ⚠ 格式化失败，跳过`);
   }
 }
