@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * scripts/gen-llms-txt.ts — 一键生成精简版 llms.txt
+ * scripts/gen-llms-txt.ts — 一键生成精简版 README.md
  *
  * 通用提取逻辑：自动扫描所有组件 types.ts 和 hook 文件，
  * 提取全部 interface/type 定义，无需手动维护硬编码列表。
@@ -560,11 +560,19 @@ function injectIntoDistDts(llmsContent: string): void {
     .join('\n');
   const jsdocBlock = `/**\n * @module @dalydb/sdesign\n *\n${jsdocLines}\n */\n`;
 
-  fs.writeFileSync(dtsPath, jsdocBlock + cleaned, 'utf-8');
-  console.log(`  ✓ dist/index.d.ts 已注入 llms.txt 内容`);
+  const newContent = jsdocBlock + cleaned;
+
+  // 只有内容真正变化时才写入，避免不必要的文件修改
+  if (original === newContent) {
+    console.log(`  ✓ dist/index.d.ts 内容无变化，跳过写入`);
+    return;
+  }
+
+  fs.writeFileSync(dtsPath, newContent, 'utf-8');
+  console.log(`  ✓ dist/index.d.ts 已注入 README.md 内容`);
 }
 
-// ─── 生成：llms.txt（索引层，含边界，不含完整类型） ──────────────
+// ─── 生成：README.md（索引层，含边界，不含完整类型） ──────────────
 
 function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   const L: string[] = [];
@@ -657,12 +665,22 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
   );
 
   const content = L.join('\n');
-  const outputPath = path.join(outputDir, 'llms.txt');
-  fs.writeFileSync(outputPath, content, 'utf-8');
+  const outputPath = path.join(outputDir, 'README.md');
+
+  // 只有内容变化时才写入，避免不必要的文件修改
+  const existingContent = fs.existsSync(outputPath)
+    ? fs.readFileSync(outputPath, 'utf-8')
+    : '';
+  if (existingContent === content) {
+    console.log(`  ✓ README.md 内容无变化，跳过写入`);
+  } else {
+    fs.writeFileSync(outputPath, content, 'utf-8');
+    console.log(`  ✓ README.md 已写入`);
+  }
 
   const bytes = Buffer.byteLength(content);
   console.log(
-    `  ✓ llms.txt 索引 (${(bytes / 1024).toFixed(1)}KB, ~${Math.round(
+    `  ✓ README.md 索引 (${(bytes / 1024).toFixed(1)}KB, ~${Math.round(
       bytes / 3,
     )} tokens)`,
   );
@@ -675,16 +693,16 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
 function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
   const componentsDir = path.join(outputDir, 'components');
 
-  // 清理并重建 components 目录
-  if (fs.existsSync(componentsDir)) {
-    for (const f of fs.readdirSync(componentsDir)) {
-      fs.unlinkSync(path.join(componentsDir, f));
-    }
-  } else {
+  // 确保目录存在
+  if (!fs.existsSync(componentsDir)) {
     fs.mkdirSync(componentsDir, { recursive: true });
   }
 
+  // 获取现有文件列表，用于后续检测删除
+  const existingFiles = new Set(fs.readdirSync(componentsDir));
+
   let count = 0;
+  let writeCount = 0;
 
   for (const c of meta.components) {
     if (c.typeDefs.length === 0) continue;
@@ -755,8 +773,18 @@ function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
     }
 
     const content = L.join('\n');
-    const filePath = path.join(componentsDir, `${c.name}.md`);
-    fs.writeFileSync(filePath, content, 'utf-8');
+    const fileName = `${c.name}.md`;
+    const filePath = path.join(componentsDir, fileName);
+    existingFiles.delete(fileName);
+
+    // 只有内容变化时才写入
+    const existingContent = fs.existsSync(filePath)
+      ? fs.readFileSync(filePath, 'utf-8')
+      : '';
+    if (existingContent !== content) {
+      fs.writeFileSync(filePath, content, 'utf-8');
+      writeCount++;
+    }
     count++;
   }
 
@@ -791,12 +819,28 @@ function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
     }
 
     const content = L.join('\n');
-    const filePath = path.join(componentsDir, `${h.name}.md`);
-    fs.writeFileSync(filePath, content, 'utf-8');
+    const fileName = `${h.name}.md`;
+    const filePath = path.join(componentsDir, fileName);
+    existingFiles.delete(fileName);
+
+    // 只有内容变化时才写入
+    const existingContent = fs.existsSync(filePath)
+      ? fs.readFileSync(filePath, 'utf-8')
+      : '';
+    if (existingContent !== content) {
+      fs.writeFileSync(filePath, content, 'utf-8');
+      writeCount++;
+    }
     count++;
   }
 
-  console.log(`  ✓ ai/components/ (${count} 个独立文档)`);
+  // 删除不再需要的文件
+  for (const fileName of existingFiles) {
+    fs.unlinkSync(path.join(componentsDir, fileName));
+    console.log(`  🗑 删除过时文件: ${fileName}`);
+  }
+
+  console.log(`  ✓ ai/components/ (${count} 个文档, ${writeCount} 个写入)`);
 }
 
 // ─── 主流程 ──────────────────────────────────────────────────────
@@ -872,6 +916,7 @@ function main(): void {
 
   // 清理旧文件
   for (const f of [
+    'llms.txt',
     'llms-full.txt',
     'cursorrules',
     'claude.md',
