@@ -45,7 +45,7 @@ const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
         <SCard>
           {tableTitle && <STitle type="table" {...tableTitle} />}
 
-          <STable {...tableProps} {...externalTableProps} />
+          <STable size="small" {...tableProps} {...externalTableProps} />
         </SCard>
       </>
     );

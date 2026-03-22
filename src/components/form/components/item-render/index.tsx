@@ -67,10 +67,17 @@ const ItemRender: FC<ItemsProps> = ({
     return customCom;
   }, [customCom]);
 
+  const styleData = useMemo(() => {
+    return {
+      marginBottom: 0,
+      ...style,
+    };
+  }, [style]);
+
   if (children) {
     return (
       <Form.Item
-        style={style}
+        style={styleData}
         label={label}
         name={itemName}
         rules={itemRules}
@@ -82,7 +89,7 @@ const ItemRender: FC<ItemsProps> = ({
   }
 
   if (type === 'placeholder') {
-    return <div style={style}>{label}</div>;
+    return <div style={styleData}>{label}</div>;
   }
 
   if (type === 'dependency') {
@@ -98,7 +105,7 @@ const ItemRender: FC<ItemsProps> = ({
   return (
     <SErrorBoundary>
       <Form.Item
-        style={style}
+        style={styleData}
         label={label}
         name={itemName}
         {...restProps}

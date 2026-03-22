@@ -24,7 +24,7 @@ const Search: FC<SearchProps> = memo(
     defaultExpand,
     readonly = false,
     container,
-    isCard = true,
+    isCard = false,
     ...props
   }) => {
     const { styles, prefixCls } = useComStyle({
