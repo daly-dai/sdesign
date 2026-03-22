@@ -7,3 +7,4 @@ node_modules
 /coverage
 .jest-cache
 report
+.qoder/repowiki
