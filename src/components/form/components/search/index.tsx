@@ -103,11 +103,23 @@ const Search: FC<SearchProps> = memo(
       );
     }, [showCollapse, collapse, columns]);
 
+    const style = useMemo(() => {
+      if (isCard) {
+        return props.style;
+      }
+
+      return {
+        marginBottom: 16,
+        ...props.style,
+      };
+    }, [props.style, isCard]);
+
     return (
       <DynamicContainer isCard={isCard} CustomContainer={container}>
         <Form
           {...formTypeConfig}
           colon={false}
+          style={style}
           {...props}
           onFinish={handleFinish}
           onReset={handleReset}
