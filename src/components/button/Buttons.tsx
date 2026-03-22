@@ -11,13 +11,10 @@ const SButtonGroup: FC<SButtonsProps> = ({
   loading = false,
   spaceProps,
 }) => {
+  const showItems = items.filter((item) => item.visible !== false);
+
   const renderButtonItem = useCallback(
     (btn: any, idx: number) => {
-      // 如果visible为false或undefined，则不显示该按钮
-      if (btn.visible === false) {
-        return null;
-      }
-
       if (btn.render) {
         return typeof btn.render === 'function' ? btn.render() : btn.render;
       }
@@ -28,8 +25,8 @@ const SButtonGroup: FC<SButtonsProps> = ({
         <SButton
           key={key ?? idx}
           size={size}
-          disabled={disabled}
-          loading={loading}
+          disabled={disabled || rest.disabled}
+          loading={loading || rest.loading}
           {...rest}
         />
       );
@@ -39,7 +36,7 @@ const SButtonGroup: FC<SButtonsProps> = ({
 
   return (
     <Space size={8} {...spaceProps}>
-      {items.map(renderButtonItem)}
+      {showItems.map(renderButtonItem)}
     </Space>
   );
 };

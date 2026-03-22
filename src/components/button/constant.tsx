@@ -29,7 +29,6 @@ const MemoizedSearchIcon = memo(() => <LucideIcon name="Search" />);
 const defaultConfig: Record<string, Partial<ButtonProps>> = {
   't-link': {
     type: 'link',
-    children: 't-link',
     style: tLinkStyle,
   },
   primary: {

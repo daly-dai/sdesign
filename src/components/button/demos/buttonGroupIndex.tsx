@@ -35,6 +35,28 @@ export default () => {
         ]}
       />
       <Divider />
+
+      <SButton.Group
+        items={[
+          {
+            actionType: 'view',
+            compact: true,
+          },
+          {
+            actionType: 'edit',
+            compact: true,
+          },
+          {
+            compact: true,
+            children: '重置密码',
+            actionType: 'reset',
+          },
+          {
+            actionType: 'delete',
+            compact: true,
+          },
+        ]}
+      />
     </div>
   );
 };

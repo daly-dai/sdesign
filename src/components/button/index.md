@@ -53,6 +53,10 @@
 
 <code src="./demos/custom-space.tsx"></code>
 
+## ButtonGroup
+
+<code src="./demos/buttonGroupIndex.tsx"></code>
+
 ## 垂直排列
 
 通过 spaceProps 实现垂直排列
