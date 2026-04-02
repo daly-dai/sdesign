@@ -23,6 +23,7 @@
 - options?: Omit<useSearchTableOptions, 'form'> — useSearchTable 的配置选项
 - tableProps?: STableProps<any> — 表格 props，会合并到 useSearchTable 返回的 tableProps 中
 - formProps?: SearchProps — 搜索表单 props，透传给 SForm.Search
+- tableCardProps?: SCardProps — 表格卡片 props，透传给 SCard
 
 **SearchTableRef** — SSearchTable 的 ref 方法 通过 ref 可以从外部控制表格刷新、重置等操作。 `tsx const tableRef = useRef<SearchTableRef>(null); tableRef.current?.refresh();       // 刷新当前页 tableRef.current?.reset();         // 重置搜索并刷新 tableRef.current?.getForm();       // 获取表单实例 `
 
@@ -83,3 +84,10 @@
 - isCard?: `boolean` — 是否包裹在卡片中
 - rowProps?: `RowProps` — 行布局配置
 - _... 共 16 个属性，详见完整文档_
+
+### tableCardProps → SCard (SCardProps) (extends Omit<CardProps, 'children'>)
+
+> 完整 API: ai/components/SCard.md
+
+- children?: `ReactNode`
+- hasBottomPadding?: `boolean` — 底部是否包含边距
