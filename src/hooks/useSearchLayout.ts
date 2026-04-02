@@ -24,16 +24,13 @@ const useSearchLayout = ({
   const dynamicOffset = useMemo(() => {
     const itemListLen = items?.length || 0;
 
-    // 处理一行一个占比为1/3的情况
-    if (itemListLen === 1 && columns === 4) {
-      return 8;
-    }
+    // 计算当前行已占用的列数
+    const usedInCurrentRow = itemListLen % columns;
 
-    const len = Math.ceil(itemListLen % columns);
+    // offset 列数 = 当前行剩余空间 - 操作按钮自身占的1列
+    const offsetColumns = columns - usedInCurrentRow - 1;
 
-    const offset = columns - 1 - len;
-
-    return offset * dynamicSpan;
+    return offsetColumns * dynamicSpan;
   }, [items, columns, dynamicSpan]);
 
   const actionAlign = useMemo(() => {

@@ -24,7 +24,7 @@ const Search: FC<SearchProps> = memo(
     defaultExpand,
     readonly = false,
     container,
-    isCard = false,
+    isCard = true,
     ...props
   }) => {
     const { styles, prefixCls } = useComStyle({
@@ -45,6 +45,9 @@ const Search: FC<SearchProps> = memo(
       styles,
       prefixCls,
     });
+
+    console.log('dynamicOffset', dynamicOffset);
+    console.log('dynamicSpan', dynamicSpan);
 
     const formTypeConfig = useMemo(() => {
       if (!readonly) return {};

@@ -74,6 +74,7 @@ function useSearchTable(
     data: resultData = {} as any,
     loading,
     error,
+    ...rest
   } = useRequest(wrappedRequestFn, {
     ...(serviceProps ?? {}),
     manual,
@@ -186,6 +187,7 @@ function useSearchTable(
     tableProps, // 新增：整合的 table props
     form, // 返回 form 实例供外部使用
     formConfig, // 新增：专门为 SForm.Search 设计的配置
+    ...rest,
   };
 }
 

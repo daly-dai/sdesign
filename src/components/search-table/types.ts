@@ -1,4 +1,5 @@
 import { useSearchTableOptions } from '@dalydb/sdesign/hooks/useSearchTable/types';
+import { SCardProps } from '../card/types';
 import { SearchProps } from '../form/types';
 import { STableProps } from '../table/types';
 import { STitleProps } from '../title/types';
@@ -75,4 +76,6 @@ export interface SearchTableProps {
   tableProps?: STableProps<any>;
   /** 搜索表单 props，透传给 SForm.Search */
   formProps?: SearchProps;
+  /** 表格卡片 props，透传给 SCard */
+  tableCardProps?: SCardProps;
 }

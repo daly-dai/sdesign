@@ -29,3 +29,57 @@
 - refresh: (params?: any) => void — 刷新表格数据，可传入额外参数合并到请求中
 - reset: () => void — 重置搜索条件并刷新到第一页
 - getForm: () => any — 获取内部表单实例，用于外部操作表单
+
+## 组合组件说明
+
+以下是本组件 props 中引用的子组件/Hook 类型的核心属性摘要，无需额外查阅即可理解完整能力：
+
+### headTitle → STitle (STitleProps) (extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'prefix'>)
+
+> 完整 API: ai/components/STitle.md
+
+- prefix?: `ReactNode` — 标题前缀自定义内容
+- gap?: `number | string` — 标题与内容的间距
+- goBack?: `boolean` — 是否显示返回按钮
+- type?: `TitleType` — 标题类型，影响字号和样式
+- desc?: `ReactNode` — 描述文字
+- actionNode?: `ReactNode` — 右侧操作区
+- style?: `React.CSSProperties`
+- hasBottomMargin?: `boolean | number | string` — 底部间距
+- _... 共 11 个属性，详见完整文档_
+
+### options → useSearchTable (useSearchTableOptions)
+
+> 完整 API: ai/components/useSearchTable.md
+
+- form?: `FormInstance<any>` — 外部传入的表单实例
+- extraParams?: `Record<string, any>` — 额外请求参数，每次请求都会携带
+- manual?: `boolean` — 是否手动触发首次请求
+- dispatchParams?: `(params?: any) => any` — 请求前参数处理
+- serviceProps?: `Options<any, any>` — ahooks useRequest 配置
+- paginationFields?: `PaginationFields` — 分页字段映射
+- transformRequestParams?: `(params: any) => any` — 请求参数转换函数
+- transformResponseData?: `(data: any) => any` — 响应数据转换函数
+
+### tableProps → STable (STableProps) (extends Omit<TableProps<RecordType>, 'columns'>)
+
+> 完整 API: ai/components/STable.md
+
+- columns?: `SColumnsType<RecordType>` — 列定义，支持 dictKey 和字符串 render
+- isSeq?: `boolean` — 是否显示序号列
+- current?: `number` — 当前页码（用于序号计算）
+- pageSize?: `number` — 每页条数（用于序号计算）
+
+### formProps → SForm (SearchProps) (extends SFormProps)
+
+> 完整 API: ai/components/SForm.md
+
+- defaultExpand?: `boolean` — 是否默认展开所有搜索项
+- showExpand?: `boolean` — 是否显示展开/收起按钮
+- onExpand?: `(expand: boolean) => void` — 展开/收起回调
+- expandLine?: `number` — 收起时显示的行数
+- actionNode?: `ReactNode` — 搜索栏右侧自定义操作节点
+- container?: `React.ComponentType<any>` — 自定义组件容器
+- isCard?: `boolean` — 是否包裹在卡片中
+- rowProps?: `RowProps` — 行布局配置
+- _... 共 16 个属性，详见完整文档_

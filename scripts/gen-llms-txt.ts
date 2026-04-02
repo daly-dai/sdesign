@@ -128,6 +128,21 @@ interface HookMeta {
   signature: string;
 }
 
+/** 全局类型注册表中的条目 */
+interface KnownTypeEntry {
+  source: 'component' | 'hook';
+  sourceName: string;
+  typeDef: TypeDef;
+}
+
+/** 组合引用：某个 prop 引用了外部组件/Hook 的类型 */
+interface CompositionRef {
+  propName: string;
+  propDescription: string;
+  typeName: string;
+  entry: KnownTypeEntry;
+}
+
 interface LibraryMeta {
   name: string;
   version: string;
@@ -439,6 +454,166 @@ function extractHookSignature(content: string, hookName: string): string {
   return hookName;
 }
 
+// ─── 组合组件：自动检测外部类型引用 ────────────────────────────
+
+/** 构建全局类型注册表，收集所有组件和 Hook 导出的类型 */
+function buildKnownTypesMap(meta: LibraryMeta): Map<string, KnownTypeEntry> {
+  const map = new Map<string, KnownTypeEntry>();
+
+  for (const c of meta.components) {
+    for (const td of c.typeDefs) {
+      map.set(td.name, {
+        source: 'component',
+        sourceName: c.name,
+        typeDef: td,
+      });
+    }
+  }
+
+  for (const h of meta.hooks) {
+    for (const td of h.typeDefs) {
+      map.set(td.name, {
+        source: 'hook',
+        sourceName: h.name,
+        typeDef: td,
+      });
+    }
+  }
+
+  return map;
+}
+
+/** 从 TypeScript 类型字符串中提取可能的类型名引用 */
+function extractTypeNameRefs(typeStr: string): string[] {
+  const refs = new Set<string>();
+  const regex = /\b([A-Z][A-Za-z0-9]*|use[A-Z][A-Za-z0-9]*)\b/g;
+  let m: RegExpExecArray | null;
+  while ((m = regex.exec(typeStr)) !== null) {
+    refs.add(m[1]);
+  }
+  return Array.from(refs);
+}
+
+/**
+ * 检测组件 props 中引用了哪些外部组件/Hook 的类型
+ * 自动扫描主 Props 接口的属性类型，匹配全局类型注册表
+ */
+function resolveCompositionRefs(
+  component: ComponentMeta,
+  knownTypes: Map<string, KnownTypeEntry>,
+): CompositionRef[] {
+  const mainDef = component.typeDefs.find(
+    (d) => d.name === component.mainPropsName,
+  );
+  if (!mainDef || mainDef.props.length === 0) return [];
+
+  // 排除自身定义的类型
+  const selfTypeNames = new Set(component.typeDefs.map((d) => d.name));
+
+  const refs: CompositionRef[] = [];
+  const seenTypes = new Set<string>();
+
+  for (const prop of mainDef.props) {
+    const typeRefs = extractTypeNameRefs(prop.type);
+    for (const typeName of typeRefs) {
+      if (selfTypeNames.has(typeName)) continue;
+      if (seenTypes.has(typeName)) continue;
+
+      const entry = knownTypes.get(typeName);
+      if (!entry) continue;
+      if (entry.sourceName === component.name) continue;
+
+      // 只关注有属性的类型（跳过简单 union/alias 类型）
+      if (entry.typeDef.props.length === 0 && !entry.typeDef.rawType) continue;
+
+      seenTypes.add(typeName);
+      refs.push({
+        propName: prop.name,
+        propDescription: prop.description,
+        typeName,
+        entry,
+      });
+    }
+  }
+
+  return refs;
+}
+
+/**
+ * 生成组合组件说明的 Markdown 段落
+ * 包含每个引用类型的核心属性摘要和交叉引用链接
+ */
+function generateCompositionSection(
+  refs: CompositionRef[],
+  knownTypes: Map<string, KnownTypeEntry>,
+  maxProps: number = 8,
+): string[] {
+  if (refs.length === 0) return [];
+
+  const L: string[] = [];
+  L.push('## 组合组件说明');
+  L.push('');
+  L.push(
+    '以下是本组件 props 中引用的子组件/Hook 类型的核心属性摘要，无需额外查阅即可理解完整能力：',
+  );
+  L.push('');
+
+  for (const ref of refs) {
+    const td = ref.entry.typeDef;
+    const docFile = `ai/components/${ref.entry.sourceName}.md`;
+    const ext = td.extendsFrom ? ` (extends ${td.extendsFrom})` : '';
+
+    L.push(
+      `### ${ref.propName} → ${ref.entry.sourceName} (${ref.typeName})${ext}`,
+    );
+    L.push('');
+    L.push(`> 完整 API: ${docFile}`);
+    L.push('');
+
+    if (td.props.length > 0) {
+      // 收集属性：自身 + 继承的父类型属性
+      let allProps = [...td.props];
+
+      if (td.extendsFrom) {
+        const parentRefs = extractTypeNameRefs(td.extendsFrom);
+        for (const parentName of parentRefs) {
+          const parentEntry = knownTypes.get(parentName);
+          if (parentEntry && parentEntry.typeDef.props.length > 0) {
+            const existingNames = new Set(allProps.map((p) => p.name));
+            for (const pp of parentEntry.typeDef.props) {
+              if (!existingNames.has(pp.name)) {
+                allProps.push(pp);
+              }
+            }
+          }
+        }
+      }
+
+      // 必填优先排序
+      const sorted = [...allProps].sort((a, b) => {
+        if (a.required && !b.required) return -1;
+        if (!a.required && b.required) return 1;
+        return 0;
+      });
+      const shown = sorted.slice(0, maxProps);
+
+      for (const p of shown) {
+        const comment = p.description ? ` — ${p.description}` : '';
+        L.push(`- ${p.name}${p.required ? '' : '?'}: \`${p.type}\`${comment}`);
+      }
+
+      if (allProps.length > maxProps) {
+        L.push(`- _... 共 ${allProps.length} 个属性，详见完整文档_`);
+      }
+    } else if (td.rawType) {
+      L.push(`类型: \`${td.rawType}\``);
+    }
+    L.push('');
+  }
+
+  return L;
+}
+
 // ─── 提取：Hooks ────────────────────────────────────────────────
 
 function extractHooks(hooksDir: string): HookMeta[] {
@@ -710,7 +885,11 @@ function generateLlmsTxt(meta: LibraryMeta, outputDir: string): void {
 
 // ─── 生成：ai/components/{Name}.md（每个组件独立详细文档） ────────
 
-function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
+function generateComponentDocs(
+  meta: LibraryMeta,
+  outputDir: string,
+  knownTypes: Map<string, KnownTypeEntry>,
+): void {
   const componentsDir = path.join(outputDir, 'components');
 
   // 确保目录存在
@@ -791,6 +970,14 @@ function generateComponentDocs(meta: LibraryMeta, outputDir: string): void {
         L.push('');
       }
     }
+
+    // 组合组件说明：自动检测并内联子组件类型摘要
+    const compositionRefs = resolveCompositionRefs(c, knownTypes);
+    const compositionSection = generateCompositionSection(
+      compositionRefs,
+      knownTypes,
+    );
+    L.push(...compositionSection);
 
     const content = L.join('\n');
     const fileName = `${c.name}.md`;
@@ -954,7 +1141,10 @@ function main(): void {
 
   console.log('');
   generateLlmsTxt(meta, OUTPUT_DIR);
-  generateComponentDocs(meta, OUTPUT_DIR);
+
+  // 构建全局类型注册表，用于组合组件交叉引用
+  const knownTypes = buildKnownTypesMap(meta);
+  generateComponentDocs(meta, OUTPUT_DIR, knownTypes);
 
   // 格式化所有生成的文件
   formatFiles();

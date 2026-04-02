@@ -1,3 +1,7 @@
+/**
+ * background: '#f6f7f9'
+ */
+
 import React from 'react';
 
 import { SColumnsType, SFormItems, SSearchTable } from '@dalydb/sdesign';
@@ -154,7 +158,6 @@ export default () => {
       }}
       formProps={{
         items: formItems,
-        columns: 3,
         showExpand: true,
         defaultExpand: false,
       }}

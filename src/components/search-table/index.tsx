@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 
-import { SForm, STable, STitle } from '@dalydb/sdesign';
+import { SCard, SForm, STable, STitle } from '@dalydb/sdesign';
 import useSearchTable from '@dalydb/sdesign/hooks/useSearchTable';
 import { SearchTableProps, SearchTableRef } from './types';
 
@@ -13,6 +13,7 @@ const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
       options = {},
       tableProps: externalTableProps,
       formProps,
+      tableCardProps,
     },
     ref,
   ) => {
@@ -32,6 +33,9 @@ const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
           handleReset();
         },
         getForm: () => form,
+        submit: () => {
+          getPageData();
+        },
       }),
       [getPageData, handleReset, form],
     );
@@ -42,9 +46,11 @@ const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
 
         <SForm.Search form={form} {...formConfig} {...formProps} />
 
-        {tableTitle && <STitle type="table" {...tableTitle} />}
+        <SCard {...tableCardProps}>
+          {tableTitle && <STitle type="table" {...tableTitle} />}
 
-        <STable size="small" {...tableProps} {...externalTableProps} />
+          <STable size="small" {...tableProps} {...externalTableProps} />
+        </SCard>
       </>
     );
   },
