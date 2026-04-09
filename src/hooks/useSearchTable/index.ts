@@ -150,13 +150,14 @@ function useSearchTable(
     if (!resultData) return false;
 
     return {
+      showTotal: (total: number) => `共 ${total} 条`,
       current: resultData?.[mergedPaginationFields.current],
       pageSize: resultData?.[mergedPaginationFields.pageSize],
       total: resultData?.[mergedPaginationFields.total],
       showSizeChanger: true,
       showQuickJumper: true,
       onChange: handleTableChange,
-      hideOnSinglePage: true,
+      // hideOnSinglePage: true,
     };
   }, [resultData, mergedPaginationFields, handleTableChange]);
 

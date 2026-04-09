@@ -3,7 +3,12 @@ import React, { CSSProperties, memo } from 'react';
 
 import LucideIcon from '../lucide-icon';
 
-export const tLinkStyle: CSSProperties = { padding: 'unset', margin: 'unset' };
+export const tLinkStyle: CSSProperties = {
+  padding: 0,
+  height: 'unset',
+  // margin: 'unset',
+  border: 'unset',
+};
 
 // 创建 Memoized Icons 以避免每次渲染时创建新的 React 元素
 const MemoizedSaveIcon = memo(() => <LucideIcon name="Save" />);

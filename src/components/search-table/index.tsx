@@ -17,11 +17,17 @@ const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
     },
     ref,
   ) => {
-    const { tableProps, form, formConfig, getPageData, handleReset } =
-      useSearchTable(requestFn, {
-        ...options,
-        form: formProps?.form,
-      });
+    const {
+      tableProps,
+      pagination,
+      form,
+      formConfig,
+      getPageData,
+      handleReset,
+    } = useSearchTable(requestFn, {
+      ...options,
+      form: formProps?.form,
+    });
 
     useImperativeHandle(
       ref,
@@ -49,7 +55,12 @@ const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
         <SCard {...tableCardProps}>
           {tableTitle && <STitle type="table" {...tableTitle} />}
 
-          <STable size="small" {...tableProps} {...externalTableProps} />
+          <STable
+            size="small"
+            {...tableProps}
+            {...externalTableProps}
+            pagination={{ ...pagination, ...externalTableProps?.pagination }}
+          />
         </SCard>
       </>
     );
