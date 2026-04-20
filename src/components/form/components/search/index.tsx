@@ -1,30 +1,41 @@
-import { Button, Col, Flex, Form, Row } from 'antd';
-import React, { FC, memo, useCallback, useMemo } from 'react';
+import { Button, Form } from 'antd';
+import React, {
+  CSSProperties,
+  FC,
+  Fragment,
+  memo,
+  useCallback,
+  useMemo,
+} from 'react';
 
-import { SearchProps, SFormItems } from '../../types';
+import { SearchProps } from '../../types';
 import ItemRender from '../item-render';
 
 import useStyles from './index.style';
 
 import { ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import SButtonGroup from '@dalydb/sdesign/components/button/Buttons';
 import SCollapse from '@dalydb/sdesign/components/collapse';
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import { useComStyle } from '@dalydb/sdesign/hooks';
 import useExpand from '@dalydb/sdesign/hooks/useExpand';
-import useSearchLayout from '@dalydb/sdesign/hooks/useSearchLayout';
-import { genArrFromNum } from '@dalydb/sdesign/utils';
 
 const Search: FC<SearchProps> = memo(
   ({
-    rowProps,
+    // rowProps: _rowProps,
     columns = 4,
     items,
     actionNode,
     showExpand = true,
     defaultExpand,
+    maxRows = 1,
     readonly = false,
     container,
     isCard = true,
+    gap,
+    extraButtons,
+    actionStyleRender,
+    labelWidth,
     ...props
   }) => {
     const { styles, prefixCls } = useComStyle({
@@ -32,30 +43,24 @@ const Search: FC<SearchProps> = memo(
       useStylesHook: useStyles,
     });
 
-    const { showCollapse, expandNum, collapse, setCollapse } = useExpand({
+    const { showCollapse, expandNum, expanded, setExpanded } = useExpand({
       columns,
       items,
       showExpand,
       defaultExpand,
+      maxRows,
     });
 
-    const { actionAlign, dynamicOffset, dynamicSpan } = useSearchLayout({
-      columns,
-      items: genArrFromNum(expandNum ?? 0),
-      styles,
-      prefixCls,
-    });
-
-    console.log('dynamicOffset', dynamicOffset);
-    console.log('dynamicSpan', dynamicSpan);
+    // 计算 gap
+    const [rowGap, columnGap] = useMemo<[number, number]>(() => {
+      if (Array.isArray(gap)) return gap;
+      if (typeof gap === 'number') return [gap, gap];
+      return [16, 24];
+    }, [gap]);
 
     const formTypeConfig = useMemo(() => {
       if (!readonly) return {};
-
-      if (readonly)
-        return {
-          disabled: true,
-        };
+      return { disabled: true };
     }, [readonly]);
 
     const handleFinish = useCallback(
@@ -72,49 +77,63 @@ const Search: FC<SearchProps> = memo(
       [props?.onReset],
     );
 
-    const renderItemFields = (items: SFormItems[] | undefined) => {
-      if (!expandNum || !items?.length) return <></>;
+    // 可见的表单项（过滤 hidden，截取到 expandNum）
+    const visibleSlicedItems = useMemo(() => {
+      if (!items?.length) return [];
+      return items.filter((item) => !item.hidden).slice(0, expandNum);
+    }, [items, expandNum]);
 
-      return items.slice(0, expandNum).map((item, index) => {
-        if (item?.hidden) return null;
-        return (
-          <Col key={item.name || index} span={dynamicSpan} {...item?.colProps}>
-            <ItemRender
-              readonly={readonly}
-              style={{ marginBottom: '0' }}
-              key={item.name || index}
-              {...item}
-            />
-          </Col>
-        );
+    // 预计算每个 item 的逻辑列位置
+    const itemLayoutInfo = useMemo(() => {
+      let currentCol = 0;
+      return visibleSlicedItems.map((item) => {
+        const span = typeof item.gridColumn === 'number' ? item.gridColumn : 1;
+        const isFirstCol = currentCol === 0;
+
+        currentCol = (currentCol + span) % columns;
+
+        return { isFirstCol, span };
       });
-    };
+    }, [visibleSlicedItems, columns]);
 
-    const itemFields = useMemo(() => {
-      return renderItemFields(items);
-    }, [expandNum, columns, items, dynamicSpan, readonly]);
+    // 操作区 grid track 跨度计算（每个逻辑列 = 2 个 grid track）
+    const actionTrackSpan = useMemo(() => {
+      let currentCol = 0;
 
-    const renderCollapse = useMemo(() => {
-      if (!showCollapse) return <></>;
+      visibleSlicedItems.forEach((item) => {
+        const span = typeof item.gridColumn === 'number' ? item.gridColumn : 1;
+        currentCol = (currentCol + span) % columns;
+      });
 
-      return (
-        <SCollapse
-          collapse={collapse}
-          setCollapse={setCollapse}
-          onExpand={props?.onExpand}
-        />
-      );
-    }, [showCollapse, collapse, columns]);
+      const remainingCols = currentCol === 0 ? columns : columns - currentCol;
 
-    const style = useMemo(() => {
-      if (isCard) {
-        return props.style;
+      return remainingCols * 2;
+    }, [visibleSlicedItems, columns]);
+
+    // 操作区样式
+    const actionStyle = useMemo<CSSProperties>(() => {
+      if (actionStyleRender) {
+        return actionStyleRender({
+          expanded,
+          actionSpan: actionTrackSpan / 2,
+        });
       }
+      return { gridColumn: `span ${actionTrackSpan}` };
+    }, [actionStyleRender, expanded, actionTrackSpan]);
 
-      return {
-        marginBottom: 16,
-        ...props.style,
-      };
+    // grid 列模板：每个逻辑列 = label track(auto) + control track(1fr)
+    const gridTemplateColumns = useMemo(() => {
+      const labelTrack = labelWidth
+        ? typeof labelWidth === 'number'
+          ? `${labelWidth}px`
+          : labelWidth
+        : 'auto';
+      return `repeat(${columns}, ${labelTrack} 1fr)`;
+    }, [columns, labelWidth]);
+
+    const formStyle = useMemo(() => {
+      if (isCard) return props.style;
+      return { marginBottom: 16, ...props.style };
     }, [props.style, isCard]);
 
     return (
@@ -122,40 +141,95 @@ const Search: FC<SearchProps> = memo(
         <Form
           {...formTypeConfig}
           colon={false}
-          style={style}
+          style={formStyle}
           {...props}
           onFinish={handleFinish}
           onReset={handleReset}
         >
-          <Row gutter={[24, 16]} align="middle" {...rowProps}>
-            {itemFields}
+          <div
+            className={styles[`${prefixCls}-grid`]}
+            style={{
+              gridTemplateColumns,
+              rowGap,
+            }}
+          >
+            {visibleSlicedItems.map((item, index) => {
+              const { isFirstCol, span } = itemLayoutInfo[index];
+              const controlTrackSpan = span * 2 - 1;
 
-            <Col span={dynamicSpan} offset={dynamicOffset}>
-              <div>
-                {actionNode ?? (
-                  <div className={actionAlign}>
-                    <Flex gap={12}>
-                      <Button
-                        icon={<SearchOutlined />}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        查询
-                      </Button>
-                      <Button icon={<ReloadOutlined />} htmlType="reset">
-                        重置
-                      </Button>
-                      {renderCollapse}
-                    </Flex>
+              return (
+                <Fragment key={item.name?.toString() || index}>
+                  {item.label ? (
+                    <label
+                      className={styles[`${prefixCls}-label`]}
+                      style={
+                        !isFirstCol ? { marginLeft: columnGap } : undefined
+                      }
+                    >
+                      {item.required && (
+                        <span className={styles[`${prefixCls}-required`]}>
+                          *
+                        </span>
+                      )}
+                      {item.label}
+                    </label>
+                  ) : (
+                    <span />
+                  )}
+                  <div
+                    style={
+                      controlTrackSpan > 1
+                        ? { gridColumn: `span ${controlTrackSpan}` }
+                        : undefined
+                    }
+                  >
+                    <ItemRender
+                      readonly={readonly}
+                      style={{ marginBottom: 0 }}
+                      {...item}
+                      label={undefined}
+                    />
                   </div>
+                </Fragment>
+              );
+            })}
+
+            {(actionNode || extraButtons || showCollapse || true) && (
+              <div
+                className={styles[`${prefixCls}-action`]}
+                style={actionStyle}
+              >
+                {actionNode ?? (
+                  <>
+                    <Button
+                      icon={<SearchOutlined />}
+                      type="primary"
+                      htmlType="submit"
+                    >
+                      查询
+                    </Button>
+                    <Button icon={<ReloadOutlined />} htmlType="reset">
+                      重置
+                    </Button>
+                    {extraButtons?.length ? (
+                      <SButtonGroup items={extraButtons} />
+                    ) : null}
+                    {showCollapse && (
+                      <SCollapse
+                        collapse={!expanded}
+                        setCollapse={(val: boolean) => setExpanded(!val)}
+                        onExpand={props?.onExpand}
+                      />
+                    )}
+                  </>
                 )}
               </div>
-            </Col>
-          </Row>
+            )}
+          </div>
         </Form>
       </DynamicContainer>
     );
   },
 );
 
-export default memo(Search);
+export default Search;

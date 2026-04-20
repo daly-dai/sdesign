@@ -4,7 +4,6 @@ import useExpand from './useExpand';
 import useFrameAnimation from './useFrameAnimation';
 import useGetDictData from './useGetDictData';
 import useScale from './useScale';
-import useSearchLayout from './useSearchLayout';
 import useSearchTable from './useSearchTable';
 export { useFormPerformance } from './useFormPerformance';
 
@@ -15,6 +14,5 @@ export {
   useFrameAnimation,
   useGetDictData,
   useScale,
-  useSearchLayout,
   useSearchTable,
 };

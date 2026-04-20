@@ -7,39 +7,43 @@ interface useExpandProps {
   items: SFormItems[] | undefined;
   showExpand?: boolean;
   defaultExpand?: boolean;
+  maxRows?: number;
 }
+
 /**
  * 控制展示收起相关配置的hook
- * @param param0
- * @returns
  */
 export default function useExpand({
   columns,
   items,
   showExpand,
-  defaultExpand = true,
+  defaultExpand = false,
+  maxRows = 1,
 }: useExpandProps) {
-  const [collapse, setCollapse] = useState(defaultExpand);
+  const [expanded, setExpanded] = useState(defaultExpand);
+
+  const visibleItems = useMemo(
+    () => items?.filter((item) => !item.hidden) ?? [],
+    [items],
+  );
 
   // 展示收起的功能开关
   const showCollapse = useMemo(() => {
     if (!showExpand) return false;
-    // 当表单的个数小于列数的话 不展示展开收起按钮
-    if ((items?.length ?? 0) < columns) return false;
-    // 外部控制是否展示展示展开收起按钮，默认为true
-    return true;
-  }, [showExpand, columns]);
+    // 可见表单项数量不超过收起时可展示的数量，不展示展开收起按钮
+    return visibleItems.length > maxRows * columns - 1;
+  }, [showExpand, visibleItems.length, maxRows, columns]);
 
   const expandNum = useMemo(() => {
-    if (!items?.length) return 0;
-    if (!showCollapse) return items.length;
-    return collapse ? Math.min(columns - 1, items.length) : items.length;
-  }, [columns, showCollapse, collapse, items]);
+    if (!visibleItems.length) return 0;
+    if (!showCollapse) return visibleItems.length;
+    return expanded ? visibleItems.length : maxRows * columns - 1;
+  }, [visibleItems.length, showCollapse, expanded, maxRows, columns]);
 
   return {
     showCollapse,
     expandNum,
-    collapse,
-    setCollapse,
+    expanded,
+    setExpanded,
   };
 }

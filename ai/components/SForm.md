@@ -62,6 +62,7 @@
 
 - colProps?: ColProps — 栅格布局配置，控制单个表单项占据的列宽
 - hidden?: boolean — 是否隐藏该表单项（隐藏后仍参与表单提交）
+- gridColumn?: number | string — CSS Grid 列跨度，仅 SForm.Search 组件生效
 
 **SFormGroupProps** extends FormProps — SForm.Group 分组表单 Props 将表单分为多个带标题的分组区块展示。 `tsx <SForm.Group groupItems={[ { title: '基本信息', items: [...], columns: 2 }, { title: '详细信息', items: [...], columns: 3 }, ]} onFinish={handleSubmit} /> `
 
@@ -78,10 +79,14 @@
 - defaultExpand?: boolean — 是否默认展开所有搜索项
 - showExpand?: boolean — 是否显示展开/收起按钮
 - onExpand?: (expand: boolean) => void — 展开/收起回调
-- expandLine?: number — 收起时显示的行数
+- maxRows?: number — 收起时最大显示行数
 - actionNode?: ReactNode — 搜索栏右侧自定义操作节点
 - container?: React.ComponentType<any> — 自定义组件容器
 - isCard?: boolean — 是否包裹在卡片中
+- gap?: number | [number, number] — 行列间距，number 统一间距，[rowGap, columnGap] 分别设置
+- extraButtons?: SButtonsItem[] — 额外操作按钮，渲染在查询/重置旁
+- actionStyleRender?: (props: { expanded: boolean; actionSpan: number; }) => React.CSSProperties — 自定义操作区域样式
+- labelWidth?: number | string — 统一 label 宽度，解决 label 长短不一导致控件错位的问题
 
 **FormFieldMapType** — 表单控件类型映射表 定义了 SForm items 中 `type` 字段所有可选值及其对应组件。 使用时，`fieldProps` 的类型会根据 `type` 自动推导。 `tsx const items: SFormItems[] = [ { label: '姓名', name: 'name', type: 'input' }, { label: '年龄', name: 'age', type: 'inputNumber' }, { label: '性别', name: 'gender', type: 'select', fieldProps: { options: [...] } }, { label: '日期', name: 'date', type: 'SDatePicker' }, ]; `
 

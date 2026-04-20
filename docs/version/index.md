@@ -1,5 +1,43 @@
 # 版本更新记录
 
+## [1.5.0] - 2026-04-20
+
+### ✨ 新功能
+
+- **SForm.Search 搜索表单重构**（⚠️ Breaking Change）
+
+  - `isCard` 默认值由 `false` 改为 `true`，搜索表单默认包裹在卡片中
+  - 新增 `labelWidth` 属性，支持统一 label 宽度解决控件错位问题
+  - 新增 `actionStyleRender` 属性，支持自定义操作区域样式
+  - 新增 `extraButtons` 属性，支持在查询/重置旁添加额外操作按钮
+  - 新增 `gap` 属性，支持灵活设置行列间距
+  - 优化非卡片模式下的底部间距处理
+  - 使用 CSS Grid 替代 Row/Col 栅格布局，提升渲染性能
+  - `SFormItems` 新增 `gridColumn` 属性，支持单行跨列布局
+
+- **SSearchTable 组件增强**
+
+  - 新增 `tableCardProps` 属性，透传给表格区域的 SCard
+  - 新增 `SSearchTableRef.submit()` 方法，支持外部触发表单提交
+  - 重命名 `SearchTableRef` → `SSearchTableRef`，旧名保留为别名（@deprecated）
+  - 分页配置优化：默认显示总条数、移除 `hideOnSinglePage`
+  - 合并分页属性到 STable，支持外部覆盖分页配置
+
+- **useSearchTable Hook 优化**
+
+  - 默认分页字段映射调整：`pageNum` → `pageIndex`，`totalSize` → `total`，`dataList` → `list`
+  - 返回值新增 `pagination`，方便外部独立使用分页配置
+  - 返回值透传 ahooks `useRequest` 其余属性
+
+- **SButton 样式优化**
+
+  - 优化 link 样式按钮的 padding/height/border 表现
+
+### 🐛 修复
+
+- 修复搜索表单和搜索表格样式及结构问题
+- 修复分页显示与样式问题
+
 ## [1.3.1] - 2025-03-02
 
 ### 🔧 优化

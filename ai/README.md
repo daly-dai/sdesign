@@ -1,4 +1,4 @@
-# @dalydb/sdesign v1.3.8
+# @dalydb/sdesign v1.5.0
 
 基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。
 
@@ -224,7 +224,6 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **useFrameAnimation** (详细 API: ai/components/useFrameAnimation.md)
 - **useGetDictData** (详细 API: ai/components/useGetDictData.md)
 - **useScale** (详细 API: ai/components/useScale.md)
-- **useSearchLayout** (详细 API: ai/components/useSearchLayout.md)
 - **useSearchTable** (详细 API: ai/components/useSearchTable.md)
 - **useFormPerformance** (详细 API: ai/components/useFormPerformance.md)
 

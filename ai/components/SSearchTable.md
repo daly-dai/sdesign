@@ -25,11 +25,13 @@
 - formProps?: SearchProps — 搜索表单 props，透传给 SForm.Search
 - tableCardProps?: SCardProps — 表格卡片 props，透传给 SCard
 
-**SearchTableRef** — SSearchTable 的 ref 方法 通过 ref 可以从外部控制表格刷新、重置等操作。 `tsx const tableRef = useRef<SearchTableRef>(null); tableRef.current?.refresh();       // 刷新当前页 tableRef.current?.reset();         // 重置搜索并刷新 tableRef.current?.getForm();       // 获取表单实例 `
+**SSearchTableRef** — SSearchTable 的 ref 方法 通过 ref 可以从外部控制表格刷新、重置等操作。 `tsx const tableRef = useRef<SSearchTableRef>(null); tableRef.current?.refresh();       // 刷新当前页 tableRef.current?.reset();         // 重置搜索并刷新 tableRef.current?.getForm();       // 获取表单实例 `
 
 - refresh: (params?: any) => void — 刷新表格数据，可传入额外参数合并到请求中
 - reset: () => void — 重置搜索条件并刷新到第一页
 - getForm: () => any — 获取内部表单实例，用于外部操作表单
+
+**SearchTableRef** — SearchTableRef 是 SSearchTableRef 的别名，用于向后兼容: `SSearchTableRef`
 
 ## 组合组件说明
 
@@ -78,12 +80,12 @@
 - defaultExpand?: `boolean` — 是否默认展开所有搜索项
 - showExpand?: `boolean` — 是否显示展开/收起按钮
 - onExpand?: `(expand: boolean) => void` — 展开/收起回调
-- expandLine?: `number` — 收起时显示的行数
+- maxRows?: `number` — 收起时最大显示行数
 - actionNode?: `ReactNode` — 搜索栏右侧自定义操作节点
 - container?: `React.ComponentType<any>` — 自定义组件容器
 - isCard?: `boolean` — 是否包裹在卡片中
-- rowProps?: `RowProps` — 行布局配置
-- _... 共 16 个属性，详见完整文档_
+- gap?: `number | [number, number]` — 行列间距，number 统一间距，[rowGap, columnGap] 分别设置
+- _... 共 20 个属性，详见完整文档_
 
 ### tableCardProps → SCard (SCardProps) (extends Omit<CardProps, 'children'>)
 

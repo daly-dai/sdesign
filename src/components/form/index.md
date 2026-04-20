@@ -57,6 +57,16 @@ group:
 
 <code src="./demos/search.tsx"></code>
 
+<code src="./demos/search-expand.tsx"></code>
+
+<code src="./demos/search-extra-buttons.tsx"></code>
+
+<code src="./demos/search-gap-gridcolumn.tsx"></code>
+
+<code src="./demos/search-action-style.tsx"></code>
+
+<code src="./demos/search-business.tsx"></code>
+
 ## 自定义组件
 
 <code src="./demos/custom-component.tsx"></code>
@@ -141,45 +151,6 @@ export default () => {
 };
 ```
 
-#### 使用动态表单列表
-
-```tsx
-import { SForm, Button } from '@dalydb/sdesign';
-
-export default () => {
-  const [form] = SForm.useForm();
-
-  return (
-    <SForm form={form}>
-      <SForm.List name="users">
-        {(fields, { add, remove }) => (
-          <>
-            {fields.map((field, index) => (
-              <div key={field.key} style={{ marginBottom: 16 }}>
-                <SForm.Item
-                  {...field}
-                  label={`用户 ${index + 1}`}
-                  name={[field.name, 'name']}
-                  required
-                >
-                  <input placeholder="请输入姓名" />
-                </SForm.Item>
-                <Button danger onClick={() => remove(field.name)}>
-                  删除
-                </Button>
-              </div>
-            ))}
-            <Button type="dashed" onClick={() => add()}>
-              + 添加用户
-            </Button>
-          </>
-        )}
-      </SForm.List>
-    </SForm>
-  );
-};
-```
-
 ## SForm.Group
 
 | 属性名     | 描述                             | 类型                                                  | 默认值    |
@@ -193,13 +164,20 @@ export default () => {
 
 ## SForm.Search
 
-| 属性名        | 描述                      | 类型                     | 默认值 |
-| ------------- | ------------------------- | ------------------------ | ------ |
-| showExpand    | 开启展开收起功能          | boolean                  | true   |
-| defaultExpand | 默认收起                  | boolean                  | true   |
-| onExpand      | 展开收起时触发的事件      | (expand:boolean) => void | true   |
-| hasCardBg     | 是否展示白色卡片背景      | boolean                  | false  |
-| columns       | 表单列数,不传时会动态计算 | number                   |        |
+| 属性名            | 描述                                         | 类型                                                                | 默认值   |
+| ----------------- | -------------------------------------------- | ------------------------------------------------------------------- | -------- |
+| columns           | 表单列数                                     | number                                                              | 4        |
+| showExpand        | 开启展开收起功能                             | boolean                                                             | true     |
+| defaultExpand     | 是否默认展开                                 | boolean                                                             | false    |
+| maxRows           | 收起时最大显示行数                           | number                                                              | 1        |
+| gap               | 行列间距，number 或 [rowGap, columnGap]      | number \| [number, number]                                          | [16, 24] |
+| extraButtons      | 额外操作按钮                                 | SButtonsItem[]                                                      |          |
+| actionStyleRender | 自定义操作区域样式                           | (props: { expanded: boolean; actionSpan: number }) => CSSProperties |          |
+| actionNode        | 自定义操作节点（完全替换操作区）             | ReactNode                                                           |          |
+| onExpand          | 展开收起时触发的事件                         | (expand: boolean) => void                                           |          |
+| isCard            | 是否包裹在卡片中                             | boolean                                                             | true     |
+| container         | 自定义组件容器                               | React.ComponentType                                                 |          |
+| labelWidth        | 统一 label 宽度，解决 label 长短不一对齐问题 | number \| string                                                    |          |
 
 ## GroupItemsType
 
@@ -231,6 +209,7 @@ export default () => {
 | readonly   | 是否为只读模式                             | boolean                                                                 | false  |
 | formName   | 传入后表单的数据为嵌套的数据格式           | string                                                                  |        |
 | disabled   | 是否禁用                                   | boolean                                                                 | false  |
+| gridColumn | CSS Grid 列跨度，仅 SForm.Search 生效      | number \| string                                                        |        |
 
 ## type 类型及其相关配置
 
