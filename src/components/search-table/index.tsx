@@ -2,9 +2,9 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 
 import { SCard, SForm, STable, STitle } from '@dalydb/sdesign';
 import useSearchTable from '@dalydb/sdesign/hooks/useSearchTable';
-import { SearchTableProps, SearchTableRef } from './types';
+import { SearchTableProps, SSearchTableRef } from './types';
 
-const SSearchTable = forwardRef<SearchTableRef, SearchTableProps>(
+const SSearchTable = forwardRef<SSearchTableRef, SearchTableProps>(
   (
     {
       headTitle,

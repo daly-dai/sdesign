@@ -6,10 +6,10 @@ import { useSearchTableOptions, useSearchTableReturnType } from './types';
 
 // 默认分页字段配置
 const defaultPaginationFields = {
-  current: 'pageNum',
+  current: 'pageIndex',
   pageSize: 'pageSize',
-  total: 'totalSize',
-  list: 'dataList',
+  total: 'total',
+  list: 'list',
 };
 
 function useSearchTable(
@@ -157,7 +157,6 @@ function useSearchTable(
       showSizeChanger: true,
       showQuickJumper: true,
       onChange: handleTableChange,
-      // hideOnSinglePage: true,
     };
   }, [resultData, mergedPaginationFields, handleTableChange]);
 

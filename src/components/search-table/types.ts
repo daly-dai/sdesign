@@ -11,13 +11,13 @@ import { STitleProps } from '../title/types';
  *
  * @example
  * ```tsx
- * const tableRef = useRef<SearchTableRef>(null);
+ * const tableRef = useRef<SSearchTableRef>(null);
  * tableRef.current?.refresh();       // 刷新当前页
  * tableRef.current?.reset();         // 重置搜索并刷新
  * tableRef.current?.getForm();       // 获取表单实例
  * ```
  */
-export interface SearchTableRef {
+export interface SSearchTableRef {
   /** 刷新表格数据，可传入额外参数合并到请求中 */
   refresh: (params?: any) => void;
   /** 重置搜索条件并刷新到第一页 */
@@ -25,6 +25,12 @@ export interface SearchTableRef {
   /** 获取内部表单实例，用于外部操作表单 */
   getForm: () => any;
 }
+
+/**
+ * SearchTableRef 是 SSearchTableRef 的别名，用于向后兼容
+ * @deprecated 推荐使用 SSearchTableRef
+ */
+export type SearchTableRef = SSearchTableRef;
 
 /**
  * SSearchTable 搜索表格组件 Props

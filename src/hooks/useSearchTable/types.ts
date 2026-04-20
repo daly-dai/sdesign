@@ -9,7 +9,7 @@ import { FormInstance, TablePaginationConfig, TableProps } from 'antd';
 export interface PaginationFields {
   /**
    * 当前页码字段名
-   * @default 'pageNum'
+   * @default 'pageIndex'
    */
   current?: string;
   /**

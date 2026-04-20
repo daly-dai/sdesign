@@ -4,7 +4,7 @@ import { Button, Modal, Space, message } from 'antd';
 import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
-import { SearchTableRef } from '../types';
+import { SSearchTableRef } from '../types';
 
 // 模拟数据存储
 let mockDataList = Array.from({ length: 25 }, (_, i) => ({
@@ -69,7 +69,7 @@ const mockBatchDelete = async (ids: React.Key[]) => {
 
 export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const tableRef = useRef<SearchTableRef>(null);
+  const tableRef = useRef<SSearchTableRef>(null);
 
   // 搜索表单配置
   const formItems: SFormItems[] = [

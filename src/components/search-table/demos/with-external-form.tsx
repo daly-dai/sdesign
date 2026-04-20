@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import { SearchTableRef } from '@dalydb/sdesign';
+import { SSearchTableRef } from '@dalydb/sdesign';
 import { Button, Form, Modal, Space, message } from 'antd';
 import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
@@ -47,7 +47,7 @@ const mockExternalFormRequest = async (params: any) => {
 export default () => {
   // 外部创建的 Form 实例
   const [form] = Form.useForm();
-  const tableRef = useRef<SearchTableRef>(null);
+  const tableRef = useRef<SSearchTableRef>(null);
 
   // 搜索表单配置
   const formItems: SFormItems[] = [
