@@ -64,7 +64,10 @@ const COMPONENT_DESCRIPTIONS: Record<string, string> = {
   SFile: '文件上传/列表',
   SLucideIcon: 'Lucide 图标',
   SFrameAnimation: '帧动画',
-  STextEllipsis: '文本省略',
+  SModalContainer:
+    '弹窗容器工厂函数 createModal，通过 ref 命令式打开/关闭，支持关闭前拦截和动画保留',
+  SDrawerContainer:
+    '抽屉容器工厂函数 createDrawer，通过 ref 命令式打开/关闭，支持关闭前拦截和动画保留',
 };
 
 // ─── 类型 ───────────────────────────────────────────────────────
@@ -417,7 +420,14 @@ function extractStructure(indexFile: string) {
       });
     }
   }
-  return { subComponents: subs, staticMethods: methods };
+  // 过滤掉内部变量（如 closingRef.current）和 React 内部属性
+  const filteredSubs = subs.filter(
+    (s) => !s.name.startsWith('current') && s.name !== 'displayName',
+  );
+  const filteredMethods = methods.filter(
+    (m) => !m.startsWith('current') && m !== 'displayName',
+  );
+  return { subComponents: filteredSubs, staticMethods: filteredMethods };
 }
 
 // ─── 提取：Hook 签名 ────────────────────────────────────────────

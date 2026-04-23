@@ -100,6 +100,13 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **不适用**: 数据是列表形式（多行同结构），应使用 STable; 需要编辑数据，应使用 SForm; 自定义卡片式布局展示，直接用 antd 原生组件
 - **优先使用**: SDetail.Group → 详情需要分组展示时，不要手动拼多个 SDetail
 
+### SDrawerContainer — 抽屉容器工厂函数 createDrawer，通过 ref 命令式打开/关闭，支持关闭前拦截和动画保留
+
+> 详细 API: ai/components/SDrawerContainer.md
+
+- **适用场景**: 需要通过 ref 命令式打开抽屉（如表格行操作触发详情抽屉）; 抽屉内含有表单等有状态组件，关闭后需要自动重置; 多个入口复用同一个抽屉逻辑
+- **不适用**: 简单的确认弹窗，使用 SConfirm 组件; 抽屉内容为纯展示且无需参数传递; 需要同时打开多个相同抽屉的场景
+
 ### SDynamicContainer — 动态容器
 
 > 详细 API: ai/components/SDynamicContainer.md
@@ -158,6 +165,13 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 需要 Lucide 风格图标
 - **不适用**: 项目已使用 @ant-design/icons 体系，保持一致性优先用 antd 图标; 仅需少量图标，评估是否值得引入 lucide-react 依赖
 
+### SModalContainer — 弹窗容器工厂函数 createModal，通过 ref 命令式打开/关闭，支持关闭前拦截和动画保留
+
+> 详细 API: ai/components/SModalContainer.md
+
+- **适用场景**: 需要通过 ref 命令式打开弹窗（如表格行操作触发编辑弹窗）; 弹窗内含有表单等有状态组件，关闭后需要自动重置; 多个入口复用同一个弹窗逻辑
+- **不适用**: 简单的确认弹窗，使用 SConfirm 组件; 弹窗内容为纯展示，无需参数传递; 需要同时打开多个相同弹窗的场景
+
 ### SNoData — 无数据占位
 
 > 详细 API: ai/components/SNoData.md
@@ -202,7 +216,7 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **不适用**: 列表页同时需要搜索条件 + 表格 + 分页联动，应使用 SSearchTable; 纯键值对展示（非列表），应使用 SDetail
 - **优先使用**: SSearchTable → 搜索 + 表格 + 分页一体化场景
 
-### STextEllipsis — 文本省略
+### STextEllipsis — STextEllipsis
 
 > 详细 API: ai/components/STextEllipsis.md
 

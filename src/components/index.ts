@@ -8,6 +8,7 @@ import SDatePicker from './date-picker';
 import SDatePickerRange from './date-picker-range';
 import SDependency from './dependency';
 import SDetail from './detail';
+import createDrawer, { SDrawerContainer } from './drawer-container';
 import SDynamicContainer from './dynamic-container';
 import SErrorBoundary from './error-boundary';
 import SErrorCom from './error-com';
@@ -16,6 +17,7 @@ import SForm from './form';
 import SFrameAnimation from './frame-animation';
 import SInput from './input';
 import SLucideIcon from './lucide-icon';
+import createModal, { SModalContainer } from './modal-container';
 import SNoData from './no-data';
 import SNoPage from './no-page';
 import SRadioGroup from './radio-group';
@@ -33,12 +35,14 @@ export * from './date-picker-range/types';
 export * from './date-picker/types';
 export * from './dependency/types';
 export * from './detail/types';
+export * from './drawer-container/types';
 export * from './error-boundary/types';
 export * from './error-com/types';
 export * from './file/types';
 export * from './form/types';
 export * from './input/types';
 export * from './lucide-icon/types';
+export * from './modal-container/types';
 export * from './no-data/types';
 export * from './radio-group/types';
 export * from './search-table/types';
@@ -48,6 +52,8 @@ export * from './text-ellipsis/types';
 export * from './title/types';
 
 export {
+  createDrawer,
+  createModal,
   SButton,
   SCard,
   SCascader,
@@ -58,6 +64,7 @@ export {
   SDatePickerRange,
   SDependency,
   SDetail,
+  SDrawerContainer,
   SDynamicContainer,
   SErrorBoundary,
   SErrorCom,
@@ -66,6 +73,7 @@ export {
   SFrameAnimation,
   SInput,
   SLucideIcon,
+  SModalContainer,
   SNoData,
   SNoPage,
   SRadioGroup,
