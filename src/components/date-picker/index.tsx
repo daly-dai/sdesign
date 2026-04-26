@@ -1,13 +1,13 @@
 import { DatePicker } from 'antd';
 import React, { FC } from 'react';
 
-import { SDatePickerType } from './types';
+import { SDatePickerProps } from './types';
 
 import { getDateVal } from '@dalydb/sdesign/utils/date';
 
 import type { Dayjs } from 'dayjs';
 
-const SDatePicker: FC<SDatePickerType> = (props) => {
+const SDatePicker: FC<SDatePickerProps> = (props) => {
   const {
     value,
     onChange,

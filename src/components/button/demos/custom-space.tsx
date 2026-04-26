@@ -21,7 +21,11 @@ export default () => {
         <strong>自定义类型 - 自定义间距：</strong>
         <SButton.Group
           spaceProps={{ size: 20 }}
-          items={[{ type: 'save' }, { type: 'cancel' }, { type: 'reset' }]}
+          items={[
+            { actionType: 'save' },
+            { actionType: 'cancel' },
+            { actionType: 'reset' },
+          ]}
         />
       </div>
     </div>

@@ -1,5 +1,23 @@
 # 版本更新记录
 
+## [1.6.1] - 2026-04-26
+
+### 🔧 优化
+
+- **组件类型定义统一**
+
+  - 6 个组件的主 Props 从 `type` alias 统一为 `interface extends`，提升类型一致性和 IDE 支持
+  - 涉及组件：SSelect、SCascader、SDatePicker、SDatePickerRange、SCheckGroup、SRadioGroup
+  - `SDatePickerType` 重命名为 `SDatePickerProps`（旧名保留为 @deprecated 别名）
+  - SSelect、SCheckGroup、SRadioGroup 的 `ExtraComType` 属性内联到接口中，类型定义自包含
+
+- **AI 文档生成增强（gen-llms-txt.ts）**
+
+  - 新增 antd 继承关系段落，明确显示组件继承自哪个 antd 组件
+  - 对 Omit 覆盖的属性在文档中标注（如"覆盖: onChange, value"）
+  - 支持间接类型追溯（如 `SelectType → ComponentProps<typeof Select> → antd Select`）
+  - 修复多行 type alias 解析截断问题（续行运算符 `&`、`|` 不再错误终止）
+
 ## [1.5.0] - 2026-04-20
 
 ### ✨ 新功能

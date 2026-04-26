@@ -14,9 +14,15 @@
   **优先使用:**
 - SSearchTable → 搜索 + 表格 + 分页一体化场景
 
+## 继承关系
+
+继承自 **antd Table** 的全部属性，以下属性已被覆盖：columns
+
+其他 antd Table 属性均可直接使用。
+
 ## 类型定义
 
-**STableProps** extends Omit<TableProps<RecordType>, 'columns'> — STable 增强表格 Props 继承 antd Table 全部属性，扩展了字典映射、序号列、快捷 render 等能力。 `tsx <STable columns={[ { title: '姓名', dataIndex: 'name' }, { title: '状态', dataIndex: 'status', dictKey: 'userStatus' }, { title: '时间', dataIndex: 'createTime', render: 'datetime' }, ]} dataSource={data} isSeq /> `
+**STableProps** extends Omit<TableProps<RecordType>, 'columns'> (继承自 antd Table，覆盖: columns) — STable 增强表格 Props 继承 antd Table 全部属性，扩展了字典映射、序号列、快捷 render 等能力。 `tsx <STable columns={[ { title: '姓名', dataIndex: 'name' }, { title: '状态', dataIndex: 'status', dictKey: 'userStatus' }, { title: '时间', dataIndex: 'createTime', render: 'datetime' }, ]} dataSource={data} isSeq /> `
 
 - columns?: SColumnsType<RecordType> — 列定义，支持 dictKey 和字符串 render
 - isSeq?: boolean — 是否显示序号列

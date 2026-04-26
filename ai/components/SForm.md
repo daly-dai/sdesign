@@ -116,7 +116,7 @@
 
 **FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'SDatePicker'` | `'datePickerRange'` | `'SDatePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'SCascader'` | `'table'` | `'dependency'`: `keyof FormFieldMapType`
 
-**FormComPropsType**: `HTMLAttributes<object> &`
+**FormComPropsType**: `HTMLAttributes<object> & ComponentProps<FormFieldMapType[FormComType]>`
 
 **FormItemType**: `FormComType | 'placeholder'`
 

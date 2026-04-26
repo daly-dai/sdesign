@@ -10,9 +10,25 @@
 - 扁平选项列表（无层级关系），应使用 SSelect
 - 需要多选级联，当前仅支持单选
 
+## 继承关系
+
+继承自 **antd Cascader** 的全部属性，以下属性已被覆盖：onChange, value, defaultValue, multiple
+
+其他 antd Cascader 属性均可直接使用。
+
 ## 类型定义
 
-**SCascaderProps**: `Omit< CascaderProps<any>, 'onChange' | 'value' | 'defaultValue' | 'multiple' > & { onChange?: (value: string, selectOptions?: any[]) => void`
+**SCascaderProps** extends Omit<
+CascaderProps<any>,
+'onChange' | 'value' | 'defaultValue' | 'multiple'
+
+> (继承自 antd Cascader，覆盖: onChange, value, defaultValue, multiple) — SCascader 增强级联选择器 Props
+
+- onChange?: (value: string, selectOptions?: any[]) => void — onChange 直接返回字符串值
+- value?: string | null | ValueType
+- options?: any[]
+- defaultValue?: string | ValueType
+- multiple?: boolean
 
 **SingleValueType**: `(string | number)[]`
 

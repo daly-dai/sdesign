@@ -13,7 +13,8 @@ import type { Dayjs } from 'dayjs';
  * <SDatePicker onChange={(dateStr) => console.log(dateStr)} />
  * ```
  */
-export type SDatePickerType = Omit<DatePickerProps, 'onChange' | 'value'> & {
+export interface SDatePickerProps
+  extends Omit<DatePickerProps, 'onChange' | 'value'> {
   /** onChange 第一个参数直接为格式化后的字符串 */
   onChange?: (
     dateString?: string | string[] | null,
@@ -21,7 +22,10 @@ export type SDatePickerType = Omit<DatePickerProps, 'onChange' | 'value'> & {
   ) => void;
   /** 支持 string/Date/Dayjs 等多种输入格式 */
   value?: string | string[] | null | Date | Dayjs;
-};
+}
+
+/** @deprecated 使用 SDatePickerProps */
+export type SDatePickerType = SDatePickerProps;
 
 export type PanelMode =
   | 'time'

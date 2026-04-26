@@ -36,7 +36,7 @@ export default () => {
         <strong>自定义类型与自定义渲染：</strong>
         <SButton.Group
           items={[
-            { type: 'save' },
+            { actionType: 'save' },
             {
               render: () => (
                 <Button
@@ -53,7 +53,7 @@ export default () => {
                 </Button>
               ),
             },
-            { type: 'cancel' },
+            { actionType: 'cancel' },
           ]}
         />
       </div>

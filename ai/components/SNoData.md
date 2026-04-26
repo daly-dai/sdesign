@@ -22,4 +22,4 @@
 
 **sizeType**: `'small' | 'middle' | 'large'`
 
-**NoDataTypes**: `NotDataProps &`
+**NoDataTypes**: `NotDataProps & React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>`

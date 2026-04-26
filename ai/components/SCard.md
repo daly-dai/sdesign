@@ -10,9 +10,15 @@
 - 不需要错误边界的简单容器，直接用 div 或 antd Card
 - 列表项卡片（循环渲染大量卡片），性能敏感场景直接用 antd Card
 
+## 继承关系
+
+继承自 **antd Card** 的全部属性，以下属性已被覆盖：children
+
+其他 antd Card 属性均可直接使用。
+
 ## 类型定义
 
-**SCardProps** extends Omit<CardProps, 'children'> — SCard 卡片容器 Props 继承 antd Card，内置错误边界，内容出错时不影响整体页面。
+**SCardProps** extends Omit<CardProps, 'children'> (继承自 antd Card，覆盖: children) — SCard 卡片容器 Props 继承 antd Card，内置错误边界，内容出错时不影响整体页面。
 
 - children?: ReactNode
 - hasBottomPadding?: boolean — 底部是否包含边距

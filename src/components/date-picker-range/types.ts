@@ -35,10 +35,8 @@ export type RangeFormatString = RangeValueTuple | RangeValueObjectType;
  * <SDatePickerRange rangeKeys={['startDate', 'endDate']} />
  * ```
  */
-export type SDatePickerRangeProps = Omit<
-  RangePickerProps,
-  'value' | 'onChange'
-> & {
+export interface SDatePickerRangeProps
+  extends Omit<RangePickerProps, 'value' | 'onChange'> {
   /** 支持多种输入格式 */
   value?: RangeValueValuesType;
   /** 将范围值拆分为两个字段的 key，如 ['startDate', 'endDate'] */
@@ -50,4 +48,4 @@ export type SDatePickerRangeProps = Omit<
   ) => void;
   /** 与 formatKeys 功能相同的别名 */
   rangeKeys?: string[];
-};
+}

@@ -19,9 +19,15 @@
   **优先使用:**
 - SDetail.Group → 详情需要分组展示时，不要手动拼多个 SDetail
 
+## 继承关系
+
+继承自 **antd Descriptions** 的全部属性，以下属性已被覆盖：items, title
+
+其他 antd Descriptions 属性均可直接使用。
+
 ## 类型定义
 
-**SDetailProps** extends Omit<DescriptionsProps, 'items' | 'title'> — SDetail 详情展示组件 Props 基于 antd Descriptions 封装，支持 8 种数据类型自动渲染。 配合 SConfigProvider 可自动进行字典映射。 `tsx <SDetail title="用户详情" dataSource={userData} items={[ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, ]} column={2} /> `
+**SDetailProps** extends Omit<DescriptionsProps, 'items' | 'title'> (继承自 antd Descriptions，覆盖: items, title) — SDetail 详情展示组件 Props 基于 antd Descriptions 封装，支持 8 种数据类型自动渲染。 配合 SConfigProvider 可自动进行字典映射。 `tsx <SDetail title="用户详情" dataSource={userData} items={[ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, ]} column={2} /> `
 
 - desc?: ReactNode — 描述文字
 - titleAction?: ReactNode — 标题右侧操作区
@@ -70,4 +76,4 @@
 - render?: (value?: any, dataSource?: any) => ReactNode
 - dataSource?: Record<string, any>
 
-**SDetailItem**: `SDetailItemType &`
+**SDetailItem**: `SDetailItemType & Omit<DescriptionsItemType, 'children' | 'key'>`

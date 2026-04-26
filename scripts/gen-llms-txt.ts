@@ -70,6 +70,21 @@ const COMPONENT_DESCRIPTIONS: Record<string, string> = {
     '抽屉容器工厂函数 createDrawer，通过 ref 命令式打开/关闭，支持关闭前拦截和动画保留',
 };
 
+/** antd 类型名到可读组件名的映射 */
+const ANTD_TYPE_MAP: Record<string, string> = {
+  ButtonProps: 'antd Button',
+  InputProps: 'antd Input',
+  SelectProps: 'antd Select',
+  CascaderProps: 'antd Cascader',
+  DatePickerProps: 'antd DatePicker',
+  RangePickerProps: 'antd DatePicker.RangePicker',
+  TableProps: 'antd Table',
+  CardProps: 'antd Card',
+  PopconfirmProps: 'antd Popconfirm',
+  ModalFuncProps: 'antd Modal',
+  DescriptionsProps: 'antd Descriptions',
+};
+
 // ─── 类型 ───────────────────────────────────────────────────────
 
 interface PropInfo {
@@ -175,6 +190,104 @@ function extractLeadingJSDoc(content: string, pos: number): string {
     .filter(Boolean)
     .join(' ')
     .trim();
+}
+
+// ─── 工具：继承关系解析 ──────────────────────────────────────────
+
+/** 解析 extends 子句中的继承信息 */
+interface ExtendsInfo {
+  /** 解析出的 antd 组件名（如 "antd Cascader"） */
+  antdBase?: string;
+  /** 被 Omit 覆盖的属性名列表 */
+  omittedProps: string[];
+}
+
+/**
+ * 从 extendsFrom 字符串中解析 antd 基类和 Omit 属性。
+ * 支持直接引用（如 ButtonProps）和间接引用（如 SelectType → ComponentProps<typeof Select>）。
+ */
+function parseExtendsClause(
+  extendsFrom: string,
+  localTypeDefs: TypeDef[],
+): ExtendsInfo {
+  const result: ExtendsInfo = { omittedProps: [] };
+
+  // 1. 尝试匹配 Omit<XxxProps<...>, 'a' | 'b'> 模式
+  const omitMatch = extendsFrom.match(
+    /Omit<\s*(\w+)(?:<[^>]*>)?\s*,\s*([^>]+)>/,
+  );
+  if (omitMatch) {
+    const typeName = omitMatch[1];
+    // 提取被 Omit 的属性名
+    const keysStr = omitMatch[2];
+    const keys = keysStr.match(/'(\w+)'/g);
+    if (keys) {
+      result.omittedProps = keys.map((k) => k.replace(/'/g, ''));
+    }
+    // 查找 antd 组件映射（直接匹配或间接追溯本地类型）
+    if (ANTD_TYPE_MAP[typeName]) {
+      result.antdBase = ANTD_TYPE_MAP[typeName];
+    } else {
+      // Omit 目标是本地类型时，追溯其 rawType 中的 antd 来源
+      const localDef = localTypeDefs.find((d) => d.name === typeName);
+      if (localDef?.rawType) {
+        const compMatch = localDef.rawType.match(
+          /ComponentProps<typeof\s+(\w+)(?:\.(\w+))?>/,
+        );
+        if (compMatch) {
+          const compName = compMatch[2]
+            ? `${compMatch[1]}.${compMatch[2]}`
+            : compMatch[1];
+          result.antdBase = `antd ${compName}`;
+        } else {
+          for (const [tn, antdName] of Object.entries(ANTD_TYPE_MAP)) {
+            if (localDef.rawType.includes(tn)) {
+              result.antdBase = antdName;
+              break;
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  // 2. 尝试直接匹配 XxxProps 模式（如 extends ButtonProps）
+  const parts = extendsFrom.split(',').map((s) => s.trim());
+  for (const part of parts) {
+    const directMatch = part.match(/^(\w+Props)(?:<[^>]*>)?$/);
+    if (directMatch && ANTD_TYPE_MAP[directMatch[1]]) {
+      result.antdBase = ANTD_TYPE_MAP[directMatch[1]];
+      return result;
+    }
+  }
+
+  // 3. 间接引用：检查 localTypeDefs 的 rawType 中是否包含 antd 类型
+  for (const part of parts) {
+    const localDef = localTypeDefs.find((d) => d.name === part.trim());
+    if (localDef?.rawType) {
+      // 匹配 ComponentProps<typeof Xxx> 模式
+      const compMatch = localDef.rawType.match(
+        /ComponentProps<typeof\s+(\w+)(?:\.(\w+))?>/,
+      );
+      if (compMatch) {
+        const compName = compMatch[2]
+          ? `${compMatch[1]}.${compMatch[2]}`
+          : compMatch[1];
+        result.antdBase = `antd ${compName}`;
+        return result;
+      }
+      // 匹配 rawType 中的 XxxProps
+      for (const [typeName, antdName] of Object.entries(ANTD_TYPE_MAP)) {
+        if (localDef.rawType.includes(typeName)) {
+          result.antdBase = antdName;
+          return result;
+        }
+      }
+    }
+  }
+
+  return result;
 }
 
 // ─── 工具：属性块解析 ───────────────────────────────────────────
@@ -309,8 +422,16 @@ function extractAllTypeDefs(content: string): TypeDef[] {
           end = i;
           break;
         } else if (ch === '\n' && depth === 0 && i > 0) {
-          end = i;
-          break;
+          // 如果换行前以续行运算符（& 或 |）结尾，不终止
+          const beforeNewline = rest.slice(0, i).trimEnd();
+          if (
+            !beforeNewline.endsWith('&') &&
+            !beforeNewline.endsWith('|') &&
+            !beforeNewline.endsWith(',')
+          ) {
+            end = i;
+            break;
+          }
         }
       }
       const rawType = rest.slice(0, end).trim().replace(/;$/, '');
@@ -708,9 +829,22 @@ function formatProps(props: PropInfo[], indent = '  '): string {
     .join('\n');
 }
 
-function formatTypeDef(def: TypeDef): string {
+function formatTypeDef(def: TypeDef, localTypeDefs?: TypeDef[]): string {
   const lines: string[] = [];
-  const ext = def.extendsFrom ? ` extends ${def.extendsFrom}` : '';
+  let ext = def.extendsFrom ? ` extends ${def.extendsFrom}` : '';
+
+  // 对有 extends 声明的类型，尝试解析 antd 来源并附加信息
+  if (def.extendsFrom && localTypeDefs) {
+    const info = parseExtendsClause(def.extendsFrom, localTypeDefs);
+    if (info.antdBase) {
+      const omitStr =
+        info.omittedProps.length > 0
+          ? `，覆盖: ${info.omittedProps.join(', ')}`
+          : '';
+      ext += ` (继承自 ${info.antdBase}${omitStr})`;
+    }
+  }
+
   if (def.props.length > 0) {
     lines.push(
       `**${def.name}**${ext}${def.description ? ` — ${def.description}` : ''}`,
@@ -957,16 +1091,37 @@ function generateComponentDocs(
       L.push('');
     }
 
+    // 继承关系（仅当主 Props 有 extends 声明时显示）
+    const mainDef = c.typeDefs.find((d) => d.name === c.mainPropsName);
+    if (mainDef?.extendsFrom) {
+      const info = parseExtendsClause(mainDef.extendsFrom, c.typeDefs);
+      if (info.antdBase) {
+        L.push('## 继承关系');
+        L.push('');
+        if (info.omittedProps.length > 0) {
+          L.push(
+            `继承自 **${
+              info.antdBase
+            }** 的全部属性，以下属性已被覆盖：${info.omittedProps.join(', ')}`,
+          );
+        } else {
+          L.push(`继承自 **${info.antdBase}** 的全部属性。`);
+        }
+        L.push('');
+        L.push(`其他 ${info.antdBase} 属性均可直接使用。`);
+        L.push('');
+      }
+    }
+
     // 完整类型定义
     L.push('## 类型定义');
     L.push('');
 
     // 主 Props 优先
-    const mainDef = c.typeDefs.find((d) => d.name === c.mainPropsName);
     const otherDefs = c.typeDefs.filter((d) => d.name !== c.mainPropsName);
 
     if (mainDef) {
-      const formatted = formatTypeDef(mainDef);
+      const formatted = formatTypeDef(mainDef, c.typeDefs);
       if (formatted) {
         L.push(formatted);
         L.push('');
@@ -974,7 +1129,7 @@ function generateComponentDocs(
     }
 
     for (const def of otherDefs) {
-      const formatted = formatTypeDef(def);
+      const formatted = formatTypeDef(def, c.typeDefs);
       if (formatted) {
         L.push(formatted);
         L.push('');
@@ -1028,7 +1183,7 @@ function generateComponentDocs(
       L.push('## 类型定义');
       L.push('');
       for (const def of h.typeDefs) {
-        const formatted = formatTypeDef(def);
+        const formatted = formatTypeDef(def, h.typeDefs);
         if (formatted) {
           L.push(formatted);
           L.push('');

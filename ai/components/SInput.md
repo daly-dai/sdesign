@@ -12,9 +12,15 @@
 - 密码输入，使用 antd Input.Password
 - SForm items 中使用时通过 type: 'input' 引用，无需直接使用 SInput
 
+## 继承关系
+
+继承自 **antd Input** 的全部属性，以下属性已被覆盖：onChange
+
+其他 antd Input 属性均可直接使用。
+
 ## 类型定义
 
-**SInputProps** extends Omit<InputProps, 'onChange'> — SInput 增强输入框 Props 继承 antd Input，增加了 trim 和 onEnter 便捷功能。 `tsx <SInput trim onEnter={(val) => search(val)} placeholder="搜索" /> `
+**SInputProps** extends Omit<InputProps, 'onChange'> (继承自 antd Input，覆盖: onChange) — SInput 增强输入框 Props 继承 antd Input，增加了 trim 和 onEnter 便捷功能。 `tsx <SInput trim onEnter={(val) => search(val)} placeholder="搜索" /> `
 
 - value?: string
 - onChange?: (value: string) => void — onChange 直接返回 string 值（非 event）
