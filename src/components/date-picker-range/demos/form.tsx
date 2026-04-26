@@ -21,12 +21,12 @@ export default () => {
     {
       label: '日期范围',
       name: 'dateRange',
-      type: 'SDatePickerRange',
+      type: 'datePickerRange',
     },
     {
       label: '日期选择rangeKeys',
       name: 'dateRangeKeys',
-      type: 'SDatePickerRange',
+      type: 'datePickerRange',
       fieldProps: {
         rangeKeys: ['startTime', 'endTime'],
       },

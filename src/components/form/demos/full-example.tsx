@@ -48,7 +48,7 @@ export default () => {
       },
     },
     {
-      type: 'SDatePicker',
+      type: 'datePicker',
       label: '出生日期',
       name: 'birthday',
       required: '请选择出生日期',

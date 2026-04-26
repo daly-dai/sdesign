@@ -68,7 +68,7 @@ export default () => {
       name: 'owner',
       fieldProps: { allowClear: true },
     },
-    { type: 'SDatePickerRange', label: '创建时间', name: 'createTime' },
+    { type: 'datePickerRange', label: '创建时间', name: 'createTime' },
   ];
 
   const handleFinish = (values: any) => {

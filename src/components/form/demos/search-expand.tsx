@@ -37,7 +37,7 @@ export default () => {
       fieldProps: { dict: { 1: '启用', 0: '禁用' }, allowClear: true },
     },
     { type: 'input', label: '部门', name: 'dept' },
-    { type: 'SDatePicker', label: '创建日期', name: 'createDate' },
+    { type: 'datePicker', label: '创建日期', name: 'createDate' },
   ];
 
   const handleFinish = (values: any) => {

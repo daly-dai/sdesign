@@ -254,31 +254,31 @@ sequenceDiagram
 
 ### 支持的表单控件类型
 
-| type             | 对应组件               | 说明             |
-| ---------------- | ---------------------- | ---------------- |
-| input            | SInput                 | 输入框           |
-| inputNumber      | InputNumber            | 数字输入框       |
-| password         | Input.Password         | 密码输入框       |
-| textarea         | Input.TextArea         | 文本域           |
-| select           | SSelect                | 下拉选择         |
-| radioGroup       | SRadioGroup            | 单选组           |
-| checkGroup       | SCheckGroup            | 多选组           |
-| switch           | Switch                 | 开关             |
-| slider           | Slider                 | 滑块             |
-| datePicker       | DatePicker             | 日期选择         |
-| SDatePicker      | SDatePicker            | 增强日期选择     |
-| datePickerRange  | DatePicker.RangePicker | 日期范围选择     |
-| SDatePickerRange | SDatePickerRange       | 增强日期范围选择 |
-| timePicker       | TimePicker             | 时间选择         |
-| timePickerRange  | TimePicker.RangePicker | 时间范围选择     |
-| cascader         | Cascader               | 级联选择         |
-| SCascader        | SCascader              | 增强级联选择     |
-| treeSelect       | TreeSelect             | 树选择           |
-| upload           | Upload                 | 上传             |
-| checkbox         | Checkbox               | 复选框           |
-| table            | Table                  | 表格             |
-| dependency       | SDependency            | 字段联动         |
-| placeholder      | -                      | 占位符           |
+| type             | 对应组件               | 说明                           |
+| ---------------- | ---------------------- | ------------------------------ |
+| input            | SInput                 | 输入框                         |
+| inputNumber      | InputNumber            | 数字输入框                     |
+| password         | Input.Password         | 密码输入框                     |
+| textarea         | Input.TextArea         | 文本域                         |
+| select           | SSelect                | 下拉选择                       |
+| radioGroup       | SRadioGroup            | 单选组                         |
+| checkGroup       | SCheckGroup            | 多选组                         |
+| switch           | Switch                 | 开关                           |
+| slider           | Slider                 | 滑块                           |
+| datePicker       | SDatePicker            | 增强日期选择                   |
+| SDatePicker      | SDatePicker            | 已废弃，请使用 datePicker      |
+| datePickerRange  | SDatePickerRange       | 增强日期范围选择               |
+| SDatePickerRange | SDatePickerRange       | 已废弃，请使用 datePickerRange |
+| timePicker       | TimePicker             | 时间选择                       |
+| timePickerRange  | TimePicker.RangePicker | 时间范围选择                   |
+| cascader         | SCascader              | 增强级联选择                   |
+| SCascader        | SCascader              | 已废弃，请使用 cascader        |
+| treeSelect       | TreeSelect             | 树选择                         |
+| upload           | Upload                 | 上传                           |
+| checkbox         | Checkbox               | 复选框                         |
+| table            | Table                  | 表格                           |
+| dependency       | SDependency            | 字段联动                       |
+| placeholder      | -                      | 占位符                         |
 
 ### 静态方法和组件
 
@@ -437,7 +437,7 @@ export default () => {
       name: 'status',
       fieldProps: { dict: { 1: '启用', 0: '禁用' } },
     },
-    { type: 'SDatePickerRange', label: '日期范围', name: 'dateRange' },
+    { type: 'datePickerRange', label: '日期范围', name: 'dateRange' },
   ];
 
   return (

@@ -225,16 +225,16 @@ export default () => {
 | switch           | [SSelect](https://ant-design.antgroup.com/components/switch-cn#api)                      |
 | treeSelect       | [treeSelect](https://ant-design.antgroup.com/components/tree-select-cn#api)              |
 | upload           | [antd upload](/components/select#api)                                                    |     |
-| datePicker       | [datePicker](https://ant-design.antgroup.com/components/date-picker-cn#datepicker)       |
-| SDatePicker      | [datePicker](/components/date-picker#api)                                                |
-| datePickerRange  | [datePickerRange](https://ant-design.antgroup.com/components/date-picker-cn#rangepicker) |
-| SDatePickerRange | [datePicker](/components/date-picker-range#api)                                          |
+| datePicker       | [SDatePicker](/components/date-picker#api)                                               |
+| SDatePicker      | (已废弃，请使用 datePicker) [SDatePicker](/components/date-picker#api)                   |
+| datePickerRange  | [SDatePickerRange](/components/date-picker-range#api)                                    |
+| SDatePickerRange | (已废弃，请使用 datePickerRange) [SDatePickerRange](/components/date-picker-range#api)   |
 | timePicker       | [timePicker](https://ant-design.antgroup.com/components/time-picker-cn#api)              |
 | timePickerRange  | [timePickerRange](https://ant-design.antgroup.com/components/time-picker-cn#rangepicker) |
 | checkbox         | [checkbox](https://ant-design.antgroup.com/components/checkbox-cn#api)                   |
 | checkGroup       | [SCheckGroup](/components/check-group#api)                                               |
-| cascader         | [cascader](https://ant-design.antgroup.com/components/cascader-cn#api)                   |
-| SCascader        | [SCascader](/components/cascader#api)                                                    |
+| cascader         | [SCascader](/components/cascader#api)                                                    |
+| SCascader        | (已废弃，请使用 cascader) [SCascader](/components/cascader#api)                          |
 | table            | [table](https://ant-design.antgroup.com/components/table-cn#api)                         |
 | dependency       | 字段关联，依赖其他字段，当依赖字段发生变化时，当前字段也会发生变化                       |
 | placeholder      | 占位使用暂无实际意义                                                                     |

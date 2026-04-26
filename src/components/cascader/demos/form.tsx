@@ -14,7 +14,7 @@ export default () => {
 
   const formItems: SFormItems[] = [
     {
-      type: 'SCascader',
+      type: 'cascader',
       label: '级联选择',
       name: 'cascader',
       fieldProps: {
@@ -22,7 +22,7 @@ export default () => {
       },
     },
     {
-      type: 'SCascader',
+      type: 'cascader',
       label: '级联多选选择',
       name: 'multiplyCascader',
       fieldProps: {

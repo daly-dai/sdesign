@@ -32,20 +32,9 @@ export default () => {
       },
     },
     {
-      label: 'S时间',
-      type: 'SDatePicker',
-      name: 'SDatePicker',
-    },
-    {
-      label: 'S时间范围',
-      type: 'SDatePickerRange',
-      name: 'SDatePickerRange',
-    },
-    {
       label: '时间',
       type: 'datePicker',
       name: 'datePicker',
-      required: true,
     },
     {
       label: '时间范围',

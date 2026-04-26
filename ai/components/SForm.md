@@ -88,7 +88,7 @@
 - actionStyleRender?: (props: { expanded: boolean; actionSpan: number; }) => React.CSSProperties — 自定义操作区域样式
 - labelWidth?: number | string — 统一 label 宽度，解决 label 长短不一导致控件错位的问题
 
-**FormFieldMapType** — 表单控件类型映射表 定义了 SForm items 中 `type` 字段所有可选值及其对应组件。 使用时，`fieldProps` 的类型会根据 `type` 自动推导。 `tsx const items: SFormItems[] = [ { label: '姓名', name: 'name', type: 'input' }, { label: '年龄', name: 'age', type: 'inputNumber' }, { label: '性别', name: 'gender', type: 'select', fieldProps: { options: [...] } }, { label: '日期', name: 'date', type: 'SDatePicker' }, ]; `
+**FormFieldMapType** — 表单控件类型映射表 定义了 SForm items 中 `type` 字段所有可选值及其对应组件。 使用时，`fieldProps` 的类型会根据 `type` 自动推导。 `tsx const items: SFormItems[] = [ { label: '姓名', name: 'name', type: 'input' }, { label: '年龄', name: 'age', type: 'inputNumber' }, { label: '性别', name: 'gender', type: 'select', fieldProps: { options: [...] } }, { label: '日期', name: 'date', type: 'datePicker' }, ]; `
 
 - input: typeof SInput — 文本输入框 (SInput 增强版，支持 trim/onEnter)
 - inputNumber: typeof InputNumber — 数字输入框
@@ -101,20 +101,20 @@
 - switch: typeof Switch — 开关
 - treeSelect: typeof TreeSelect — 树选择
 - upload: typeof Upload — 文件上传
-- datePicker: typeof DatePicker — antd 日期选择器
-- SDatePicker: typeof SDatePicker — 增强日期选择器，onChange 直接返回字符串
-- datePickerRange: typeof DatePicker.RangePicker — antd 日期范围选择器
-- SDatePickerRange: typeof SDatePickerRange — 增强日期范围选择器，支持 rangeKeys 拆分
+- datePicker: typeof SDatePicker — 增强日期选择器 (SDatePicker)，onChange 直接返回字符串
+- SDatePicker: typeof SDatePicker
+- datePickerRange: typeof SDatePickerRange — 增强日期范围选择器 (SDatePickerRange)，支持 rangeKeys 拆分
+- SDatePickerRange: typeof SDatePickerRange
 - timePicker: typeof TimePicker — 时间选择器
 - timePickerRange: typeof TimePicker.RangePicker — 时间范围选择器
 - checkbox: typeof Checkbox — 复选框
 - checkGroup: typeof SCheckGroup — 复选框组 (SCheckGroup)
-- cascader: typeof Cascader — antd 级联选择器
-- SCascader: typeof SCascader — 增强级联选择器
+- cascader: typeof SCascader — 增强级联选择器 (SCascader)
+- SCascader: typeof SCascader
 - table: typeof Table — 嵌套表格
 - dependency: typeof SDependency — 字段依赖联动
 
-**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'SDatePicker'` | `'datePickerRange'` | `'SDatePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'SCascader'` | `'table'` | `'dependency'`: `keyof FormFieldMapType`
+**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` | `'dependency'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
 
 **FormComPropsType**: `HTMLAttributes<object> & ComponentProps<FormFieldMapType[FormComType]>`
 

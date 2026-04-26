@@ -30,7 +30,7 @@ export default () => {
       gridColumn: 2,
       fieldProps: { rows: 1 },
     },
-    { type: 'SDatePicker', label: '开始日期', name: 'startDate' },
+    { type: 'datePicker', label: '开始日期', name: 'startDate' },
   ];
 
   return (

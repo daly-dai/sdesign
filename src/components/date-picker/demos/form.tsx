@@ -11,12 +11,12 @@ export default () => {
   const [form] = Form.useForm();
   const formItems: SFormItems[] = [
     {
-      type: 'SDatePicker',
+      type: 'datePicker',
       label: '格式化日期选择',
       name: 'date',
     },
     {
-      type: 'SDatePicker',
+      type: 'datePicker',
       label: '日期多选',
       name: 'multipleDate',
       fieldProps: {
@@ -24,7 +24,7 @@ export default () => {
       },
     },
     {
-      type: 'SDatePicker',
+      type: 'datePicker',
       label: '格式化日期选择',
       name: 'formateDate',
       fieldProps: {

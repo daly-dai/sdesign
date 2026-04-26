@@ -1,8 +1,6 @@
 import {
-  Cascader,
   Checkbox,
   ColProps,
-  DatePicker,
   FormItemProps,
   FormProps,
   Input,
@@ -44,7 +42,7 @@ import { SButtonsItem } from '../button/types';
  *   { label: '姓名', name: 'name', type: 'input' },
  *   { label: '年龄', name: 'age', type: 'inputNumber' },
  *   { label: '性别', name: 'gender', type: 'select', fieldProps: { options: [...] } },
- *   { label: '日期', name: 'date', type: 'SDatePicker' },
+ *   { label: '日期', name: 'date', type: 'datePicker' },
  * ];
  * ```
  */
@@ -71,13 +69,13 @@ export type FormFieldMapType = {
   treeSelect: typeof TreeSelect;
   /** 文件上传 */
   upload: typeof Upload;
-  /** antd 日期选择器 */
-  datePicker: typeof DatePicker;
-  /** 增强日期选择器，onChange 直接返回字符串 */
+  /** 增强日期选择器 (SDatePicker)，onChange 直接返回字符串 */
+  datePicker: typeof SDatePicker;
+  /** @deprecated 请使用 'datePicker'，此别名将在未来版本移除 */
   SDatePicker: typeof SDatePicker;
-  /** antd 日期范围选择器 */
-  datePickerRange: typeof DatePicker.RangePicker;
-  /** 增强日期范围选择器，支持 rangeKeys 拆分 */
+  /** 增强日期范围选择器 (SDatePickerRange)，支持 rangeKeys 拆分 */
+  datePickerRange: typeof SDatePickerRange;
+  /** @deprecated 请使用 'datePickerRange'，此别名将在未来版本移除 */
   SDatePickerRange: typeof SDatePickerRange;
   /** 时间选择器 */
   timePicker: typeof TimePicker;
@@ -87,9 +85,9 @@ export type FormFieldMapType = {
   checkbox: typeof Checkbox;
   /** 复选框组 (SCheckGroup) */
   checkGroup: typeof SCheckGroup;
-  /** antd 级联选择器 */
-  cascader: typeof Cascader;
-  /** 增强级联选择器 */
+  /** 增强级联选择器 (SCascader) */
+  cascader: typeof SCascader;
+  /** @deprecated 请使用 'cascader'，此别名将在未来版本移除 */
   SCascader: typeof SCascader;
   /** 嵌套表格 */
   table: typeof Table;
@@ -102,9 +100,10 @@ export type FormFieldMapType = {
  *
  * 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` |
  * `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` |
- * `'SDatePicker'` | `'datePickerRange'` | `'SDatePickerRange'` | `'timePicker'` |
- * `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'SCascader'` |
- * `'table'` | `'dependency'`
+ * `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` |
+ * `'cascader'` | `'table'` | `'dependency'`
+ *
+ * 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`
  */
 export type FormComType = keyof FormFieldMapType;
 

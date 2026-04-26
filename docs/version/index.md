@@ -1,5 +1,18 @@
 # 版本更新记录
 
+## [1.7.0] - 2026-04-26
+
+### ✨ 新功能
+
+- **SForm type 字段命名统一**（⚠️ Breaking Change）
+
+  - `datePicker` 现在渲染增强版 SDatePicker（原为 antd DatePicker），onChange 直接返回字符串
+  - `datePickerRange` 现在渲染增强版 SDatePickerRange（原为 antd RangePicker），支持 rangeKeys 拆分
+  - `cascader` 现在渲染增强版 SCascader（原为 antd Cascader），value 自动归一化为字符串
+  - `SDatePicker`、`SDatePickerRange`、`SCascader` 保留为已废弃别名，功能不变
+  - 统一后所有 camelCase 类型名均指向增强版组件，与 `input`→SInput、`select`→SSelect 等保持一致
+  - `datePicker`/`datePickerRange` 默认 placeholder 从空改为"请选择"
+
 ## [1.6.1] - 2026-04-26
 
 ### 🔧 优化

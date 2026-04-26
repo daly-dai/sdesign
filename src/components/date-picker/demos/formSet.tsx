@@ -13,17 +13,17 @@ export default () => {
     {
       label: '时间值一',
       name: 'time1',
-      type: 'SDatePicker',
+      type: 'datePicker',
     },
     {
       label: '时间值二',
       name: 'time2',
-      type: 'SDatePicker',
+      type: 'datePicker',
     },
     {
       label: '时间值三',
       name: 'multipleDate',
-      type: 'SDatePicker',
+      type: 'datePicker',
       fieldProps: {
         multiple: true,
       },
@@ -31,7 +31,7 @@ export default () => {
     {
       label: '存在异常数据的多选时间',
       name: 'multipleDate1',
-      type: 'SDatePicker',
+      type: 'datePicker',
       fieldProps: {
         multiple: true,
       },

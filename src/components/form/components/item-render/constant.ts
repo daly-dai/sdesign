@@ -70,11 +70,11 @@ export const DEFAULT_CONFIG_MAP: Record<
     detail: generateDetailConfig('borderless', true),
   },
   datePicker: {
-    default: generateDefaultConfig('', true),
+    default: generateDefaultConfig(selectPlaceholder, true),
     detail: generateDetailConfig('borderless', true),
   },
   datePickerRange: {
-    default: generateDefaultConfig('', true),
+    default: generateDefaultConfig(selectPlaceholder, true),
     detail: generateDetailConfig('borderless', true),
   },
   SDatePicker: {

@@ -47,20 +47,9 @@ export default () => {
       },
     },
     {
-      label: '组件库时间选择',
-      type: 'SDatePicker',
-      name: 'SDatePicker',
-    },
-    {
-      label: '组件库时间范围选择',
-      type: 'SDatePickerRange',
-      name: 'SDatePickerRange',
-    },
-    {
       label: '时间选择',
       type: 'datePicker',
       name: 'datePicker',
-      required: true,
     },
     {
       label: '时间范围选择',

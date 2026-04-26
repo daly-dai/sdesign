@@ -13,12 +13,12 @@ export default () => {
     {
       label: '时间值一',
       name: 'time1',
-      type: 'SDatePickerRange',
+      type: 'datePickerRange',
     },
     {
       label: '时间值二',
       name: 'time2',
-      type: 'SDatePickerRange',
+      type: 'datePickerRange',
     },
   ];
 
