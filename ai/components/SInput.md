@@ -26,3 +26,17 @@
 - onChange?: (value: string) => void — onChange 直接返回 string 值（非 event）
 - trim?: boolean — 是否自动去除首尾空格
 - onEnter?: (value?: string) => void — 按回车键触发的回调
+
+## 使用示例
+
+```tsx
+import React from 'react';
+import { SInput } from '@dalydb/sdesign';
+
+export default () => (
+  <SInput
+    placeholder="自动 trim 空格，回车触发 onEnter"
+    onEnter={() => alert('回车确认')}
+  />
+);
+```

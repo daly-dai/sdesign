@@ -45,3 +45,21 @@
 - canClickName?: boolean
 - onClick?: (data: any) => void
 - fileIconMapField?: FileIconMapFieldType
+
+## 使用示例
+
+```tsx
+import React from 'react';
+import { SFile } from '@dalydb/sdesign';
+
+const fileData = {
+  fileName: 'example.pdf',
+  fileUrl: 'https://example.com/file.pdf',
+};
+
+export default () => (
+  <div>
+    <SFile fileData={fileData} />
+  </div>
+);
+```

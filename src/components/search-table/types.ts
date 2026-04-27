@@ -72,8 +72,17 @@ export interface SearchTableProps {
    * 数据请求函数
    *
    * 接收搜索参数 + 分页参数，返回包含列表数据和总数的对象。
-   * 默认字段映射: `{ dataList, totalSize, pageNum, pageSize }`，
-   * 可通过 options.paginationFields 自定义。
+   * 默认期望返回结构: `{ list, total, pageIndex, pageSize }`
+   *
+   * 如后端字段名不同，通过 options.paginationFields 配置映射：
+   * - current: 页码字段名（默认 'pageIndex'）
+   * - pageSize: 每页条数字段名（默认 'pageSize'）
+   * - total: 总数字段名（默认 'total'）
+   * - list: 列表字段名（默认 'list'）
+   *
+   * @example
+   * // 后端返回 { records, totalCount, pageNum, pageSize }
+   * options={{ paginationFields: { current: 'pageNum', list: 'records', total: 'totalCount' } }}
    */
   requestFn: (data?: any) => Promise<any>;
   /** useSearchTable 的配置选项 */

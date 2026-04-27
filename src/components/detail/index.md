@@ -61,6 +61,10 @@ SDetail 是基于 Ant Design Descriptions 组件封装的高级详情展示组�
 
 <code src="./demos/detailGroupItems.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 ### SDetail

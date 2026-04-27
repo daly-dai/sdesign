@@ -2,6 +2,7 @@ import SButton from './button';
 import SCard from './card';
 import SCascader from './cascader';
 import SCheckGroup from './check-group';
+import SCollapse from './collapse';
 import SConfigProvider from './config-provider';
 import SConfirm from './confirm';
 import SDatePicker from './date-picker';
@@ -58,6 +59,7 @@ export {
   SCard,
   SCascader,
   SCheckGroup,
+  SCollapse,
   SConfigProvider,
   SConfirm,
   SDatePicker,

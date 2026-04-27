@@ -28,3 +28,18 @@
 - modalProps?: ModalFuncProps — Modal.confirm 额外属性
 
 **ConfirmType** — 确认方式类型 - `'pop'` — 气泡确认框 (Popconfirm) - `'modal'` — 模态对话框 (Modal.confirm): `(typeof ConfirmTypes)[number]`
+
+## 使用示例
+
+```tsx
+import React from 'react';
+import { SButton, SConfirm } from '@dalydb/sdesign';
+
+export default () => (
+  <div>
+    <SConfirm type="pop" onConfirm={() => alert('确认')}>
+      <SButton actionType="delete" />
+    </SConfirm>
+  </div>
+);
+```

@@ -31,6 +31,10 @@ group:
 
 <code src="./demos/formSet.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 [DatePickerRange 更多属性](https://ant-design.antgroup.com/components/date-picker-cn#api)
 
 ## API

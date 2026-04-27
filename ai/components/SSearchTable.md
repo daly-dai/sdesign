@@ -19,7 +19,7 @@
 
 - headTitle?: STitleProps — 页面顶部标题配置
 - tableTitle?: STitleProps — 表格区域标题配置
-- requestFn: (data?: any) => Promise<any> — 数据请求函数 接收搜索参数 + 分页参数，返回包含列表数据和总数的对象。 默认字段映射: `{ dataList, totalSize, pageNum, pageSize }`， 可通过 options.paginationFields 自定义。
+- requestFn: (data?: any) => Promise<any> — 数据请求函数 接收搜索参数 + 分页参数，返回包含列表数据和总数的对象。 默认期望返回结构: `{ list, total, pageIndex, pageSize }` 如后端字段名不同，通过 options.paginationFields 配置映射： - current: 页码字段名（默认 'pageIndex'） - pageSize: 每页条数字段名（默认 'pageSize'） - total: 总数字段名（默认 'total'） - list: 列表字段名（默认 'list'） 后端返回 { records, totalCount, pageNum, pageSize } options={{ paginationFields: { current: 'pageNum', list: 'records', total: 'totalCount' } }}
 - options?: Omit<useSearchTableOptions, 'form'> — useSearchTable 的配置选项
 - tableProps?: STableProps<any> — 表格 props，会合并到 useSearchTable 返回的 tableProps 中
 - formProps?: SearchProps — 搜索表单 props，透传给 SForm.Search
@@ -93,3 +93,94 @@
 
 - children?: `ReactNode`
 - hasBottomPadding?: `boolean` — 底部是否包含边距
+
+## 使用示例
+
+```tsx
+import { Button, message } from 'antd';
+import React, { useRef } from 'react';
+import { SConfigProvider, SSearchTable } from '@dalydb/sdesign';
+import type {
+  SColumnsType,
+  SFormItems,
+  SSearchTableRef,
+} from '@dalydb/sdesign';
+
+const globalDict = { userStatus: { active: '活跃', inactive: '未激活' } };
+
+const searchItems: SFormItems[] = [
+  { label: '姓名', name: 'name', type: 'input' },
+  {
+    label: '状态',
+    name: 'status',
+    type: 'select',
+    fieldProps: {
+      options: [
+        { value: 'active', label: '活跃' },
+        { value: 'inactive', label: '未激活' },
+      ],
+    },
+  },
+];
+
+const columns: SColumnsType<any> = [
+  { title: '姓名', dataIndex: 'name' },
+  { title: '邮箱', dataIndex: 'email' },
+  { title: '状态', dataIndex: 'status', dictKey: 'userStatus' },
+  { title: '创建时间', dataIndex: 'createTime', render: 'datetime' },
+  {
+    title: '操作',
+    render: (_: any, record: any) => (
+      <Button
+        type="link"
+        size="small"
+        onClick={() => message.info(`编辑: ${record.name}`)}
+      >
+        编辑
+      </Button>
+    ),
+  },
+];
+
+const mockRequest = (_params: any) => {
+  const list = [
+    {
+      id: 1,
+      name: '张三',
+      email: 'zs@example.com',
+      status: 'active',
+      createTime: new Date().toISOString(),
+    },
+    {
+      id: 2,
+      name: '李四',
+      email: 'ls@example.com',
+      status: 'inactive',
+      createTime: new Date().toISOString(),
+    },
+  ];
+  return Promise.resolve({ list, total: list.length });
+};
+
+export default () => {
+  const ref = useRef<SSearchTableRef>(null);
+  return (
+    <SConfigProvider globalDict={globalDict}>
+      <SSearchTable
+        ref={ref}
+        headTitle={{
+          children: '用户管理',
+          actionNode: (
+            <Button type="primary" onClick={() => message.info('新增用户')}>
+              新增
+            </Button>
+          ),
+        }}
+        requestFn={mockRequest}
+        formProps={{ items: searchItems, columns: 3 }}
+        tableProps={{ columns, rowKey: 'id', isSeq: true }}
+      />
+    </SConfigProvider>
+  );
+};
+```

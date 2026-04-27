@@ -79,6 +79,7 @@ const ANTD_TYPE_MAP: Record<string, string> = {
   DatePickerProps: 'antd DatePicker',
   RangePickerProps: 'antd DatePicker.RangePicker',
   TableProps: 'antd Table',
+  ColumnType: 'antd ColumnType',
   CardProps: 'antd Card',
   PopconfirmProps: 'antd Popconfirm',
   ModalFuncProps: 'antd Modal',
@@ -1143,6 +1144,18 @@ function generateComponentDocs(
       knownTypes,
     );
     L.push(...compositionSection);
+
+    // 使用示例：从 demos/basic.tsx 读取代码嵌入
+    const demoPath = path.join(COMPONENTS_DIR, c.dirName, 'demos', 'basic.tsx');
+    if (fs.existsSync(demoPath)) {
+      const demoCode = fs.readFileSync(demoPath, 'utf-8');
+      L.push('## 使用示例');
+      L.push('');
+      L.push('```tsx');
+      L.push(demoCode.trimEnd());
+      L.push('```');
+      L.push('');
+    }
 
     const content = L.join('\n');
     const fileName = `${c.name}.md`;

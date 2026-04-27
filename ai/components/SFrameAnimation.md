@@ -20,3 +20,20 @@
 - height: React.CSSProperties['height']
 - icon: string — icon 地址
 - style?: React.CSSProperties
+
+## 使用示例
+
+```tsx
+import React from 'react';
+import { SFrameAnimation } from '@dalydb/sdesign';
+
+export default () => (
+  <SFrameAnimation
+    imgNumber={24}
+    frameNumber={60}
+    width={64}
+    height={64}
+    icon="https://gw.alipayobjects.com/zos/rmsportal/VDnmPZrdjVgxQFqjEcED.png"
+  />
+);
+```

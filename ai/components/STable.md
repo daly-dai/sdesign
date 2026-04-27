@@ -29,14 +29,52 @@
 - current?: number — 当前页码（用于序号计算）
 - pageSize?: number — 每页条数（用于序号计算）
 
-**DataType**
+**SColumn** extends Omit<ColumnType<RecordType>, 'render'> (继承自 antd ColumnType，覆盖: render) — STable 列定义 继承 antd ColumnType（排除 render），扩展字典映射、快捷渲染和列分组能力。 使用 interface 消除联合类型推断问题，确保 fixed/render 等属性字面量正确推断。
 
-- dataIndex: React.Key
-- title: string
-- width: number
-- dictKey?: string | undefined
-- render: () => void
+- dictKey?: string — 字典映射 key，配合 SConfigProvider 的 globalDict 自动转换
+- render?: ColumnType<RecordType>['render'] | RenderType — 列渲染器 除标准 render 函数外，支持字符串快捷类型: - `'datetime'` — 渲染为日期时间 - `'date'` — 渲染为日期 - `'ellipsis'` — 超出省略
+- children?: SColumn<RecordType>[] — 子列定义（列分组）
 
 **RenderType** — 列 render 快捷类型 在 columns 的 render 中可直接传字符串： - `'datetime'` — 渲染为日期时间格式 - `'date'` — 渲染为日期格式 - `'ellipsis'` — 超出省略显示: `(typeof RenderTypes)[number]`
 
 **SColumnsType** — STable 列定义类型: `SColumn<RecordType>[]`
+
+## 使用示例
+
+```tsx
+import { Tag } from 'antd';
+import React from 'react';
+import { SConfigProvider, STable } from '@dalydb/sdesign';
+import type { SColumnsType } from '@dalydb/sdesign';
+
+const globalDict = { userStatus: { active: '活跃', inactive: '未激活' } };
+
+const data = [
+  { id: 1, name: '张三', status: 'active', time: new Date().toISOString() },
+  {
+    id: 2,
+    name: '李四',
+    status: 'inactive',
+    time: new Date(Date.now() - 86400000).toISOString(),
+  },
+];
+
+const columns: SColumnsType<any> = [
+  { title: '姓名', dataIndex: 'name' },
+  { title: '状态', dataIndex: 'status', dictKey: 'userStatus' },
+  { title: '创建时间', dataIndex: 'time', render: 'datetime' },
+  { title: '操作', render: () => <Tag color="blue">查看</Tag> },
+];
+
+export default () => (
+  <SConfigProvider globalDict={globalDict}>
+    <STable
+      columns={columns}
+      dataSource={data}
+      rowKey="id"
+      isSeq
+      pagination={{ pageSize: 10 }}
+    />
+  </SConfigProvider>
+);
+```

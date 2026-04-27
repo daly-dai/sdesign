@@ -15,6 +15,10 @@
 
 <code src="./demos/value.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 [checkbox 更多属性](https://ant-design.antgroup.com/components/checkbox-cn#api)

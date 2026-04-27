@@ -26,3 +26,25 @@
 - disableKeys?: string | string[] — 禁用指定选项的 key
 
 **SelectType**: `HTMLAttributes<object> & ComponentProps<typeof Select>`
+
+## 使用示例
+
+```tsx
+import React from 'react';
+import { SSelect } from '@dalydb/sdesign';
+
+const dict = { active: '活跃', inactive: '未激活' };
+
+export default () => (
+  <div>
+    <SSelect dict={dict} placeholder="基础选择" style={{ width: 200 }} />
+    <br />
+    <SSelect
+      dict={dict}
+      mode="multiple"
+      placeholder="多选"
+      style={{ width: 200, marginTop: 16 }}
+    />
+  </div>
+);
+```

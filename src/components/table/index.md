@@ -24,6 +24,10 @@ group:
 
 <code src="./demos/table-dict.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## Table
 
 | 属性名   | 描述                                                               | 类型    | 默认值 |

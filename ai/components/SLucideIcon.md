@@ -19,3 +19,12 @@
 - color?: string — 颜色（默认继承父元素 currentColor）
 
 **LucideIconName**: `keyof typeof LucideIcons`
+
+## 使用示例
+
+```tsx
+import React from 'react';
+import { SLucideIcon } from '@dalydb/sdesign';
+
+export default () => <SLucideIcon name="Home" size={24} color="#1677ff" />;
+```

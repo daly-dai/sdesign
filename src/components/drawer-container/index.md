@@ -26,6 +26,10 @@ group:
 
 <code src="./demos/before-close.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 ### createDrawer

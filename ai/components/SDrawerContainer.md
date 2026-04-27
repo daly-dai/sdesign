@@ -23,3 +23,35 @@
 
 - beforeClose?: () => boolean | Promise<boolean> — 关闭前守卫，返回 false 可阻止关闭 常见场景：表单脏检查、未保存提示
 - destroyAfterClose?: boolean — 关闭后是否延迟卸载内容组件，等待动画结束后再销毁 适用于 antd Modal/Drawer 的退出动画，避免动画未播放完就被卸载
+
+## 使用示例
+
+```tsx
+import { Button, Drawer } from 'antd';
+import React, { useRef } from 'react';
+import { createDrawer, type DrawerContainerRef } from '@dalydb/sdesign';
+
+const DemoDrawer = createDrawer<{ id: string; name: string }>(
+  ({ params, open, onClose }) => (
+    <Drawer open={open} title="用户详情" onClose={onClose} width={500}>
+      <p>ID: {params.id}</p>
+      <p>名称: {params.name}</p>
+    </Drawer>
+  ),
+);
+
+export default () => {
+  const ref = useRef<DrawerContainerRef<{ id: string; name: string }>>(null);
+  return (
+    <div>
+      <Button
+        type="primary"
+        onClick={() => ref.current?.open({ id: '001', name: '张三' })}
+      >
+        查看详情
+      </Button>
+      <DemoDrawer ref={ref} />
+    </div>
+  );
+};
+```

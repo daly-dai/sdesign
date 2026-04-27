@@ -51,6 +51,10 @@
 
 <code src="./demos/with-external-form.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 ### 组件 Props

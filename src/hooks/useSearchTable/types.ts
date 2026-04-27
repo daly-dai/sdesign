@@ -19,12 +19,12 @@ export interface PaginationFields {
   pageSize?: string;
   /**
    * 总条数字段名
-   * @default 'totalSize'
+   * @default 'total'
    */
   total?: string;
   /**
    * 数据列表字段名
-   * @default 'dataList'
+   * @default 'list'
    */
   list?: string;
 }

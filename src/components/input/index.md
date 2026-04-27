@@ -17,6 +17,10 @@
 
 [更多属性请查看 Input 文档](https://ant-design.antgroup.com/components/input-cn#input)
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 | 属性名   | 描述             | 类型                   | 默认值 |

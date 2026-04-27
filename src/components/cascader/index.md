@@ -15,6 +15,10 @@
 
 <code src="./demos/form.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## api
 
 [详细配置请查看 cascader](https://ant-design.antgroup.com/components/cascader-cn#api)

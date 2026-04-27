@@ -1,5 +1,47 @@
 # 版本更新记录
 
+## [1.8.0] - 2026-04-27
+
+### ✨ 新功能
+
+- **全组件 basic demo 体系**
+
+  - 为 27 个组件统一新增 `demos/basic.tsx` 标准化示例文件
+  - CRUD 核心组件（SForm、SSearchTable、STable、SDetail、SModalContainer、SDrawerContainer）示例较详细，覆盖常见用法
+  - 辅助组件（SInput、SCard、SLucideIcon、STextEllipsis 等）示例精简，降低弱模型 token 消耗
+  - basic demo 同时服务于 dumi 文档展示和 AI 知识库代码示例
+
+- **SCollapse 组件导出**
+
+  - SCollapse 正式从 `@dalydb/sdesign` 导出
+
+- **STable 列定义增强**
+
+  - `SColumn` 从 type alias 重构为 interface extends，提升类型推断能力
+  - 新增 `children` 属性支持列分组（嵌套表头）
+  - 移除未使用的 `DataType` 接口
+
+### 🔧 优化
+
+- **AI 文档生成（gen-llms-txt.ts）**
+
+  - 新增自动读取 `demos/basic.tsx` 嵌入 AI 文档的 `## 使用示例` 段落
+  - 新增 `ColumnType` antd 类型映射
+
+- **SCard 默认值调整**
+
+  - `hasBottomPadding` 默认值从 `true` 改为 `false`
+
+- **类型注释修正**
+
+  - SSearchTable `requestFn` 注释补充完整的 `paginationFields` 配置说明和示例
+  - useSearchTable `PaginationFields` 默认值注释对齐 v1.5.0 实际值（`total`、`list`）
+
+### 📚 文档
+
+- 所有组件 `index.md` 中 `## 基本用法` 示例统一调整到 API 文档之前
+- 26 个 AI 组件文档更新，使用示例与 basic demo 同步
+
 ## [1.7.0] - 2026-04-26
 
 ### ✨ 新功能

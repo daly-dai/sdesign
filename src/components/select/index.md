@@ -15,6 +15,10 @@ group:
 
 <code src="./demos/disable.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 [antd select 更多属性](https://ant-design.antgroup.com/components/select-cn#select-props)

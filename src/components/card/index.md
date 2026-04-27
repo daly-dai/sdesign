@@ -17,6 +17,10 @@
 
 [更多属性请查看 Card 文档](https://4x-ant-design.antgroup.com/components/card-cn/#Card?_blank)
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 | 属性名           | 描述         | 类型    | 默认值 |

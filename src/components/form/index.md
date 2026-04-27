@@ -87,6 +87,10 @@ group:
 
 <code src="./demos/full-example.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## SForm
 
 | 属性名     | 描述                                   | 类型                                                               | 默认值    |

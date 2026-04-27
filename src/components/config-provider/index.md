@@ -11,6 +11,10 @@
 
 <code src="./demos/detail.tsx"></code>
 
+## 基本用法
+
+<code src="./demos/basic.tsx"></code>
+
 ## API
 
 | 属性名     | 描述         | 类型               | 默认值 |

@@ -23,3 +23,22 @@
 - collapse?: boolean — 当前折叠状态
 - setCollapse?: (collapse: boolean) => void — 设置折叠状态
 - onExpand?: (collapse: boolean) => void — 展开/折叠回调
+
+## 使用示例
+
+```tsx
+import React, { useState } from 'react';
+import { SCollapse } from '@dalydb/sdesign';
+
+export default () => {
+  const [collapsed, setCollapsed] = useState(true);
+  return (
+    <div>
+      <SCollapse collapse={collapsed} setCollapse={setCollapsed} />
+      {!collapsed && (
+        <div style={{ padding: 16, background: '#f5f5f5' }}>折叠内容</div>
+      )}
+    </div>
+  );
+};
+```

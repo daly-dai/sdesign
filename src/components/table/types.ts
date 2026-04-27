@@ -1,15 +1,7 @@
 import { TableProps } from 'antd';
-import { ColumnGroupType, ColumnType } from 'antd/es/table';
-import React from 'react';
+import type { ColumnType } from 'antd/es/table';
 
 import { tuple } from '@dalydb/sdesign/utils';
-export interface DataType {
-  dataIndex: React.Key;
-  title: string;
-  width: number;
-  dictKey?: string | undefined;
-  render: () => void;
-}
 
 const RenderTypes = tuple('datetime', 'date', 'ellipsis');
 
@@ -23,12 +15,16 @@ const RenderTypes = tuple('datetime', 'date', 'ellipsis');
  */
 export type RenderType = (typeof RenderTypes)[number];
 
-type SColumn<RecordType = any> = (
-  | ColumnGroupType<RecordType>
-  | Omit<ColumnType<RecordType>, 'render'>
-) & {
+/**
+ * STable 列定义
+ *
+ * 继承 antd ColumnType（排除 render），扩展字典映射、快捷渲染和列分组能力。
+ * 使用 interface 消除联合类型推断问题，确保 fixed/render 等属性字面量正确推断。
+ */
+export interface SColumn<RecordType = any>
+  extends Omit<ColumnType<RecordType>, 'render'> {
   /** 字典映射 key，配合 SConfigProvider 的 globalDict 自动转换 */
-  dictKey?: string | undefined;
+  dictKey?: string;
   /**
    * 列渲染器
    *
@@ -38,7 +34,9 @@ type SColumn<RecordType = any> = (
    * - `'ellipsis'` — 超出省略
    */
   render?: ColumnType<RecordType>['render'] | RenderType;
-};
+  /** 子列定义（列分组） */
+  children?: SColumn<RecordType>[];
+}
 
 /** STable 列定义类型 */
 export type SColumnsType<RecordType> = SColumn<RecordType>[];
