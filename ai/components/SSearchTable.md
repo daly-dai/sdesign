@@ -97,14 +97,14 @@
 ## 使用示例
 
 ```tsx
-import { Button, message } from 'antd';
-import React, { useRef } from 'react';
-import { SConfigProvider, SSearchTable } from '@dalydb/sdesign';
 import type {
   SColumnsType,
   SFormItems,
   SSearchTableRef,
 } from '@dalydb/sdesign';
+import { SConfigProvider, SSearchTable } from '@dalydb/sdesign';
+import { Button, message } from 'antd';
+import React, { useRef } from 'react';
 
 const globalDict = { userStatus: { active: '活跃', inactive: '未激活' } };
 
@@ -142,6 +142,7 @@ const columns: SColumnsType<any> = [
   },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockRequest = (_params: any) => {
   const list = [
     {

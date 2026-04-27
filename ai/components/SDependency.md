@@ -20,8 +20,8 @@
 import { Form, Input, message } from 'antd';
 import React from 'react';
 
-import { SForm } from '@dalydb/sdesign';
 import type { SFormItems } from '@dalydb/sdesign';
+import { SForm } from '@dalydb/sdesign';
 
 const items: SFormItems[] = [
   {

@@ -26,9 +26,9 @@
 ## 使用示例
 
 ```tsx
+import { SCard } from '@dalydb/sdesign';
 import { Button } from 'antd';
 import React from 'react';
-import { SCard } from '@dalydb/sdesign';
 
 export default () => (
   <SCard title="基础使用" extra={<Button type="link">操作</Button>}>

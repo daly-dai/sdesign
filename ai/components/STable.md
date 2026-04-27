@@ -42,10 +42,10 @@
 ## 使用示例
 
 ```tsx
+import type { SColumnsType } from '@dalydb/sdesign';
+import { SConfigProvider, STable } from '@dalydb/sdesign';
 import { Tag } from 'antd';
 import React from 'react';
-import { SConfigProvider, STable } from '@dalydb/sdesign';
-import type { SColumnsType } from '@dalydb/sdesign';
 
 const globalDict = { userStatus: { active: '活跃', inactive: '未激活' } };
 

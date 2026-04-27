@@ -22,9 +22,9 @@
 ## 使用示例
 
 ```tsx
+import { SErrorBoundary } from '@dalydb/sdesign';
 import { Button } from 'antd';
 import React from 'react';
-import { SErrorBoundary } from '@dalydb/sdesign';
 
 const BuggyComponent = () => {
   throw new Error('渲染异常');

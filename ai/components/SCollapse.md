@@ -27,8 +27,8 @@
 ## 使用示例
 
 ```tsx
-import React, { useState } from 'react';
 import { SCollapse } from '@dalydb/sdesign';
+import React, { useState } from 'react';
 
 export default () => {
   const [collapsed, setCollapsed] = useState(true);

@@ -30,8 +30,8 @@
 ## 使用示例
 
 ```tsx
-import React from 'react';
 import { SSelect } from '@dalydb/sdesign';
+import React from 'react';
 
 const dict = { active: '活跃', inactive: '未激活' };
 

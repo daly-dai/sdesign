@@ -30,8 +30,8 @@
 ## 使用示例
 
 ```tsx
-import React from 'react';
 import { SInput } from '@dalydb/sdesign';
+import React from 'react';
 
 export default () => (
   <SInput

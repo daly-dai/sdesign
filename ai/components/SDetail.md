@@ -81,9 +81,9 @@
 ## 使用示例
 
 ```tsx
-import React from 'react';
-import { SCard, SDetail } from '@dalydb/sdesign';
 import type { SDetailItem } from '@dalydb/sdesign';
+import { SCard, SDetail } from '@dalydb/sdesign';
+import React from 'react';
 
 const dataSource = {
   name: '张三',

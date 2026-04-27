@@ -132,10 +132,10 @@
 ## 使用示例
 
 ```tsx
+import type { SFormItems } from '@dalydb/sdesign';
+import { SForm } from '@dalydb/sdesign';
 import { Input, message } from 'antd';
 import React from 'react';
-import { SForm } from '@dalydb/sdesign';
-import type { SFormItems } from '@dalydb/sdesign';
 
 const items: SFormItems[] = [
   { label: '姓名', name: 'name', type: 'input', required: true },

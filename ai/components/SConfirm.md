@@ -32,8 +32,8 @@
 ## 使用示例
 
 ```tsx
-import React from 'react';
 import { SButton, SConfirm } from '@dalydb/sdesign';
+import React from 'react';
 
 export default () => (
   <div>

@@ -24,8 +24,8 @@
 ## 使用示例
 
 ```tsx
-import React from 'react';
 import { SFrameAnimation } from '@dalydb/sdesign';
+import React from 'react';
 
 export default () => (
   <SFrameAnimation

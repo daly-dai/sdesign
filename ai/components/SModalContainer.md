@@ -27,9 +27,9 @@
 ## 使用示例
 
 ```tsx
+import { createModal, type ModalContainerRef } from '@dalydb/sdesign';
 import { Button, Modal } from 'antd';
 import React, { useRef } from 'react';
-import { createModal, type ModalContainerRef } from '@dalydb/sdesign';
 
 const DemoModal = createModal<{ id: string }>(({ params, open, onClose }) => (
   <Modal open={open} title="确认" onCancel={onClose} onOk={onClose}>

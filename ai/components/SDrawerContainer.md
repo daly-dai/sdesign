@@ -27,9 +27,9 @@
 ## 使用示例
 
 ```tsx
+import { createDrawer, type DrawerContainerRef } from '@dalydb/sdesign';
 import { Button, Drawer } from 'antd';
 import React, { useRef } from 'react';
-import { createDrawer, type DrawerContainerRef } from '@dalydb/sdesign';
 
 const DemoDrawer = createDrawer<{ id: string; name: string }>(
   ({ params, open, onClose }) => (
