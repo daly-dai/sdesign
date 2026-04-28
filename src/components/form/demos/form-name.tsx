@@ -36,7 +36,7 @@ export default () => {
     },
   ];
 
-  const handleChange = (values: any) => {
+  const handleChange = (values: Record<string, unknown>) => {
     console.log(values);
 
     setValue(values);

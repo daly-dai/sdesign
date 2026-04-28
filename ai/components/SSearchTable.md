@@ -106,6 +106,14 @@ import { SConfigProvider, SSearchTable } from '@dalydb/sdesign';
 import { Button, message } from 'antd';
 import React, { useRef } from 'react';
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  createTime: string;
+}
+
 const globalDict = { userStatus: { active: '活跃', inactive: '未激活' } };
 
 const searchItems: SFormItems[] = [
@@ -123,14 +131,14 @@ const searchItems: SFormItems[] = [
   },
 ];
 
-const columns: SColumnsType<any> = [
+const columns: SColumnsType<User> = [
   { title: '姓名', dataIndex: 'name' },
   { title: '邮箱', dataIndex: 'email' },
   { title: '状态', dataIndex: 'status', dictKey: 'userStatus' },
   { title: '创建时间', dataIndex: 'createTime', render: 'datetime' },
   {
     title: '操作',
-    render: (_: any, record: any) => (
+    render: (_, record: User) => (
       <Button
         type="link"
         size="small"
@@ -143,7 +151,7 @@ const columns: SColumnsType<any> = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mockRequest = (_params: any) => {
+const mockRequest = (_params: Record<string, unknown>) => {
   const list = [
     {
       id: 1,

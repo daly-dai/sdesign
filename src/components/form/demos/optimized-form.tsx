@@ -44,7 +44,7 @@ export default () => {
     },
   ];
 
-  const handleFinish = (values: any) => {
+  const handleFinish = (values: Record<string, unknown>) => {
     console.log('提交的值:', values);
   };
 

@@ -6,6 +6,18 @@ import React from 'react';
 
 import { SColumnsType, SFormItems, SSearchTable } from '@dalydb/sdesign';
 
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: number;
+  status: number;
+  email: string;
+  phone: string;
+  createTime: string;
+  lastLoginTime: string;
+}
+
 // 模拟数据
 const generateMockData = (current: number, pageSize: number) => {
   const list = [];
@@ -40,7 +52,9 @@ const generateMockData = (current: number, pageSize: number) => {
 };
 
 // 模拟请求
-const mockRequest = async (params: any) => {
+const mockRequest = async (
+  params: Record<string, string | number | undefined>,
+) => {
   console.log('请求参数:', params);
 
   // 模拟网络延迟
@@ -48,7 +62,10 @@ const mockRequest = async (params: any) => {
     setTimeout(resolve, 500);
   });
 
-  return generateMockData(params.current || 1, params.pageSize || 10);
+  return generateMockData(
+    Number(params.current) || 1,
+    Number(params.pageSize) || 10,
+  );
 };
 
 export default () => {
@@ -100,7 +117,7 @@ export default () => {
   ];
 
   // 表格列配置
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<User> = [
     {
       title: '姓名',
       dataIndex: 'name',

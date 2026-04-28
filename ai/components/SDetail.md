@@ -99,7 +99,7 @@ const items: SDetailItem[] = [
   {
     label: '邮箱',
     name: 'email',
-    render: (v: any) => (v ? <a href={`mailto:${v}`}>{v}</a> : '-'),
+    render: (v: string) => (v ? <a href={`mailto:${v}`}>{v}</a> : '-'),
   },
   { label: '创建时间', name: 'createTime' },
 ];

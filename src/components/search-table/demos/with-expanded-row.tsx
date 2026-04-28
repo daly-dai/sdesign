@@ -5,8 +5,28 @@ import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
 
+interface Project {
+  id: number;
+  name: string;
+  status: string;
+  startDate: string;
+}
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  email: string;
+  department: string;
+  position: string;
+  skills: string[];
+  projects: Project[];
+}
+
 // 模拟带有展开行功能的请求
-const mockExpandedRequest = async (params: any) => {
+const mockExpandedRequest = async (
+  params: Record<string, string | number | undefined>,
+) => {
   console.log('展开行功能请求参数:', params);
 
   // 模拟网络延迟
@@ -14,27 +34,23 @@ const mockExpandedRequest = async (params: any) => {
     setTimeout(resolve, 500);
   });
 
+  const pageNum = Number(params.pageNum) || 1;
+  const pageSize = Number(params.pageSize) || 10;
+
   // 模拟数据
   return {
-    pageNum: params.pageNum || 1,
-    pageSize: params.pageSize || 10,
+    pageNum,
+    pageSize,
     totalSize: 45,
     dataList: Array.from(
       {
-        length: Math.min(
-          params.pageSize || 10,
-          45 - (params.pageNum - 1 || 0) * (params.pageSize || 10),
-        ),
+        length: Math.min(pageSize, 45 - (pageNum - 1) * pageSize),
       },
       (_, i) => ({
-        id: ((params.pageNum || 1) - 1) * (params.pageSize || 10) + i + 1,
-        name: `用户${
-          ((params.pageNum || 1) - 1) * (params.pageSize || 10) + i + 1
-        }`,
+        id: (pageNum - 1) * pageSize + i + 1,
+        name: `用户${(pageNum - 1) * pageSize + i + 1}`,
         age: Math.floor(Math.random() * 50) + 18,
-        email: `user${
-          ((params.pageNum || 1) - 1) * (params.pageSize || 10) + i + 1
-        }@example.com`,
+        email: `user${(pageNum - 1) * pageSize + i + 1}@example.com`,
         department: ['技术部', '产品部', '设计部', '运营部'][i % 4],
         position: ['前端工程师', '后端工程师', 'UI设计师', '产品经理'][i % 4],
         skills: ['JavaScript', 'React', 'Node.js', 'TypeScript'].slice(
@@ -74,7 +90,7 @@ export default () => {
   ];
 
   // 表格列配置
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<User> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -143,7 +159,7 @@ export default () => {
         rowKey: 'id',
         scroll: { x: 1200 },
         expandable: {
-          expandedRowRender: (record: any) => (
+          expandedRowRender: (record: User) => (
             <div>
               <h4>详细信息</h4>
               <p>
@@ -155,7 +171,7 @@ export default () => {
 
               <h4>参与项目</h4>
               <ul>
-                {record.projects.map((project: any) => (
+                {record.projects.map((project: Project) => (
                   <li key={project.id}>
                     <strong>{project.name}</strong> - {project.status} (开始于{' '}
                     {project.startDate})

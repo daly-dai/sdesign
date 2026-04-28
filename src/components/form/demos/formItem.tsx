@@ -12,7 +12,7 @@ export default () => {
   const [techForm] = Form.useForm();
   const [form] = Form.useForm();
 
-  const handleFormFinish = (values: any) => {
+  const handleFormFinish = (values: Record<string, unknown>) => {
     console.log(values);
   };
 

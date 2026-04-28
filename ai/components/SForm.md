@@ -156,7 +156,7 @@ const items: SFormItems[] = [
   {
     type: 'dependency',
     depNames: ['gender'],
-    render: (v: any) =>
+    render: (v: Record<string, unknown>) =>
       v.gender === 'female' ? <Input placeholder="女士专属字段" /> : null,
   },
 ];

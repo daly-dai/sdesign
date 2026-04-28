@@ -5,6 +5,25 @@ import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
 
+interface Project {
+  id: number;
+  name: string;
+  role: string;
+}
+
+interface Employee {
+  id: number;
+  name: string;
+  department: number;
+  position: string;
+  salary: number;
+  entryDate: string;
+  roles: string[];
+  skills: string[];
+  performance: number;
+  projects: Project[];
+}
+
 // 模拟数据 - 包含更复杂的结构
 const generateAdvancedMockData = (current: number, pageSize: number) => {
   const list = [];
@@ -67,20 +86,25 @@ const generateAdvancedMockData = (current: number, pageSize: number) => {
 };
 
 // 模拟请求
-const advancedMockRequest = async (params: any) => {
+const advancedMockRequest = async (
+  params: Record<string, string | number | undefined>,
+) => {
   console.log('高级搜索请求参数:', params);
 
   await new Promise((resolve) => {
     setTimeout(resolve, 800);
   });
 
-  return generateAdvancedMockData(params.current || 1, params.pageSize || 10);
+  return generateAdvancedMockData(
+    Number(params.current) || 1,
+    Number(params.pageSize) || 10,
+  );
 };
 
 export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [currentRecord, setCurrentRecord] = useState<any>(null);
+  const [currentRecord, setCurrentRecord] = useState<Employee | null>(null);
 
   // 高级搜索表单配置
   const advancedFormItems: SFormItems[] = [
@@ -135,13 +159,13 @@ export default () => {
   ];
 
   // 处理查看详情
-  const handleViewDetails = (record: any) => {
+  const handleViewDetails = (record: Employee) => {
     setCurrentRecord(record);
     setModalVisible(true);
   };
 
   // 处理编辑
-  const handleEdit = (record: any) => {
+  const handleEdit = (record: Employee) => {
     console.log('编辑员工:', record);
   };
 
@@ -155,7 +179,7 @@ export default () => {
   };
 
   // 高级表格列配置
-  const advancedColumns: SColumnsType<any> = [
+  const advancedColumns: SColumnsType<Employee> = [
     {
       title: '员工姓名',
       dataIndex: 'name',
@@ -229,7 +253,7 @@ export default () => {
       key: 'action',
       fixed: 'right',
       width: 150,
-      render: (_: any, record: any) => {
+      render: (_, record: Employee) => {
         return (
           <Space>
             <Button type="link" onClick={() => handleViewDetails(record)}>
@@ -292,12 +316,12 @@ export default () => {
             onChange: setSelectedRowKeys,
           },
           expandable: {
-            expandedRowRender: (record: any) => {
+            expandedRowRender: (record: Employee) => {
               return (
                 <div>
                   <h4>参与项目:</h4>
                   <ul>
-                    {record.projects.map((project: any) => (
+                    {record.projects.map((project: Project) => (
                       <li key={project.id}>
                         {project.name} - {project.role}
                       </li>

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { GroupItemsType, SCard, SForm } from '@dalydb/sdesign';
 
-const CustomContainer = ({ children }: any) => {
+const CustomContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{
@@ -29,7 +29,7 @@ export default () => {
     {
       title: '基础信息',
       columns: 2,
-      container: CustomContainer as any,
+      container: CustomContainer,
       items: [
         {
           type: 'input',

@@ -1,5 +1,18 @@
 # 版本更新记录
 
+## [1.8.1] - 2026-04-28
+
+### 🔧 优化
+
+- **demo 类型安全改造**
+
+  - 消除 25 个 demo 文件中的 49 处 `any` 类型，防止 AI 文档生成管道（`gen-llms-txt.ts` → `ai/components/*.md`）将 `any` 模式传播到下游 AI 生成的代码中
+  - 表格/搜索表格 demo 使用局部实体接口替代 `SColumnsType<any>`
+  - 表单/详情/dependency demo 使用 `Record<string, unknown>` 或具体类型替代 `(v: any)`
+  - mock request 函数使用 `Record<string, string | number | undefined>` + `Number()` 替代 `(params: any)`
+  - 未使用回调参数遵循 `_` 前缀约定，不添加类型标注
+  - 涉及文件：SearchTable (9)、Form (9)、Table (4)、Detail (1)、Dependency (1)、CheckGroup (1) 等组件 demo
+
 ## [1.8.0] - 2026-04-27
 
 ### ✨ 新功能

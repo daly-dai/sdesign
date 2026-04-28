@@ -61,8 +61,8 @@ export default () => {
       required: '请确认密码',
       dependencies: ['password'],
       rules: [
-        ({ getFieldValue }: any) => ({
-          validator(_: any, value: string) {
+        ({ getFieldValue }) => ({
+          validator(_, value: string) {
             if (!value || getFieldValue('password') === value) {
               return Promise.resolve();
             }

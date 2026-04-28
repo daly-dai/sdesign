@@ -8,8 +8,20 @@ import React from 'react';
 
 import { SColumnsType, STable } from '@dalydb/sdesign';
 
+interface Group {
+  groupNo: string;
+  groupName: string;
+  projectNum: number;
+  planCategory: string;
+  planCategoryName: string;
+  selectionMethod: string;
+  saveType: string;
+  createTime: string;
+  operateFlag: boolean;
+}
+
 const STableCellEllipsis = () => {
-  const data: any = [
+  const data: Group[] = [
     {
       groupNo: '001',
       groupName: '过氧化酶',
@@ -63,7 +75,7 @@ const STableCellEllipsis = () => {
     },
   ];
 
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<Group> = [
     {
       title: '分组名称',
       dataIndex: 'groupName',

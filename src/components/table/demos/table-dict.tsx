@@ -7,6 +7,13 @@ import React from 'react';
 
 import { SColumnsType, SConfigProvider, STable } from '@dalydb/sdesign';
 
+interface Order {
+  processType: string;
+  processInstanceId: string;
+  businessCode: string;
+  orderName: string;
+}
+
 const globalDict = {
   processType: {
     test: '字典数据',
@@ -15,7 +22,7 @@ const globalDict = {
   },
 };
 export default () => {
-  const data: any = [
+  const data: Order[] = [
     {
       processType: 'test1',
       processInstanceId: '17017b7056e011',
@@ -24,7 +31,7 @@ export default () => {
     },
   ];
 
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<Order> = [
     {
       title: '工单编号',
       dataIndex: 'businessCode',

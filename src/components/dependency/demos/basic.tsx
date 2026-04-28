@@ -19,7 +19,7 @@ const items: SFormItems[] = [
   {
     type: 'dependency',
     depNames: ['type'],
-    render: (v: any) =>
+    render: (v: Record<string, unknown>) =>
       v.type === 'a' ? (
         <Form.Item name="sub" label="子项">
           <Input />

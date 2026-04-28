@@ -71,7 +71,7 @@ export default () => {
     { type: 'datePickerRange', label: '创建时间', name: 'createTime' },
   ];
 
-  const handleFinish = (values: any) => {
+  const handleFinish = (values: Record<string, unknown>) => {
     message.success('查询参数: ' + JSON.stringify(values));
   };
 

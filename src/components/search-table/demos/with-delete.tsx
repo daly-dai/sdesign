@@ -6,6 +6,14 @@ import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
 import { SSearchTableRef } from '../types';
 
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  email: string;
+  department: string;
+}
+
 // 模拟数据存储
 let mockDataList = Array.from({ length: 25 }, (_, i) => ({
   id: i + 1,
@@ -16,7 +24,9 @@ let mockDataList = Array.from({ length: 25 }, (_, i) => ({
 }));
 
 // 模拟请求 - 支持删除和刷新
-const mockDeleteRequest = async (params: any) => {
+const mockDeleteRequest = async (
+  params: Record<string, string | number | undefined>,
+) => {
   console.log('请求参数:', params);
 
   // 模拟网络延迟
@@ -24,8 +34,8 @@ const mockDeleteRequest = async (params: any) => {
     setTimeout(resolve, 500);
   });
 
-  const pageNum = params.pageNum || 1;
-  const pageSize = params.pageSize || 10;
+  const pageNum = Number(params.pageNum) || 1;
+  const pageSize = Number(params.pageSize) || 10;
   const startIndex = (pageNum - 1) * pageSize;
   const endIndex = Math.min(startIndex + pageSize, mockDataList.length);
 
@@ -94,7 +104,7 @@ export default () => {
   ];
 
   // 表格列配置
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<User> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -125,7 +135,7 @@ export default () => {
       key: 'action',
       fixed: 'right',
       width: 150,
-      render: (_: any, record: any) => (
+      render: (_, record: User) => (
         <Space>
           <Button
             type="link"

@@ -4,8 +4,17 @@ import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
 
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  email: string;
+}
+
 // 模拟自定义搜索接口的数据格式
-const mockCustomRequest = async (params: any) => {
+const mockCustomRequest = async (
+  params: Record<string, string | number | undefined>,
+) => {
   console.log('自定义搜索参数:', params);
 
   // 模拟网络延迟
@@ -13,25 +22,23 @@ const mockCustomRequest = async (params: any) => {
     setTimeout(resolve, 500);
   });
 
+  const page = Number(params.page) || 1;
+  const limit = Number(params.limit) || 10;
+
   // 模拟不同字段名的返回数据结构
   return {
-    page: params.page || 1,
-    limit: params.limit || 10,
+    page,
+    limit,
     totalCount: 45,
     items: Array.from(
       {
-        length: Math.min(
-          params.limit || 10,
-          45 - (params.page - 1 || 0) * (params.limit || 10),
-        ),
+        length: Math.min(limit, 45 - (page - 1) * limit),
       },
       (_, i) => ({
-        id: ((params.page || 1) - 1) * (params.limit || 10) + i + 1,
-        name: `用户${((params.page || 1) - 1) * (params.limit || 10) + i + 1}`,
+        id: (page - 1) * limit + i + 1,
+        name: `用户${(page - 1) * limit + i + 1}`,
         age: Math.floor(Math.random() * 50) + 18,
-        email: `user${
-          ((params.page || 1) - 1) * (params.limit || 10) + i + 1
-        }@example.com`,
+        email: `user${(page - 1) * limit + i + 1}@example.com`,
       }),
     ),
   };
@@ -58,7 +65,7 @@ export default () => {
   ];
 
   // 表格列配置
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<User> = [
     {
       title: 'ID',
       dataIndex: 'id',

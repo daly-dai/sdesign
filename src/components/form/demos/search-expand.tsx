@@ -40,7 +40,7 @@ export default () => {
     { type: 'datePicker', label: '创建日期', name: 'createDate' },
   ];
 
-  const handleFinish = (values: any) => {
+  const handleFinish = (values: Record<string, unknown>) => {
     message.success('查询参数: ' + JSON.stringify(values));
   };
 

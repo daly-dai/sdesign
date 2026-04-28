@@ -8,7 +8,13 @@ import React from 'react';
 import { SForm, SFormItems } from '@dalydb/sdesign';
 
 // 自定义标签选择组件
-const TagSelect = ({ value, onChange }: any) => {
+const TagSelect = ({
+  value,
+  onChange,
+}: {
+  value?: string[];
+  onChange?: (v: string[]) => void;
+}) => {
   const tags = ['前端', '后端', '设计', '产品', '测试'];
   const selectedTags = value || [];
 

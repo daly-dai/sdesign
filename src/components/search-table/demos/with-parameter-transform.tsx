@@ -4,8 +4,18 @@ import { SFormItems } from '../../form/types';
 import { SColumnsType } from '../../table/types';
 import SSearchTable from '../index';
 
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  email: string;
+  status: number;
+}
+
 // 模拟需要参数转换的请求
-const mockTransformRequest = async (params: any) => {
+const mockTransformRequest = async (
+  params: Record<string, string | number | undefined>,
+) => {
   console.log('转换后的请求参数:', params);
 
   // 模拟网络延迟
@@ -13,27 +23,23 @@ const mockTransformRequest = async (params: any) => {
     setTimeout(resolve, 500);
   });
 
+  const pageNum = Number(params.pageNum) || 1;
+  const pageSize = Number(params.pageSize) || 10;
+
   // 模拟数据
   return {
-    pageNum: params.pageNum || 1,
-    pageSize: params.pageSize || 10,
+    pageNum,
+    pageSize,
     totalSize: 45,
     dataList: Array.from(
       {
-        length: Math.min(
-          params.pageSize || 10,
-          45 - (params.pageNum - 1 || 0) * (params.pageSize || 10),
-        ),
+        length: Math.min(pageSize, 45 - (pageNum - 1) * pageSize),
       },
       (_, i) => ({
-        id: ((params.pageNum || 1) - 1) * (params.pageSize || 10) + i + 1,
-        name: `用户${
-          ((params.pageNum || 1) - 1) * (params.pageSize || 10) + i + 1
-        }`,
+        id: (pageNum - 1) * pageSize + i + 1,
+        name: `用户${(pageNum - 1) * pageSize + i + 1}`,
         age: Math.floor(Math.random() * 50) + 18,
-        email: `user${
-          ((params.pageNum || 1) - 1) * (params.pageSize || 10) + i + 1
-        }@example.com`,
+        email: `user${(pageNum - 1) * pageSize + i + 1}@example.com`,
         status: Math.floor(Math.random() * 3) + 1,
       }),
     ),
@@ -63,7 +69,7 @@ export default () => {
   ];
 
   // 表格列配置
-  const columns: SColumnsType<any> = [
+  const columns: SColumnsType<User> = [
     {
       title: 'ID',
       dataIndex: 'id',
