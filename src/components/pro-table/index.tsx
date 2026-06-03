@@ -74,6 +74,7 @@ function SProTableInner<RecordType = Record<string, unknown>>(
 
         <STable
           size="small"
+          bordered
           {...hookTableProps}
           {...restConsumerTableProps}
           pagination={mergedPagination}

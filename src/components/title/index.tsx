@@ -2,18 +2,12 @@ import { Flex } from 'antd';
 import React, { memo, useMemo } from 'react';
 
 import { BASE_FONTSIZE_MAP } from './constant';
-import useStyles from './index.style';
+import './index.css';
 import { STitleProps } from './types';
 
 import { SLucideIcon } from '@dalydb/sdesign';
-import { useComStyle } from '@dalydb/sdesign/hooks';
 
 const STitle: React.FC<STitleProps> = (props) => {
-  const { styles, cx, prefixCls, token } = useComStyle({
-    prefixCls: 'title',
-    useStylesHook: useStyles,
-  });
-
   const {
     desc,
     actionNode,
@@ -43,39 +37,33 @@ const STitle: React.FC<STitleProps> = (props) => {
   const renderFormIcon = useMemo(() => {
     if (type !== 'form') return null;
     return (
-      <SLucideIcon
-        name="AlignLeft"
-        className={styles[`${prefixCls}-left-form-icon`]}
-      />
+      <SLucideIcon name="AlignLeft" className="sdesign-title-left-form-icon" />
     );
-  }, [type, styles, prefixCls]);
+  }, [type]);
 
   const titleFontSize = useMemo(() => {
     if (fontSize) return { fontSize };
-    const adjustedFontSize = token.fontSize + (BASE_FONTSIZE_MAP?.[type] ?? 0);
+    const adjustedFontSize = 14 + (BASE_FONTSIZE_MAP?.[type] ?? 0);
     return { fontSize: `${adjustedFontSize}px` };
-  }, [fontSize, type, token.fontSize]);
+  }, [fontSize, type]);
 
   return (
     <Flex
       justify="space-between"
       align="center"
-      className={cx(styles[prefixCls], styles[`${prefixCls}-${type}`])}
+      className={`sdesign-title sdesign-title-${type}`}
       style={titleStyle}
       {...restProps}
     >
       <Flex align="center" gap={gap}>
         {renderFormIcon}
         {prefix}
-        <div
-          style={titleFontSize}
-          className={styles[`${prefixCls}-left-title`]}
-        >
+        <div style={titleFontSize} className="sdesign-title-left-title">
           {children}
         </div>
         {desc && desc}
       </Flex>
-      <div className={styles[`${prefixCls}-right`]}>{actionNode}</div>
+      <div className="sdesign-title-right">{actionNode}</div>
     </Flex>
   );
 };

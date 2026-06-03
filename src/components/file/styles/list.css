@@ -1,0 +1,33 @@
+.sdesign-file-list {
+  margin: 8px 0;
+}
+
+.sdesign-file-list-label {
+  color: rgba(8, 16, 30, 55%);
+  padding-right: 11px;
+}
+
+.sdesign-file-list-action {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.sdesign-file-list-line {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sdesign-file-list-item {
+  margin-bottom: 8px;
+}
+
+.sdesign-file-list-line-item {
+  display: inline-block;
+  margin-right: 24px;
+  line-height: 35px;
+  margin-bottom: 0;
+}
+
+.sdesign-file-list-sole {
+  margin-bottom: 0;
+}

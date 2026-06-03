@@ -1,0 +1,23 @@
+.sdesign-no-page {
+  width: 100%;
+  min-height: 400px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #fff;
+}
+
+.sdesign-no-page-img {
+  font-size: 340px;
+}
+
+.sdesign-no-page-desc {
+  font-size: 24px;
+  font-weight: 400;
+  text-align: center;
+  color: rgba(8, 16, 30, 35%);
+  line-height: 18px;
+  margin-top: 10px;
+}

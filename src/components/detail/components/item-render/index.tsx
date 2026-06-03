@@ -3,12 +3,11 @@ import isNil from 'lodash/isNil';
 import React, { FC, ReactNode, memo, useContext, useMemo } from 'react';
 
 import { FALL_BACK_STRING } from '../../constant';
-import useStyles from '../../index.style';
+import '../../index.css';
 import { DetailItemType, ItemType } from '../../types';
 
 import { ConfigContext } from '@dalydb/sdesign/components/config-provider/contexts';
 import SFile from '@dalydb/sdesign/components/file';
-import { useComStyle } from '@dalydb/sdesign/hooks';
 import {
   dispatchCheckboxDictData,
   dispatchDictData,
@@ -79,11 +78,6 @@ const DetailItem: FC<DetailItemType> = ({
   dataSource,
   dictReflect = { label: 'label', name: 'name' },
 }) => {
-  const { styles, prefixCls } = useComStyle({
-    prefixCls: 'detail',
-    useStylesHook: useStyles,
-  });
-
   const { globalDict } = useContext(ConfigContext);
 
   const renderValue = useMemo<ReactNode>(() => {
@@ -112,7 +106,7 @@ const DetailItem: FC<DetailItemType> = ({
     fileProps,
   ]);
 
-  return <div className={styles[`${prefixCls}-value`]}>{renderValue}</div>;
+  return <div className="sdesign-detail-value">{renderValue}</div>;
 };
 
 export default memo(DetailItem);

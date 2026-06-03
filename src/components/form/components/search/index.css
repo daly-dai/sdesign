@@ -1,0 +1,31 @@
+.sdesign-form-search-grid {
+  display: grid;
+  align-items: center;
+}
+
+.sdesign-form-search-label {
+  text-align: right;
+  white-space: nowrap;
+  line-height: 32px;
+}
+
+.sdesign-form-search-label::after {
+  content: ':';
+  position: relative;
+  top: -0.5px;
+  margin: 0 8px 0 2px;
+}
+
+.sdesign-form-search-required {
+  color: #ff4d4f;
+  margin-right: 4px;
+  font-family: SimSun, sans-serif;
+  font-size: 14px;
+}
+
+.sdesign-form-search-action {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}

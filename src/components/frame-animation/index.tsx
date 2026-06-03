@@ -1,9 +1,8 @@
 import React, { FC, useMemo, useRef } from 'react';
 
-import useStyles from './index.style';
+import './index.css';
 import { FrameAnimationProps } from './types';
 
-import { useComStyle } from '@dalydb/sdesign/hooks';
 import useFrameAnimation from '@dalydb/sdesign/hooks/useFrameAnimation';
 import { getStyle } from '@dalydb/sdesign/utils';
 
@@ -16,11 +15,6 @@ const SFrameAnimation: FC<FrameAnimationProps> = ({
   direction,
   style = {},
 }) => {
-  const { styles, prefixCls } = useComStyle({
-    prefixCls: 'frame-animation',
-    useStylesHook: useStyles,
-  });
-
   const animationEl = useRef<HTMLDivElement | null>(null);
   const setAnimationType = useFrameAnimation({
     ref: animationEl,
@@ -51,7 +45,7 @@ const SFrameAnimation: FC<FrameAnimationProps> = ({
 
   return (
     <div
-      className={styles[prefixCls]}
+      className="sdesign-frame-animation"
       style={{ ...style, ...computedStyle }}
       ref={animationEl}
       onMouseEnter={handleMouseEnter}

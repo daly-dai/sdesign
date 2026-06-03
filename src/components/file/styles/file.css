@@ -1,0 +1,35 @@
+.sdesign-file {
+  cursor: pointer;
+  margin-bottom: 16px;
+  padding-right: 5px;
+}
+
+.sdesign-file-left {
+  padding-left: 5px;
+  font-size: 24px;
+}
+
+.sdesign-file-left-icon {
+  margin-right: 10px;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.sdesign-file-left-fileName {
+  font-size: 14px;
+  white-space: nowrap;
+  color: #1677ff;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.sdesign-file-left-canClick {
+  cursor: pointer;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.sdesign-file-left-canClick:hover {
+  text-decoration: underline;
+}
+
+.sdesign-file-action {
+  display: none;
+}

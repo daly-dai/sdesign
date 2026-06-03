@@ -1,10 +1,9 @@
 import React, { FC, useMemo } from 'react';
 
 import FileItem from './instance';
-import useStyles from './styles/list.style';
+import './styles/list.css';
 import { FileListProps } from './types';
 
-import { useComStyle } from '@dalydb/sdesign/hooks';
 import { createCode } from '@dalydb/sdesign/utils/common';
 
 const SFileList: FC<FileListProps> = ({
@@ -18,41 +17,27 @@ const SFileList: FC<FileListProps> = ({
   itemRender,
   ...props
 }) => {
-  const { styles, cx, prefixCls } = useComStyle({
-    prefixCls: 'file-list',
-    useStylesHook: useStyles,
-  });
+  const base = 'sdesign-file-list';
 
   // 设置单独文件的class
   const fileItemCls = useMemo(() => {
     if (fileList?.length > 1 || !fileList?.length) return '';
-
-    return styles[`${prefixCls}-sole`];
-  }, [fileList]);
+    return `${base}-sole`;
+  }, [fileList, base]);
 
   const fileDirection = useMemo(() => {
-    if (direction === 'line') return styles[`${prefixCls}-line-item`];
-
-    return styles[`${prefixCls}-item`];
-  }, [direction]);
+    if (direction === 'line') return `${base}-line-item`;
+    return `${base}-item`;
+  }, [direction, base]);
 
   return (
     <div
-      className={styles[prefixCls]}
+      className={base}
       style={{ ...style, display: label ? 'flex' : 'block' }}
     >
-      {label ? (
-        <div className={styles[`${prefixCls}-label`]}>{label}</div>
-      ) : (
-        <></>
-      )}
+      {label ? <div className={`${base}-label`}>{label}</div> : <></>}
 
-      <div
-        className={cx(
-          styles[`${prefixCls}`],
-          styles[` ${prefixCls}-${direction}`],
-        )}
-      >
+      <div className={`${base} ${base}-${direction}`}>
         {fileList.map((item) => {
           if (!item) return <></>;
 
@@ -67,7 +52,7 @@ const SFileList: FC<FileListProps> = ({
               reflect={reflect}
               onFileHandle={onFileHandle}
               fileData={item}
-              className={cx(`${fileItemCls}`, `${fileDirection}`)}
+              className={[fileItemCls, fileDirection].filter(Boolean).join(' ')}
               {...props}
             ></FileItem>
           );

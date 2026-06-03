@@ -1,0 +1,22 @@
+.sdesign-error-com {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #fff;
+}
+
+.sdesign-error-com-img {
+  font-size: 160px;
+}
+
+.sdesign-error-com-desc {
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  color: rgba(8, 16, 30, 35%);
+  line-height: 18px;
+  margin-top: 10px;
+}

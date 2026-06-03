@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 
-import useStyles from './index.style';
+import './index.css';
 import { NoDataTypes } from './types';
 
-import { useComStyle } from '@dalydb/sdesign/hooks';
 import { NoDataIcon } from '@dalydb/sdesign/icons';
 
 const TEXT_COM_MAP: Record<string, boolean> = {
@@ -22,27 +21,17 @@ const SNoData: FC<NoDataTypes> = ({
   componentName,
   ...props
 }) => {
-  const { styles, cx, prefixCls } = useComStyle({
-    prefixCls: 'no-data',
-    useStylesHook: useStyles,
-  });
+  const base = 'sdesign-no-data';
 
   if (componentName && TEXT_COM_MAP?.[componentName]) {
     return (
       <div
-        className={cx(
-          styles[prefixCls],
-          styles[`${prefixCls}-${type}`],
-          className,
-        )}
+        className={[base, `${base}-${type}`, className]
+          .filter(Boolean)
+          .join(' ')}
         {...props}
       >
-        <div
-          className={cx(
-            styles[`${prefixCls}-title`],
-            styles[`${prefixCls}-text-title`],
-          )}
-        >
+        <div className={`${base}-title ${base}-text-title`}>
           {text || '暂无数据'}
         </div>
       </div>
@@ -50,20 +39,12 @@ const SNoData: FC<NoDataTypes> = ({
   }
 
   return (
-    <div className={cx(styles[prefixCls], className)} {...props}>
+    <div className={[base, className].filter(Boolean).join(' ')} {...props}>
       <NoDataIcon
-        className={cx(
-          styles[`${prefixCls}-img`],
-          styles[`${prefixCls}-${type}`],
-        )}
+        className={`${base}-img ${base}-${type}`}
         {...imgProps}
       ></NoDataIcon>
-      <div
-        className={cx(
-          styles[`${prefixCls}-title`],
-          styles[`${prefixCls}-${type}-title`],
-        )}
-      >
+      <div className={`${base}-title ${base}-${type}-title`}>
         {text || '暂无数据'}
       </div>
     </div>

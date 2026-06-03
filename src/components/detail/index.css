@@ -1,0 +1,4 @@
+.sdesign-detail-value {
+  width: 100%;
+  margin-right: calc((100% - 24px) * 0.1);
+}

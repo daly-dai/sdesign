@@ -11,13 +11,12 @@ import React, {
 import { SearchProps } from '../../types';
 import ItemRender from '../item-render';
 
-import useStyles from './index.style';
+import './index.css';
 
 import { ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import SButtonGroup from '@dalydb/sdesign/components/button/Buttons';
 import SCollapse from '@dalydb/sdesign/components/collapse';
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
-import { useComStyle } from '@dalydb/sdesign/hooks';
 import useExpand from '@dalydb/sdesign/hooks/useExpand';
 
 const Search: FC<SearchProps> = memo(
@@ -38,10 +37,7 @@ const Search: FC<SearchProps> = memo(
     labelWidth,
     ...props
   }) => {
-    const { styles, prefixCls } = useComStyle({
-      prefixCls: 'form-search',
-      useStylesHook: useStyles,
-    });
+    const base = 'sdesign-form-search';
 
     const { showCollapse, expandNum, expanded, setExpanded } = useExpand({
       columns,
@@ -147,7 +143,7 @@ const Search: FC<SearchProps> = memo(
           onReset={handleReset}
         >
           <div
-            className={styles[`${prefixCls}-grid`]}
+            className={`${base}-grid`}
             style={{
               gridTemplateColumns,
               rowGap,
@@ -161,15 +157,13 @@ const Search: FC<SearchProps> = memo(
                 <Fragment key={item.name?.toString() || index}>
                   {item.label ? (
                     <label
-                      className={styles[`${prefixCls}-label`]}
+                      className={`${base}-label`}
                       style={
                         !isFirstCol ? { marginLeft: columnGap } : undefined
                       }
                     >
                       {item.required && (
-                        <span className={styles[`${prefixCls}-required`]}>
-                          *
-                        </span>
+                        <span className={`${base}-required`}>*</span>
                       )}
                       {item.label}
                     </label>
@@ -195,10 +189,7 @@ const Search: FC<SearchProps> = memo(
             })}
 
             {(actionNode || extraButtons || showCollapse || true) && (
-              <div
-                className={styles[`${prefixCls}-action`]}
-                style={actionStyle}
-              >
+              <div className={`${base}-action`} style={actionStyle}>
                 {actionNode ?? (
                   <>
                     <Button

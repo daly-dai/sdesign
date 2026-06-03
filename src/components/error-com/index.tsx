@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 
-import useStyles from './index.style';
+import './index.css';
 import { SErrorComProps } from './types';
 
-import useComStyle from '@dalydb/sdesign/hooks/useComStyle';
 import { LoadErrorIcon } from '@dalydb/sdesign/icons';
 
 const SErrorCom: FC<SErrorComProps> = ({
@@ -11,21 +10,14 @@ const SErrorCom: FC<SErrorComProps> = ({
   style = {},
   iconStyle = {},
 }) => {
-  const { styles, prefixCls } = useComStyle({
-    prefixCls: 'error-com',
-    useStylesHook: useStyles,
-  });
-
   return (
-    <div style={{ ...style }} className={styles[`${prefixCls}`]}>
+    <div style={{ ...style }} className="sdesign-error-com">
       <LoadErrorIcon
         style={{ ...iconStyle }}
-        className={styles[`${prefixCls}-img`]}
+        className="sdesign-error-com-img"
       />
 
-      <p className={styles[`${prefixCls}-desc`]}>
-        {text || '加载异常，请稍后重试'}
-      </p>
+      <p className="sdesign-error-com-desc">{text || '加载异常，请稍后重试'}</p>
     </div>
   );
 };

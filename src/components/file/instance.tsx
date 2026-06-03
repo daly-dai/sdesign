@@ -2,14 +2,13 @@ import { Flex } from 'antd';
 import React, { FC, memo, useMemo } from 'react';
 
 import { FILE_NAME_FIELD, FILE_URL_FIELD, fileTypeToIcon } from './constant';
-import useStyles from './styles/file.style';
+import './styles/file.css';
 
 import {
   FileDataType,
   FileIconMapFieldType,
   FileItemType,
   ReflectFile,
-  useComStyle,
 } from '@dalydb/sdesign';
 import { createCode, dispatchFileName } from '@dalydb/sdesign/utils/common';
 
@@ -25,21 +24,13 @@ const SFileInstance: FC<FileItemType> = memo(
     canClickName = true,
     fileIconMapField = 'fileName',
   }) => {
-    const { styles, cx, prefixCls, token } = useComStyle({
-      prefixCls: 'file',
-      useStylesHook: useStyles,
-    });
-
     // 确保nameLimit是正整数
     const effectiveNameLimit = useMemo(
       () => Math.max(0, Number(nameLimit)),
       [nameLimit],
     );
 
-    // 可以点击的class名称
-    const canClickNameCls = canClickName
-      ? styles[`${prefixCls}-left-canClick`]
-      : '';
+    const base = 'sdesign-file';
 
     const fileConfig: FileDataType = useMemo<ReflectFile>(() => {
       return {
@@ -89,33 +80,31 @@ const SFileInstance: FC<FileItemType> = memo(
 
     if (!fileData) return <></>;
 
+    const fileNameCls = canClickName
+      ? `${base}-left-fileName ${base}-left-canClick`
+      : `${base}-left-fileName`;
+
     return (
       <Flex
         align="center"
         justify="space-between"
         style={{ ...style }}
-        className={cx(prefixCls, className)}
+        className={[base, className].filter(Boolean).join(' ')}
         onClick={() => handleFileClick(fileData)}
         key={createCode()}
       >
-        <Flex gap={12} className={styles[`${prefixCls}-left`]}>
+        <Flex gap={12} className={`${base}-left`}>
           {fileIcon}
 
           <div
             title={fileData[fileConfig.fileName as 'fileName']}
-            style={{ fontSize: token.fontSize }}
-            className={cx(
-              styles[`${prefixCls}-left-fileName`],
-              canClickNameCls,
-            )}
+            className={fileNameCls}
           >
             {fileName}
           </div>
         </Flex>
 
-        {children && (
-          <div className={styles[`${prefixCls}-action`]}>{children}</div>
-        )}
+        {children && <div className={`${base}-action`}>{children}</div>}
       </Flex>
     );
   },

@@ -1,0 +1,21 @@
+.sdesign-title {
+  width: 100%;
+  height: 30px;
+  font-weight: 600;
+  text-align: left;
+  color: #08101e;
+  line-height: 30px;
+}
+
+.sdesign-title-left-title {
+  font-size: 20px;
+  font-weight: 550;
+}
+
+.sdesign-title-left-form-icon {
+  font-size: 16px;
+}
+
+.sdesign-title-right {
+  display: flex;
+}
