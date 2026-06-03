@@ -54,7 +54,7 @@ const STitle: React.FC<STitleProps> = (props) => {
     if (!hasBottomMargin && hasBottomMargin !== 0) return '';
 
     if (isBoolean(hasBottomMargin)) {
-      return hasBottomMargin ? '16px' : '0';
+      return hasBottomMargin ? '12px' : '0';
     }
 
     if (isString(hasBottomMargin) || isNumber(hasBottomMargin)) {

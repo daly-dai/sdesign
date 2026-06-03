@@ -14,26 +14,7 @@
   **优先使用:**
 - SSearchTable → 搜索 + 表格 + 分页一体化场景
 
-## 继承关系
-
-继承自 **antd Table** 的全部属性，以下属性已被覆盖：columns
-
-其他 antd Table 属性均可直接使用。
-
 ## 类型定义
-
-**STableProps** extends Omit<TableProps<RecordType>, 'columns'> (继承自 antd Table，覆盖: columns) — STable 增强表格 Props 继承 antd Table 全部属性，扩展了字典映射、序号列、快捷 render 等能力。 `tsx <STable columns={[ { title: '姓名', dataIndex: 'name' }, { title: '状态', dataIndex: 'status', dictKey: 'userStatus' }, { title: '时间', dataIndex: 'createTime', render: 'datetime' }, ]} dataSource={data} isSeq /> `
-
-- columns?: SColumnsType<RecordType> — 列定义，支持 dictKey 和字符串 render
-- isSeq?: boolean — 是否显示序号列
-- current?: number — 当前页码（用于序号计算）
-- pageSize?: number — 每页条数（用于序号计算）
-
-**SColumn** extends Omit<ColumnType<RecordType>, 'render'> (继承自 antd ColumnType，覆盖: render) — STable 列定义 继承 antd ColumnType（排除 render），扩展字典映射、快捷渲染和列分组能力。 使用 interface 消除联合类型推断问题，确保 fixed/render 等属性字面量正确推断。
-
-- dictKey?: string — 字典映射 key，配合 SConfigProvider 的 globalDict 自动转换
-- render?: ColumnType<RecordType>['render'] | RenderType — 列渲染器 除标准 render 函数外，支持字符串快捷类型: - `'datetime'` — 渲染为日期时间 - `'date'` — 渲染为日期 - `'ellipsis'` — 超出省略
-- children?: SColumn<RecordType>[] — 子列定义（列分组）
 
 **RenderType** — 列 render 快捷类型 在 columns 的 render 中可直接传字符串： - `'datetime'` — 渲染为日期时间格式 - `'date'` — 渲染为日期格式 - `'ellipsis'` — 超出省略显示: `(typeof RenderTypes)[number]`
 

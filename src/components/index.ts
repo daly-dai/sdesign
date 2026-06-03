@@ -21,6 +21,7 @@ import SLucideIcon from './lucide-icon';
 import createModal, { SModalContainer } from './modal-container';
 import SNoData from './no-data';
 import SNoPage from './no-page';
+import SProTable from './pro-table';
 import SRadioGroup from './radio-group';
 import SSearchTable from './search-table';
 import SSelect from './select';
@@ -45,6 +46,7 @@ export * from './input/types';
 export * from './lucide-icon/types';
 export * from './modal-container/types';
 export * from './no-data/types';
+export * from './pro-table/types';
 export * from './radio-group/types';
 export * from './search-table/types';
 export * from './select/types';
@@ -78,6 +80,7 @@ export {
   SModalContainer,
   SNoData,
   SNoPage,
+  SProTable,
   SRadioGroup,
   SSearchTable,
   SSelect,

@@ -1,5 +1,56 @@
 # 版本更新记录
 
+## [1.9.0] - 2025-07-18
+
+### 🆕 新功能
+
+- **SProTable 列表组件**
+
+  - `request={{ service, options }}` 收拢请求配置，Props 扁平化（searchItems / columns / rowKey 顶层），替代 SSearchTable 用于新项目
+  - 不暴露内部生命周期（onFinish / dataSource / loading），从类型层面消除误覆盖风险
+  - 支持 RecordType 泛型，columns 获得完整字段补全
+  - `title` / `tableTitle` 支持 `{ children, actionNode }` 对象形式，操作按钮右侧对齐
+  - 8 个 demo 覆盖：基础列表、字典回显 + 时间筛选、批量操作、完整示例、外部刷新、分页映射、数据转换、依赖请求
+  - 与 SSearchTable 共存，历史项目不受影响
+
+- **useProTable Hook**
+
+  - 新 Hook，4 个返回值（tableProps / search / reset / form），基于 useRequest
+  - 去掉 formConfig 中间层，search/reset 直接绑定 SForm.Search
+  - init effect 用 `[]` 杜绝二次请求
+  - 新增 `ready` 参数，声明式依赖等待（`ready={!!config}`）
+  - SProTable 内部已从 useSearchTable 切换到 useProTable
+
+### 🐛 修复
+
+- **useSearchTable**：修复初始化双重请求 bug（`isFirstLoad.current` guard 未生效）
+- **STable**：修复 `render: 'ellipsis'` 无 width 时字符串泄露到 antd 的渲染 bug
+- **STable**：修复 `convertToText` 把数值 `0` 当成空值显示为 `-` 的 bug
+- **SForm**：修复 `Omit<FormItemProps, 'label | name'>` 字面量笔误（应为 `'label' | 'name'`）
+
+### 🔧 类型改进
+
+- **SSelect**：删除 `HTMLAttributes<object> &` 污染，改为直接 extends `SelectProps`。消除 onChange 回调签名交叉报错
+- **SCheckGroup**：同上
+- **SRadioGroup**：同上
+- **SDetail**：修复 `SDetailItemType.render` 和 `DescriptionsItemType.render` 签名冲突
+- **STable**：`RecordType = any` → `Record<string, unknown>`；组件改为泛型函数，支持 RecordType 推导
+- **STable**：`RenderType` 新增 `'index'` 快捷值
+- **useSearchTable**：`refresh`/`mutate`/`cancel` 从隐式 `...rest` 改为显式声明返回值
+- **FormField**：改用 `FORM_ITEM_COM_MAP` 直接取值，index signature 从 `any` 改为 `unknown`
+
+### 🎨 样式调整（⚠️ 视觉影响）
+
+- **STitle**：`hasBottomMargin` 默认值 16px → 12px
+- **STitle**：标题字体 page 20px → 18px、table/form 16px → 14px
+- **SProTable**：表格区域默认白色背景 + 8px 圆角 + 16px 内边距
+
+### ⚠️ Deprecated
+
+- **SConfirm**：标记 deprecated，新代码直接用 `Modal.confirm`
+
+---
+
 ## [1.8.1] - 2026-04-28
 
 ### 🔧 优化

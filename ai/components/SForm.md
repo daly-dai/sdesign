@@ -41,7 +41,7 @@
 - readonly?: boolean — 只读模式
 - formName?: string — 嵌套表单的字段前缀
 
-**ItemsProps** extends Omit<FormItemProps, 'label | name' | 'required'> — 表单项配置 用于 SForm 的 `items` 数组中，每一项描述一个表单控件。 `type` 决定渲染哪种控件，`fieldProps` 类型会根据 `type` 自动推导。 `tsx const item: ItemsProps = { label: '用户名', name: 'username', type: 'input', required: '请输入用户名', fieldProps: { placeholder: '请输入' }, }; `
+**ItemsProps** extends Omit<FormItemProps, 'label' | 'name' | 'required'> — 表单项配置 用于 SForm 的 `items` 数组中，每一项描述一个表单控件。 `type` 决定渲染哪种控件，`fieldProps` 类型会根据 `type` 自动推导。 `tsx const item: ItemsProps = { label: '用户名', name: 'username', type: 'input', required: '请输入用户名', fieldProps: { placeholder: '请输入' }, }; `
 
 - label?: ReactNode — 表单项标签
 - name?: NamePath — 表单项字段名，支持嵌套路径如 ['user', 'name']

@@ -19,13 +19,11 @@
 
 ## 类型定义
 
-**SSelectProps** extends SelectType (继承自 antd Select) — SSelect 增强选择器 Props
+**SSelectProps** extends SelectProps (继承自 antd Select) — SSelect 增强选择器 Props
 
 - dictKey?: string — 字典映射 key，从 SConfigProvider 全局字典中读取
 - dict?: Record<string, string> — 字典数据，优先级高于 dictKey
 - disableKeys?: string | string[] — 禁用指定选项的 key
-
-**SelectType**: `HTMLAttributes<object> & ComponentProps<typeof Select>`
 
 ## 使用示例
 

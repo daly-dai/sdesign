@@ -1,51 +1,46 @@
 import React, { lazy, memo, Suspense } from 'react';
 
-import { FORM_ITEM_COM_MAP_BY_KEY, HEAVY_COMPONENTS } from '../../constants';
-import { FormComType } from '../../types';
+import { FORM_ITEM_COM_MAP, HEAVY_COMPONENTS } from '../../constants';
+import type { FormComType, FormFieldMapType } from '../../types';
 
-// 泛型组件类型，用于约束props的类型
-type FormFieldProps<T extends FormComType> = {
-  type: T;
-  // 使用泛型P来约束传递给子组件的props
-  [propName: string]: any; // 或者使用具体的props接口，但这里为了简单起见使用any
+// 注意：泛型 T 为 union 时 ComponentProps<FormFieldMapType[T]> 会触发
+// TS2590 复杂度限制，因此 restProps 保持宽松类型，fieldProps 的类型约束
+// 由 SFormItems 层面的条件类型提供
+type FormFieldProps = {
+  type: FormComType;
+  [propName: string]: unknown;
 };
 
 // 动态导入重型组件
-const HeavyComponentMap = {
+const HeavyComponentMap: Record<string, React.ComponentType<any>> = {
   cascader: lazy(() => import('../../../cascader')),
   table: lazy(() => import('../../../table')),
   SCascader: lazy(() => import('../../../cascader')),
 };
 
-// 泛型动态组件
-function FormField<T extends FormComType>({
-  type,
-  ...restProps
-}: FormFieldProps<T>) {
-  // 检查是否为重型组件
-  const isHeavyComponent = HEAVY_COMPONENTS.includes(type as any);
+function FormField({ type, ...restProps }: FormFieldProps) {
+  const resolvedType = (type ?? 'input') as FormComType;
 
-  // 使用Map优化查找性能
-  const Component = isHeavyComponent
+  const isHeavyComponent = HEAVY_COMPONENTS.includes(
+    type as (typeof HEAVY_COMPONENTS)[number],
+  );
+
+  const Component: React.ComponentType<any> = isHeavyComponent
     ? HeavyComponentMap[type as keyof typeof HeavyComponentMap]
-    : FORM_ITEM_COM_MAP_BY_KEY.get(type ?? 'input');
+    : (FORM_ITEM_COM_MAP[
+        resolvedType as keyof FormFieldMapType
+      ] as React.ComponentType<any>);
 
-  // 验证Component是否存在
   if (!Component) {
     console.error(`Component for type ${type} not found in FORM_ITEM_COM_MAP.`);
-    return <div>未知组件类型: {type}</div>; // 修改：返回有意义的错误信息而不是null
+    return <div>未知组件类型: {type}</div>;
   }
 
-  // 渲染组件并传递props
-  if (isHeavyComponent) {
-    return (
-      <Suspense fallback={<div>加载中...</div>}>
-        <Component {...restProps} />
-      </Suspense>
-    );
-  }
-
-  return <Component {...restProps} />;
+  return (
+    <Suspense fallback={isHeavyComponent ? <div>加载中...</div> : null}>
+      <Component {...restProps} />
+    </Suspense>
+  );
 }
 
 export default memo(FormField);

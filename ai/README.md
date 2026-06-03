@@ -1,4 +1,4 @@
-# @dalydb/sdesign v1.8.1
+# @dalydb/sdesign v1.9.0
 
 基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。
 
@@ -186,6 +186,14 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 页面不存在（404）或无权限时的占位展示
 - **不适用**: 数据为空（有页面但无数据），应使用 SNoData; 接口错误展示，应使用 SErrorCom
 
+### SProTable — SProTable
+
+> 详细 API: ai/components/SProTable.md
+
+- **适用场景**: 管理后台标准列表页（搜索条件 + 数据表格 + 分页）; 搜索、分页、数据加载需要自动联动的场景; 新项目优先使用 SProTable
+- **不适用**: 纯展示表格，无搜索条件，直接用 STable; 需要完全自定义搜索区域布局，退回 useSearchTable + SForm.Search + STable; 表格数据不来自接口请求（如本地静态数据）
+- **优先使用**: useSearchTable + SForm.Search + STable → 多 Tab、多表格等复杂交互场景; SSearchTable → 历史项目兼容
+
 ### SRadioGroup — 单选框组
 
 > 详细 API: ai/components/SRadioGroup.md
@@ -234,6 +242,7 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 
 - **useComStyle** (详细 API: ai/components/useComStyle.md)
 - **useDispatchDict** (详细 API: ai/components/useDispatchDict.md)
+- **useProTable** (详细 API: ai/components/useProTable.md)
 - **useExpand** (详细 API: ai/components/useExpand.md)
 - **useFrameAnimation** (详细 API: ai/components/useFrameAnimation.md)
 - **useGetDictData** (详细 API: ai/components/useGetDictData.md)

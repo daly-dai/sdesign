@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import dayjs from 'dayjs';
 import { isString } from 'lodash';
-import React, { FC, memo, useCallback, useContext, useMemo } from 'react';
+import React, { memo, useCallback, useContext, useMemo } from 'react';
 
 import { ConfigContext } from '../config-provider';
 import STextEllipsis from '../text-ellipsis';
@@ -20,12 +20,12 @@ const renderTime = (
   return parsedTime.format(format);
 };
 
-const STable: FC<STableProps> = ({
+function STableInner<RecordType = Record<string, unknown>>({
   isSeq = false,
   pagination,
   columns,
   ...props
-}) => {
+}: STableProps<RecordType>) {
   const { globalDict } = useContext(ConfigContext);
 
   const getDictDataByKey = useCallback(
@@ -72,10 +72,18 @@ const STable: FC<STableProps> = ({
           if (newCol.render === 'date') {
             newCol.render = (t: any) => renderTime(t, 'YYYY-MM-DD');
           }
-          if (newCol.render === 'ellipsis' && newCol?.width) {
-            newCol.render = (t: string) => (
-              <STextEllipsis width={newCol?.width}>{t}</STextEllipsis>
-            );
+          if (newCol.render === 'ellipsis') {
+            if (newCol?.width) {
+              newCol.render = (t: string) => (
+                <STextEllipsis width={newCol?.width}>{t}</STextEllipsis>
+              );
+            } else {
+              // 无 width 时退化为纯文本渲染，防止字符串 'ellipsis' 泄露到 antd
+              newCol.render = (t: any) => convertToText(t);
+            }
+          }
+          if (newCol.render === 'index') {
+            newCol.render = (_: any, __: any, index: number) => index + 1;
           }
           return newCol;
         }
@@ -111,6 +119,8 @@ const STable: FC<STableProps> = ({
       columns={columnsCell || []}
     />
   );
-};
+}
 
-export default memo(STable);
+const STable = memo(STableInner) as typeof STableInner;
+
+export default STable;

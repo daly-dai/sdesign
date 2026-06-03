@@ -81,7 +81,7 @@ export type DetailItemType = {
 };
 
 export type SDetailItem = SDetailItemType &
-  Omit<DescriptionsItemType, 'children' | 'key'>;
+  Omit<DescriptionsItemType, 'children' | 'key' | 'render'>;
 
 /**
  * SDetail 详情展示组件 Props

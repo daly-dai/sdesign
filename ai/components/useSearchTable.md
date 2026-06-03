@@ -36,3 +36,6 @@
 - form: FormInstance<any> — 表单实例
 - formConfig: { onFinish: (params?: any) => void — 搜索表单配置，直接展开传给 SForm.Search 包含 onFinish 和 onReset
 - onReset: () => void
+- refresh: () => void — ahooks useRequest 透传：手动刷新（不修改当前表单/分页参数）
+- mutate: (data: any) => void — ahooks useRequest 透传：修改本地缓存数据
+- cancel: () => void — ahooks useRequest 透传：取消当前请求

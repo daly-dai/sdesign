@@ -3,7 +3,7 @@ import type { ColumnType } from 'antd/es/table';
 
 import { tuple } from '@dalydb/sdesign/utils';
 
-const RenderTypes = tuple('datetime', 'date', 'ellipsis');
+const RenderTypes = tuple('datetime', 'date', 'ellipsis', 'index');
 
 /**
  * 列 render 快捷类型
@@ -21,7 +21,7 @@ export type RenderType = (typeof RenderTypes)[number];
  * 继承 antd ColumnType（排除 render），扩展字典映射、快捷渲染和列分组能力。
  * 使用 interface 消除联合类型推断问题，确保 fixed/render 等属性字面量正确推断。
  */
-export interface SColumn<RecordType = any>
+export interface SColumn<RecordType = Record<string, unknown>>
   extends Omit<ColumnType<RecordType>, 'render'> {
   /** 字典映射 key，配合 SConfigProvider 的 globalDict 自动转换 */
   dictKey?: string;
@@ -59,7 +59,7 @@ export type SColumnsType<RecordType> = SColumn<RecordType>[];
  * />
  * ```
  */
-export interface STableProps<RecordType = any>
+export interface STableProps<RecordType = Record<string, unknown>>
   extends Omit<TableProps<RecordType>, 'columns'> {
   /** 列定义，支持 dictKey 和字符串 render */
   columns?: SColumnsType<RecordType>;

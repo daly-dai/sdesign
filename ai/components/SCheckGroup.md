@@ -27,7 +27,7 @@
 - dict?: Record<string, string> — 字典数据，优先级高于 dictKey
 - disableKeys?: string | string[] — 禁用指定选项的 key
 
-**CheckboxGroupType**: `HTMLAttributes<object> & Omit<ComponentProps<typeof Checkbox.Group>, 'onChange' | 'value'>`
+**CheckboxGroupType**: `Omit< ComponentProps<typeof Checkbox.Group>, 'onChange' | 'value' >`
 
 **CheckboxValueType**: `any`
 

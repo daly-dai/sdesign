@@ -74,7 +74,9 @@ function useSearchTable(
     data: resultData = {} as any,
     loading,
     error,
-    ...rest
+    refresh,
+    mutate,
+    cancel,
   } = useRequest(wrappedRequestFn, {
     ...(serviceProps ?? {}),
     manual,
@@ -116,10 +118,9 @@ function useSearchTable(
     getPageData();
   }, [form, getPageData]);
 
-  // 初始化请求 - 当组件挂载时自动加载数据
+  // 初始化请求 - 仅首次挂载触发一次
   useEffect(() => {
-    if (!manual) {
-      // 延迟一点执行，确保 form 初始化完成
+    if (!manual && isFirstLoad.current) {
       const timer = setTimeout(() => {
         getPageData();
         isFirstLoad.current = false;
@@ -183,11 +184,13 @@ function useSearchTable(
     handleReset,
     pagination,
     loading,
-    error, // 返回错误信息
-    tableProps, // 新增：整合的 table props
-    form, // 返回 form 实例供外部使用
-    formConfig, // 新增：专门为 SForm.Search 设计的配置
-    ...rest,
+    error,
+    tableProps,
+    form,
+    formConfig,
+    refresh,
+    mutate,
+    cancel,
   };
 }
 

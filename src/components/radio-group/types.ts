@@ -1,8 +1,7 @@
 import { Radio } from 'antd';
-import { ComponentProps, HTMLAttributes } from 'react';
+import type { ComponentProps } from 'react';
 
-export type RadioType = HTMLAttributes<object> &
-  ComponentProps<typeof Radio.Group>;
+export type RadioType = ComponentProps<typeof Radio.Group>;
 
 /** SRadioGroup 单选框组 Props */
 export interface SRadioGroupProps extends RadioType {

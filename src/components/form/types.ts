@@ -130,7 +130,7 @@ export type FormItemType = FormComType | 'placeholder';
  * ```
  */
 export interface ItemsProps<T extends FormItemType = FormItemType>
-  extends Omit<FormItemProps, 'label | name' | 'required'> {
+  extends Omit<FormItemProps, 'label' | 'name' | 'required'> {
   /** 表单项标签 */
   label?: ReactNode;
   /** 表单项字段名，支持嵌套路径如 ['user', 'name'] */

@@ -1,8 +1,10 @@
 import { Checkbox } from 'antd';
-import { ComponentProps, HTMLAttributes, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
-export type CheckboxGroupType = HTMLAttributes<object> &
-  Omit<ComponentProps<typeof Checkbox.Group>, 'onChange' | 'value'>;
+export type CheckboxGroupType = Omit<
+  ComponentProps<typeof Checkbox.Group>,
+  'onChange' | 'value'
+>;
 export type CheckboxValueType = any;
 
 /** SCheckGroup 复选框组 Props */

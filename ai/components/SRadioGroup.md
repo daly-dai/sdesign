@@ -25,7 +25,7 @@
 - dict?: Record<string, string> — 字典数据，优先级高于 dictKey
 - disableKeys?: string | string[] — 禁用指定选项的 key
 
-**RadioType**: `HTMLAttributes<object> & ComponentProps<typeof Radio.Group>`
+**RadioType**: `ComponentProps<typeof Radio.Group>`
 
 ## 使用示例
 

@@ -76,7 +76,7 @@
 - render?: (value?: any, dataSource?: any) => ReactNode
 - dataSource?: Record<string, any>
 
-**SDetailItem**: `SDetailItemType & Omit<DescriptionsItemType, 'children' | 'key'>`
+**SDetailItem**: `SDetailItemType & Omit<DescriptionsItemType, 'children' | 'key' | 'render'>`
 
 ## 使用示例
 

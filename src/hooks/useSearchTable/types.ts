@@ -113,4 +113,10 @@ export interface useSearchTableReturnType {
     onFinish: (params?: any) => void;
     onReset: () => void;
   };
+  /** ahooks useRequest 透传：手动刷新（不修改当前表单/分页参数） */
+  refresh: () => void;
+  /** ahooks useRequest 透传：修改本地缓存数据 */
+  mutate: (data: any) => void;
+  /** ahooks useRequest 透传：取消当前请求 */
+  cancel: () => void;
 }

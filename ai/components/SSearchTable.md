@@ -64,15 +64,6 @@
 - transformRequestParams?: `(params: any) => any` — 请求参数转换函数
 - transformResponseData?: `(data: any) => any` — 响应数据转换函数
 
-### tableProps → STable (STableProps) (extends Omit<TableProps<RecordType>, 'columns'>)
-
-> 完整 API: ai/components/STable.md
-
-- columns?: `SColumnsType<RecordType>` — 列定义，支持 dictKey 和字符串 render
-- isSeq?: `boolean` — 是否显示序号列
-- current?: `number` — 当前页码（用于序号计算）
-- pageSize?: `number` — 每页条数（用于序号计算）
-
 ### formProps → SForm (SearchProps) (extends SFormProps)
 
 > 完整 API: ai/components/SForm.md

@@ -15,9 +15,14 @@ export function convertToText(t: any): string | number {
     return '-';
   }
 
-  // 处理数值和空字符串的情况
-  if (typeof t === 'number' || typeof t === 'string') {
+  // 处理字符串：空串返回 '-'，非空串原样返回
+  if (typeof t === 'string') {
     return t || '-';
+  }
+
+  // 处理数值：0 是合法值，原样返回
+  if (typeof t === 'number') {
+    return t;
   }
 
   // 特殊处理对象和数组的情况，避免将空数组误解为对象
