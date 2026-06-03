@@ -53,11 +53,10 @@ export default () => {
     <div style={{ padding: 24 }}>
       <SProTable<User>
         request={{ service: mockRequest }}
-        searchItems={[
-          { label: '关键词', name: 'keyword', type: 'input' as const },
-        ]}
-        columns={columns}
-        rowKey="id"
+        searchProps={{
+          items: [{ label: '关键词', name: 'keyword', type: 'input' as const }],
+        }}
+        tableProps={{ columns, rowKey: 'id' }}
       />
     </div>
   );

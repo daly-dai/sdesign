@@ -6,7 +6,6 @@ import FormField from '../form-field';
 
 import { genRequiredRule, getDefaultConfig, getRegData } from './constant';
 
-import SDependency from '@dalydb/sdesign/components/dependency';
 import SErrorBoundary from '@dalydb/sdesign/components/error-boundary';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
@@ -20,8 +19,6 @@ const ItemRender: FC<ItemsProps> = ({
   fieldProps,
   style,
   customCom,
-  depNames,
-  render,
   regKey,
   required,
   readonly,
@@ -50,11 +47,6 @@ const ItemRender: FC<ItemsProps> = ({
 
     return [formName, name];
   }, [name, formName]);
-
-  // 缓存事件处理器
-  const handleDependencies = useMemo(() => {
-    return restProps?.dependencies;
-  }, [restProps?.dependencies]);
 
   // 优化自定义组件渲染
   const renderCustomCom = useCallback(() => {
@@ -92,16 +84,6 @@ const ItemRender: FC<ItemsProps> = ({
     return <div style={styleData}>{label}</div>;
   }
 
-  if (type === 'dependency') {
-    return (
-      <SDependency depNames={depNames ?? []} {...restProps}>
-        {(values, form) => {
-          return render ? render(values, form) : null;
-        }}
-      </SDependency>
-    );
-  }
-
   return (
     <SErrorBoundary>
       <Form.Item
@@ -110,7 +92,6 @@ const ItemRender: FC<ItemsProps> = ({
         name={itemName}
         {...restProps}
         rules={itemRules}
-        dependencies={handleDependencies}
       >
         {customCom ? (
           renderCustomCom()

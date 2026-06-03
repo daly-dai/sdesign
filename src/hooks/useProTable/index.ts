@@ -44,6 +44,7 @@ function useProTable(
   // ---- 请求 ----
   const {
     run,
+    mutate,
     data: raw = {} as Record<string, unknown>,
     loading,
   } = useRequest(
@@ -86,8 +87,8 @@ function useProTable(
       current: raw[pf.current] as number,
       pageSize: raw[pf.pageSize] as number,
       total: raw[pf.total] as number,
-      showSizeChanger: true,
-      showQuickJumper: true,
+      showSizeChanger: false,
+      pageSizeOptions: [10, 15, 20, 50, 100],
       onChange: (pageNum: number, pageSize: number) => {
         const formVals = form.getFieldsValue() ?? {};
         let params: Record<string, unknown> = {
@@ -120,7 +121,7 @@ function useProTable(
     [raw, pf.list, pagination, loading],
   );
 
-  return { tableProps, search, reset, form };
+  return { tableProps, search, reset, form, mutate };
 }
 
 export default useProTable;

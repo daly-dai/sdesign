@@ -113,7 +113,6 @@ export const DEFAULT_CONFIG_MAP: Record<
   checkbox: undefined,
   checkGroup: undefined,
   table: undefined,
-  dependency: undefined,
   placeholder: undefined,
 };
 

@@ -39,10 +39,8 @@ export interface UseProTableOptions {
 }
 
 /** useProTable 返回值 */
-/** 数据请求函数 */
-export type ProService = (
-  data: Record<string, unknown>,
-) => Promise<Record<string, unknown> | null>;
+/** 数据请求函数 —— 返回类型放宽为 any，避免消费端对具名 API 返回类型（如 PageData<T>）做无意义的 as any 断言 */
+export type ProService = (data: Record<string, unknown>) => Promise<any>;
 
 /** useProTable 返回值 */
 export interface UseProTableReturn {
@@ -58,4 +56,6 @@ export interface UseProTableReturn {
   reset: () => void;
   /** 表单实例 */
   form: FormInstance<any>;
+  /** 直接修改数据，不触发请求。传 undefined 清空 */
+  mutate: (data?: Record<string, unknown>) => void;
 }

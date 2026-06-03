@@ -7,7 +7,7 @@
 
 # SProTable 查询列表
 
-基于 `useSearchTable` Hook 封装的新一代查询表格组件。Props 扁平化设计，不暴露内部生命周期，从类型层面消除误覆盖风险。
+基于 `useProTable` Hook 封装的查询表格组件。三个分组对象：`request`（数据）、`searchProps`（搜索）、`tableProps`（表格），各透传对应组件全部属性。
 
 ## 介绍
 
@@ -45,34 +45,41 @@
 
 ## 与 SSearchTable 的区别
 
-|                  | SSearchTable                       | SProTable                      |
-| ---------------- | ---------------------------------- | ------------------------------ |
-| 搜索配置         | `formProps={{ items }}`            | `searchItems` 顶层 prop        |
-| 表格配置         | `tableProps={{ columns, rowKey }}` | `columns` / `rowKey` 顶层 prop |
-| 标题             | `headTitle` / `tableTitle`         | `title` / `tableTitle`         |
-| 内部状态被误覆盖 | 可能                               | 不可能                         |
-| RecordType 泛型  | 不支持                             | `SProTable<User>`              |
+|                 | SSearchTable                       | SProTable                                              |
+| --------------- | ---------------------------------- | ------------------------------------------------------ |
+| 数据请求        | `requestFn`                        | `request={{ service, options }}`                       |
+| 搜索配置        | `formProps={{ items }}`            | `searchProps={{ items, ... }}`（透传 SForm.Search）    |
+| 表格配置        | `tableProps={{ columns, rowKey }}` | `tableProps={{ columns, rowKey, ... }}`（透传 STable） |
+| 标题            | `headTitle` / `tableTitle`         | `title` / `tableTitle`                                 |
+| 外部接管        | 不支持                             | `onFinish` / `onReset` / `form` 传了就用外部           |
+| RecordType 泛型 | 不支持                             | `SProTable<User>`                                      |
 
 ## API
 
 ### 组件 Props
 
-| 属性名        | 描述                                          | 类型                                                  | 默认值 |
-| ------------- | --------------------------------------------- | ----------------------------------------------------- | ------ |
-| requestFn     | 数据请求函数（**必填**）                      | `(data?: Record<string, unknown>) => Promise<object>` | 无     |
-| searchItems   | 搜索项配置                                    | `SFormItems[]`                                        | 无     |
-| columns       | 表格列配置                                    | `SColumnsType<RecordType>`                            | 无     |
-| rowKey        | 行 key                                        | `string \| ((record: RecordType) => string)`          | 无     |
-| title         | 页面标题                                      | `ReactNode`                                           | 无     |
-| tableTitle    | 表格标题栏（`children` 左 / `actionNode` 右） | `{ children?, actionNode? }`                          | 无     |
-| searchActions | 搜索栏右侧操作节点                            | `ReactNode`                                           | 无     |
-| searchColumns | 搜索栏列数                                    | `number`                                              | 3      |
-| options       | useSearchTable 配置（不含 form）              | `Omit<useSearchTableOptions, 'form'>`                 | 无     |
-| rowSelection  | 行选择                                        | `TableRowSelection<RecordType>`                       | 无     |
+| 属性名      | 描述                                           | 类型                                      | 默认值 |
+| ----------- | ---------------------------------------------- | ----------------------------------------- | ------ |
+| request     | 数据请求配置（**必填**）                       | `RequestConfig`                           | 无     |
+| searchProps | 透传 SForm.Search 全部属性                     | `SearchProps`                             | 无     |
+| tableProps  | 透传 STable 全部属性，pagination 做 deep-merge | `STableProps`                             | 无     |
+| title       | 页面标题                                       | `ReactNode \| { children?, actionNode? }` | 无     |
+| tableTitle  | 表格标题栏（`children` 左 / `actionNode` 右）  | `{ children?, actionNode? }`              | 无     |
+| style       | 根容器样式                                     | `CSSProperties`                           | 无     |
+| className   | 根容器类名                                     | `string`                                  | 无     |
+
+### RequestConfig
+
+| 属性    | 描述                 | 类型                                                |
+| ------- | -------------------- | --------------------------------------------------- |
+| service | 数据请求函数（必填） | `(params: Record<string, unknown>) => Promise<any>` |
+| options | useProTable 配置     | `UseProTableOptions`（不含 form）                   |
 
 ### 组件 Ref 方法
 
-| 方法名  | 描述               | 类型         |
-| ------- | ------------------ | ------------ |
-| refresh | 刷新当前页         | `() => void` |
-| reset   | 重置搜索条件并刷新 | `() => void` |
+| 方法      | 描述                       | 类型                 |
+| --------- | -------------------------- | -------------------- |
+| refresh   | 刷新当前页（携带表单值）   | `() => void`         |
+| reset     | 重置搜索条件并刷新         | `() => void`         |
+| getForm   | 获取内部表单实例           | `() => FormInstance` |
+| clearData | 清空表格数据（不触发请求） | `() => void`         |

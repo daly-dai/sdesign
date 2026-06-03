@@ -8,28 +8,31 @@ import type { SProTableProps, SProTableRef } from './types';
 function SProTableInner<RecordType = Record<string, unknown>>(
   {
     request,
-    searchItems,
-    columns,
-    rowKey,
+    searchProps,
+    tableProps: consumerTableProps,
     title,
     tableTitle,
-    searchActions,
-    searchColumns = 3,
-    form: externalForm,
-    rowSelection,
     style,
     className,
   }: SProTableProps<RecordType>,
   ref: React.ForwardedRef<SProTableRef>,
 ) {
-  const { tableProps, form, search, reset } = useProTable(request.service, {
+  const {
+    tableProps: hookTableProps,
+    form,
+    search,
+    reset,
+    mutate,
+  } = useProTable(request.service, {
     ...request.options,
-    form: externalForm,
+    form: searchProps?.form,
   });
 
   useImperativeHandle(ref, () => ({
     refresh: () => search(),
     reset: () => reset(),
+    getForm: () => form,
+    clearData: () => mutate(undefined),
   }));
 
   const titleProps =
@@ -37,17 +40,24 @@ function SProTableInner<RecordType = Record<string, unknown>>(
       ? (title as { children?: React.ReactNode; actionNode?: React.ReactNode })
       : { children: title as React.ReactNode };
 
+  // 提取 pagination 做 deep-merge，其余属性透传
+  const { pagination: consumerPagination, ...restConsumerTableProps } =
+    consumerTableProps ?? {};
+
+  const mergedPagination =
+    hookTableProps.pagination && consumerPagination
+      ? { ...hookTableProps.pagination, ...consumerPagination }
+      : hookTableProps.pagination;
+
   return (
     <div style={style} className={className}>
       {title && <STitle type="page" {...titleProps} />}
 
       <SForm.Search
+        {...searchProps}
         form={form}
-        onFinish={search}
-        onReset={reset}
-        items={searchItems}
-        columns={searchColumns}
-        actionNode={searchActions}
+        onFinish={searchProps?.onFinish ?? search}
+        onReset={searchProps?.onReset ?? reset}
       />
 
       <div
@@ -64,10 +74,9 @@ function SProTableInner<RecordType = Record<string, unknown>>(
 
         <STable
           size="small"
-          {...tableProps}
-          columns={columns}
-          rowKey={rowKey}
-          rowSelection={rowSelection}
+          {...hookTableProps}
+          {...restConsumerTableProps}
+          pagination={mergedPagination}
         />
       </div>
     </div>

@@ -16,12 +16,15 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const AI_DIR = path.resolve(__dirname, '..', 'ai');
+const AI_DIR = path.resolve(__dirname, '..', '..', 'ai');
 
 function getVersion(): string {
   try {
     const pkg = JSON.parse(
-      fs.readFileSync(path.resolve(__dirname, '..', 'package.json'), 'utf-8'),
+      fs.readFileSync(
+        path.resolve(__dirname, '..', '..', 'package.json'),
+        'utf-8',
+      ),
     );
     return pkg.version;
   } catch {

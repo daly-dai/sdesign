@@ -71,14 +71,13 @@ export default () => {
     <Spin spinning={loading} tip="加载部门配置中...">
       <div style={{ padding: 24 }}>
         <SProTable<Employee>
-          form={form}
           // ② 配置就绪后自动触发首次请求
           request={{
             service: getEmployeeListByGet,
             options: { ready: !!deptConfig },
           }}
-          columns={columns}
-          rowKey="id"
+          searchProps={{ form }}
+          tableProps={{ columns, rowKey: 'id' }}
           title="员工管理"
         />
       </div>

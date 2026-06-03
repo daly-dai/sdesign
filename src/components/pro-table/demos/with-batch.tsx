@@ -64,15 +64,17 @@ export default () => {
     <div style={{ padding: 24, background: '#f0f5ff', minHeight: 400 }}>
       <SProTable<Task>
         request={{ service: mockRequest }}
-        columns={columns}
-        rowKey="id"
         title="任务管理"
-        searchItems={[
-          { label: '关键词', name: 'keyword', type: 'input' as const },
-        ]}
-        rowSelection={{
-          selectedRowKeys: selectedKeys,
-          onChange: setSelectedKeys,
+        searchProps={{
+          items: [{ label: '关键词', name: 'keyword', type: 'input' as const }],
+        }}
+        tableProps={{
+          columns,
+          rowKey: 'id',
+          rowSelection: {
+            selectedRowKeys: selectedKeys,
+            onChange: setSelectedKeys,
+          },
         }}
         tableTitle={{
           children: '任务列表',

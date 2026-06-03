@@ -1,6 +1,6 @@
 import type { SFormItems } from '@dalydb/sdesign';
 import { SForm } from '@dalydb/sdesign';
-import { Input, message } from 'antd';
+import { message } from 'antd';
 import React from 'react';
 
 const items: SFormItems[] = [
@@ -19,12 +19,6 @@ const items: SFormItems[] = [
   { label: '年龄', name: 'age', type: 'inputNumber' },
   { label: '日期', name: 'date', type: 'datePicker' },
   { label: '备注', name: 'remark', type: 'textarea' },
-  {
-    type: 'dependency',
-    depNames: ['gender'],
-    render: (v: Record<string, unknown>) =>
-      v.gender === 'female' ? <Input placeholder="女士专属字段" /> : null,
-  },
 ];
 
 export default () => (

@@ -7,7 +7,6 @@ import SConfigProvider from './config-provider';
 import SConfirm from './confirm';
 import SDatePicker from './date-picker';
 import SDatePickerRange from './date-picker-range';
-import SDependency from './dependency';
 import SDetail from './detail';
 import createDrawer, { SDrawerContainer } from './drawer-container';
 import SDynamicContainer from './dynamic-container';
@@ -35,7 +34,6 @@ export * from './check-group/types';
 export * from './confirm/types';
 export * from './date-picker-range/types';
 export * from './date-picker/types';
-export * from './dependency/types';
 export * from './detail/types';
 export * from './drawer-container/types';
 export * from './error-boundary/types';
@@ -66,7 +64,6 @@ export {
   SConfirm,
   SDatePicker,
   SDatePickerRange,
-  SDependency,
   SDetail,
   SDrawerContainer,
   SDynamicContainer,

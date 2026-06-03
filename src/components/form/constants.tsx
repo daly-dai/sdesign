@@ -16,7 +16,6 @@ import SCascader from '../cascader';
 import SCheckGroup from '../check-group';
 import SDatePicker from '../date-picker';
 import SDatePickerRange from '../date-picker-range';
-import SDependency from '../dependency';
 import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
@@ -46,7 +45,6 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   cascader: SCascader,
   SCascader: SCascader,
   table: Table,
-  dependency: SDependency,
   SDatePickerRange: SDatePickerRange,
 };
 

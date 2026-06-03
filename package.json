@@ -85,8 +85,6 @@
     "prettier-plugin-packagejson": "^2.2.18",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router": "^6.16.0",
-    "react-router-dom": "^6.23.1",
     "stylelint": "^14.9.1",
     "tsx": "^4.21.0",
     "typescript": "^5"

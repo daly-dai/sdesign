@@ -21,14 +21,17 @@ import SCascader from '../cascader';
 import SCheckGroup from '../check-group';
 import SDatePicker from '../date-picker';
 import SDatePickerRange from '../date-picker-range';
-import SDependency from '../dependency';
-import { RenderChildren } from '../dependency/types';
 import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
 
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 import { SButtonsItem } from '../button/types';
+
+type RenderChildren<Values = any> = (
+  values: Record<string, any>,
+  form: import('antd').FormInstance<Values>,
+) => React.ReactNode;
 
 /**
  * 表单控件类型映射表
@@ -91,8 +94,6 @@ export type FormFieldMapType = {
   SCascader: typeof SCascader;
   /** 嵌套表格 */
   table: typeof Table;
-  /** 字段依赖联动 */
-  dependency: typeof SDependency;
 };
 
 /**
@@ -101,7 +102,7 @@ export type FormFieldMapType = {
  * 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` |
  * `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` |
  * `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` |
- * `'cascader'` | `'table'` | `'dependency'`
+ * `'cascader'` | `'table'`
  *
  * 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`
  */
@@ -141,8 +142,6 @@ export interface ItemsProps<T extends FormItemType = FormItemType>
    * @default 'input'
    */
   type?: T;
-  /** 依赖的字段名数组，仅在 type='dependency' 时生效 */
-  depNames?: string[];
   /**
    * 控件属性，类型根据 type 自动推导
    *
@@ -155,8 +154,6 @@ export interface ItemsProps<T extends FormItemType = FormItemType>
   customCom?: ReactNode | RenderChildren<any>;
   /** 内置校验规则 key，如 'phone'、'percentage' 等 */
   regKey?: RegKeyType;
-  /** 自定义渲染函数 */
-  render?: RenderChildren<any>;
   /**
    * 是否必填
    * - true: 使用默认提示

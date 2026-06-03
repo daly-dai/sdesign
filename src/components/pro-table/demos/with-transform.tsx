@@ -137,54 +137,26 @@ export default () => {
             },
           },
         }}
-        form={form}
-        searchItems={[
-          { label: '订单号', name: 'orderNo', type: 'input' as const },
-          {
-            label: '状态',
-            name: 'status',
-            type: 'select' as const,
-            fieldProps: {
-              options: [
-                { value: 1, label: '待处理' },
-                { value: 2, label: '已完成' },
-                { value: 3, label: '已取消' },
-              ],
-              allowClear: true,
+        searchProps={{
+          form,
+          items: [
+            { label: '订单号', name: 'orderNo', type: 'input' as const },
+            {
+              label: '状态',
+              name: 'status',
+              type: 'select' as const,
+              fieldProps: {
+                options: [
+                  { value: 1, label: '待处理' },
+                  { value: 2, label: '已完成' },
+                  { value: 3, label: '已取消' },
+                ],
+                allowClear: true,
+              },
             },
-          },
-        ]}
-        columns={columns}
-        rowKey="id"
-        options={{
-          // ① 分页字段映射
-          paginationFields: {
-            current: 'pageNum',
-            pageSize: 'pageSize',
-            total: 'totalCount',
-            list: 'records',
-          },
-          // ② 搜索参数前置处理：状态 1→0, 2→1, 3→2
-          dispatchParams: (params: Record<string, unknown>) => {
-            if (params.status !== undefined && params.status !== '') {
-              return { ...params, statusCode: Number(params.status) - 1 };
-            }
-            return params;
-          },
-          // ③ 响应数据后置处理
-          transformResponseData: (data: Record<string, unknown>) => {
-            const records =
-              (data.records as Array<Record<string, unknown>>) ?? [];
-            return {
-              ...data,
-              records: records.map((r) => ({
-                ...r,
-                status: Number(r.statusCode) + 1,
-                createTime: r.createdAt,
-              })),
-            };
-          },
+          ],
         }}
+        tableProps={{ columns, rowKey: 'id' }}
         tableTitle={{ children: '订单列表' }}
       />
     </div>

@@ -57,31 +57,34 @@ export default () => {
     <div style={{ padding: 24, background: '#f0fdf4', minHeight: 400 }}>
       <SProTable<Product>
         request={{ service: mockRequest }}
-        columns={columns}
-        rowKey="id"
         title={{
           children: '产品管理',
           actionNode: (
             <SButton onClick={() => message.info('设置')}>产品设置</SButton>
           ),
         }}
-        searchItems={[
-          { label: '名称', name: 'name', type: 'input' as const },
-          {
-            label: '分类',
-            name: 'category',
-            type: 'select' as const,
-            fieldProps: {
-              options: [
-                { value: '电子', label: '电子' },
-                { value: '家居', label: '家居' },
-                { value: '服饰', label: '服饰' },
-                { value: '食品', label: '食品' },
-              ],
-              allowClear: true,
+        searchProps={{
+          items: [
+            { label: '名称', name: 'name', type: 'input' as const },
+            {
+              label: '分类',
+              name: 'category',
+              type: 'select' as const,
+              fieldProps: {
+                options: [
+                  { value: '电子', label: '电子' },
+                  { value: '家居', label: '家居' },
+                  { value: '服饰', label: '服饰' },
+                  { value: '食品', label: '食品' },
+                ],
+                allowClear: true,
+              },
             },
-          },
-        ]}
+          ],
+          actionNode: (
+            <SButton onClick={() => message.info('高级筛选')}>高级筛选</SButton>
+          ),
+        }}
         tableTitle={{
           children: '产品列表',
           actionNode: (
@@ -97,9 +100,7 @@ export default () => {
             </Space>
           ),
         }}
-        searchActions={
-          <SButton onClick={() => message.info('高级筛选')}>高级筛选</SButton>
-        }
+        tableProps={{ columns, rowKey: 'id' }}
       />
     </div>
   );

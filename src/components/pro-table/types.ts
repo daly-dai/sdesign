@@ -1,22 +1,25 @@
 import type { FormInstance } from 'antd';
-import type { TableRowSelection } from 'antd/es/table/interface';
 import type React from 'react';
 
 import type {
   ProService,
   UseProTableOptions,
 } from '@dalydb/sdesign/hooks/useProTable/types';
-import type { SFormItems } from '../form/types';
-import type { SColumnsType } from '../table/types';
+import type { SearchProps } from '../form/types';
+import type { STableProps } from '../table/types';
 
 /**
  * SProTable Ref 方法
  */
 export interface SProTableRef {
-  /** 刷新当前页 */
+  /** 刷新当前页（携带当前表单值） */
   refresh: () => void;
   /** 重置搜索条件并刷新 */
   reset: () => void;
+  /** 获取内部表单实例 */
+  getForm: () => FormInstance<any>;
+  /** 清空表格数据（不触发请求） */
+  clearData: () => void;
 }
 
 /** 请求配置，service + options 收拢到一处 */
@@ -34,9 +37,8 @@ export interface RequestConfig {
  * ```tsx
  * <SProTable<User>
  *   request={{ service: userApi.getListByGet, options: { paginationFields: { current: 'pageNum' } } }}
- *   searchItems={searchItems}
- *   columns={columns}
- *   rowKey="id"
+ *   searchProps={{ items: searchItems, columns: 3 }}
+ *   tableProps={{ columns, rowKey: 'id', pagination: { showQuickJumper: false } }}
  *   title="用户管理"
  *   ref={tableRef}
  * />
@@ -46,12 +48,6 @@ export interface SProTableProps<RecordType = Record<string, unknown>> {
   // ========== 核心 ==========
   /** 请求配置 */
   request: RequestConfig;
-  /** 搜索项配置 */
-  searchItems?: SFormItems[];
-  /** 表格列配置 */
-  columns?: SColumnsType<RecordType>;
-  /** 行 key */
-  rowKey?: string | ((record: RecordType) => string);
 
   // ========== 展示 ==========
   /**
@@ -71,21 +67,19 @@ export interface SProTableProps<RecordType = Record<string, unknown>> {
     children?: React.ReactNode;
     actionNode?: React.ReactNode;
   };
-  /** 搜索栏右侧自定义操作节点 */
-  searchActions?: React.ReactNode;
-  /** 搜索栏列数，默认 3 */
-  searchColumns?: number;
-
-  // ========== 配置 ==========
+  // ========== 搜索 ==========
   /**
-   * 外部传入的表单实例，用于跨组件共享表单状态。
-   * 不传则由 SProTable 内部自动创建。
+   * 透传 SForm.Search 全部属性。
+   * form / onFinish / onReset：传了用外部，不传走内置默认。
    */
-  form?: FormInstance<any>;
+  searchProps?: SearchProps;
 
-  // ========== 表格功能 ==========
-  /** 行选择，透传给 antd Table */
-  rowSelection?: TableRowSelection<RecordType>;
+  // ========== 表格 ==========
+  /**
+   * 透传 STable 全部属性。不传走 hook 内置，传了覆盖内置。
+   * pagination 做 deep-merge：current/pageSize/total/onChange 也参与合并。
+   */
+  tableProps?: STableProps<RecordType>;
 
   // ========== 样式 ==========
   style?: React.CSSProperties;

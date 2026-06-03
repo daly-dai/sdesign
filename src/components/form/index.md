@@ -29,10 +29,6 @@ group:
 
 <code src="./demos/form-group-name.tsx"></code>
 
-## 表单项依赖
-
-<code src="./demos/dependency.tsx"></code>
-
 ## 预置正则校验
 
 <code src="./demos/reg.tsx"></code>
@@ -198,22 +194,21 @@ export default () => {
 
 ## SForm.Item 表单项配置
 
-| 属性名     | 描述                                       | 类型                                                                    | 默认值 |
-| ---------- | ------------------------------------------ | ----------------------------------------------------------------------- | ------ |
-| type       | 组件类型                                   | [form type 类型](/components/form#type-类型及其相关配置)                | input  |
-| label      | label 标签的文本                           | ReactNode                                                               |        |
-| name       | 字段名，支持数组                           | [namepath](https://ant-design.antgroup.com/components/form-cn#namepath) |        |
-| colProps   | Col 组件相关配置项                         | [colProps](https://ant-design.antgroup.com/components/grid-cn#col)      |        |
-| depNames   | 依赖的字段,只在 type 为 dependency 时生效  | string[]                                                                |        |
-| fieldProps | 组件的配置项 例如 Input,Select 等组件      | any                                                                     |        |
-| customCom  | 组件复杂时，可自定义组件                   | ReactNode                                                               |        |
-| regKey     | 内置了校验规则                             |                                                                         |        |
-| hidden     | 是否隐藏                                   | boolean                                                                 | false  |
-| render     | 自定义渲染，只有 type 为 dependency 时生效 | ReactNode                                                               |        |
-| readonly   | 是否为只读模式                             | boolean                                                                 | false  |
-| formName   | 传入后表单的数据为嵌套的数据格式           | string                                                                  |        |
-| disabled   | 是否禁用                                   | boolean                                                                 | false  |
-| gridColumn | CSS Grid 列跨度，仅 SForm.Search 生效      | number \| string                                                        |        |
+| 属性名     | 描述                                  | 类型                                                                    | 默认值 |
+| ---------- | ------------------------------------- | ----------------------------------------------------------------------- | ------ |
+| type       | 组件类型                              | [form type 类型](/components/form#type-类型及其相关配置)                | input  |
+| label      | label 标签的文本                      | ReactNode                                                               |        |
+| name       | 字段名，支持数组                      | [namepath](https://ant-design.antgroup.com/components/form-cn#namepath) |        |
+| colProps   | Col 组件相关配置项                    | [colProps](https://ant-design.antgroup.com/components/grid-cn#col)      |        |
+| fieldProps | 组件的配置项 例如 Input,Select 等组件 | any                                                                     |        |
+| customCom  | 组件复杂时，可自定义组件              | ReactNode                                                               |        |
+| regKey     | 内置了校验规则                        |                                                                         |        |
+| hidden     | 是否隐藏                              | boolean                                                                 | false  |
+| render     | 自定义渲染函数                        | `(values, form) => ReactNode`                                           |        |
+| readonly   | 是否为只读模式                        | boolean                                                                 | false  |
+| formName   | 传入后表单的数据为嵌套的数据格式      | string                                                                  |        |
+| disabled   | 是否禁用                              | boolean                                                                 | false  |
+| gridColumn | CSS Grid 列跨度，仅 SForm.Search 生效 | number \| string                                                        |        |
 
 ## type 类型及其相关配置
 
@@ -240,5 +235,4 @@ export default () => {
 | cascader         | [SCascader](/components/cascader#api)                                                    |
 | SCascader        | (已废弃，请使用 cascader) [SCascader](/components/cascader#api)                          |
 | table            | [table](https://ant-design.antgroup.com/components/table-cn#api)                         |
-| dependency       | 字段关联，依赖其他字段，当依赖字段发生变化时，当前字段也会发生变化                       |
 | placeholder      | 占位使用暂无实际意义                                                                     |

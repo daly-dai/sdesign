@@ -59,22 +59,23 @@ export default () => {
       <div style={{ padding: 24 }}>
         <SProTable<Order>
           request={{ service: mockRequest }}
-          searchItems={[
-            { label: '订单号', name: 'orderNo', type: 'input' as const },
-            {
-              label: '状态',
-              name: 'status',
-              type: 'select' as const,
-              fieldProps: { dictKey: 'orderStatus', allowClear: true },
-            },
-            {
-              label: '创建时间',
-              name: 'dateRange',
-              type: 'datePickerRange' as const,
-            },
-          ]}
-          columns={columns}
-          rowKey="id"
+          searchProps={{
+            items: [
+              { label: '订单号', name: 'orderNo', type: 'input' as const },
+              {
+                label: '状态',
+                name: 'status',
+                type: 'select' as const,
+                fieldProps: { dictKey: 'orderStatus', allowClear: true },
+              },
+              {
+                label: '创建时间',
+                name: 'dateRange',
+                type: 'datePickerRange' as const,
+              },
+            ],
+          }}
+          tableProps={{ columns, rowKey: 'id' }}
           title="订单管理"
           tableTitle={{ children: '订单列表', actionNode: undefined }}
         />

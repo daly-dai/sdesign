@@ -69,8 +69,7 @@ export default () => {
       <SProTable<Log>
         ref={tableRef}
         request={{ service: mockRequest }}
-        columns={columns}
-        rowKey="id"
+        tableProps={{ columns, rowKey: 'id' }}
       />
     </div>
   );

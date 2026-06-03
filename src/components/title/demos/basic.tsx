@@ -30,7 +30,7 @@ export default () => {
           <STitle>主页面标题</STitle>
 
           <div style={{ marginTop: '40px' }}>
-            <STitle goBack={true}>子页面标题</STitle>
+            <STitle>子页面标题</STitle>
           </div>
 
           <div style={{ marginTop: '40px', width: '200px' }}>

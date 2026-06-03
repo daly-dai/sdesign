@@ -17,7 +17,7 @@ export type TitleType = (typeof TitleTypes)[number];
  *
  * @example
  * ```tsx
- * <STitle type="page" goBack onBackClick={() => navigate(-1)}>
+ * <STitle type="page">
  *   用户详情
  * </STitle>
  * ```
@@ -28,8 +28,6 @@ export interface STitleProps
   prefix?: ReactNode;
   /** 标题与内容的间距 */
   gap?: number | string;
-  /** 是否显示返回按钮 */
-  goBack?: boolean;
   /**
    * 标题类型，影响字号和样式
    * @default 'page'
@@ -40,11 +38,14 @@ export interface STitleProps
   /** 右侧操作区 */
   actionNode?: ReactNode;
   style?: React.CSSProperties;
-  /** 底部间距 */
+  /**
+   * 底部间距
+   * - false / 0 → 无间距
+   * - true / undefined → 默认 12px
+   * - string / number → 透传
+   */
   hasBottomMargin?: boolean | number | string;
   fontSize?: CSSProperties['fontSize'];
-  /** 返回按钮点击回调 */
-  onBackClick?: () => void;
   /** 标题文字 */
   children?: ReactNode;
 }

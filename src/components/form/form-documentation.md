@@ -27,7 +27,6 @@ SForm 是基于 Ant Design Form 组件的增强封装，提供了配置化表单
 | ---------- | ---------------------------------------- |
 | 配置化生成 | 通过 items 数组配置自动生成表单项        |
 | 多列布局   | 支持 columns 指定列数，自动计算栅格      |
-| 字段联动   | 通过 dependency 类型实现字段间联动       |
 | 预置校验   | 内置常用正则校验规则 (邮箱、手机号等)    |
 | 只读模式   | 一键切换表单只读/编辑模式                |
 | 嵌套数据   | 支持 formName 生成嵌套数据结构           |
@@ -52,7 +51,6 @@ SForm 是基于 Ant Design Form 组件的增强封装，提供了配置化表单
 | 内部依赖 | SInput      | 增强的输入框组件              |
 | 内部依赖 | SSelect     | 增强的下拉选择组件            |
 | 内部依赖 | SDatePicker | 增强的日期选择组件            |
-| 内部依赖 | SDependency | 字段联动组件                  |
 | 内部依赖 | SCard       | 卡片容器组件                  |
 | 内部依赖 | STitle      | 标题组件                      |
 | 内部依赖 | SCollapse   | 折叠组件                      |
@@ -91,7 +89,6 @@ graph TB
     end
 
     subgraph "辅助组件"
-        SDependency["SDependency"]
         SErrorBoundary["SErrorBoundary"]
         DynamicContainer["DynamicContainer"]
         STitle["STitle"]
@@ -120,7 +117,6 @@ graph TB
     Group --> ItemRender
 
     ItemRender --> FormField
-    ItemRender --> SDependency
     ItemRender --> SErrorBoundary
 
     FormField --> SInput
@@ -148,7 +144,7 @@ graph TB
 
     class SForm,InstanceForm,Search,Group primary
     class ItemRender,FormField secondary
-    class SDependency,SErrorBoundary,DynamicContainer,STitle,SCollapse helper
+    class SErrorBoundary,DynamicContainer,STitle,SCollapse helper
     class AntdForm,AntdGrid,AntdControls external
 ```
 
@@ -171,9 +167,7 @@ sequenceDiagram
         ItemRender->>ItemRender: 计算校验规则
         ItemRender->>ItemRender: 处理 formName
 
-        alt type === 'dependency'
-            ItemRender->>SDependency: 渲染联动组件
-        else type === 'placeholder'
+        alt type === 'placeholder'
             ItemRender->>ItemRender: 渲染占位符
         else 其他类型
             ItemRender->>FormField: 渲染控件
@@ -204,22 +198,21 @@ sequenceDiagram
 
 ### SFormItems 配置项
 
-| 属性       | 类型                | 默认值  | 必填 | 描述                                  |
-| ---------- | ------------------- | ------- | ---- | ------------------------------------- |
-| type       | `FormItemType`      | 'input' | 否   | 组件类型                              |
-| label      | `ReactNode`         | -       | 否   | 标签文本                              |
-| name       | `NamePath`          | -       | 否   | 字段名                                |
-| fieldProps | `object`            | -       | 否   | 传递给控件的属性                      |
-| required   | `boolean \| string` | -       | 否   | 是否必填，string 时为错误提示         |
-| regKey     | `RegKeyType`        | -       | 否   | 预置校验规则 key                      |
-| hidden     | `boolean`           | false   | 否   | 是否隐藏                              |
-| disabled   | `boolean`           | false   | 否   | 是否禁用                              |
-| readonly   | `boolean`           | false   | 否   | 是否只读                              |
-| colProps   | `ColProps`          | -       | 否   | Col 组件属性                          |
-| depNames   | `string[]`          | -       | 否   | 依赖字段 (type='dependency' 时生效)   |
-| render     | `RenderChildren`    | -       | 否   | 自定义渲染 (type='dependency' 时生效) |
-| customCom  | `ReactNode`         | -       | 否   | 自定义组件                            |
-| formName   | `string`            | -       | 否   | 嵌套数据结构前缀                      |
+| 属性       | 类型                | 默认值  | 必填 | 描述                          |
+| ---------- | ------------------- | ------- | ---- | ----------------------------- |
+| type       | `FormItemType`      | 'input' | 否   | 组件类型                      |
+| label      | `ReactNode`         | -       | 否   | 标签文本                      |
+| name       | `NamePath`          | -       | 否   | 字段名                        |
+| fieldProps | `object`            | -       | 否   | 传递给控件的属性              |
+| required   | `boolean \| string` | -       | 否   | 是否必填，string 时为错误提示 |
+| regKey     | `RegKeyType`        | -       | 否   | 预置校验规则 key              |
+| hidden     | `boolean`           | false   | 否   | 是否隐藏                      |
+| disabled   | `boolean`           | false   | 否   | 是否禁用                      |
+| readonly   | `boolean`           | false   | 否   | 是否只读                      |
+| colProps   | `ColProps`          | -       | 否   | Col 组件属性                  |
+| render     | `RenderChildren`    | -       | 否   | 自定义渲染函数                |
+| customCom  | `ReactNode`         | -       | 否   | 自定义组件                    |
+| formName   | `string`            | -       | 否   | 嵌套数据结构前缀              |
 
 ### SForm.Search Props
 
@@ -277,7 +270,6 @@ sequenceDiagram
 | upload           | Upload                 | 上传                           |
 | checkbox         | Checkbox               | 复选框                         |
 | table            | Table                  | 表格                           |
-| dependency       | SDependency            | 字段联动                       |
 | placeholder      | -                      | 占位符                         |
 
 ### 静态方法和组件
@@ -476,44 +468,6 @@ export default () => {
 };
 ```
 
-### 字段联动
-
-```tsx
-import { SForm, SFormItems } from '@dalydb/sdesign';
-import { Form, Input } from 'antd';
-
-export default () => {
-  const items: SFormItems[] = [
-    {
-      type: 'select',
-      label: '类型',
-      name: 'type',
-      fieldProps: { dict: { A: '类型A', B: '类型B' } },
-    },
-    {
-      type: 'dependency',
-      depNames: ['type'],
-      render: (values) => {
-        if (values.type === 'A') {
-          return (
-            <Form.Item name="fieldA" label="A字段">
-              <Input />
-            </Form.Item>
-          );
-        }
-        return (
-          <Form.Item name="fieldB" label="B字段">
-            <Input />
-          </Form.Item>
-        );
-      },
-    },
-  ];
-
-  return <SForm items={items} />;
-};
-```
-
 ### 只读模式
 
 ```tsx
@@ -656,7 +610,6 @@ src/components/form/
     ├── form.tsx
     ├── search.tsx
     ├── group.tsx
-    ├── dependency.tsx
     ├── form-readonly.tsx
     └── ...
 ```
@@ -668,7 +621,6 @@ src/components/form/
 - [组件库快速开始](/README.md)
 - [SSelect 组件](/components/select)
 - [SDatePicker 组件](/components/date-picker)
-- [SDependency 组件](/components/dependency)
 
 ### 更新日志
 
@@ -688,18 +640,6 @@ src/components/form/
   label: '自定义',
   name: 'custom',
   customCom: <MyCustomComponent />
-}
-```
-
-#### Q: 如何实现字段联动？
-
-使用 `type: 'dependency'` + `depNames` + `render`：
-
-```tsx
-{
-  type: 'dependency',
-  depNames: ['field1'],
-  render: (values) => values.field1 === 'A' ? <FieldA /> : <FieldB />
 }
 ```
 

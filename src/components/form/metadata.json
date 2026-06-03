@@ -2,7 +2,7 @@
   "useWhen": [
     "需要配置化表单，通过 items 数组声明表单控件",
     "表单字段 >= 3 个，需要统一布局和校验",
-    "需要表单联动（dependency）、分组（Group）、搜索（Search）等能力"
+    "需要分组（Group）、搜索（Search）等能力"
   ],
   "dontUseWhen": [
     "登录、注册等极简表单（1-2 个字段 + 提交按钮），直接用 antd Form",

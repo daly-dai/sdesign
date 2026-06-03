@@ -70,12 +70,11 @@ export default () => {
             },
           },
         }}
-        columns={columns}
-        rowKey="id"
         title="文章管理"
-        searchItems={[
-          { label: '标题', name: 'keyword', type: 'input' as const },
-        ]}
+        searchProps={{
+          items: [{ label: '标题', name: 'keyword', type: 'input' as const }],
+        }}
+        tableProps={{ columns, rowKey: 'id' }}
         tableTitle={{ children: '已发布文章' }}
       />
     </div>

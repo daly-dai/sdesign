@@ -1,9 +1,5 @@
 import { Flex } from 'antd';
-import isBoolean from 'lodash/isBoolean';
-import isNumber from 'lodash/isNumber';
-import isString from 'lodash/isString';
 import React, { memo, useMemo } from 'react';
-import * as tmp from 'react-router';
 
 import { BASE_FONTSIZE_MAP } from './constant';
 import useStyles from './index.style';
@@ -12,25 +8,17 @@ import { STitleProps } from './types';
 import { SLucideIcon } from '@dalydb/sdesign';
 import { useComStyle } from '@dalydb/sdesign/hooks';
 
-// ignore waring `"export 'useNavigate' (imported as 'rc') was not found in 'react-router'`
-const rc = tmp as any;
-
 const STitle: React.FC<STitleProps> = (props) => {
   const { styles, cx, prefixCls, token } = useComStyle({
     prefixCls: 'title',
     useStylesHook: useStyles,
   });
 
-  // react-router v6
-  const navigate = rc.useNavigate?.();
-
   const {
-    goBack,
     desc,
     actionNode,
     style,
     type = 'page',
-    onBackClick,
     hasBottomMargin = true,
     fontSize,
     children,
@@ -39,84 +27,33 @@ const STitle: React.FC<STitleProps> = (props) => {
     ...restProps
   } = props;
 
-  const handleClick = () => {
-    if (onBackClick) {
-      onBackClick();
-      return;
-    }
+  // 底部间距：false / 0 → '0'，true / undefined → '12px'，string/number 透传
+  const marginBottom = useMemo(() => {
+    if (hasBottomMargin === false || hasBottomMargin === 0) return '0';
+    if (hasBottomMargin === true || hasBottomMargin === undefined)
+      return '12px';
+    return String(hasBottomMargin);
+  }, [hasBottomMargin]);
 
-    if (navigate) {
-      navigate(-1);
-    }
-  };
+  const titleStyle = useMemo(
+    () => ({ marginBottom, ...(style ?? {}) }),
+    [marginBottom, style],
+  );
 
-  const getBottomStyle = () => {
-    if (!hasBottomMargin && hasBottomMargin !== 0) return '';
-
-    if (isBoolean(hasBottomMargin)) {
-      return hasBottomMargin ? '12px' : '0';
-    }
-
-    if (isString(hasBottomMargin) || isNumber(hasBottomMargin)) {
-      return hasBottomMargin;
-    }
-
-    // 面对非预期输入时的错误处理逻辑
-    console.error(
-      'Invalid type for hasBottomMargin. Expected boolean, string, or number.',
-    );
-    return '';
-  };
-
-  const titleStyle = useMemo(() => {
-    const marginBottom = getBottomStyle();
-
-    return {
-      marginBottom,
-      ...(style ?? {}),
-    };
-  }, [hasBottomMargin, style]);
-
-  // 渲染返回
-  const renderBackIcon = useMemo(() => {
-    if (type !== 'page') return <></>;
-
-    if (!goBack) return <></>;
-
-    return (
-      <div className={styles[`${prefixCls}-left-bk`]} onClick={handleClick}>
-        <SLucideIcon name="ArrowLeft" size="16px" />
-      </div>
-    );
-  }, []);
-
-  // 渲染form图标
   const renderFormIcon = useMemo(() => {
-    if (type !== 'form') {
-      return <></>;
-    }
-
+    if (type !== 'form') return null;
     return (
       <SLucideIcon
         name="AlignLeft"
         className={styles[`${prefixCls}-left-form-icon`]}
       />
     );
-  }, [type]);
+  }, [type, styles, prefixCls]);
 
-  // 标题的字体大小
   const titleFontSize = useMemo(() => {
-    if (fontSize) {
-      return {
-        fontSize,
-      };
-    }
-
+    if (fontSize) return { fontSize };
     const adjustedFontSize = token.fontSize + (BASE_FONTSIZE_MAP?.[type] ?? 0);
-
-    return {
-      fontSize: `${adjustedFontSize}px`,
-    };
+    return { fontSize: `${adjustedFontSize}px` };
   }, [fontSize, type, token.fontSize]);
 
   return (
@@ -128,7 +65,6 @@ const STitle: React.FC<STitleProps> = (props) => {
       {...restProps}
     >
       <Flex align="center" gap={gap}>
-        {renderBackIcon}
         {renderFormIcon}
         {prefix}
         <div
@@ -137,7 +73,6 @@ const STitle: React.FC<STitleProps> = (props) => {
         >
           {children}
         </div>
-
         {desc && desc}
       </Flex>
       <div className={styles[`${prefixCls}-right`]}>{actionNode}</div>
