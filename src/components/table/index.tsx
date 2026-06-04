@@ -46,8 +46,8 @@ function STableInner<RecordType = Record<string, unknown>>({
       dataIndex: '',
       width: 80,
       render: (_: any, __: any, index: number) => {
-        const cur = pagination?.current;
-        const ps = pagination?.pageSize;
+        const cur = pagination ? pagination.current : undefined;
+        const ps = pagination ? pagination.pageSize : undefined;
         return (
           <div style={{ minWidth: '60px' }}>
             {cur && ps ? (cur - 1) * ps + (index + 1) : index + 1}
@@ -55,7 +55,7 @@ function STableInner<RecordType = Record<string, unknown>>({
         );
       },
     };
-  }, [isSeq, pagination?.current, pagination?.pageSize]);
+  }, [isSeq, pagination]);
 
   const columnsCell = useMemo(() => {
     if (!columns) return [];
