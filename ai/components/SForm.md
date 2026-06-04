@@ -18,7 +18,7 @@
 
 - 需要配置化表单，通过 items 数组声明表单控件
 - 表单字段 >= 3 个，需要统一布局和校验
-- 需要表单联动（dependency）、分组（Group）、搜索（Search）等能力
+- 需要分组（Group）、搜索（Search）等能力
   **不适用:**
 - 登录、注册等极简表单（1-2 个字段 + 提交按钮），直接用 antd Form
 - 纯展示场景，应使用 SDetail
@@ -47,11 +47,9 @@
 - name?: NamePath — 表单项字段名，支持嵌套路径如 ['user', 'name']
 - style?: React.CSSProperties
 - type?: T — 控件类型，决定渲染哪种表单组件
-- depNames?: string[] — 依赖的字段名数组，仅在 type='dependency' 时生效
 - fieldProps?: T extends keyof FormFieldMapType — 控件属性，类型根据 type 自动推导 例如 type='select' 时，fieldProps 支持 options/mode 等 Select 属性
 - customCom?: ReactNode | RenderChildren<any> — 自定义组件，替代 type 内置组件
 - regKey?: RegKeyType — 内置校验规则 key，如 'phone'、'percentage' 等
-- render?: RenderChildren<any> — 自定义渲染函数
 - required?: string | boolean — 是否必填 - true: 使用默认提示 - string: 使用自定义提示文字
 - disabled?: boolean — 是否禁用
 - readonly?: boolean — 只读模式，展示文本而非控件
@@ -112,9 +110,8 @@
 - cascader: typeof SCascader — 增强级联选择器 (SCascader)
 - SCascader: typeof SCascader
 - table: typeof Table — 嵌套表格
-- dependency: typeof SDependency — 字段依赖联动
 
-**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` | `'dependency'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
+**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
 
 **FormComPropsType**: `HTMLAttributes<object> & ComponentProps<FormFieldMapType[FormComType]>`
 
@@ -134,7 +131,7 @@
 ```tsx
 import type { SFormItems } from '@dalydb/sdesign';
 import { SForm } from '@dalydb/sdesign';
-import { Input, message } from 'antd';
+import { message } from 'antd';
 import React from 'react';
 
 const items: SFormItems[] = [
@@ -153,12 +150,6 @@ const items: SFormItems[] = [
   { label: '年龄', name: 'age', type: 'inputNumber' },
   { label: '日期', name: 'date', type: 'datePicker' },
   { label: '备注', name: 'remark', type: 'textarea' },
-  {
-    type: 'dependency',
-    depNames: ['gender'],
-    render: (v: Record<string, unknown>) =>
-      v.gender === 'female' ? <Input placeholder="女士专属字段" /> : null,
-  },
 ];
 
 export default () => (

@@ -1,4 +1,4 @@
-# @dalydb/sdesign v1.9.0
+# @dalydb/sdesign v1.10.0
 
 基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。
 
@@ -85,13 +85,6 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 日期范围选择，需要 rangeKeys 将范围拆分为两个独立字段提交; onChange 需要直接返回格式化字符串
 - **不适用**: 单日期选择，应使用 SDatePicker; 不需要拆分字段，直接用 antd RangePicker
 
-### SDependency — 字段依赖联动组件
-
-> 详细 API: ai/components/SDependency.md
-
-- **适用场景**: SForm 内表单字段依赖联动; 某个字段的显示/值/选项依赖其他字段的变化
-- **不适用**: 独立使用，必须在 SForm 的 items 中通过 type: 'dependency' 使用; 简单的字段监听，使用 SForm.useWatch 即可
-
 ### SDetail [.Group, .Item] — 详情展示，支持 8 种渲染类型（text/dict/file/img 等）
 
 > 详细 API: ai/components/SDetail.md
@@ -140,7 +133,7 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 
 > 详细 API: ai/components/SForm.md
 
-- **适用场景**: 需要配置化表单，通过 items 数组声明表单控件; 表单字段 >= 3 个，需要统一布局和校验; 需要表单联动（dependency）、分组（Group）、搜索（Search）等能力
+- **适用场景**: 需要配置化表单，通过 items 数组声明表单控件; 表单字段 >= 3 个，需要统一布局和校验; 需要分组（Group）、搜索（Search）等能力
 - **不适用**: 登录、注册等极简表单（1-2 个字段 + 提交按钮），直接用 antd Form; 纯展示场景，应使用 SDetail; 需要完全自定义布局，items 配置无法表达的复杂交互
 - **优先使用**: SSearchTable → 列表页搜索 + 表格一体化场景，不要单独组合 SForm.Search + STable; SForm.Group → 表单需要分组展示时，不要手动拼多个 SForm
 
@@ -216,7 +209,7 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 下拉选择，选项较多不适合全部展示; 需要搜索、远程加载选项
 - **不适用**: 选项 <= 5 个且需全部可见，使用 SRadioGroup（单选）或 SCheckGroup（多选）; 层级选项，应使用 SCascader; SForm items 中使用时通过 type: 'select' 引用，无需直接使用 SSelect
 
-### STable — 增强表格，支持 dictKey 字典映射、render 快捷类型、序号列
+### STable [.render] — 增强表格，支持 dictKey 字典映射、render 快捷类型、序号列
 
 > 详细 API: ai/components/STable.md
 
@@ -240,12 +233,11 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 
 ## Hook 列表
 
-- **useComStyle** (详细 API: ai/components/useComStyle.md)
 - **useDispatchDict** (详细 API: ai/components/useDispatchDict.md)
-- **useProTable** (详细 API: ai/components/useProTable.md)
 - **useExpand** (详细 API: ai/components/useExpand.md)
 - **useFrameAnimation** (详细 API: ai/components/useFrameAnimation.md)
 - **useGetDictData** (详细 API: ai/components/useGetDictData.md)
+- **useProTable** (详细 API: ai/components/useProTable.md)
 - **useScale** (详细 API: ai/components/useScale.md)
 - **useSearchTable** (详细 API: ai/components/useSearchTable.md)
 - **useFormPerformance** (详细 API: ai/components/useFormPerformance.md)

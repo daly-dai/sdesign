@@ -19,8 +19,10 @@
 
 **SProTableRef** — SProTable Ref 方法
 
-- refresh: () => void — 刷新当前页
+- refresh: () => void — 刷新当前页（携带当前表单值）
 - reset: () => void — 重置搜索条件并刷新
+- getForm: () => FormInstance<any> — 获取内部表单实例
+- clearData: () => void — 清空表格数据（不触发请求）
 
 **RequestConfig** — 请求配置，service + options 收拢到一处
 
@@ -37,8 +39,8 @@
 
 import React from 'react';
 
-import { SProTable } from '@dalydb/sdesign';
 import type { SColumnsType } from '@dalydb/sdesign';
+import { SProTable } from '@dalydb/sdesign';
 
 interface User {
   id: number;
@@ -85,11 +87,10 @@ export default () => {
     <div style={{ padding: 24 }}>
       <SProTable<User>
         request={{ service: mockRequest }}
-        searchItems={[
-          { label: '关键词', name: 'keyword', type: 'input' as const },
-        ]}
-        columns={columns}
-        rowKey="id"
+        searchProps={{
+          items: [{ label: '关键词', name: 'keyword', type: 'input' as const }],
+        }}
+        tableProps={{ columns, rowKey: 'id' }}
       />
     </div>
   );

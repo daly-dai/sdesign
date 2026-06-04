@@ -1,5 +1,9 @@
 # STable — 增强表格，支持 dictKey 字典映射、render 快捷类型、序号列
 
+## 子组件与静态方法
+
+- STable.render
+
 ## 使用边界
 
 **适用场景:**

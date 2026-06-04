@@ -43,13 +43,13 @@
 
 - prefix?: `ReactNode` — 标题前缀自定义内容
 - gap?: `number | string` — 标题与内容的间距
-- goBack?: `boolean` — 是否显示返回按钮
 - type?: `TitleType` — 标题类型，影响字号和样式
 - desc?: `ReactNode` — 描述文字
 - actionNode?: `ReactNode` — 右侧操作区
 - style?: `React.CSSProperties`
-- hasBottomMargin?: `boolean | number | string` — 底部间距
-- _... 共 11 个属性，详见完整文档_
+- hasBottomMargin?: `boolean | number | string` — 底部间距 - false / 0 → 无间距 - true / undefined → 默认 12px - string / number → 透传
+- fontSize?: `CSSProperties['fontSize']`
+- _... 共 9 个属性，详见完整文档_
 
 ### options → useSearchTable (useSearchTableOptions)
 

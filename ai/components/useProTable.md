@@ -23,8 +23,8 @@ useProTable(requestFn: ProService, options: UseProTableOptions = {},): UseProTab
 - paginationFields?: ProPaginationFields — 分页字段映射
 - extraParams?: Record<string, unknown> — 额外请求参数，每次请求都会携带
 - dispatchParams?: (params: Record<string, unknown>) => Record<string, unknown> — 请求前参数处理（合并 form + 分页 + extraParams 后）
-- transformRequestParams?: (params: Record<string, unknown>) => Record<string, unknown> — 请求参数二次转换（dispatchParams 之后）
-- transformResponseData?: (data: Record<string, unknown>) => Record<string, unknown> — 响应数据二次转换
+- transformRequestParams?: ( params: Record<string, unknown>, ) => Record<string, unknown> — 请求参数二次转换（dispatchParams 之后）
+- transformResponseData?: ( data: Record<string, unknown>, ) => Record<string, unknown> — 响应数据二次转换
 - serviceProps?: Options<any, any> — ahooks useRequest 配置
 
 **UseProTableReturn** — useProTable 返回值
@@ -33,5 +33,6 @@ useProTable(requestFn: ProService, options: UseProTableOptions = {},): UseProTab
 - search: () => void — 搜索（刷新当前页，携带表单值）
 - reset: () => void — 重置搜索并刷新
 - form: FormInstance<any> — 表单实例
+- mutate: (data?: Record<string, unknown>) => void — 直接修改数据，不触发请求。传 undefined 清空
 
-**ProService** — 数据请求函数: `(data: Record<string, unknown>) => Promise<Record<string, unknown> | null>; export interface UseProTableReturn {`
+**ProService** — 数据请求函数 —— 返回类型放宽为 any，避免消费端对具名 API 返回类型（如 PageData<T>）做无意义的 as any 断言: `(data: Record<string, unknown>) => Promise<any>; export interface UseProTableReturn {`
