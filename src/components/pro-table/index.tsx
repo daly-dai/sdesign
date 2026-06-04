@@ -69,7 +69,7 @@ function SProTableInner<RecordType = Record<string, unknown>>(
         }}
       >
         {tableTitle && (
-          <STitle type="table" hasBottomMargin={8} {...tableTitle} />
+          <STitle type="table" hasBottomMargin={12} {...tableTitle} />
         )}
 
         <STable

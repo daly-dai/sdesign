@@ -87,7 +87,7 @@ function useProTable(
       current: raw[pf.current] as number,
       pageSize: raw[pf.pageSize] as number,
       total: raw[pf.total] as number,
-      showSizeChanger: false,
+      showSizeChanger: true,
       pageSizeOptions: [10, 15, 20, 50, 100],
       onChange: (pageNum: number, pageSize: number) => {
         const formVals = form.getFieldsValue() ?? {};

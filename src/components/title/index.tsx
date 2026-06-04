@@ -26,7 +26,9 @@ const STitle: React.FC<STitleProps> = (props) => {
     if (hasBottomMargin === false || hasBottomMargin === 0) return '0';
     if (hasBottomMargin === true || hasBottomMargin === undefined)
       return '12px';
-    return String(hasBottomMargin);
+    return typeof hasBottomMargin === 'number'
+      ? `${hasBottomMargin}px`
+      : hasBottomMargin;
   }, [hasBottomMargin]);
 
   const titleStyle = useMemo(
