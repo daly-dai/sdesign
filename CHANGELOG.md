@@ -1,39 +1,47 @@
 # Changelog
 
-## v1.9.0
+## 1.10.0
 
-### 🆕 新增
+### ⚠️ API Changes
 
-- **SProTable**：新一代列表组件。`request={{ service, options }}` 收拢请求配置，Props 扁平化（searchItems / columns / rowKey 顶层）。不暴露内部生命周期（onFinish / dataSource / loading），从类型层面消除误覆盖风险。支持 RecordType 泛型、`ready` 依赖请求、`title`/`tableTitle` 双标题栏（各支持 `{ children, actionNode }`）。包含 8 个 demo 覆盖标准列表、字典回显、批量操作、数据转换、依赖请求等场景。
-- **useProTable**：新 Hook，4 个返回值（tableProps / search / reset / form）。基于 useRequest，去掉 formConfig 中间层，init effect 用 `[]` 杜绝二次请求。支持 `ready` 声明式依赖等待。
+- **SProTable**：API 重构，12 个散落 prop 收拢为 `request` / `searchProps` / `tableProps` 三个分组对象，各透传对应组件全部属性
+- **SDependency**：移除字段联动组件及 `type: 'dependency'` 类型，`depNames` / `render` 属性同步移除
+- **STitle**：移除 `goBack` / `onBackClick` 属性及 react-router 回退按钮逻辑
+- **样式系统**：9 个组件从 CSS-in-JS（antd-style）迁移为纯 CSS，移除 `useComStyle` hook
+- **依赖清理**：移除 `antd-style`、`react-router`、`react-router-dom` 三个依赖
 
-### 🔧 修复
+### ✨ Features
 
-- **useSearchTable**：修复初始化双重请求 bug（`isFirstLoad.current` guard 未生效）
-- **STable**：修复 `render: 'ellipsis'` 无 width 时字符串泄露到 antd 的 bug
-- **STable**：修复 `convertToText` 把数值 `0` 当成空值显示为 `-` 的 bug
-- **STable**：修复 `RenderType` 缺 `'index'` 快捷值
-- **SForm**：修复 `Omit<FormItemProps, 'label | name'>` 字面量笔误（应为 `'label' | 'name'`）
+- **SProTable**：新增 `ref.getForm()` / `ref.clearData()` 方法
+- **SProTable**：`searchProps.onFinish` / `searchProps.onReset` / `searchProps.form` 传了用外部，不传走内置
+- **SProTable**：`tableProps` 透传 STable 全部属性，`pagination` 做 deep-merge
+- **SProTable**：默认 `bordered`、`showSizeChanger: true`、`pageSizeOptions: [10,15,20,50,100]`
+- **useProTable**：新增 `mutate` 方法，`ProService` 返回类型放宽为 `Promise<any>`
 
-### 🔄 类型改进
+### 🔧 Fixes & Optimizations
 
-- **SSelect**：`SelectType` 删除 `HTMLAttributes<object> &` 污染，改为直接 extends `SelectProps`。消除 onChange 回调签名交叉报错
-- **SCheckGroup**：同上，删除 `HTMLAttributes<object> &` 污染
-- **SRadioGroup**：同上，删除 `HTMLAttributes<object> &` 污染
-- **SDetail**：修复 `SDetailItemType.render` 和 `DescriptionsItemType.render` 签名冲突
-- **STable**：`RecordType = any` → `Record<string, unknown>`，组件改为泛型函数，支持 RecordType 推导
-- **useSearchTable**：`refresh`/`mutate`/`cancel` 从隐式 `...rest` 改为显式声明返回值
+- **STable**：4 个 if/if 字符串 render 派发 → `STRING_RENDER_MAP` 查表；移除 3 个无效 `useCallback`；序号列不再因翻页重建；移除 lodash `isString`
+- **STitle**：`hasBottomMargin` 逻辑从 15 行优化为 4 行 useMemo
+- **useProTable**：分页默认去掉 `showQuickJumper`
 
-### 🎨 样式调整
+### 📦 Migration Guide
 
-- **STitle**：`hasBottomMargin` 默认值 16px → 12px，标题字体 page 20px → 18px、table/form 16px → 14px
+```tsx
+// SProTable — 旧
+<SSearchTable requestFn={fn} headTitle="管理" formProps={{ items, columns: 3 }} tableProps={{ columns, rowKey: 'id' }} />
 
-### ⚠️ Deprecated
+// SProTable — 新
+<SProTable request={{ service: fn }} title="管理" searchProps={{ items, columns: 3 }} tableProps={{ columns, rowKey: 'id' }} />
 
-- **SConfirm**：标记 deprecated，新代码直接用 `Modal.confirm`
+// SForm — 旧
+{ type: 'dependency', depNames: ['field1'], render: (v) => ... }
 
-### ⏸️ 未改（破坏性改动待协调）
+// SForm — 新（移除）
+// 改用 antd Form.Item 的 shouldUpdate 或自定义组件
 
-- SSearchTable 的 `tableProps` / `formProps` 覆盖链问题（REFACTOR_PLAN #4 #5）
-- STable RecordType 默认值进一步收窄（REFACTOR_PLAN #8）
-- SForm `fieldProps` 的 `HTMLAttributes<object> &` 因 TS2590 编译器限制无法移除（REFACTOR_PLAN #1）
+// STitle — 旧
+<STitle goBack onBackClick={fn}>标题</STitle>
+
+// STitle — 新
+<STitle>标题</STitle>
+```
