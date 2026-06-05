@@ -13,12 +13,12 @@
  *   npx sdesign-ai update            # 同 init，更新已有文件
  *   npx sdesign-ai sync              # 同步整个 ai/ 目录到项目 .ai/sdesign/
  */
-import * as fs from 'fs';
-import * as path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const AI_DIR = path.resolve(__dirname, '..', '..', 'ai');
 
-function getVersion(): string {
+function getVersion() {
   try {
     const pkg = JSON.parse(
       fs.readFileSync(
@@ -32,7 +32,7 @@ function getVersion(): string {
   }
 }
 
-function copyTo(srcName: string, targetPath: string): void {
+function copyTo(srcName, targetPath) {
   const src = path.join(AI_DIR, srcName);
   if (!fs.existsSync(src)) {
     console.log(`  ⚠️ ${srcName} 不存在，请先运行 npm run ai:generate`);
@@ -45,7 +45,7 @@ function copyTo(srcName: string, targetPath: string): void {
 }
 
 /** 复制 ai/components/ 目录到目标位置 */
-function copyComponentsDir(targetDir: string): void {
+function copyComponentsDir(targetDir) {
   const srcDir = path.join(AI_DIR, 'components');
   if (!fs.existsSync(srcDir)) {
     console.log('  ⚠️ ai/components/ 不存在，请先运行 npm run ai:generate');
@@ -68,7 +68,7 @@ function copyComponentsDir(targetDir: string): void {
 }
 
 /** 递归复制目录 */
-function copyDirSync(src: string, dest: string): number {
+function copyDirSync(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
   const entries = fs.readdirSync(src, { withFileTypes: true });
   let fileCount = 0;
@@ -86,7 +86,7 @@ function copyDirSync(src: string, dest: string): number {
 }
 
 /** sync 命令：同步整个 ai/ 目录到消费项目的 .ai/sdesign/ */
-function syncDocs(): void {
+function syncDocs() {
   const version = getVersion();
   console.log(`🔄 同步 @dalydb/sdesign AI 文档 (v${version})...`);
   console.log('');
@@ -117,7 +117,7 @@ function syncDocs(): void {
   );
 }
 
-function main(): void {
+function main() {
   const args = process.argv.slice(2);
   const cmd = args[0];
 
@@ -132,7 +132,7 @@ function main(): void {
     console.log('');
     console.log('用法:');
     console.log(
-      '  npx sdesign-ai init          # 复制 llms.txt + components/ 到项目根目录',
+      '  npx sdesign-ai init          # 复制 README.md + components/ 到项目根目录',
     );
     console.log('  npx sdesign-ai init --all    # 复制到所有 AI 编辑器位置');
     console.log('  npx sdesign-ai init --cursor # 额外生成 .cursorrules');

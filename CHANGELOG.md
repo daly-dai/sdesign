@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.1
+
+### 🔧 Fixes
+
+- **sdesign-ai CLI**：修复 `bin` 指向 `.ts` 文件导致 `ERR_UNKNOWN_FILE_EXTENSION` 错误，新增编译后的 `.js` 入口
+- **sdesign-ai CLI**：修复 `AI_DIR` / `getVersion()` 路径计算错误，`__dirname` 适配 npm 发布后目录结构
+- **sdesign-ai CLI**：修正 `init` 命令中 `llms.txt` 引用为 `README.md`
+
 ## 1.10.0
 
 ### ⚠️ API Changes

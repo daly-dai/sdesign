@@ -1,6 +1,6 @@
 {
   "name": "@dalydb/sdesign",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "@dalydb/PC端组件库",
   "keywords": [
     "react",
@@ -17,7 +17,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "sdesign-ai": "./scripts/cli/sdesign-ai.ts"
+    "sdesign-ai": "./scripts/cli/sdesign-ai.js"
   },
   "directories": {
     "doc": "docs",
