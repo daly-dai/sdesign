@@ -27,7 +27,7 @@
 
 ## 类型定义
 
-**SDetailProps** extends Omit<DescriptionsProps, 'items' | 'title'> (继承自 antd Descriptions，覆盖: items, title) — SDetail 详情展示组件 Props 基于 antd Descriptions 封装，支持 8 种数据类型自动渲染。 配合 SConfigProvider 可自动进行字典映射。 `tsx <SDetail title="用户详情" dataSource={userData} items={[ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, ]} column={2} /> `
+**SDetailProps** extends Omit<DescriptionsProps, 'items' | 'title'> (继承自 antd Descriptions，覆盖: items, title) — SDetail 详情展示组件 Props 基于 antd Descriptions 封装，支持 7 种数据类型自动渲染。 配合 SConfigProvider 可自动进行字典映射。 `tsx <SDetail title="用户详情" dataSource={userData} items={[ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, ]} column={2} /> `
 
 - desc?: ReactNode — 描述文字
 - titleAction?: ReactNode — 标题右侧操作区
@@ -61,7 +61,7 @@
 - items?: SDetailGroupItem[] — 分组配置数组
 - dataSource?: Record<string, any> — 全局数据源
 
-**ItemType** — 详情项渲染类型 - `'text'` — 纯文本 - `'dict'` — 字典映射，自动从 globalDict 转换 - `'file'` — 文件列表展示 - `'img'` — 图片展示 - `'rangeTime'` — 时间范围 - `'checkbox'` — 多选值展示 - `'empty'` — 空占位 - `'placeholder'` — 占位符: `(typeof ItemTypes)[number]`
+**ItemType** — 详情项渲染类型 - `'text'` — 纯文本 - `'dict'` — 字典映射，自动从 globalDict 转换 - `'file'` — 文件列表展示 - `'rangeTime'` — 时间范围 - `'checkbox'` — 多选值展示 - `'empty'` — 空占位 - `'placeholder'` — 占位符: `(typeof ItemTypes)[number]`
 
 **SDetailItemType** — SDetail 单个详情项配置 `tsx const items: SDetailItem[] = [ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, { label: '附件', name: 'files', type: 'file' }, { label: '自定义', render: (val, data) => <Tag>{val}</Tag> }, ]; `: `DetailItemType & { label?: ReactNode; name?: string | string[]; render?: (value?: any, dataSource?: any) => ReactNode`
 
@@ -82,31 +82,52 @@
 
 ```tsx
 import type { SDetailItem } from '@dalydb/sdesign';
-import { SCard, SDetail } from '@dalydb/sdesign';
+import { SCard, SConfigProvider, SDetail } from '@dalydb/sdesign';
 import React from 'react';
 
 const dataSource = {
   name: '张三',
+  gender: 1,
   status: 1,
   email: 'zs@example.com',
+  startTime: '2024-01-01',
+  endTime: '2024-12-31',
+  tags: '1,2',
+  fileList: [
+    { fileName: '合同.pdf', fileUrl: 'https://example.com/contract.pdf' },
+    { fileName: '附件.docx', fileUrl: 'https://example.com/attach.docx' },
+  ],
   createTime: new Date().toISOString(),
 };
 const statusMap: Record<number, string> = { 1: '启用', 0: '禁用' };
+const tagMap: Record<string, string> = { 1: 'VIP', 2: '认证用户' };
+// 全局字典：子组件通过 dictKey 引用，无需逐个传 dictMap
+const globalDict = {
+  genderMap: { 1: '男', 2: '女' },
+};
 
 const items: SDetailItem[] = [
   { label: '姓名', name: 'name' },
+  { label: '性别', name: 'gender', type: 'dict', dictKey: 'genderMap' },
   { label: '状态', name: 'status', type: 'dict', dictMap: statusMap },
   {
     label: '邮箱',
     name: 'email',
     render: (v: string) => (v ? <a href={`mailto:${v}`}>{v}</a> : '-'),
   },
+  { label: '有效期', type: 'rangeTime', name: ['startTime', 'endTime'] },
+  { label: '标签', name: 'tags', type: 'checkbox', dictMap: tagMap },
+  { label: '附件', name: 'fileList', type: 'file' },
+  { label: '占位示例', type: 'placeholder' },
+  { label: '空值示例', type: 'empty' },
   { label: '创建时间', name: 'createTime' },
 ];
 
 export default () => (
-  <SCard title="用户详情">
-    <SDetail items={items} dataSource={dataSource} column={2} />
-  </SCard>
+  <SConfigProvider globalDict={globalDict}>
+    <SCard title="用户详情">
+      <SDetail items={items} dataSource={dataSource} column={2} />
+    </SCard>
+  </SConfigProvider>
 );
 ```

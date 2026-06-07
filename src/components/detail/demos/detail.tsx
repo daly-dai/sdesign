@@ -1,6 +1,6 @@
 /**
  * title: 详情页回显,可手动控制展示与隐藏
- * description: 支持 自定义、字典、文件、图片、文件渲染、时间范围、多选框组等回显渲染情况
+ * description: 支持 自定义、字典、文件、时间范围、多选框组等回显渲染情况
  */
 
 import { Button, ConfigProvider, Space, Tag } from 'antd';
@@ -26,10 +26,6 @@ const detailData = {
   startTime: '2020-01-01',
   endTime: '2020-02-21',
   checkboxGroup: '1,2,3',
-  imgUrl:
-    'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  errorImgUrl:
-    'https://zos.alipayobjects.com/rmsportal/pUPVyRjUImniVslZfWPnJuuZ.png',
   fileDTOList: [
     {
       fileName: '测试文件',
@@ -101,16 +97,6 @@ const FileList = () => {
       label: '单项文件渲染',
       type: 'file',
       name: 'fileDTO',
-    },
-    {
-      label: '图片渲染',
-      type: 'img',
-      name: 'imgUrl',
-    },
-    {
-      label: '图片加载失败',
-      type: 'img',
-      name: 'errorImgUrl',
     },
   ];
 

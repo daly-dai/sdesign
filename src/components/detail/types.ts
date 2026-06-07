@@ -10,7 +10,6 @@ const ItemTypes = tuple(
   'empty',
   'file',
   'dict',
-  'img',
   'rangeTime',
   'checkbox',
   'placeholder',
@@ -22,7 +21,6 @@ const ItemTypes = tuple(
  * - `'text'` — 纯文本
  * - `'dict'` — 字典映射，自动从 globalDict 转换
  * - `'file'` — 文件列表展示
- * - `'img'` — 图片展示
  * - `'rangeTime'` — 时间范围
  * - `'checkbox'` — 多选值展示
  * - `'empty'` — 空占位
@@ -86,7 +84,7 @@ export type SDetailItem = SDetailItemType &
 /**
  * SDetail 详情展示组件 Props
  *
- * 基于 antd Descriptions 封装，支持 8 种数据类型自动渲染。
+ * 基于 antd Descriptions 封装，支持 7 种数据类型自动渲染。
  * 配合 SConfigProvider 可自动进行字典映射。
  *
  * @example

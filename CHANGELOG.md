@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.10.2
+
+### ⚠️ API Changes
+
+- **SDetail**：移除 `img` 图片渲染类型，`type: 'img'` 不再支持。如需展示图片，请使用 `render` 自定义渲染配合 antd `Image` 组件
+
+### ✨ Enhancements
+
+- **SDetail**：`basic` 示例大幅增强，覆盖全部 7 种内置类型（text / dict / file / rangeTime / checkbox / placeholder / empty），并结合 `SConfigProvider` 演示全局字典 `dictKey` 用法
+- **SDetail**：移除标签样式硬编码 `minWidth: 98px`，布局更灵活
+- **SDetail**：移除内置 base64 图片降级常量 `FALL_BACK_STRING`，减少包体积
+
+### 📝 AI 文档
+
+- 全组件 `ai/components/*.md` 批量更新，与源码保持一致
+
 ## 1.10.1
 
 ### 🔧 Fixes

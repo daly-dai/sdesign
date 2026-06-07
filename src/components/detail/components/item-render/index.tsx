@@ -1,8 +1,5 @@
-import { Image } from 'antd';
 import isNil from 'lodash/isNil';
 import React, { FC, ReactNode, memo, useContext, useMemo } from 'react';
-
-import { FALL_BACK_STRING } from '../../constant';
 import '../../index.css';
 import { DetailItemType, ItemType } from '../../types';
 
@@ -41,19 +38,6 @@ const TYPE_RENDERERS: Record<ItemType, (props: RendererProps) => ReactNode> = {
     }
     return <SFile.List {...fileProps} fileList={value} />;
   },
-  img: ({ value }) => (
-    <Image
-      style={{
-        backgroundColor: 'rgba(8, 16, 30, 0.15)',
-        objectFit: 'scale-down',
-      }}
-      placeholder
-      width={88}
-      height={88}
-      src={value}
-      fallback={FALL_BACK_STRING}
-    />
-  ),
   rangeTime: ({ value }) => {
     if (!Array.isArray(value) || value.length !== 2) return '-';
     return `${value[0] ?? ''} - ${value[1] ?? ''}`;

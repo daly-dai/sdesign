@@ -10,14 +10,14 @@ tags: [component, detail, display, antd, typescript]
 
 # SDetail 详情组件技术文档
 
-SDetail 是一个基于 Ant Design Descriptions 组件封装的高级详情展示组件，支持多种数据类型的自动渲染（文本、字典、文件、图片、时间范围等），提供分组展示能力和灵活的配置选项。
+SDetail 是一个基于 Ant Design Descriptions 组件封装的高级详情展示组件，支持多种数据类型的自动渲染（文本、字典、文件、时间范围等），提供分组展示能力和灵活的配置选项。
 
 ## 1. 组件概述
 
 ### 1.1 目的与职责
 
 - **OVR-001**: 提供统一的数据详情展示能力，减少重复开发
-- **OVR-002**: 支持多种内置数据类型渲染（text、dict、file、img、rangeTime、checkbox、placeholder）
+- **OVR-002**: 支持多种内置数据类型渲染（text、dict、file、rangeTime、checkbox、placeholder）
 - **OVR-003**: 支持分组展示复杂详情结构
 - **OVR-004**: 与 SDesign 组件库生态集成（ConfigProvider、STitle、SFile 等）
 
@@ -130,7 +130,6 @@ graph TD
             text
             dict
             file
-            img
             rangeTime
             checkbox
             placeholder
@@ -188,9 +187,9 @@ graph TD
 | `placeholder` | 占位（只显示 label） | -                       |
 | `dict`        | 字典映射             | 需要 dictMap 或 dictKey |
 | `file`        | 文件展示             | 单文件对象或文件数组    |
-| `img`         | 图片展示             | 图片 URL                |
-| `rangeTime`   | 时间范围             | `[start, end]` 数组     |
-| `checkbox`    | 多选回显             | 逗号分隔的字符串        |
+
+| `rangeTime` | 时间范围 | `[start, end]` 数组 |
+| `checkbox` | 多选回显 | 逗号分隔的字符串 |
 
 ### 3.4 SDetailGroupItem - 分组配置
 
@@ -233,7 +232,7 @@ const dataSource = useMemo(() => {
 - 根据 type 选择渲染策略
 - 支持自定义 render 函数（优先级最高）
 - 字典数据转换
-- 文件、图片特殊处理
+- 文件特殊处理
 
 ```typescript
 // 渲染策略映射
@@ -336,11 +335,6 @@ export default () => <SDetail.Group dataSource={data} items={groupItems} />;
 ```tsx
 const items = [
   {
-    label: '头像',
-    name: 'avatar',
-    type: 'img',
-  },
-  {
     label: '合同文件',
     name: 'contracts',
     type: 'file',
@@ -388,7 +382,6 @@ export default () => (
 - **QUA-P001**: 使用 React.memo 减少不必要的重渲染
 - **QUA-P002**: useMemo 缓存复杂计算（items 转换、样式合并）
 - **QUA-P003**: 模块级常量避免重复创建
-- **QUA-P004**: 图片懒加载支持（Ant Design Image 组件内置）
 
 ### 6.2 可维护性 (Maintainability)
 
@@ -409,7 +402,6 @@ export default () => (
 - **QUA-R001**: 空值处理（isNil 检查）
 - **QUA-R002**: 类型安全（TypeScript 编译时检查）
 - **QUA-R003**: 默认值处理（避免 undefined 报错）
-- **QUA-R004**: 图片加载失败兜底（fallback）
 
 ## 7. 参考信息
 
@@ -417,7 +409,7 @@ export default () => (
 
 | 依赖   | 版本  | 用途                              |
 | ------ | ----- | --------------------------------- |
-| antd   | ^5.x  | Descriptions、Image 组件          |
+| antd   | ^5.x  | Descriptions 组件                 |
 | lodash | ^4.x  | isArray、isString、isNil 工具函数 |
 | react  | ^18.x | useId、useMemo、memo              |
 
@@ -437,7 +429,6 @@ export const DETAIL_LABEL_STYLE: React.CSSProperties = {
   lineHeight: '22px',
   marginRight: '14px',
   display: 'inline-block',
-  minWidth: '98px',
 };
 ```
 
