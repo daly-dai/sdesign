@@ -26,7 +26,7 @@
 
 **RequestConfig** — 请求配置，service + options 收拢到一处
 
-- service: ProService — 数据请求函数（必填）
+- service: ProService<TParams> — 数据请求函数（必填）
 - options?: Omit<UseProTableOptions, 'form'> — useProTable 请求配置
 
 ## 使用示例
