@@ -23,9 +23,9 @@ export interface SProTableRef {
 }
 
 /** 请求配置，service + options 收拢到一处 */
-export interface RequestConfig {
+export interface RequestConfig<TParams = any> {
   /** 数据请求函数（必填） */
-  service: ProService;
+  service: ProService<TParams>;
   /** useProTable 请求配置 */
   options?: Omit<UseProTableOptions, 'form'>;
 }
@@ -44,10 +44,13 @@ export interface RequestConfig {
  * />
  * ```
  */
-export interface SProTableProps<RecordType = Record<string, unknown>> {
+export interface SProTableProps<
+  RecordType = Record<string, unknown>,
+  TParams = any,
+> {
   // ========== 核心 ==========
   /** 请求配置 */
-  request: RequestConfig;
+  request: RequestConfig<TParams>;
 
   // ========== 展示 ==========
   /**

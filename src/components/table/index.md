@@ -24,6 +24,8 @@ group:
 
 <code src="./demos/table-dict.tsx"></code>
 
+<code src="./demos/table-ellipsis-dict.tsx"></code>
+
 ## 基本用法
 
 <code src="./demos/basic.tsx"></code>

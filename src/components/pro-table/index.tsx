@@ -86,8 +86,11 @@ function SProTableInner<RecordType = Record<string, unknown>>(
 
 const SProTable = memo(forwardRef(SProTableInner)) as <
   RecordType = Record<string, unknown>,
+  TParams = any,
 >(
-  props: SProTableProps<RecordType> & { ref?: React.Ref<SProTableRef> },
+  props: SProTableProps<RecordType, TParams> & {
+    ref?: React.Ref<SProTableRef>;
+  },
 ) => React.ReactElement;
 
 export default SProTable;

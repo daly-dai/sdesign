@@ -66,7 +66,18 @@ function STableInner<RecordType = Record<string, unknown>>({
       if (typeof newCol.render === 'string') {
         const factory = STRING_RENDER_MAP[newCol.render];
         if (factory) {
-          newCol.render = factory(newCol);
+          const baseRender = factory(newCol);
+          // 同时配置 dictKey 时，先查字典再交给快捷渲染
+          if (newCol.dictKey) {
+            newCol.render = (t: any, col: any, index: number) => {
+              let text = convertToText(t);
+              const dictData = globalDict?.[newCol.dictKey];
+              if (dictData) text = dictData[text] ?? text;
+              return baseRender(text, col, index);
+            };
+          } else {
+            newCol.render = baseRender;
+          }
         }
         return newCol;
       }

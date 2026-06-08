@@ -1,5 +1,11 @@
 # 版本更新记录
 
+## [1.10.3] - 2026-06-07
+
+### 🔧 类型改进
+
+- **useProTable / SProTable**：`ProService` 泛型化，默认 `TParams = any`，兼容任意查询参数形态（pageIndex/pageNum/page、嵌套 params.page 等）。消费者无需 `as any` 即可传入强类型 service 函数。需要完整类型安全时显式传入 `<User, MyQuery>` 双泛型
+
 ## [1.10.2] - 2026-06-07
 
 ### ⚠️ API Changes

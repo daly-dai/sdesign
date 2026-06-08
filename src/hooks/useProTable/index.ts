@@ -15,8 +15,8 @@ const DEFAULTS = {
   list: 'list',
 };
 
-function useProTable(
-  requestFn: ProService,
+function useProTable<TParams = any>(
+  requestFn: ProService<TParams>,
   options: UseProTableOptions = {},
 ): UseProTableReturn {
   const {
@@ -51,7 +51,7 @@ function useProTable(
     async (params: Record<string, unknown>) => {
       let p = params;
       if (transformRequestParams) p = transformRequestParams(p);
-      const res = await requestFn(p);
+      const res = await requestFn(p as TParams);
       if (transformResponseData)
         return transformResponseData(res as Record<string, unknown>);
       return res;

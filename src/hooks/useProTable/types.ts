@@ -39,8 +39,16 @@ export interface UseProTableOptions {
 }
 
 /** useProTable 返回值 */
-/** 数据请求函数 —— 返回类型放宽为 any，避免消费端对具名 API 返回类型（如 PageData<T>）做无意义的 as any 断言 */
-export type ProService = (data: Record<string, unknown>) => Promise<any>;
+/**
+ * 数据请求函数
+ *
+ * 默认 data 为 any，兼容任意查询参数形态（pageIndex/pageNum/page、嵌套 params.page 等）。
+ * 需要类型安全时显式传入 TParams：
+ * ```ts
+ * const service: ProService<MyQuery> = (data) => api.getList(data);
+ * ```
+ */
+export type ProService<TParams = any> = (data: TParams) => Promise<any>;
 
 /** useProTable 返回值 */
 export interface UseProTableReturn {
