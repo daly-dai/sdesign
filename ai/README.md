@@ -85,11 +85,11 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 日期范围选择，需要 rangeKeys 将范围拆分为两个独立字段提交; onChange 需要直接返回格式化字符串
 - **不适用**: 单日期选择，应使用 SDatePicker; 不需要拆分字段，直接用 antd RangePicker
 
-### SDetail [.Group, .Item] — 详情展示，支持 8 种渲染类型（text/dict/file/img 等）
+### SDetail — 详情展示，支持 8 种渲染类型（text/dict/file/img 等）
 
 > 详细 API: ai/components/SDetail.md
 
-- **适用场景**: 详情页展示键值对数据; 需要 8 种渲染类型自动格式化（text/dict/file/img/rangeTime/checkbox 等）; 需要字典映射（dictKey 配合 SConfigProvider）
+- **适用场景**: 详情页展示键值对数据; 需要 7 种渲染类型自动格式化（text/dict/file/rangeTime/checkbox 等）; 需要字典映射（dictKey 配合 SConfigProvider）
 - **不适用**: 数据是列表形式（多行同结构），应使用 STable; 需要编辑数据，应使用 SForm; 自定义卡片式布局展示，直接用 antd 原生组件
 - **优先使用**: SDetail.Group → 详情需要分组展示时，不要手动拼多个 SDetail
 

@@ -40,6 +40,7 @@
 - onReset?: (e?: any) => void — 表单重置回调
 - readonly?: boolean — 只读模式
 - formName?: string — 嵌套表单的字段前缀
+- labelWidth?: number | string — 统一 label 宽度，解决 label 长短不一导致控件错位的问题 - number: px 值（如 100 → 100px） - string: 直接作为 CSS 值（如 '6em'、'120px'）
 
 **ItemsProps** extends Omit<FormItemProps, 'label' | 'name' | 'required'> — 表单项配置 用于 SForm 的 `items` 数组中，每一项描述一个表单控件。 `type` 决定渲染哪种控件，`fieldProps` 类型会根据 `type` 自动推导。 `tsx const item: ItemsProps = { label: '用户名', name: 'username', type: 'input', required: '请输入用户名', fieldProps: { placeholder: '请输入' }, }; `
 
@@ -113,7 +114,7 @@
 
 **FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
 
-**FormComPropsType**: `HTMLAttributes<object> & ComponentProps<FormFieldMapType[FormComType]>`
+**FormComPropsType**: `Omit< HTMLAttributes<object>, 'onChange' | 'onFocus' | 'onBlur' > & ComponentProps<FormFieldMapType[FormComType]>`
 
 **FormItemType**: `FormComType | 'placeholder'`
 

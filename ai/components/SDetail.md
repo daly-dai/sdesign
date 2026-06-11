@@ -1,16 +1,11 @@
 # SDetail — 详情展示，支持 8 种渲染类型（text/dict/file/img 等）
 
-## 子组件与静态方法
-
-- SDetail.Group
-- SDetail.Item
-
 ## 使用边界
 
 **适用场景:**
 
 - 详情页展示键值对数据
-- 需要 8 种渲染类型自动格式化（text/dict/file/img/rangeTime/checkbox 等）
+- 需要 7 种渲染类型自动格式化（text/dict/file/rangeTime/checkbox 等）
 - 需要字典映射（dictKey 配合 SConfigProvider）
   **不适用:**
 - 数据是列表形式（多行同结构），应使用 STable
@@ -19,26 +14,30 @@
   **优先使用:**
 - SDetail.Group → 详情需要分组展示时，不要手动拼多个 SDetail
 
-## 继承关系
-
-继承自 **antd Descriptions** 的全部属性，以下属性已被覆盖：items, title
-
-其他 antd Descriptions 属性均可直接使用。
-
 ## 类型定义
 
-**SDetailProps** extends Omit<DescriptionsProps, 'items' | 'title'> (继承自 antd Descriptions，覆盖: items, title) — SDetail 详情展示组件 Props 基于 antd Descriptions 封装，支持 7 种数据类型自动渲染。 配合 SConfigProvider 可自动进行字典映射。 `tsx <SDetail title="用户详情" dataSource={userData} items={[ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, ]} column={2} /> `
+**SDetailProps** — SDetail 详情展示组件 Props CSS Grid 自渲染，支持 7 种数据类型自动渲染。 配合 SConfigProvider 可自动进行字典映射。 `tsx <SDetail title="用户详情" dataSource={userData} items={[ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, ]} columns={2} /> `
 
 - desc?: ReactNode — 描述文字
 - titleAction?: ReactNode — 标题右侧操作区
 - dataSource?: Record<string, any> — 数据源对象
 - items?: SDetailItem[] — 详情项配置数组
-- labelStyle?: React.CSSProperties
-- contentStyle?: React.CSSProperties
+- labelStyle?: CSSProperties — 统一 label 样式
+- contentStyle?: CSSProperties — 统一内容区样式
 - hasCardBg?: boolean — 是否显示卡片背景
 - container?: React.ComponentType<any> — 自定义容器组件
 - title?: string | ReactNode — 标题
-- detailName?: string — 从 dataSource 中取值的 key 前缀
+- detailName?: string — 从 dataSource 中取值的 key 前缀，支持嵌套路径如 "user.profile"
+- style?: CSSProperties — 组件样式
+- className?: string — 组件类名
+- columns?: number | string — 列数或 grid-template-columns 值 - `number`: 等分列数，如 `3` → `repeat(3, 1fr)` - `string`: 直接作为 CSS grid-template-columns 值，如 `"300px 1fr 1fr"`
+- column?: number — 【已废弃】列数，请改用 `columns` 传入时内部映射为 `columns`，`columns` 优先级更高
+- gap?: number — Grid 间距（px），对应 CSS `gap` 属性
+- labelWidth?: number | string — label 列宽度，作用于每个 Grid item 内部的 label 子元素
+- layout?: 'horizontal' | 'vertical' — 布局方式 - `'horizontal'`: label 与 value 同行（默认） - `'vertical'`: label 与 value 各占一行
+- colon?: boolean — 是否在 label 后显示冒号
+- emptyText?: ReactNode — 全局空值占位文案
+- loading?: boolean — 加载中骨架屏
 
 **DictReflect**
 
@@ -61,9 +60,7 @@
 - items?: SDetailGroupItem[] — 分组配置数组
 - dataSource?: Record<string, any> — 全局数据源
 
-**ItemType** — 详情项渲染类型 - `'text'` — 纯文本 - `'dict'` — 字典映射，自动从 globalDict 转换 - `'file'` — 文件列表展示 - `'rangeTime'` — 时间范围 - `'checkbox'` — 多选值展示 - `'empty'` — 空占位 - `'placeholder'` — 占位符: `(typeof ItemTypes)[number]`
-
-**SDetailItemType** — SDetail 单个详情项配置 `tsx const items: SDetailItem[] = [ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, { label: '附件', name: 'files', type: 'file' }, { label: '自定义', render: (val, data) => <Tag>{val}</Tag> }, ]; `: `DetailItemType & { label?: ReactNode; name?: string | string[]; render?: (value?: any, dataSource?: any) => ReactNode`
+**ItemType** — 详情项渲染类型 - `'text'` — 纯文本 - `'dict'` — 字典映射，自动从 globalDict 转换 - `'file'` — 文件列表展示 - `'rangeTime'` — 时间范围 - `'checkbox'` — 多选值展示 - `'empty'` — 空占位 - `'placeholder'` — 占位符（有意留空标记） - `'tag'` — 标签渲染: `(typeof ItemTypes)[number]`
 
 **DetailItemType**
 
@@ -73,10 +70,13 @@
 - dictKey?: string — 字典 key，配合 SConfigProvider globalDict
 - value?: any
 - dictMap?: Record<string, string> | any[] | null — 字典数据源
+- tagColorMap?: Record<string, string> — tag 类型颜色映射（值 → antd Tag color）
 - render?: (value?: any, dataSource?: any) => ReactNode
 - dataSource?: Record<string, any>
 
-**SDetailItem**: `SDetailItemType & Omit<DescriptionsItemType, 'children' | 'key' | 'render'>`
+**SDetailItemType** — SDetail 单个详情项配置 `tsx const items: SDetailItem[] = [ { label: '姓名', name: 'name' }, { label: '状态', name: 'status', type: 'dict', dictKey: 'userStatus' }, { label: '附件', name: 'files', type: 'file' }, { label: '自定义', render: (val, data) => <Tag>{val}</Tag> }, ]; `: `DetailItemType & { label?: ReactNode; name?: string | string[]; span?: number; hidden?: boolean; copyable?: boolean; ellipsis?: boolean | { rows: number }; tooltip?: ReactNode; }`
+
+**SDetailItem** — SDetail 单个详情项（完整类型） 包含 SDetailItemType 的所有字段 + 从原 antd DescriptionsItemType 中显式继承的样式/类名相关字段: `SDetailItemType & { prefixCls?: string; className?: string; style?: CSSProperties; labelStyle?: CSSProperties; contentStyle?: CSSProperties; }`
 
 ## 使用示例
 
