@@ -85,7 +85,7 @@ const FileList = () => {
       dictMap: dictMap,
     },
     {
-      label: '这是type为placeholder的宽度为100%占位符渲染',
+      label: '占位符渲染',
       type: 'placeholder',
     },
     {

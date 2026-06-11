@@ -8,11 +8,9 @@ export type SDetailType = InternalDetailType & {
   Item: typeof DetailItem;
 };
 
-const SDetail = DetailInstance as SDetailType;
-
-// @ts-ignore
-SDetail.Group = DetailGroup;
-// @ts-ignore
-SDetail.Item = DetailItem;
+const SDetail: SDetailType = Object.assign(DetailInstance, {
+  Group: DetailGroup,
+  Item: DetailItem,
+});
 
 export default SDetail;

@@ -1,4 +1,61 @@
+/* ============================================
+ * SDetail CSS Grid 布局样式（subgrid）
+ *
+ * 每「显示列」拆分为 max-content(label) + 1fr(content) 两条轨道，
+ * 同一列位置的 label 通过 subgrid 自动对齐。
+ * ============================================ */
+
+/* ---------- Grid 容器 ---------- */
+.sdetail-grid {
+  --sdetail-columns: repeat(3, max-content 1fr);
+  --sdetail-gap: 16px;
+  --sdetail-item-padding: 0;
+  --sdetail-font-size: inherit;
+  --sdetail-item-border: none;
+
+  display: grid;
+  grid-template-columns: var(--sdetail-columns);
+  gap: var(--sdetail-gap);
+}
+
+/* ---------- Grid 单项（直接作为 subgrid 容器） ---------- */
+.sdetail-item {
+  min-width: 0;
+}
+
+/* horizontal 布局：label + content 同行 */
+.sdetail-item-horizontal {
+  display: grid;
+
+  /* 回退：subgrid 不支持的浏览器用 auto 1fr */
+
+  grid-template-columns: auto 1fr;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+}
+
+/* vertical 布局：label + content 各占一行 */
+.sdetail-item-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Label（subgrid 轨道 1：max-content，同列自动对齐） ---------- */
+.sdetail-label {
+  color: rgba(8, 16, 30, 55%);
+  line-height: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Content（subgrid 第二列） ---------- */
+.sdetail-content {
+  min-width: 0;
+  word-break: break-all;
+}
+
+/* ---------- SDetail.Item 独立使用时 ---------- */
 .sdesign-detail-value {
   width: 100%;
-  margin-right: calc((100% - 24px) * 0.1);
 }
