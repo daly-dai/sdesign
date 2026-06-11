@@ -44,8 +44,10 @@ const InstanceForm: FC<SFormProps> = ({
   formName,
   layout = 'vertical',
   style,
+  labelWidth,
   ...formProps
 }) => {
+  const { labelCol: consumerLabelCol, ...restFormProps } = formProps;
   const prefixCls = getPrefixCls('form');
   const { startRender, endRender } = useFormPerformance();
 
@@ -94,6 +96,24 @@ const InstanceForm: FC<SFormProps> = ({
     return (items ?? []).filter((item) => !item.hidden);
   }, [items]);
 
+  // Antd Form 的 labelCol 不支持直接设置宽度，需将 labelWidth 转为 flex 值。
+  // 例如 labelWidth={120} → labelCol={{ flex: '0 0 120px' }}
+  // labelWidth="8em"      → labelCol={{ flex: '0 0 8em' }}
+  const labelCol = useMemo(() => {
+    if (labelWidth === undefined) {
+      return consumerLabelCol;
+    }
+
+    const width =
+      typeof labelWidth === 'number' ? `${labelWidth}px` : labelWidth;
+    const flex = `0 0 ${width}`;
+
+    if (consumerLabelCol) {
+      return { ...consumerLabelCol, flex };
+    }
+    return { flex };
+  }, [labelWidth, consumerLabelCol]);
+
   // 性能监控
   useEffect(() => {
     startRender();
@@ -105,7 +125,8 @@ const InstanceForm: FC<SFormProps> = ({
       colon={false}
       layout={layout}
       style={formStyle}
-      {...formProps}
+      labelCol={labelCol}
+      {...restFormProps}
       {...formTypeConfig}
       onFinish={handleFinish}
       onReset={handleReset}

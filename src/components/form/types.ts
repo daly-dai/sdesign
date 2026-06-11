@@ -108,7 +108,10 @@ export type FormFieldMapType = {
  */
 export type FormComType = keyof FormFieldMapType;
 
-export type FormComPropsType = HTMLAttributes<object> &
+export type FormComPropsType = Omit<
+  HTMLAttributes<object>,
+  'onChange' | 'onFocus' | 'onBlur'
+> &
   ComponentProps<FormFieldMapType[FormComType]>;
 
 export type FormItemType = FormComType | 'placeholder';
@@ -148,7 +151,8 @@ export interface ItemsProps<T extends FormItemType = FormItemType>
    * 例如 type='select' 时，fieldProps 支持 options/mode 等 Select 属性
    */
   fieldProps?: T extends keyof FormFieldMapType
-    ? HTMLAttributes<object> & ComponentProps<FormFieldMapType[T]>
+    ? Omit<HTMLAttributes<object>, 'onChange' | 'onFocus' | 'onBlur'> &
+        ComponentProps<FormFieldMapType[T]>
     : undefined;
   /** 自定义组件，替代 type 内置组件 */
   customCom?: ReactNode | RenderChildren<any>;
@@ -227,6 +231,13 @@ export interface SFormProps extends FormProps {
   readonly?: boolean;
   /** 嵌套表单的字段前缀 */
   formName?: string;
+  /**
+   * 统一 label 宽度，解决 label 长短不一导致控件错位的问题
+   * - number: px 值（如 100 → 100px）
+   * - string: 直接作为 CSS 值（如 '6em'、'120px'）
+   * @example labelWidth={100}
+   */
+  labelWidth?: number | string;
 }
 
 /**

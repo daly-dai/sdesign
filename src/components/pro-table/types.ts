@@ -87,4 +87,11 @@ export interface SProTableProps<
   // ========== 样式 ==========
   style?: React.CSSProperties;
   className?: string;
+  /**
+   * 组件外边距
+   * - number: 四边统一 px 值
+   * - boolean: true 使用默认值 16px
+   * - string: 直接作为 CSS margin 值（如 '16px 24px'）
+   */
+  margin?: number | boolean | string;
 }

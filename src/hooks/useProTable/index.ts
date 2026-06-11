@@ -33,6 +33,14 @@ function useProTable<TParams = any>(
 
   const searchRef = useRef<() => void>(() => {});
 
+  // Store latest values in refs — these are consumed at call-time (inside
+  // search / pagination.onChange), so including them as useCallback/useMemo
+  // dependencies only causes unnecessary re-creation for no behavioral gain.
+  const extraParamsRef = useRef(extraParams);
+  extraParamsRef.current = extraParams;
+  const dispatchParamsRef = useRef(dispatchParams);
+  dispatchParamsRef.current = dispatchParams;
+
   const [internalForm] = Form.useForm();
   const form = externalForm || internalForm;
 
@@ -65,12 +73,12 @@ function useProTable<TParams = any>(
     let params: Record<string, unknown> = {
       [pf.current]: 1,
       [pf.pageSize]: 10,
-      ...extraParams,
+      ...extraParamsRef.current,
       ...formVals,
     };
-    if (dispatchParams) params = dispatchParams(params);
+    if (dispatchParamsRef.current) params = dispatchParamsRef.current(params);
     run(params);
-  }, [form, pf, extraParams, dispatchParams, run]);
+  }, [form, pf, run]);
 
   searchRef.current = search;
 
@@ -94,14 +102,15 @@ function useProTable<TParams = any>(
         let params: Record<string, unknown> = {
           [pf.current]: pageNum,
           [pf.pageSize]: pageSize,
-          ...extraParams,
+          ...extraParamsRef.current,
           ...formVals,
         };
-        if (dispatchParams) params = dispatchParams(params);
+        if (dispatchParamsRef.current)
+          params = dispatchParamsRef.current(params);
         run(params);
       },
     };
-  }, [raw, pf, form, extraParams, dispatchParams, run]);
+  }, [raw, pf, form, run]);
 
   // ---- 初始化（仅一次）----
   useEffect(() => {
