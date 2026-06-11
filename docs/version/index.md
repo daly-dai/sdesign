@@ -1,5 +1,38 @@
 # 版本更新记录
 
+## [1.11.0] - 2026-06-11
+
+### 🆕 新功能
+
+- **SDetail**：基于 CSS Grid（subgrid）全面重构布局系统
+
+  - `columns` 支持 `number | string`（如 `3`、`"max-content 1fr 1fr"`），替代旧的 `column` 属性
+  - 新增 `labelWidth` 属性，统一 label 列宽度控制
+  - 新增 `gap` 属性控制网格间距
+  - 新增 `contentStyle` 统一样式传递
+  - 新增 10 个 demo：非对称列宽、卡片分组、折叠面板、加载态、分栏面板、吸顶标题、Tab 切换、表格嵌套、标签彩色映射、时间轴
+
+- **SForm**：新增 `labelWidth` 属性，支持 `number | string`，自动转为 Antd `labelCol.flex` 值
+- **SProTable**：新增 `margin` 属性（`number | boolean | string`），控制组件外边距
+
+### ⚡ 性能优化
+
+- **useProTable**：`extraParams` / `dispatchParams` 改用 ref 存储，从 `search` / `pagination` 依赖中移除，消除因父组件传入内联对象导致的连锁 callback 重建
+- **SProTable**：`titleProps` / `marginStyle` / `divStyle` 加 `useMemo` 缓存，静态样式常量提升到模块作用域，减少子组件无效渲染
+- **SDetail**：CSS 变量 + subgrid 替代 JS 计算布局，label 对齐零 JS 开销
+
+### 🗑️ 移除
+
+- **SDetail**：移除 `img` 图片渲染类型
+- **SDetail**：移除 `useId` 自定义 Hook
+- **SDependency**：移除字段联动组件及相关接口
+
+### 📝 工程
+
+- 新增 `AGENTS.md` AI 编码规范，约束代码可读性、命名、比较运算符等
+- 修复 CSS 重复选择器 `.sdetail-grid`
+- 更新 AI 文档版本及类型定义
+
 ## [1.10.3] - 2026-06-07
 
 ### 🔧 类型改进

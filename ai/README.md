@@ -1,4 +1,4 @@
-# @dalydb/sdesign v1.10.3
+# @dalydb/sdesign v1.11.0
 
 基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。
 
