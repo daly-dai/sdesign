@@ -10,32 +10,42 @@ export interface ProPaginationFields {
 }
 
 /** useProTable 配置 */
-export interface UseProTableOptions {
+export interface UseProTableOptions
+  extends Omit<
+    Options<any, any>,
+    'manual' | 'ready' | 'refreshDeps' | 'defaultParams'
+  > {
   /** 外部表单实例，不传则内部创建 */
   form?: FormInstance<any>;
   /**
+   * 表单初始值，mount 时写入表单。
+   * 适用场景：详情页返回时恢复上次的查询条件。
+   * 注意：此值仅在 mount 时生效一次，不会跟随外部变化自动更新。
+   */
+  defaultParams?: Record<string, unknown>;
+  /**
    * 是否准备好，默认 true。
-   * false 时初始化不请求。常用于等待依赖接口返回后设为 true
+   * false 时跳过初始化请求；变为 true 后自动触发搜索（仅首次）。
+   * 常用于等待字典接口等依赖返回后再请求列表。
    */
   ready?: boolean;
   /** 是否手动触发首次请求，默认 false */
   manual?: boolean;
   /** 分页字段映射 */
   paginationFields?: ProPaginationFields;
+  /**
+   * 依赖刷新数组。当数组内任意值变化时，自动重置到第一页并刷新。
+   * 适用场景：外部 tab / 筛选条件变化后自动更新列表。
+   */
+  refreshDeps?: any[];
   /** 额外请求参数，每次请求都会携带 */
   extraParams?: Record<string, unknown>;
   /** 请求前参数处理（合并 form + 分页 + extraParams 后） */
   dispatchParams?: (params: Record<string, unknown>) => Record<string, unknown>;
-  /** 请求参数二次转换（dispatchParams 之后） */
-  transformRequestParams?: (
-    params: Record<string, unknown>,
-  ) => Record<string, unknown>;
   /** 响应数据二次转换 */
   transformResponseData?: (
     data: Record<string, unknown>,
   ) => Record<string, unknown>;
-  /** ahooks useRequest 配置 */
-  serviceProps?: Options<any, any>;
 }
 
 /** useProTable 返回值 */

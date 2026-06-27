@@ -8,3 +8,7 @@ node_modules
 .jest-cache
 report
 .qoder/repowiki
+
+.reasonix/
+reasonix.toml
+.codegraph/

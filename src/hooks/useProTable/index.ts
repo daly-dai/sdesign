@@ -1,4 +1,4 @@
-import { useRequest } from 'ahooks';
+import { useRequest, useUpdateEffect } from 'ahooks';
 import { Form, type TablePaginationConfig } from 'antd';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
@@ -21,14 +21,15 @@ function useProTable<TParams = any>(
 ): UseProTableReturn {
   const {
     form: externalForm,
+    defaultParams,
     ready = true,
     manual = false,
     paginationFields,
+    refreshDeps = [],
     extraParams,
     dispatchParams,
-    transformRequestParams,
     transformResponseData,
-    serviceProps,
+    ...serviceProps
   } = options;
 
   const searchRef = useRef<() => void>(() => {});
@@ -58,13 +59,13 @@ function useProTable<TParams = any>(
   } = useRequest(
     async (params: Record<string, unknown>) => {
       let p = params;
-      if (transformRequestParams) p = transformRequestParams(p);
+      if (dispatchParamsRef.current) p = dispatchParamsRef.current(p);
       const res = await requestFn(p as TParams);
       if (transformResponseData)
         return transformResponseData(res as Record<string, unknown>);
       return res;
     },
-    { ...(serviceProps ?? {}), manual: true },
+    { ...serviceProps, manual: true },
   );
 
   // ---- 搜索 ----
@@ -76,7 +77,6 @@ function useProTable<TParams = any>(
       ...extraParamsRef.current,
       ...formVals,
     };
-    if (dispatchParamsRef.current) params = dispatchParamsRef.current(params);
     run(params);
   }, [form, pf, run]);
 
@@ -105,20 +105,45 @@ function useProTable<TParams = any>(
           ...extraParamsRef.current,
           ...formVals,
         };
-        if (dispatchParamsRef.current)
-          params = dispatchParamsRef.current(params);
         run(params);
       },
     };
   }, [raw, pf, form, run]);
 
   // ---- 初始化（仅一次）----
+  const hasAutoRunRef = useRef(false);
+
   useEffect(() => {
+    // 写入表单初始值（优先于自动搜索，避免 antd initialValues 被 form 实例忽略）
+    if (defaultParams && form) {
+      form.setFieldsValue(defaultParams);
+    }
+
     if (!manual && ready) {
+      hasAutoRunRef.current = true;
       const t = setTimeout(() => searchRef.current(), 0);
       return () => clearTimeout(t);
     }
   }, []);
+
+  // ---- ready 响应式：false → true 时自动搜（仅首次）----
+  useUpdateEffect(() => {
+    if (!manual && ready && !hasAutoRunRef.current) {
+      hasAutoRunRef.current = true;
+      // 恢复 defaultParams（如果 mount 时 ready 为 false，此时才写入）
+      if (defaultParams && form) {
+        form.setFieldsValue(defaultParams);
+      }
+      searchRef.current();
+    }
+  }, [ready, manual]);
+
+  // ---- refreshDeps 响应式：依赖变化时重置到第一页 -------
+  useUpdateEffect(() => {
+    if (!ready) return;
+    hasAutoRunRef.current = true;
+    searchRef.current();
+  }, [...refreshDeps]);
 
   // ---- 聚合 ----
   const tableProps = useMemo(
