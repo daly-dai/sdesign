@@ -100,13 +100,13 @@ describe('dict — 字典映射工具', () => {
       expect(getDictMap({ dictKey: undefined, globalDict: {} })).toEqual({});
     });
     it('globalDict[dictKey] 匹配 → 返回对应子对象', () => {
-      const globalDict = { status: { active: '启用' } };
+      const globalDict = { status: { active: '启用' } } as any;
       expect(getDictMap({ dictKey: 'status', globalDict })).toEqual({
         active: '启用',
       });
     });
     it('globalDict 中无 dictKey → 返回 {}', () => {
-      const globalDict = { status: { active: '启用' } };
+      const globalDict = { status: { active: '启用' } } as any;
       expect(getDictMap({ dictKey: 'nonexistent', globalDict })).toEqual({});
     });
     it('dictMap 为 null → 回退到 globalDict/{}（null 是 falsy）', () => {
