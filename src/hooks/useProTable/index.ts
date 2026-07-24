@@ -87,7 +87,22 @@ function useProTable<TParams = any>(
     search();
   }, [form, search]);
 
-  // ---- 分页 ----
+  // ---- 分页回调（提取为 useCallback 避免 pagination 内联函数导致级联重渲染）----
+  const handlePageChange = useCallback(
+    (pageNum: number, pageSize: number) => {
+      const formVals = form.getFieldsValue() ?? {};
+      let params: Record<string, unknown> = {
+        [pf.current]: pageNum,
+        [pf.pageSize]: pageSize,
+        ...extraParamsRef.current,
+        ...formVals,
+      };
+      run(params);
+    },
+    [form, pf, run],
+  );
+
+  // ---- 分页配置 ----
   const pagination = useMemo<TablePaginationConfig | false>(() => {
     if (!raw || Object.keys(raw).length === 0) return false;
     return {
@@ -97,18 +112,9 @@ function useProTable<TParams = any>(
       total: raw[pf.total] as number,
       showSizeChanger: true,
       pageSizeOptions: [10, 15, 20, 50, 100],
-      onChange: (pageNum: number, pageSize: number) => {
-        const formVals = form.getFieldsValue() ?? {};
-        let params: Record<string, unknown> = {
-          [pf.current]: pageNum,
-          [pf.pageSize]: pageSize,
-          ...extraParamsRef.current,
-          ...formVals,
-        };
-        run(params);
-      },
+      onChange: handlePageChange,
     };
-  }, [raw, pf, form, run]);
+  }, [raw, pf, handlePageChange]);
 
   // ---- 初始化（仅一次）----
   const hasAutoRunRef = useRef(false);

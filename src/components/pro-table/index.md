@@ -67,6 +67,7 @@
 | tableTitle  | 表格标题栏（`children` 左 / `actionNode` 右）  | `{ children?, actionNode? }`              | 无     |
 | style       | 根容器样式                                     | `CSSProperties`                           | 无     |
 | className   | 根容器类名                                     | `string`                                  | 无     |
+| margin      | 根容器外边距                                   | `number \| boolean \| string`             | 无     |
 
 ### RequestConfig
 

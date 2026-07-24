@@ -52,13 +52,15 @@ export interface UseProTableOptions
 /**
  * 数据请求函数
  *
- * 默认 data 为 any，兼容任意查询参数形态（pageIndex/pageNum/page、嵌套 params.page 等）。
- * 需要类型安全时显式传入 TParams：
+ * 默认 data / 返回值为 any，兼容任意查询参数形态和响应结构。
+ * 需要类型安全时显式传入泛型：
  * ```ts
- * const service: ProService<MyQuery> = (data) => api.getList(data);
+ * const service: ProService<MyQuery, PageResult<User>> = (data) => api.getList(data);
  * ```
  */
-export type ProService<TParams = any> = (data: TParams) => Promise<any>;
+export type ProService<TParams = any, TResponse = any> = (
+  data: TParams,
+) => Promise<TResponse>;
 
 /** useProTable 返回值 */
 export interface UseProTableReturn {
