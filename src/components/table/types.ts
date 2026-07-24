@@ -12,6 +12,7 @@ const RenderTypes = tuple('datetime', 'date', 'ellipsis', 'index');
  * - `'datetime'` — 渲染为日期时间格式
  * - `'date'` — 渲染为日期格式
  * - `'ellipsis'` — 超出省略显示
+ * - `'index'` — 行索引序号
  */
 export type RenderType = (typeof RenderTypes)[number];
 
@@ -32,6 +33,7 @@ export interface SColumn<RecordType = Record<string, unknown>>
    * - `'datetime'` — 渲染为日期时间
    * - `'date'` — 渲染为日期
    * - `'ellipsis'` — 超出省略
+   * - `'index'` — 行索引序号
    */
   render?: ColumnType<RecordType>['render'] | RenderType;
   /** 子列定义（列分组） */
@@ -65,8 +67,4 @@ export interface STableProps<RecordType = Record<string, unknown>>
   columns?: SColumnsType<RecordType>;
   /** 是否显示序号列 */
   isSeq?: boolean;
-  /** 当前页码（用于序号计算） */
-  current?: number;
-  /** 每页条数（用于序号计算） */
-  pageSize?: number;
 }

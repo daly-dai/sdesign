@@ -38,11 +38,3 @@ export function convertToText(t: any): string | number {
   // 对于未知类型，返回一个默认值或者可以抛出一个异常，取决于应用的需求
   return '-';
 }
-
-// table cell 超出长度样式设置展示...
-export const cellStyle = {
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-  display: 'block',
-};

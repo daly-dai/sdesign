@@ -32,16 +32,15 @@ group:
 
 ## Table
 
-| 属性名   | 描述                                                               | 类型    | 默认值 |
-| -------- | ------------------------------------------------------------------ | ------- | ------ |
-| width    | 宽度                                                               | number  |        |
-| maxChars | 最多展示几个字符                                                   | number  |        |
-| isSeq    | 是否进行当前页排序，跨页排序 pagination 需要配置 current、pageSize | boolean | false  |
-| current  | 当前页数                                                           | number  |        |
-| pageSize | 每页条数                                                           | number  |        |
+| 属性名 | 描述                                     | 类型    | 默认值 |
+| ------ | ---------------------------------------- | ------- | ------ |
+| isSeq  | 是否显示序号列，分页时自动按页码计算偏移 | boolean | false  |
+
+其他属性完整透传 antd Table，详见 [antd Table 文档](https://ant.design/components/table-cn#api)。
 
 ## Table.columns
 
-| 属性名  | 描述     | 类型   | 默认值 |
-| ------- | -------- | ------ | ------ |
-| dictKey | 字典 key | string |        |
+| 属性名  | 描述                                                                               | 类型                                                        | 默认值 |
+| ------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------ |
+| dictKey | 字典 key，配合 SConfigProvider 的 globalDict 自动映射                              | string                                                      |        |
+| render  | 列渲染器。除函数外支持字符串快捷类型：`'datetime'` `'date'` `'ellipsis'` `'index'` | `Function \| 'datetime' \| 'date' \| 'ellipsis' \| 'index'` |        |

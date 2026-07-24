@@ -78,8 +78,10 @@ function STableInner<RecordType = Record<string, unknown>>({
           } else {
             newCol.render = baseRender;
           }
+          return newCol;
         }
-        return newCol;
+        // 未知字符串 render 类型：清除 render，走后续默认文本渲染
+        delete newCol.render;
       }
 
       // 已有自定义 render
