@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.12.0
+
+### ⚠️ API Changes
+
+- **SForm**：移除 `type: 'upload'` 控件类型（此前因懒加载映射缺失已无法正常渲染），`FormFieldMapType`、`FORM_ITEM_COM_MAP`、`DEFAULT_CONFIG_MAP` 中同步清理
+
+### 🔧 Fixes
+
+- **SForm**：修复 `type='treeSelect'` 被错误标记为懒加载导致渲染为"未知组件类型"的 bug（从 `HEAVY_COMPONENTS` 移除，回归直接引用）
+- **SForm**：`Search` 组件操作区移除 `|| true` 死代码条件包裹
+- **SForm**：`Group` 组件移除 `filter().map()` 后的冗余 `|| []`
+
+### ✨ Enhancements
+
+- **SForm**：性能优化 — 移除 7 处无意义 `useMemo`（`formTypeConfig`×3 / `dynamicSpan` / `formStyle` / `itemName` / `styleData`），消除假 memo 的 GC 开销
+- **SForm**：移除未使用的 `FORM_ITEM_COM_MAP_BY_KEY` 和 `LIGHT_COMPONENTS` 死代码
+
+### ✨ Features
+
+- **SButton**：新增 `actionType="add"` 预设类型（图标 `Plus`，文字 `"新增"`，按钮类型 `primary`）
+
+### 🧪 Tests
+
+- **SForm**：单测从 3 文件 26 用例 → 6 文件 131 用例，新增 Search / Group / FormField 三个此前零测试的核心子组件覆盖
+- **SForm**：`instance.test.tsx`（6→23）/ `item-render.test.tsx`（8→25）/ `constant.test.ts`（12→28），补全 columns、labelWidth、layout、formName、fieldProps 优先级、22 种 type 全覆盖等场景
+
+### 📝 Docs
+
+- **SForm**：`index.md` / `form-documentation.md` / `ai/components/SForm.md` 移除 upload 类型描述
+- **SButton**：`ai/components/SButton.md` 新增 `add` 类型说明
+
 ## 1.10.2
 
 ### ⚠️ API Changes
