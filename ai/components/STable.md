@@ -20,7 +20,7 @@
 
 ## 类型定义
 
-**RenderType** — 列 render 快捷类型 在 columns 的 render 中可直接传字符串： - `'datetime'` — 渲染为日期时间格式 - `'date'` — 渲染为日期格式 - `'ellipsis'` — 超出省略显示: `(typeof RenderTypes)[number]`
+**RenderType** — 列 render 快捷类型 在 columns 的 render 中可直接传字符串： - `'datetime'` — 渲染为日期时间格式 - `'date'` — 渲染为日期格式 - `'ellipsis'` — 超出省略显示 - `'index'` — 行索引序号: `(typeof RenderTypes)[number]`
 
 **SColumnsType** — STable 列定义类型: `SColumn<RecordType>[]`
 
