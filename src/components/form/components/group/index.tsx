@@ -31,14 +31,7 @@ const Group: FC<SFormGroupProps> = ({
   readonly = false,
   ...formProps
 }) => {
-  const formTypeConfig = useMemo(() => {
-    if (!readonly) return {};
-
-    if (readonly)
-      return {
-        disabled: true,
-      };
-  }, [readonly]);
+  const formTypeConfig = readonly ? { disabled: true } : {};
 
   const handleFinish = useCallback(
     (values: any) => {
@@ -78,8 +71,9 @@ const Group: FC<SFormGroupProps> = ({
       >
         {renderTitle(groupItem?.title)}
         <Row gutter={[24, 16]} {...groupItem?.rowProps}>
-          {((groupItem.items ?? []).filter((item) => !item.hidden) || []).map(
-            (item, itemIndex) => {
+          {(groupItem.items ?? [])
+            .filter((item) => !item.hidden)
+            .map((item, itemIndex) => {
               const itemFormName = getItemFormName(
                 item?.formName,
                 groupItem?.formName,
@@ -103,8 +97,7 @@ const Group: FC<SFormGroupProps> = ({
                   />
                 </Col>
               );
-            },
-          )}
+            })}
         </Row>
       </DynamicContainer>
     );

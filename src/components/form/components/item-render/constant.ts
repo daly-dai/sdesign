@@ -109,7 +109,6 @@ export const DEFAULT_CONFIG_MAP: Record<
   slider: undefined,
   radio: undefined,
   switch: undefined,
-  upload: undefined,
   checkbox: undefined,
   checkGroup: undefined,
   table: undefined,

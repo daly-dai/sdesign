@@ -45,7 +45,7 @@
 - disabled?: boolean — 统一禁用
 - loading?: boolean — 统一 loading
 
-**SButtonActionType** — 预设操作按钮类型 可选值: `'save'` | `'cancel'` | `'reset'` | `'upload'` | `'download'` | `'export'` | `'import'` | `'delete'` | `'view'` | `'back'` | `'next'` | `'previous'` | `'finish'` | `'create'` | `'edit'` | `'confirm'` | `'close'` | `'refresh'` | `'search'` | `'t-link'`: `(typeof SButtonActionTypes)[number]`
+**SButtonActionType** — 预设操作按钮类型 可选值: `'add'` | `'save'` | `'cancel'` | `'reset'` | `'upload'` | `'download'` | `'export'` | `'import'` | `'delete'` | `'view'` | `'back'` | `'next'` | `'previous'` | `'finish'` | `'create'` | `'edit'` | `'confirm'` | `'close'` | `'refresh'` | `'search'` | `'t-link'`: `(typeof SButtonActionTypes)[number]`
 
 ## 使用示例
 

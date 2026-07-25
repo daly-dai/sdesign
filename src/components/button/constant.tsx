@@ -11,6 +11,7 @@ export const tLinkStyle: CSSProperties = {
 };
 
 // 创建 Memoized Icons 以避免每次渲染时创建新的 React 元素
+const MemoizedPlusIcon = memo(() => <LucideIcon name="Plus" />);
 const MemoizedSaveIcon = memo(() => <LucideIcon name="Save" />);
 const MemoizedRotateCcwIcon = memo(() => <LucideIcon name="RotateCcw" />);
 const MemoizedUploadIcon = memo(() => <LucideIcon name="Upload" />);
@@ -44,6 +45,11 @@ const defaultConfig: Record<string, Partial<ButtonProps>> = {
   },
   text: {
     type: 'text',
+  },
+  add: {
+    type: 'primary',
+    icon: <MemoizedPlusIcon />,
+    children: '新增',
   },
   save: {
     type: 'primary',

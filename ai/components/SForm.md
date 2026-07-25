@@ -99,7 +99,6 @@
 - radioGroup: typeof SRadioGroup — 单选按钮组 (SRadioGroup)
 - switch: typeof Switch — 开关
 - treeSelect: typeof TreeSelect — 树选择
-- upload: typeof Upload — 文件上传
 - datePicker: typeof SDatePicker — 增强日期选择器 (SDatePicker)，onChange 直接返回字符串
 - SDatePicker: typeof SDatePicker
 - datePickerRange: typeof SDatePickerRange — 增强日期范围选择器 (SDatePickerRange)，支持 rangeKeys 拆分
@@ -112,7 +111,7 @@
 - SCascader: typeof SCascader
 - table: typeof Table — 嵌套表格
 
-**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
+**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
 
 **FormComPropsType**: `Omit< HTMLAttributes<object>, 'onChange' | 'onFocus' | 'onBlur' > & ComponentProps<FormFieldMapType[FormComType]>`
 

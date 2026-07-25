@@ -267,7 +267,6 @@ sequenceDiagram
 | cascader         | SCascader              | 增强级联选择                   |
 | SCascader        | SCascader              | 已废弃，请使用 cascader        |
 | treeSelect       | TreeSelect             | 树选择                         |
-| upload           | Upload                 | 上传                           |
 | checkbox         | Checkbox               | 复选框                         |
 | table            | Table                  | 表格                           |
 | placeholder      | -                      | 占位符                         |
@@ -362,7 +361,7 @@ function FormField<T extends FormComType>({
 - **IMP-001**: 使用 `memo` 包裹所有子组件，避免不必要的重渲染
 - **IMP-002**: 使用 `useMemo` 缓存计算结果 (dynamicSpan, visibleItems, formStyle)
 - **IMP-003**: 使用 `useCallback` 缓存事件处理函数 (handleFinish, handleReset)
-- **IMP-004**: 重型组件 (cascader, table, upload, treeSelect) 使用 `lazy` + `Suspense` 懒加载
+- **IMP-004**: 重型组件 (cascader, table) 使用 `lazy` + `Suspense` 懒加载
 - **IMP-005**: 使用 `Map` 数据结构优化组件查找性能
 
 ### 校验规则处理

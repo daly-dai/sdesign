@@ -21,7 +21,6 @@ import useExpand from '@dalydb/sdesign/hooks/useExpand';
 
 const Search: FC<SearchProps> = memo(
   ({
-    // rowProps: _rowProps,
     columns = 4,
     items,
     actionNode,
@@ -54,10 +53,7 @@ const Search: FC<SearchProps> = memo(
       return [16, 24];
     }, [gap]);
 
-    const formTypeConfig = useMemo(() => {
-      if (!readonly) return {};
-      return { disabled: true };
-    }, [readonly]);
+    const formTypeConfig = readonly ? { disabled: true } : {};
 
     const handleFinish = useCallback(
       (values: any) => {
@@ -188,34 +184,32 @@ const Search: FC<SearchProps> = memo(
               );
             })}
 
-            {(actionNode || extraButtons || showCollapse || true) && (
-              <div className={`${base}-action`} style={actionStyle}>
-                {actionNode ?? (
-                  <>
-                    <Button
-                      icon={<SearchOutlined />}
-                      type="primary"
-                      htmlType="submit"
-                    >
-                      查询
-                    </Button>
-                    <Button icon={<ReloadOutlined />} htmlType="reset">
-                      重置
-                    </Button>
-                    {extraButtons?.length ? (
-                      <SButtonGroup items={extraButtons} />
-                    ) : null}
-                    {showCollapse && (
-                      <SCollapse
-                        collapse={!expanded}
-                        setCollapse={(val: boolean) => setExpanded(!val)}
-                        onExpand={props?.onExpand}
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-            )}
+            <div className={`${base}-action`} style={actionStyle}>
+              {actionNode ?? (
+                <>
+                  <Button
+                    icon={<SearchOutlined />}
+                    type="primary"
+                    htmlType="submit"
+                  >
+                    查询
+                  </Button>
+                  <Button icon={<ReloadOutlined />} htmlType="reset">
+                    重置
+                  </Button>
+                  {extraButtons?.length ? (
+                    <SButtonGroup items={extraButtons} />
+                  ) : null}
+                  {showCollapse && (
+                    <SCollapse
+                      collapse={!expanded}
+                      setCollapse={(val: boolean) => setExpanded(!val)}
+                      onExpand={props?.onExpand}
+                    />
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </Form>
       </DynamicContainer>

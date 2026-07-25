@@ -9,6 +9,7 @@ import { tuple } from '@dalydb/sdesign/utils';
  * 每种 actionType 预设了按钮文字、图标和样式，无需手动设置 children。
  */
 export const SButtonActionTypes = tuple(
+  'add',
   'save',
   'cancel',
   'reset',
@@ -34,7 +35,7 @@ export const SButtonActionTypes = tuple(
 /**
  * 预设操作按钮类型
  *
- * 可选值: `'save'` | `'cancel'` | `'reset'` | `'upload'` | `'download'` | `'export'` |
+ * 可选值: `'add'` | `'save'` | `'cancel'` | `'reset'` | `'upload'` | `'download'` | `'export'` |
  * `'import'` | `'delete'` | `'view'` | `'back'` | `'next'` | `'previous'` |
  * `'finish'` | `'create'` | `'edit'` | `'confirm'` | `'close'` | `'refresh'` |
  * `'search'` | `'t-link'`

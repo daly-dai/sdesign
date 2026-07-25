@@ -213,7 +213,7 @@ export default () => {
 ## type 类型及其相关配置
 
 | 组件类型名称     | 组件类型相关配置                                                                         |
-| ---------------- | ---------------------------------------------------------------------------------------- | --- |
+| ---------------- | ---------------------------------------------------------------------------------------- |
 | input            | [input](https://ant-design.antgroup.com/components/input-cn#input)                       |
 | inputNumber      | [inputNumber](https://ant-design.antgroup.com/components/input-number-cn#api)            |
 | select           | [Select](/components/select#api)                                                         |
@@ -223,7 +223,6 @@ export default () => {
 | radioGroup       | [radioGroup](/components/radio-group#api)                                                |
 | switch           | [SSelect](https://ant-design.antgroup.com/components/switch-cn#api)                      |
 | treeSelect       | [treeSelect](https://ant-design.antgroup.com/components/tree-select-cn#api)              |
-| upload           | [antd upload](/components/select#api)                                                    |     |
 | datePicker       | [SDatePicker](/components/date-picker#api)                                               |
 | SDatePicker      | (已废弃，请使用 datePicker) [SDatePicker](/components/date-picker#api)                   |
 | datePickerRange  | [SDatePickerRange](/components/date-picker-range#api)                                    |

@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import React, { FC, memo, useCallback, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 
 import { ItemsProps } from '../../types';
 import FormField from '../form-field';
@@ -8,9 +8,6 @@ import { genRequiredRule, getDefaultConfig, getRegData } from './constant';
 
 import SErrorBoundary from '@dalydb/sdesign/components/error-boundary';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
-
-const EMPTY_OBJECT = {};
-const EMPTY_FORM_INSTANCE = {} as any;
 
 const ItemRender: FC<ItemsProps> = ({
   type,
@@ -42,29 +39,21 @@ const ItemRender: FC<ItemsProps> = ({
   }, [restProps?.rules, regKey, required]);
 
   // 计算FormItem的name
-  const itemName = useMemo(() => {
-    if (!formName || !name) return name;
+  const itemName = !formName || !name ? name : [formName, name];
 
-    return [formName, name];
-  }, [name, formName]);
+  // 获取当前表单实例和值，供 customCom 使用
+  const formInstance = Form.useFormInstance();
+  const formValues = Form.useWatch([], formInstance) ?? {};
 
-  // 优化自定义组件渲染
-  const renderCustomCom = useCallback(() => {
+  const customComNode = useMemo(() => {
     if (!customCom) return null;
-
     if (typeof customCom === 'function') {
-      return customCom(EMPTY_OBJECT, EMPTY_FORM_INSTANCE);
+      return customCom(formValues, formInstance);
     }
-
     return customCom;
-  }, [customCom]);
+  }, [customCom, formValues, formInstance]);
 
-  const styleData = useMemo(() => {
-    return {
-      marginBottom: 0,
-      ...style,
-    };
-  }, [style]);
+  const styleData = { marginBottom: 0, ...style };
 
   if (children) {
     return (
@@ -94,7 +83,7 @@ const ItemRender: FC<ItemsProps> = ({
         rules={itemRules}
       >
         {customCom ? (
-          renderCustomCom()
+          customComNode
         ) : (
           <FormField
             type={type as any}

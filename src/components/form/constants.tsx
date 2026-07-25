@@ -8,10 +8,8 @@ import {
   Table,
   TimePicker,
   TreeSelect,
-  Upload,
 } from 'antd';
 
-import 'dayjs';
 import SCascader from '../cascader';
 import SCheckGroup from '../check-group';
 import SDatePicker from '../date-picker';
@@ -34,7 +32,6 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   radioGroup: SRadioGroup,
   switch: Switch,
   treeSelect: TreeSelect,
-  upload: Upload,
   datePicker: SDatePicker,
   SDatePicker: SDatePicker,
   datePickerRange: SDatePickerRange,
@@ -49,20 +46,4 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
 };
 
 // Bundle 优化配置 - 标记重型组件
-export const HEAVY_COMPONENTS = [
-  'cascader',
-  'table',
-  'upload',
-  'treeSelect',
-  'SCascader',
-] as const;
-
-// 轻量级组件
-export const LIGHT_COMPONENTS = Object.keys(FORM_ITEM_COM_MAP).filter(
-  (key) => !HEAVY_COMPONENTS.includes(key as any),
-);
-
-// 优化组件查找性能
-export const FORM_ITEM_COM_MAP_BY_KEY: Map<string, any> = new Map(
-  Object.entries(FORM_ITEM_COM_MAP),
-);
+export const HEAVY_COMPONENTS = ['cascader', 'table', 'SCascader'] as const;

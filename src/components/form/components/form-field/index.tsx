@@ -32,7 +32,11 @@ function FormField({ type, ...restProps }: FormFieldProps) {
       ] as React.ComponentType<any>);
 
   if (!Component) {
-    console.error(`Component for type ${type} not found in FORM_ITEM_COM_MAP.`);
+    if (process.env.NODE_ENV === 'development') {
+      console.error(
+        `Component for type ${type} not found in FORM_ITEM_COM_MAP.`,
+      );
+    }
     return <div>未知组件类型: {type}</div>;
   }
 

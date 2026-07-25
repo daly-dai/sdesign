@@ -12,7 +12,6 @@ import {
   Table,
   TimePicker,
   TreeSelect,
-  Upload,
 } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import React, { ComponentProps, HTMLAttributes, ReactNode } from 'react';
@@ -70,8 +69,6 @@ export type FormFieldMapType = {
   switch: typeof Switch;
   /** 树选择 */
   treeSelect: typeof TreeSelect;
-  /** 文件上传 */
-  upload: typeof Upload;
   /** 增强日期选择器 (SDatePicker)，onChange 直接返回字符串 */
   datePicker: typeof SDatePicker;
   /** @deprecated 请使用 'datePicker'，此别名将在未来版本移除 */
@@ -100,7 +97,7 @@ export type FormFieldMapType = {
  * 表单控件类型
  *
  * 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` |
- * `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'upload'` | `'datePicker'` |
+ * `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'datePicker'` |
  * `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` |
  * `'cascader'` | `'table'`
  *
