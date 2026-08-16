@@ -1,7 +1,8 @@
 import { Form } from 'antd';
-import React, { FC, memo, useMemo } from 'react';
+import React, { FC, ReactNode, memo, useMemo } from 'react';
 
-import { ItemsProps } from '../../types';
+import { ItemsProps, RenderChildren } from '../../types';
+import { resolveNamePath } from '../../utils';
 import FormField from '../form-field';
 
 import { genRequiredRule, getDefaultConfig, getRegData } from './constant';
@@ -9,27 +10,33 @@ import { genRequiredRule, getDefaultConfig, getRegData } from './constant';
 import SErrorBoundary from '@dalydb/sdesign/components/error-boundary';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 
-const ItemRender: FC<ItemsProps> = ({
+/**
+ * 计算 Form.Item 的公共配置（label/name/rules/style/restProps 等）。
+ * 注意：colProps/hidden/gridColumn 由父级布局消费，这里显式丢弃，不透传到 Form.Item。
+ */
+function useItemConfig({
   type,
   label,
   name,
   fieldProps,
   style,
-  customCom,
   regKey,
   required,
   readonly,
   formName,
-  children,
   disabled,
+  children: _children,
+  customCom: _customCom,
+  colProps: _colProps,
+  hidden: _hidden,
+  gridColumn: _gridColumn,
   ...restProps
-}) => {
-  // 缓存默认配置
-  const defaultConfig = useMemo(() => {
-    return getDefaultConfig(type, readonly);
-  }, [type, readonly]);
+}: ItemsProps) {
+  const defaultConfig = useMemo(
+    () => getDefaultConfig(type, readonly),
+    [type, readonly],
+  );
 
-  // 缓存表单校验规则
   const itemRules = useMemo(() => {
     const defaultRules = restProps?.rules ?? [];
     const curReg = getRegData(regKey as RegKeyType) ?? [];
@@ -38,22 +45,71 @@ const ItemRender: FC<ItemsProps> = ({
     return [...defaultRules, ...requiredRule, ...curReg];
   }, [restProps?.rules, regKey, required]);
 
-  // 计算FormItem的name
-  const itemName = !formName || !name ? name : [formName, name];
+  const itemName = resolveNamePath(name, formName);
+  // 单独使用 SForm.Item 时保留 antd 默认下边距；items 数组路径由父级
+  // 显式传入 marginBottom:0（配合 Row 的垂直 gutter），避免双重间距
+  const styleData = style;
 
-  // 获取当前表单实例和值，供 customCom 使用
+  return {
+    type,
+    label,
+    fieldProps,
+    disabled,
+    defaultConfig,
+    itemRules,
+    itemName,
+    styleData,
+    restProps,
+  };
+}
+
+/**
+ * 函数型 customCom：需要订阅表单值。
+ * 结果作为 Form.Item 的直接子节点，保留 antd 的 value/onChange 注入能力。
+ */
+const CustomComItem: FC<
+  ItemsProps & { customCom: RenderChildren<Record<string, unknown>> }
+> = memo(({ customCom, ...props }) => {
+  const { label, itemRules, itemName, styleData, restProps } =
+    useItemConfig(props);
+
   const formInstance = Form.useFormInstance();
   const formValues = Form.useWatch([], formInstance) ?? {};
 
-  const customComNode = useMemo(() => {
-    if (!customCom) return null;
-    if (typeof customCom === 'function') {
-      return customCom(formValues, formInstance);
-    }
-    return customCom;
-  }, [customCom, formValues, formInstance]);
+  return (
+    <SErrorBoundary>
+      <Form.Item
+        style={styleData}
+        label={label}
+        name={itemName}
+        {...restProps}
+        rules={itemRules}
+      >
+        {customCom(formValues, formInstance)}
+      </Form.Item>
+    </SErrorBoundary>
+  );
+});
 
-  const styleData = { marginBottom: 0, ...style };
+/**
+ * 静态 / ReactNode 型 customCom：不订阅表单值，避免全表单重渲染。
+ */
+type StaticItemProps = Omit<ItemsProps, 'customCom'> & {
+  customCom?: ReactNode;
+};
+
+const StaticItem: FC<StaticItemProps> = memo((props) => {
+  const { children, customCom, type } = props;
+  const {
+    label,
+    fieldProps,
+    disabled,
+    defaultConfig,
+    itemRules,
+    itemName,
+    styleData,
+    restProps,
+  } = useItemConfig(props);
 
   if (children) {
     return (
@@ -83,10 +139,10 @@ const ItemRender: FC<ItemsProps> = ({
         rules={itemRules}
       >
         {customCom ? (
-          customComNode
+          customCom
         ) : (
           <FormField
-            type={type as any}
+            type={type}
             {...defaultConfig}
             disabled={disabled}
             {...fieldProps}
@@ -95,6 +151,23 @@ const ItemRender: FC<ItemsProps> = ({
       </Form.Item>
     </SErrorBoundary>
   );
+});
+
+/**
+ * 表单项渲染入口：按 customCom 是否为函数分流。
+ */
+const ItemRender: FC<ItemsProps> = (props) => {
+  const { customCom } = props;
+
+  if (typeof customCom === 'function') {
+    return (
+      <CustomComItem
+        {...props}
+        customCom={customCom as RenderChildren<Record<string, unknown>>}
+      />
+    );
+  }
+  return <StaticItem {...props} customCom={customCom} />;
 };
 
 export default memo(ItemRender);

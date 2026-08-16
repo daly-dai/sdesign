@@ -11,6 +11,16 @@ module.exports = {
     },
   },
   rules: {
+    // 允许以 `_` 开头的变量/参数不被使用（显式丢弃）
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+      },
+    ],
     //...
     // 'import/order': [
     //   'error',

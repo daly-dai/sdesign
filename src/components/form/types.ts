@@ -14,7 +14,7 @@ import {
   TreeSelect,
 } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import React, { ComponentProps, HTMLAttributes, ReactNode } from 'react';
+import React, { ComponentProps, ReactNode } from 'react';
 
 import SCascader from '../cascader';
 import SCheckGroup from '../check-group';
@@ -27,15 +27,18 @@ import SSelect from '../select';
 import { RegKeyType } from '@dalydb/sdesign/types/reg';
 import { SButtonsItem } from '../button/types';
 
-type RenderChildren<Values = any> = (
-  values: Record<string, any>,
+/**
+ * 自定义渲染函数：接收当前表单值与表单实例
+ */
+export type RenderChildren<Values = Record<string, unknown>> = (
+  values: Values,
   form: import('antd').FormInstance<Values>,
 ) => React.ReactNode;
 
 /**
  * 表单控件类型映射表
  *
- * 定义了 SForm items 中 `type` 字段所有可选值及其对应组件。
+ * 定义了 SForm items 中 `type` 字段所有规范可选值及其对应组件。
  * 使用时，`fieldProps` 的类型会根据 `type` 自动推导。
  *
  * @example
@@ -71,12 +74,8 @@ export type FormFieldMapType = {
   treeSelect: typeof TreeSelect;
   /** 增强日期选择器 (SDatePicker)，onChange 直接返回字符串 */
   datePicker: typeof SDatePicker;
-  /** @deprecated 请使用 'datePicker'，此别名将在未来版本移除 */
-  SDatePicker: typeof SDatePicker;
   /** 增强日期范围选择器 (SDatePickerRange)，支持 rangeKeys 拆分 */
   datePickerRange: typeof SDatePickerRange;
-  /** @deprecated 请使用 'datePickerRange'，此别名将在未来版本移除 */
-  SDatePickerRange: typeof SDatePickerRange;
   /** 时间选择器 */
   timePicker: typeof TimePicker;
   /** 时间范围选择器 */
@@ -87,72 +86,41 @@ export type FormFieldMapType = {
   checkGroup: typeof SCheckGroup;
   /** 增强级联选择器 (SCascader) */
   cascader: typeof SCascader;
-  /** @deprecated 请使用 'cascader'，此别名将在未来版本移除 */
-  SCascader: typeof SCascader;
   /** 嵌套表格 */
   table: typeof Table;
 };
 
 /**
- * 表单控件类型
- *
- * 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` |
- * `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'datePicker'` |
- * `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` |
- * `'cascader'` | `'table'`
- *
- * 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`
+ * 表单控件类型（规范组件，不含废弃别名）
  */
 export type FormComType = keyof FormFieldMapType;
 
-export type FormComPropsType = Omit<
-  HTMLAttributes<object>,
-  'onChange' | 'onFocus' | 'onBlur'
-> &
-  ComponentProps<FormFieldMapType[FormComType]>;
-
-export type FormItemType = FormComType | 'placeholder';
+/**
+ * 已废弃的组件别名（仅用于运行时向后兼容，不参与 FormComType 联合，
+ * 避免扩大 fieldProps 的类型联合、触发 TS2590）
+ */
+export type DeprecatedComType =
+  | 'SDatePicker'
+  | 'SDatePickerRange'
+  | 'SCascader';
 
 /**
- * 表单项配置
- *
- * 用于 SForm 的 `items` 数组中，每一项描述一个表单控件。
- * `type` 决定渲染哪种控件，`fieldProps` 类型会根据 `type` 自动推导。
- *
- * @example
- * ```tsx
- * const item: ItemsProps = {
- *   label: '用户名',
- *   name: 'username',
- *   type: 'input',
- *   required: '请输入用户名',
- *   fieldProps: { placeholder: '请输入' },
- * };
- * ```
+ * 表单项 type 的完整取值：规范组件类型 + 废弃别名 + 占位符
  */
-export interface ItemsProps<T extends FormItemType = FormItemType>
-  extends Omit<FormItemProps, 'label' | 'name' | 'required'> {
+export type FormItemType = FormComType | DeprecatedComType | 'placeholder';
+
+/**
+ * 所有表单项共享的公共字段（type 与 fieldProps 除外）
+ */
+type CommonItemProps = Omit<
+  FormItemProps,
+  'label' | 'name' | 'required' | 'children'
+> & {
   /** 表单项标签 */
   label?: ReactNode;
   /** 表单项字段名，支持嵌套路径如 ['user', 'name'] */
   name?: NamePath;
   style?: React.CSSProperties;
-  /**
-   * 控件类型，决定渲染哪种表单组件
-   * @default 'input'
-   */
-  type?: T;
-  /**
-   * 控件属性，类型根据 type 自动推导
-   *
-   * 例如 type='select' 时，fieldProps 支持 options/mode 等 Select 属性
-   */
-  fieldProps?: T extends keyof FormFieldMapType
-    ? Omit<HTMLAttributes<object>, 'onChange' | 'onFocus' | 'onBlur'> &
-        ComponentProps<FormFieldMapType[T]>
-    : undefined;
-  /** 自定义组件，替代 type 内置组件 */
-  customCom?: ReactNode | RenderChildren<any>;
   /** 内置校验规则 key，如 'phone'、'percentage' 等 */
   regKey?: RegKeyType;
   /**
@@ -168,22 +136,57 @@ export interface ItemsProps<T extends FormItemType = FormItemType>
   /** 嵌套表单的字段前缀，用于数据结构嵌套 */
   formName?: string;
   children?: ReactNode;
-}
-
-/**
- * SForm 表单项配置（带布局）
- *
- * 在 ItemsProps 基础上增加了栅格布局和显隐控制。
- */
-export interface SFormItems<T extends FormItemType = FormItemType>
-  extends ItemsProps<T> {
+  /** 自定义组件，替代 type 内置组件 */
+  customCom?: ReactNode | RenderChildren<Record<string, unknown>>;
   /** 栅格布局配置，控制单个表单项占据的列宽 */
   colProps?: ColProps;
   /** 是否隐藏该表单项（隐藏后仍参与表单提交） */
   hidden?: boolean;
-  /** CSS Grid 列跨度，仅 SForm.Search 组件生效 */
-  gridColumn?: number | string;
-}
+  /** CSS Grid 列跨度（1~columns），仅 SForm.Search 组件生效 */
+  gridColumn?: number;
+};
+
+/**
+ * 规范组件的 type 与 fieldProps 强关联（判别式）
+ */
+type FieldItemByType<K extends FormComType> = {
+  type: K;
+  fieldProps?: ComponentProps<FormFieldMapType[K]>;
+};
+
+type FormComFieldItem = {
+  [K in FormComType]: FieldItemByType<K>;
+}[FormComType];
+
+/**
+ * 无强类型 fieldProps 的 type：placeholder / 废弃别名 / type 缺省（默认 input）
+ */
+type NonFieldItem = {
+  type?: 'placeholder' | DeprecatedComType;
+};
+
+/**
+ * SForm 表单项配置
+ *
+ * 判别式联合：`type` 决定渲染哪种控件，`fieldProps` 类型根据 `type` 自动推导。
+ *
+ * @example
+ * ```tsx
+ * const items: SFormItems[] = [
+ *   { label: '姓名', name: 'name', type: 'input', required: true },
+ *   { label: '部门', name: 'dept', type: 'select', fieldProps: { options } },
+ * ];
+ * ```
+ */
+export type SFormItems = (FormComFieldItem | NonFieldItem) & CommonItemProps;
+
+/**
+ * ItemRender 内部使用的单项配置（fieldProps 宽松，避免在联合类型上解构）
+ */
+export type ItemsProps = CommonItemProps & {
+  type?: FormItemType;
+  fieldProps?: Record<string, any>;
+};
 
 /**
  * SForm 表单组件 Props
@@ -203,12 +206,12 @@ export interface SFormItems<T extends FormItemType = FormItemType>
  * />
  * ```
  */
-export interface SFormProps extends FormProps {
+export interface SFormProps<Values = any> extends FormProps<Values> {
   /** 行布局配置 */
   rowProps?: RowProps;
   children?: ReactNode;
   /** 表单项配置数组，核心属性 */
-  items?: Array<SFormItems<FormItemType>>;
+  items?: Array<SFormItems>;
   /**
    * 列数，表单项自动等分排列
    * @default 1
@@ -221,7 +224,7 @@ export interface SFormProps extends FormProps {
    */
   required?: string | boolean;
   /** 表单提交回调 */
-  onFinish?: (e?: any) => void;
+  onFinish?: (values: Values) => void;
   /** 表单重置回调 */
   onReset?: (e?: any) => void;
   /** 只读模式 */
@@ -250,7 +253,7 @@ export type GroupItemsType = {
   /** 分组标题 */
   title?: ReactNode;
   /** 该分组的表单项 */
-  items?: Array<SFormItems<FormItemType>>;
+  items?: Array<SFormItems>;
   rowProps?: RowProps;
   /** 嵌套表单的字段前缀 */
   formName?: string;
@@ -272,11 +275,11 @@ export type GroupItemsType = {
  * />
  * ```
  */
-export interface SFormGroupProps extends FormProps {
+export interface SFormGroupProps<Values = any> extends FormProps<Values> {
   /** 分组配置数组 */
   groupItems?: GroupItemsType[];
-  onFinish?: (e: any) => void;
-  onReset?: (e: any) => void;
+  onFinish?: (values: Values) => void;
+  onReset?: (e?: any) => void;
   /** 自定义容器组件 */
   container?: React.ComponentType<any>;
   /** 嵌套表单的字段前缀 */
@@ -284,6 +287,11 @@ export interface SFormGroupProps extends FormProps {
   children?: ReactNode;
   /** 只读模式 */
   readonly?: boolean;
+  /**
+   * 统一 label 宽度
+   * @example labelWidth={100}
+   */
+  labelWidth?: number | string;
 }
 
 /**
@@ -303,7 +311,7 @@ export interface SFormGroupProps extends FormProps {
  * />
  * ```
  */
-export interface SearchProps extends SFormProps {
+export interface SearchProps<Values = any> extends SFormProps<Values> {
   /**
    * 是否默认展开所有搜索项
    * @default false

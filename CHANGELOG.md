@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.13.0
+
+### ⚠️ API Changes
+
+- **SForm**：`items[].fieldProps` 类型从 `HTMLAttributes<object> &` 交叉改为判别式联合，随 `type` 精确推导（`type:'select'`→`SelectProps`、`type:'input'`→`SInputProps` 等），并根治声明生成时的 TS2590
+- **SForm**：废弃别名 `SDatePicker` / `SDatePickerRange` / `SCascader` 移出 `FormComType` 类型联合（运行时 `FORM_ITEM_COM_MAP` 仍兼容），`items` 中使用这些别名字面量将不再有 `fieldProps` 类型提示，建议迁移到规范名
+- **SForm**：移除未使用导出 `FormComPropsType`；`ItemsProps` 改为内部宽松类型，公开配置统一走 `SFormItems`
+- **SForm**：`gridColumn` 类型 `number | string` → `number`（字符串值此前从未生效）
+- **SForm**：`onFinish` 类型由 `(e?: any) => void` 恢复为 `(values: Values) => void`，`SFormProps` / `SFormGroupProps` / `SearchProps` 泛型化
+- **SForm**：`SForm.Item` 单独使用时不再强制 `marginBottom: 0`，恢复 antd 默认下边距（`items` 数组路径行为不变）
+
+### 🔧 Fixes
+
+- **SForm**：`SDatePickerRange` / `SCascader` / `SCheckGroup` 由 `useState + useEffect` 同步外部值改为半受控 `useMemo`，修复受控场景的闪烁 / 丢输入 / 双重渲染
+- **SForm**：修复 `Search` 非卡片模式 `style` 覆盖默认 `marginBottom`；key 改用 `namePathToKey`（数组 name 不再变 `a,b`）；`gridColumn` 加 `[1, columns]` clamp；补空 label 项的列间距
+- **SForm**：修复 `colProps` / `hidden` / `gridColumn` 泄漏进 `Form.Item`；`formName` 嵌套与 key 生成统一为 `resolveNamePath` / `namePathToKey`
+- **DynamicContainer**：移除 `<CustomContainer {...(props as any)}>` 展开函数组件 props 的 hack
+- **SInput**：trim 不再作用于显示值，修复光标跳动 / 首尾空格无法输入
+- **utils**：修复 `types/reg.d.ts` 的 `key: regKey` 未定义类型；修复 `validate()` 带 `g` 标志正则的 `lastIndex` 残留
+
+### ✨ Enhancements
+
+- **SForm**：移除 ItemRender 全表单 `Form.useWatch`，普通表单项零订阅（输入不再触发全表单重渲染，仅函数型 `customCom` 订阅）
+- **SForm**：cascader / table 重组件统一静态加载，删除 `lazy()` + `Suspense`
+- **SForm**：抽取 `useFormBehavior` / `resolveLabelCol` / `resolveNamePath` / `namePathToKey`，消除 InstanceForm / Group / Search 重复逻辑
+- **SForm**：`DEFAULT_CONFIG_MAP` 去生成函数改字面量；`Group` 补齐 `labelWidth` / `labelCol`；三种模式容器底部 `marginBottom: 16` 统一
+
+### 🧪 Tests
+
+- 新增 `utils/reg.test.ts`（`validate` 的 `g` 标志 lastIndex 回归）
+- 新增 `check-group` 半受控单测（受控反序列化 / 非受控 onChange 序列化）
+- `form-field` 补 `SDatePicker` / `SDatePickerRange` 废弃别名运行时兼容测试；`item-render` 样式断言强化
+- 全量测试 350 用例通过
+
+### 📦 Dependencies
+
+- `jsdom` `^27.4.0` → `^30.0.0`（解决 Node 24 下 ESM 依赖加载问题）
+- `test` / `test:watch` 脚本加 `--experimental-require-module`
+- 新增 `.nvmrc`（`18.19.0`，用于 dumi 文档站）
+
 ## 1.12.0
 
 ### ⚠️ API Changes

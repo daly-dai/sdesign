@@ -54,7 +54,7 @@ const RegKeys = tuple(
 export type RegKeyType = (typeof RegKeys)[number];
 
 export interface RegItem {
-  key: regKey;
+  key: RegKeyType;
   message: string;
   pattern: RegExp;
 }

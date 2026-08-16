@@ -137,9 +137,12 @@ export const REG_KEY_MAP: Record<RegKeyType, RegItem> = {
  * @returns 如果符合规则则返回true，否则返回false
  */
 export function validate(key: RegKeyType, value: any): boolean {
-  if (!REG_KEY_MAP[key]) return false;
+  const regData = REG_KEY_MAP[key]?.pattern;
 
-  const regData = REG_KEY_MAP[key].pattern;
+  if (!regData) return false;
 
-  return new RegExp(regData).test(value);
+  // 带 g 标志的正则 test 有状态（lastIndex 残留），校验前重置
+  regData.lastIndex = 0;
+
+  return regData.test(value);
 }

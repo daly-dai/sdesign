@@ -17,13 +17,7 @@ const SDynamicContainer: FC<ContainerProps> = ({
   isCard = true,
   ...cardProps
 }) => {
-  if (CustomContainer)
-    return (
-      // @ts-ignore
-      <CustomContainer {...(CustomContainer?.props as any)}>
-        {children}
-      </CustomContainer>
-    );
+  if (CustomContainer) return <CustomContainer>{children}</CustomContainer>;
 
   if (!isCard) return children;
 

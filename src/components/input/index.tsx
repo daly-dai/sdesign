@@ -38,14 +38,11 @@ const SInput: FC<SInputProps> = ({
     [onEnter, onKeyDown, value],
   );
 
-  // 在需要时进行trim操作，但不改变原值
-  const displayValue = trim && value ? lodashTrim(value) : value;
-
   return (
     <Input
       {...otherProps}
       allowClear={allowClear}
-      value={displayValue}
+      value={value}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
     />

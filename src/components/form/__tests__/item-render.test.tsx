@@ -321,18 +321,20 @@ describe('ItemRender — regKey', () => {
 // style
 // ============================================================
 describe('ItemRender — style', () => {
-  it('默认 marginBottom: 0', () => {
-    // ItemRender 默认给 style 加了 marginBottom: 0
-    render(
+  it('单独使用时透传 style，不强制 marginBottom:0', () => {
+    const { container } = render(
       <Wrapper>
         <ItemRender type="input" label="样式" name="sty1" />
       </Wrapper>,
     );
-    expect(screen.getByLabelText('样式')).toBeTruthy();
+    const item = container.querySelector('.ant-form-item') as HTMLElement;
+    expect(item).toBeTruthy();
+    // 单独使用（非 items 数组路径）时不再强制清零下边距，交给 antd 默认值
+    expect(item.style.marginBottom).not.toBe('0px');
   });
 
-  it('自定义 style 合并（marginBottom: 0 为基底）', () => {
-    render(
+  it('自定义 style 透传到 Form.Item', () => {
+    const { container } = render(
       <Wrapper>
         <ItemRender
           type="input"
@@ -342,7 +344,23 @@ describe('ItemRender — style', () => {
         />
       </Wrapper>,
     );
-    expect(screen.getByLabelText('自定义样式')).toBeTruthy();
+    const item = container.querySelector('.ant-form-item') as HTMLElement;
+    expect(item.style.paddingTop).toBe('10px');
+  });
+
+  it('显式传入 marginBottom:0（items 数组路径行为）生效', () => {
+    const { container } = render(
+      <Wrapper>
+        <ItemRender
+          type="input"
+          label="列表项"
+          name="sty3"
+          style={{ marginBottom: 0 }}
+        />
+      </Wrapper>,
+    );
+    const item = container.querySelector('.ant-form-item') as HTMLElement;
+    expect(item.style.marginBottom).toBe('0px');
   });
 });
 

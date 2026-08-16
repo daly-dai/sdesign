@@ -7,7 +7,7 @@ import { RegKeyType } from '@dalydb/sdesign/types/reg';
 import { REG_KEY_MAP } from '@dalydb/sdesign/utils';
 
 const InputPlaceholder = '请输入';
-const selectPlaceholder = '请选择';
+const SelectPlaceholder = '请选择';
 
 type Config = {
   default: {
@@ -20,91 +20,48 @@ type Config = {
   };
 };
 
-// 用于生成默认配置的函数
-function generateDefaultConfig(
-  placeholder?: string | string[],
-  isAllowClear?: boolean,
-): Config['default'] {
-  const config: Config['default'] = {
-    ...(placeholder && { placeholder }),
-    ...(isAllowClear && { allowClear: true }),
-  };
+// 只读态的通用配置
+const readonlyDetail: Config['detail'] = {
+  variant: 'borderless',
+  disabled: true,
+};
 
-  return config;
-}
+// 输入类默认配置
+const inputConfig: Config = {
+  default: { placeholder: InputPlaceholder, allowClear: true },
+  detail: readonlyDetail,
+};
 
-function generateDetailConfig(
-  variant?: Variant,
-  disabled?: boolean,
-): Config['detail'] {
-  const config: Config['detail'] = {
-    ...(variant && { variant }),
-    ...(disabled && { disabled: true }),
-  };
+// 选择类默认配置
+const selectConfig: Config = {
+  default: { placeholder: SelectPlaceholder, allowClear: true },
+  detail: readonlyDetail,
+};
 
-  return config;
-}
+// 时间类默认配置（无 placeholder）
+const timeConfig: Config = {
+  default: { allowClear: true },
+  detail: readonlyDetail,
+};
 
 export const DEFAULT_CONFIG_MAP: Record<
   Partial<FormItemType>,
   Config | undefined
 > = {
-  input: {
-    default: generateDefaultConfig(InputPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  inputNumber: {
-    default: generateDefaultConfig(InputPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  password: {
-    default: generateDefaultConfig(InputPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  textarea: {
-    default: generateDefaultConfig(InputPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  select: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  datePicker: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  datePickerRange: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  SDatePicker: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  SDatePickerRange: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  treeSelect: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  timePicker: {
-    default: generateDefaultConfig('', true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  timePickerRange: {
-    default: generateDefaultConfig('', true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  cascader: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
-  SCascader: {
-    default: generateDefaultConfig(selectPlaceholder, true),
-    detail: generateDetailConfig('borderless', true),
-  },
+  input: inputConfig,
+  inputNumber: inputConfig,
+  password: inputConfig,
+  textarea: inputConfig,
+  select: selectConfig,
+  datePicker: selectConfig,
+  datePickerRange: selectConfig,
+  SDatePicker: selectConfig,
+  SDatePickerRange: selectConfig,
+  treeSelect: selectConfig,
+  cascader: selectConfig,
+  SCascader: selectConfig,
+  timePicker: timeConfig,
+  timePickerRange: timeConfig,
   radioGroup: undefined,
   slider: undefined,
   radio: undefined,

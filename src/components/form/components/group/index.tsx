@@ -1,9 +1,10 @@
 import { Col, Form, Row } from 'antd';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
-import React, { FC, ReactNode, memo, useCallback, useMemo } from 'react';
+import React, { ReactNode, memo, useMemo } from 'react';
 
 import { GroupItemsType, SFormGroupProps } from '../../types';
+import { namePathToKey, resolveLabelCol, useFormBehavior } from '../../utils';
 import ItemRender from '../item-render';
 
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
@@ -21,7 +22,7 @@ function getItemFormName(
   return;
 }
 
-const Group: FC<SFormGroupProps> = ({
+function Group<Values = any>({
   onFinish,
   onReset,
   groupItems,
@@ -29,23 +30,24 @@ const Group: FC<SFormGroupProps> = ({
   formName,
   children,
   readonly = false,
+  labelWidth,
   ...formProps
-}) => {
+}: SFormGroupProps<Values>) {
   const formTypeConfig = readonly ? { disabled: true } : {};
 
-  const handleFinish = useCallback(
-    (values: any) => {
-      onFinish?.(values);
-    },
-    [onFinish],
+  const { handleFinish, handleReset } = useFormBehavior<Values>({
+    onFinish,
+    onReset,
+  });
+
+  const { labelCol: consumerLabelCol, style, ...restFormProps } = formProps;
+  const labelCol = useMemo(
+    () => resolveLabelCol(labelWidth, consumerLabelCol),
+    [labelWidth, consumerLabelCol],
   );
 
-  const handleReset = useCallback(
-    (e: any) => {
-      onReset?.(e);
-    },
-    [onReset],
-  );
+  // 与 SForm 保持一致：容器底部默认留 16px，避免紧贴下方内容
+  const formStyle = { marginBottom: 16, ...style };
 
   // 获取占比
   const getDynamicSpan = (column: number = 1) => {
@@ -81,12 +83,7 @@ const Group: FC<SFormGroupProps> = ({
               );
 
               // 生成稳定的 key：优先使用 name（转字符串），否则使用 index
-              const itemKey =
-                item.name !== null && item.name !== undefined
-                  ? Array.isArray(item.name)
-                    ? item.name.join('.')
-                    : String(item.name)
-                  : itemIndex;
+              const itemKey = namePathToKey(item.name, itemIndex);
 
               return (
                 <Col key={itemKey} span={dynamicSpan} {...item?.colProps}>
@@ -94,6 +91,7 @@ const Group: FC<SFormGroupProps> = ({
                     readonly={readonly}
                     formName={itemFormName}
                     {...item}
+                    style={{ marginBottom: 0, ...item.style }}
                   />
                 </Col>
               );
@@ -114,7 +112,9 @@ const Group: FC<SFormGroupProps> = ({
       {...formTypeConfig}
       colon={false}
       layout="vertical"
-      {...formProps}
+      style={formStyle}
+      labelCol={labelCol}
+      {...restFormProps}
       onFinish={handleFinish}
       onReset={handleReset}
     >
@@ -122,6 +122,8 @@ const Group: FC<SFormGroupProps> = ({
       {children}
     </Form>
   );
-};
+}
 
-export default memo(Group);
+const GroupMemo = memo(Group) as typeof Group;
+
+export default GroupMemo;

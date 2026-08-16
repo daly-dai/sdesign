@@ -18,10 +18,13 @@ import SInput from '../input';
 import SRadioGroup from '../radio-group';
 import SSelect from '../select';
 
-import { FormFieldMapType } from './types';
+import type { ComponentType } from 'react';
 
-// 完整的组件映射（保持向后兼容）
-export const FORM_ITEM_COM_MAP: FormFieldMapType = {
+import { DeprecatedComType, FormFieldMapType } from './types';
+
+// 完整的组件映射（保持向后兼容，含废弃别名）
+export const FORM_ITEM_COM_MAP: FormFieldMapType &
+  Record<DeprecatedComType, ComponentType<any>> = {
   input: SInput,
   inputNumber: InputNumber,
   select: SSelect,
@@ -44,6 +47,3 @@ export const FORM_ITEM_COM_MAP: FormFieldMapType = {
   table: Table,
   SDatePickerRange: SDatePickerRange,
 };
-
-// Bundle 优化配置 - 标记重型组件
-export const HEAVY_COMPONENTS = ['cascader', 'table', 'SCascader'] as const;

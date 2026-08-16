@@ -2,15 +2,26 @@ import { Cascader } from 'antd';
 import isArray from 'lodash/isArray';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 
 import { SCascaderProps } from './types';
 
 import { dispatchCascader, echoCascader } from '@dalydb/sdesign/utils';
 
-const SCascader: FC<SCascaderProps> = (props) => {
-  const [cascaderValue, setCascaderValue] = useState<any>();
+// 将外部 value 归一化为 Cascader 需要的数组值（纯函数）
+function normalizeCascaderValue(value: unknown, multiple?: boolean) {
+  if (!value) return undefined;
 
+  if (isNumber(value)) return [value];
+
+  if (isString(value)) return echoCascader(value, multiple);
+
+  if (isArray(value)) return value;
+
+  return undefined;
+}
+
+const SCascader: FC<SCascaderProps> = (props) => {
   const {
     multiple,
     value,
@@ -20,46 +31,27 @@ const SCascader: FC<SCascaderProps> = (props) => {
     ...restProps
   } = props;
 
-  const initValue = (value: any) => {
-    if (!value) {
-      return undefined;
-    }
+  // 半受控：有 value 时派生，无 value 时使用内部状态
+  const isControlled = value !== undefined;
+  const [innerValue, setInnerValue] = useState<any>();
 
-    if (isNumber(value)) {
-      const data = [value];
+  const defaultData = useMemo(
+    () => normalizeCascaderValue(defaultValue, multiple) as any[] | undefined,
+    [defaultValue, multiple],
+  );
 
-      return data;
-    }
-
-    if (isString(value)) {
-      const data = echoCascader(value, multiple);
-
-      return data;
-    }
-
-    if (isArray(value)) {
-      return value;
-    }
-  };
-
-  const defaultData = useMemo(() => {
-    const data = initValue(defaultValue);
-    return data as any[] | undefined;
-  }, [defaultValue]);
+  const cascaderValue = useMemo(
+    () => (isControlled ? normalizeCascaderValue(value, multiple) : innerValue),
+    [isControlled, value, multiple, innerValue],
+  );
 
   const handleChange = (value: any[], selectedOptions: any[]) => {
     const data = dispatchCascader(value, multiple);
 
-    setCascaderValue(value);
+    if (!isControlled) setInnerValue(value);
 
     onChange?.(data as string, selectedOptions);
   };
-
-  useEffect(() => {
-    const data = initValue(value);
-
-    setCascaderValue(data);
-  }, [value]);
 
   return (
     <Cascader

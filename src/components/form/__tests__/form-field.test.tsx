@@ -90,20 +90,29 @@ describe('FormField — 未知 type', () => {
 });
 
 // ============================================================
-describe('FormField — 重型组件识别', () => {
-  it('type="cascader" → HEAVY_COMPONENTS 包含，渲染不报错', () => {
+describe('FormField — 组件映射与废弃别名兼容', () => {
+  it('type="cascader" → 渲染不报错', () => {
     render(<FormField type="cascader" />);
-    // 重型组件走 lazy() 路径，Suspense 包裹，渲染实际的 SCascader
     expect(screen.queryByText(/未知组件类型/)).toBeNull();
   });
 
-  it('type="table" → HEAVY_COMPONENTS 包含，渲染不报错', () => {
+  it('type="table" → 渲染不报错', () => {
     render(<FormField type="table" />);
     expect(screen.queryByText(/未知组件类型/)).toBeNull();
   });
 
   it('type="SCascader"（废弃别名）→ 渲染不报错', () => {
     render(<FormField type="SCascader" />);
+    expect(screen.queryByText(/未知组件类型/)).toBeNull();
+  });
+
+  it('type="SDatePicker"（废弃别名）→ 渲染不报错', () => {
+    render(<FormField type="SDatePicker" />);
+    expect(screen.queryByText(/未知组件类型/)).toBeNull();
+  });
+
+  it('type="SDatePickerRange"（废弃别名）→ 渲染不报错', () => {
+    render(<FormField type="SDatePickerRange" />);
     expect(screen.queryByText(/未知组件类型/)).toBeNull();
   });
 });

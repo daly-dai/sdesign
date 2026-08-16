@@ -1,14 +1,8 @@
 import { Button, Form } from 'antd';
-import React, {
-  CSSProperties,
-  FC,
-  Fragment,
-  memo,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { CSSProperties, Fragment, memo, useMemo } from 'react';
 
 import { SearchProps } from '../../types';
+import { namePathToKey, useFormBehavior } from '../../utils';
 import ItemRender from '../item-render';
 
 import './index.css';
@@ -19,202 +13,195 @@ import SCollapse from '@dalydb/sdesign/components/collapse';
 import DynamicContainer from '@dalydb/sdesign/components/dynamic-container';
 import useExpand from '@dalydb/sdesign/hooks/useExpand';
 
-const Search: FC<SearchProps> = memo(
-  ({
-    columns = 4,
-    items,
-    actionNode,
-    showExpand = true,
-    defaultExpand,
-    maxRows = 1,
-    readonly = false,
-    container,
-    isCard = true,
-    gap,
-    extraButtons,
-    actionStyleRender,
-    labelWidth,
-    ...props
-  }) => {
-    const base = 'sdesign-form-search';
+function Search<Values = any>({
+  columns = 4,
+  items,
+  actionNode,
+  showExpand = true,
+  defaultExpand,
+  maxRows = 1,
+  readonly = false,
+  container,
+  isCard = true,
+  gap,
+  extraButtons,
+  actionStyleRender,
+  labelWidth,
+  onFinish,
+  onReset,
+  onExpand,
+  style,
+  ...props
+}: SearchProps<Values>) {
+  const base = 'sdesign-form-search';
 
-    const { showCollapse, expandNum, expanded, setExpanded } = useExpand({
-      columns,
-      items,
-      showExpand,
-      defaultExpand,
-      maxRows,
+  const { showCollapse, expandNum, expanded, setExpanded } = useExpand({
+    columns,
+    items,
+    showExpand,
+    defaultExpand,
+    maxRows,
+  });
+
+  const { handleFinish, handleReset } = useFormBehavior<Values>({
+    onFinish,
+    onReset,
+  });
+
+  // 计算 gap
+  const [rowGap, columnGap] = useMemo<[number, number]>(() => {
+    if (Array.isArray(gap)) return gap;
+    if (typeof gap === 'number') return [gap, gap];
+    return [16, 24];
+  }, [gap]);
+
+  const formTypeConfig = readonly ? { disabled: true } : {};
+
+  // 可见的表单项（过滤 hidden，截取到 expandNum）
+  const visibleSlicedItems = useMemo(() => {
+    if (!items?.length) return [];
+    return items.filter((item) => !item.hidden).slice(0, expandNum);
+  }, [items, expandNum]);
+
+  // 归一化每个可见项的逻辑列跨度（clamp 到 [1, columns]）
+  const itemSpans = useMemo(
+    () =>
+      visibleSlicedItems.map((item) =>
+        Math.min(Math.max(item.gridColumn ?? 1, 1), columns),
+      ),
+    [visibleSlicedItems, columns],
+  );
+
+  // 一次遍历同时算出：每个 item 是否行首（列间距用）+ 操作区剩余跨度
+  const layout = useMemo(() => {
+    let currentCol = 0;
+    const itemLayout = itemSpans.map((span) => {
+      const isFirstCol = currentCol === 0;
+      currentCol = (currentCol + span) % columns;
+      return { isFirstCol, span };
     });
 
-    // 计算 gap
-    const [rowGap, columnGap] = useMemo<[number, number]>(() => {
-      if (Array.isArray(gap)) return gap;
-      if (typeof gap === 'number') return [gap, gap];
-      return [16, 24];
-    }, [gap]);
+    const remainingCols = currentCol === 0 ? columns : columns - currentCol;
+    // 每个逻辑列 = label track + control track，共 2 个 grid track
+    const actionTrackSpan = remainingCols * 2;
 
-    const formTypeConfig = readonly ? { disabled: true } : {};
+    return { itemLayout, actionTrackSpan };
+  }, [itemSpans, columns]);
 
-    const handleFinish = useCallback(
-      (values: any) => {
-        props?.onFinish?.(values);
-      },
-      [props?.onFinish],
-    );
-
-    const handleReset = useCallback(
-      (e: any) => {
-        props?.onReset?.(e);
-      },
-      [props?.onReset],
-    );
-
-    // 可见的表单项（过滤 hidden，截取到 expandNum）
-    const visibleSlicedItems = useMemo(() => {
-      if (!items?.length) return [];
-      return items.filter((item) => !item.hidden).slice(0, expandNum);
-    }, [items, expandNum]);
-
-    // 预计算每个 item 的逻辑列位置
-    const itemLayoutInfo = useMemo(() => {
-      let currentCol = 0;
-      return visibleSlicedItems.map((item) => {
-        const span = typeof item.gridColumn === 'number' ? item.gridColumn : 1;
-        const isFirstCol = currentCol === 0;
-
-        currentCol = (currentCol + span) % columns;
-
-        return { isFirstCol, span };
+  // 操作区样式
+  const actionStyle = useMemo<CSSProperties>(() => {
+    if (actionStyleRender) {
+      return actionStyleRender({
+        expanded,
+        actionSpan: layout.actionTrackSpan / 2,
       });
-    }, [visibleSlicedItems, columns]);
+    }
+    return { gridColumn: `span ${layout.actionTrackSpan}` };
+  }, [actionStyleRender, expanded, layout.actionTrackSpan]);
 
-    // 操作区 grid track 跨度计算（每个逻辑列 = 2 个 grid track）
-    const actionTrackSpan = useMemo(() => {
-      let currentCol = 0;
+  // grid 列模板：每个逻辑列 = label track(auto) + control track(1fr)
+  const gridTemplateColumns = useMemo(() => {
+    const labelTrack = labelWidth
+      ? typeof labelWidth === 'number'
+        ? `${labelWidth}px`
+        : labelWidth
+      : 'auto';
+    return `repeat(${columns}, ${labelTrack} 1fr)`;
+  }, [columns, labelWidth]);
 
-      visibleSlicedItems.forEach((item) => {
-        const span = typeof item.gridColumn === 'number' ? item.gridColumn : 1;
-        currentCol = (currentCol + span) % columns;
-      });
+  const formStyle = useMemo(() => {
+    if (isCard) return style;
+    return { marginBottom: 16, ...style };
+  }, [style, isCard]);
 
-      const remainingCols = currentCol === 0 ? columns : columns - currentCol;
-
-      return remainingCols * 2;
-    }, [visibleSlicedItems, columns]);
-
-    // 操作区样式
-    const actionStyle = useMemo<CSSProperties>(() => {
-      if (actionStyleRender) {
-        return actionStyleRender({
-          expanded,
-          actionSpan: actionTrackSpan / 2,
-        });
-      }
-      return { gridColumn: `span ${actionTrackSpan}` };
-    }, [actionStyleRender, expanded, actionTrackSpan]);
-
-    // grid 列模板：每个逻辑列 = label track(auto) + control track(1fr)
-    const gridTemplateColumns = useMemo(() => {
-      const labelTrack = labelWidth
-        ? typeof labelWidth === 'number'
-          ? `${labelWidth}px`
-          : labelWidth
-        : 'auto';
-      return `repeat(${columns}, ${labelTrack} 1fr)`;
-    }, [columns, labelWidth]);
-
-    const formStyle = useMemo(() => {
-      if (isCard) return props.style;
-      return { marginBottom: 16, ...props.style };
-    }, [props.style, isCard]);
-
-    return (
-      <DynamicContainer isCard={isCard} CustomContainer={container}>
-        <Form
-          {...formTypeConfig}
-          colon={false}
-          style={formStyle}
-          {...props}
-          onFinish={handleFinish}
-          onReset={handleReset}
+  return (
+    <DynamicContainer isCard={isCard} CustomContainer={container}>
+      <Form
+        {...formTypeConfig}
+        colon={false}
+        {...props}
+        style={formStyle}
+        onFinish={handleFinish}
+        onReset={handleReset}
+      >
+        <div
+          className={`${base}-grid`}
+          style={{
+            gridTemplateColumns,
+            rowGap,
+          }}
         >
-          <div
-            className={`${base}-grid`}
-            style={{
-              gridTemplateColumns,
-              rowGap,
-            }}
-          >
-            {visibleSlicedItems.map((item, index) => {
-              const { isFirstCol, span } = itemLayoutInfo[index];
-              const controlTrackSpan = span * 2 - 1;
+          {visibleSlicedItems.map((item, index) => {
+            const { isFirstCol, span } = layout.itemLayout[index];
+            const controlTrackSpan = span * 2 - 1;
+            // 列间距：给非首列的 label（或空占位）加 marginLeft。
+            // 不能用 grid 的 column-gap，否则「label↔control」之间也会产生间距
+            const gapStyle = !isFirstCol
+              ? { marginLeft: columnGap }
+              : undefined;
 
-              return (
-                <Fragment key={item.name?.toString() || index}>
-                  {item.label ? (
-                    <label
-                      className={`${base}-label`}
-                      style={
-                        !isFirstCol ? { marginLeft: columnGap } : undefined
-                      }
-                    >
-                      {item.required && (
-                        <span className={`${base}-required`}>*</span>
-                      )}
-                      {item.label}
-                    </label>
-                  ) : (
-                    <span />
-                  )}
-                  <div
-                    style={
-                      controlTrackSpan > 1
-                        ? { gridColumn: `span ${controlTrackSpan}` }
-                        : undefined
-                    }
-                  >
-                    <ItemRender
-                      readonly={readonly}
-                      style={{ marginBottom: 0 }}
-                      {...item}
-                      label={undefined}
-                    />
-                  </div>
-                </Fragment>
-              );
-            })}
+            return (
+              <Fragment key={namePathToKey(item.name, index)}>
+                {item.label ? (
+                  <label className={`${base}-label`} style={gapStyle}>
+                    {item.required && (
+                      <span className={`${base}-required`}>*</span>
+                    )}
+                    {item.label}
+                  </label>
+                ) : (
+                  <span style={gapStyle} />
+                )}
+                <div
+                  style={
+                    controlTrackSpan > 1
+                      ? { gridColumn: `span ${controlTrackSpan}` }
+                      : undefined
+                  }
+                >
+                  <ItemRender
+                    readonly={readonly}
+                    {...item}
+                    style={{ marginBottom: 0, ...item.style }}
+                    label={undefined}
+                  />
+                </div>
+              </Fragment>
+            );
+          })}
 
-            <div className={`${base}-action`} style={actionStyle}>
-              {actionNode ?? (
-                <>
-                  <Button
-                    icon={<SearchOutlined />}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    查询
-                  </Button>
-                  <Button icon={<ReloadOutlined />} htmlType="reset">
-                    重置
-                  </Button>
-                  {extraButtons?.length ? (
-                    <SButtonGroup items={extraButtons} />
-                  ) : null}
-                  {showCollapse && (
-                    <SCollapse
-                      collapse={!expanded}
-                      setCollapse={(val: boolean) => setExpanded(!val)}
-                      onExpand={props?.onExpand}
-                    />
-                  )}
-                </>
-              )}
-            </div>
+          <div className={`${base}-action`} style={actionStyle}>
+            {actionNode ?? (
+              <>
+                <Button
+                  icon={<SearchOutlined />}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  查询
+                </Button>
+                <Button icon={<ReloadOutlined />} htmlType="reset">
+                  重置
+                </Button>
+                {extraButtons?.length ? (
+                  <SButtonGroup items={extraButtons} />
+                ) : null}
+                {showCollapse && (
+                  <SCollapse
+                    collapse={!expanded}
+                    setCollapse={(val: boolean) => setExpanded(!val)}
+                    onExpand={onExpand}
+                  />
+                )}
+              </>
+            )}
           </div>
-        </Form>
-      </DynamicContainer>
-    );
-  },
-);
+        </div>
+      </Form>
+    </DynamicContainer>
+  );
+}
 
-export default Search;
+const SearchMemo = memo(Search) as typeof Search;
+
+export default SearchMemo;
