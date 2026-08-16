@@ -1,8 +1,4 @@
-# STable — 增强表格，支持 dictKey 字典映射、render 快捷类型、序号列
-
-## 子组件与静态方法
-
-- STable.render
+# STable — 增强表格，支持 dictKey 字典映射、render 快捷类型、行号
 
 ## 使用边界
 
@@ -10,8 +6,8 @@
 
 - 需要展示列表数据的表格
 - 需要 dictKey 字典映射自动转换列值
-- 需要 render 快捷类型（datetime/date/ellipsis）
-- 需要自动序号列（isSeq）
+- 需要 render 快捷类型（datetime/date/ellipsis/index）
+- 需要行索引序号列（render: 'index'）
   **不适用:**
 - 列表页同时需要搜索条件 + 表格 + 分页联动，应使用 SSearchTable
 - 纯键值对展示（非列表），应使用 SDetail
@@ -64,7 +60,6 @@ export default () => (
       columns={columns}
       dataSource={data}
       rowKey="id"
-      isSeq
       pagination={{ pageSize: 10 }}
     />
   </SConfigProvider>

@@ -27,10 +27,12 @@ Options<any, any>,
 
 **UseProTableReturn** — useProTable 返回值
 
-- tableProps: { dataSource: any[]; pagination: TablePaginationConfig | false; loading: boolean; } — 表格 props：聚合 dataSource、pagination、loading
-- search: () => void — 搜索（刷新当前页，携带表单值）
+- tableProps: { dataSource: ProListItems<TResponse>; pagination: TablePaginationConfig | false; loading: boolean; } — 表格 props：聚合 dataSource、pagination、loading
+- search: () => void — 搜索（重新查询，回第一页，携带表单值）
 - reset: () => void — 重置搜索并刷新
 - form: FormInstance<any> — 表单实例
-- mutate: (data?: Record<string, unknown>) => void — 直接修改数据，不触发请求。传 undefined 清空
+- mutate: (data?: TResponse) => void — 直接修改数据，不触发请求。传 undefined 清空
 
-**ProService** — 数据请求函数 默认 data / 返回值为 any，兼容任意查询参数形态和响应结构。 需要类型安全时显式传入泛型： `ts const service: ProService<MyQuery, PageResult<User>> = (data) => api.getList(data); `: `( data: TParams, ) => Promise<TResponse>; export interface UseProTableReturn {`
+**ProService** — 数据请求函数 默认 data / 返回值为 any，兼容任意查询参数形态和响应结构。 需要类型安全时显式传入泛型： `ts const service: ProService<MyQuery, PageResult<User>> = (data) => api.getList(data); `: `( data: TParams, ) => Promise<TResponse>; export type ProListItems<TResponse> = TResponse extends {`
+
+**ProListItems** — 从分页响应中提取列表项类型（默认 list 字段；自定义 list 字段名时回退 any[]）: `TResponse extends { list?: (infer L)[]; }`

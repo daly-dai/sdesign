@@ -1,4 +1,4 @@
-# @dalydb/sdesign v1.12.0
+# @dalydb/sdesign v1.14.0
 
 基于 Ant Design 5.x 的企业级 React 组件库。所有组件以 S 前缀命名。
 
@@ -85,7 +85,7 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 日期范围选择，需要 rangeKeys 将范围拆分为两个独立字段提交; onChange 需要直接返回格式化字符串
 - **不适用**: 单日期选择，应使用 SDatePicker; 不需要拆分字段，直接用 antd RangePicker
 
-### SDetail — 详情展示，支持 8 种渲染类型（text/dict/file/img 等）
+### SDetail — 详情展示，支持 8 种渲染类型（text/dict/file/rangeTime/tag 等）
 
 > 详细 API: ai/components/SDetail.md
 
@@ -129,7 +129,7 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 文件上传功能; 文件列表展示（支持下载、预览）
 - **不适用**: 图片上传预览，考虑使用 antd Upload + listType='picture-card'; SDetail 中展示文件列表，直接用 SDetailItem type='file'
 
-### SForm [.Search, .Group, .Item, .FormItem] [.useForm, .useWatch, .useFormInstance, .ErrorList, .List] — 配置化表单，items 数组声明 22 种控件、联动、分组、搜索
+### SForm [.Search, .Group, .Item, .FormItem] [.useForm, .useWatch, .useFormInstance, .ErrorList, .List] — 配置化表单，items 数组声明 18 种控件、联动、分组、搜索
 
 > 详细 API: ai/components/SForm.md
 
@@ -209,11 +209,11 @@ import { useSearchTable } from '@dalydb/sdesign/hooks';
 - **适用场景**: 下拉选择，选项较多不适合全部展示; 需要搜索、远程加载选项
 - **不适用**: 选项 <= 5 个且需全部可见，使用 SRadioGroup（单选）或 SCheckGroup（多选）; 层级选项，应使用 SCascader; SForm items 中使用时通过 type: 'select' 引用，无需直接使用 SSelect
 
-### STable [.render] — 增强表格，支持 dictKey 字典映射、render 快捷类型、序号列
+### STable — 增强表格，支持 dictKey 字典映射、render 快捷类型、行号
 
 > 详细 API: ai/components/STable.md
 
-- **适用场景**: 需要展示列表数据的表格; 需要 dictKey 字典映射自动转换列值; 需要 render 快捷类型（datetime/date/ellipsis）; 需要自动序号列（isSeq）
+- **适用场景**: 需要展示列表数据的表格; 需要 dictKey 字典映射自动转换列值; 需要 render 快捷类型（datetime/date/ellipsis/index）; 需要行索引序号列（render: 'index'）
 - **不适用**: 列表页同时需要搜索条件 + 表格 + 分页联动，应使用 SSearchTable; 纯键值对展示（非列表），应使用 SDetail
 - **优先使用**: SSearchTable → 搜索 + 表格 + 分页一体化场景
 

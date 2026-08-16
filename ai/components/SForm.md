@@ -1,4 +1,4 @@
-# SForm — 配置化表单，items 数组声明 22 种控件、联动、分组、搜索
+# SForm — 配置化表单，items 数组声明 18 种控件、联动、分组、搜索
 
 ## 子组件与静态方法
 
@@ -29,51 +29,31 @@
 
 ## 类型定义
 
-**SFormProps** extends FormProps — SForm 表单组件 Props 继承 antd Form 全部属性，扩展了配置化表单能力。 通过 `items` 数组声明式定义表单，无需手动写 Form.Item。 `tsx <SForm columns={2} items={[ { label: '姓名', name: 'name', type: 'input', required: true }, { label: '部门', name: 'dept', type: 'select', fieldProps: { options } }, ]} onFinish={(values) => console.log(values)} /> `
+**SFormProps** extends FormProps<Values> — SForm 表单组件 Props 继承 antd Form 全部属性，扩展了配置化表单能力。 通过 `items` 数组声明式定义表单，无需手动写 Form.Item。 `tsx <SForm columns={2} items={[ { label: '姓名', name: 'name', type: 'input', required: true }, { label: '部门', name: 'dept', type: 'select', fieldProps: { options } }, ]} onFinish={(values) => console.log(values)} /> `
 
 - rowProps?: RowProps — 行布局配置
 - children?: ReactNode
-- items?: Array<SFormItems<FormItemType>> — 表单项配置数组，核心属性
+- items?: Array<SFormItems> — 表单项配置数组，核心属性
 - columns?: number — 列数，表单项自动等分排列
 - required?: string | boolean — 全局必填设置 - true: 所有项必填 - string: 所有项必填且使用该提示
-- onFinish?: (e?: any) => void — 表单提交回调
+- onFinish?: (values: Values) => void — 表单提交回调
 - onReset?: (e?: any) => void — 表单重置回调
 - readonly?: boolean — 只读模式
 - formName?: string — 嵌套表单的字段前缀
 - labelWidth?: number | string — 统一 label 宽度，解决 label 长短不一导致控件错位的问题 - number: px 值（如 100 → 100px） - string: 直接作为 CSS 值（如 '6em'、'120px'）
 
-**ItemsProps** extends Omit<FormItemProps, 'label' | 'name' | 'required'> — 表单项配置 用于 SForm 的 `items` 数组中，每一项描述一个表单控件。 `type` 决定渲染哪种控件，`fieldProps` 类型会根据 `type` 自动推导。 `tsx const item: ItemsProps = { label: '用户名', name: 'username', type: 'input', required: '请输入用户名', fieldProps: { placeholder: '请输入' }, }; `
-
-- label?: ReactNode — 表单项标签
-- name?: NamePath — 表单项字段名，支持嵌套路径如 ['user', 'name']
-- style?: React.CSSProperties
-- type?: T — 控件类型，决定渲染哪种表单组件
-- fieldProps?: T extends keyof FormFieldMapType — 控件属性，类型根据 type 自动推导 例如 type='select' 时，fieldProps 支持 options/mode 等 Select 属性
-- customCom?: ReactNode | RenderChildren<any> — 自定义组件，替代 type 内置组件
-- regKey?: RegKeyType — 内置校验规则 key，如 'phone'、'percentage' 等
-- required?: string | boolean — 是否必填 - true: 使用默认提示 - string: 使用自定义提示文字
-- disabled?: boolean — 是否禁用
-- readonly?: boolean — 只读模式，展示文本而非控件
-- formName?: string — 嵌套表单的字段前缀，用于数据结构嵌套
-- children?: ReactNode
-
-**SFormItems** extends ItemsProps<T> — SForm 表单项配置（带布局） 在 ItemsProps 基础上增加了栅格布局和显隐控制。
-
-- colProps?: ColProps — 栅格布局配置，控制单个表单项占据的列宽
-- hidden?: boolean — 是否隐藏该表单项（隐藏后仍参与表单提交）
-- gridColumn?: number | string — CSS Grid 列跨度，仅 SForm.Search 组件生效
-
-**SFormGroupProps** extends FormProps — SForm.Group 分组表单 Props 将表单分为多个带标题的分组区块展示。 `tsx <SForm.Group groupItems={[ { title: '基本信息', items: [...], columns: 2 }, { title: '详细信息', items: [...], columns: 3 }, ]} onFinish={handleSubmit} /> `
+**SFormGroupProps** extends FormProps<Values> — SForm.Group 分组表单 Props 将表单分为多个带标题的分组区块展示。 `tsx <SForm.Group groupItems={[ { title: '基本信息', items: [...], columns: 2 }, { title: '详细信息', items: [...], columns: 3 }, ]} onFinish={handleSubmit} /> `
 
 - groupItems?: GroupItemsType[] — 分组配置数组
-- onFinish?: (e: any) => void
-- onReset?: (e: any) => void
+- onFinish?: (values: Values) => void
+- onReset?: (e?: any) => void
 - container?: React.ComponentType<any> — 自定义容器组件
 - formName?: string — 嵌套表单的字段前缀
 - children?: ReactNode
 - readonly?: boolean — 只读模式
+- labelWidth?: number | string — 统一 label 宽度
 
-**SearchProps** extends SFormProps — SForm.Search 搜索表单 Props 继承 SFormProps，增加了展开/收起、操作按钮等搜索场景功能。 通常与 STable/useSearchTable 配合使用。 `tsx <SForm.Search form={form} items={searchItems} columns={3} showExpand {...formConfig} /> `
+**SearchProps** extends SFormProps<Values> — SForm.Search 搜索表单 Props 继承 SFormProps，增加了展开/收起、操作按钮等搜索场景功能。 通常与 STable/useSearchTable 配合使用。 `tsx <SForm.Search form={form} items={searchItems} columns={3} showExpand {...formConfig} /> `
 
 - defaultExpand?: boolean — 是否默认展开所有搜索项
 - showExpand?: boolean — 是否显示展开/收起按钮
@@ -87,7 +67,7 @@
 - actionStyleRender?: (props: { expanded: boolean; actionSpan: number; }) => React.CSSProperties — 自定义操作区域样式
 - labelWidth?: number | string — 统一 label 宽度，解决 label 长短不一导致控件错位的问题
 
-**FormFieldMapType** — 表单控件类型映射表 定义了 SForm items 中 `type` 字段所有可选值及其对应组件。 使用时，`fieldProps` 的类型会根据 `type` 自动推导。 `tsx const items: SFormItems[] = [ { label: '姓名', name: 'name', type: 'input' }, { label: '年龄', name: 'age', type: 'inputNumber' }, { label: '性别', name: 'gender', type: 'select', fieldProps: { options: [...] } }, { label: '日期', name: 'date', type: 'datePicker' }, ]; `
+**FormFieldMapType** — 表单控件类型映射表 定义了 SForm items 中 `type` 字段所有规范可选值及其对应组件。 使用时，`fieldProps` 的类型会根据 `type` 自动推导。 `tsx const items: SFormItems[] = [ { label: '姓名', name: 'name', type: 'input' }, { label: '年龄', name: 'age', type: 'inputNumber' }, { label: '性别', name: 'gender', type: 'select', fieldProps: { options: [...] } }, { label: '日期', name: 'date', type: 'datePicker' }, ]; `
 
 - input: typeof SInput — 文本输入框 (SInput 增强版，支持 trim/onEnter)
 - inputNumber: typeof InputNumber — 数字输入框
@@ -100,29 +80,30 @@
 - switch: typeof Switch — 开关
 - treeSelect: typeof TreeSelect — 树选择
 - datePicker: typeof SDatePicker — 增强日期选择器 (SDatePicker)，onChange 直接返回字符串
-- SDatePicker: typeof SDatePicker
 - datePickerRange: typeof SDatePickerRange — 增强日期范围选择器 (SDatePickerRange)，支持 rangeKeys 拆分
-- SDatePickerRange: typeof SDatePickerRange
 - timePicker: typeof TimePicker — 时间选择器
 - timePickerRange: typeof TimePicker.RangePicker — 时间范围选择器
 - checkbox: typeof Checkbox — 复选框
 - checkGroup: typeof SCheckGroup — 复选框组 (SCheckGroup)
 - cascader: typeof SCascader — 增强级联选择器 (SCascader)
-- SCascader: typeof SCascader
 - table: typeof Table — 嵌套表格
 
-**FormComType** — 表单控件类型 可选值: `'input'` | `'inputNumber'` | `'password'` | `'textarea'` | `'select'` | `'slider'` | `'radio'` | `'radioGroup'` | `'switch'` | `'treeSelect'` | `'datePicker'` | `'datePickerRange'` | `'timePicker'` | `'timePickerRange'` | `'checkbox'` | `'checkGroup'` | `'cascader'` | `'table'` 已废弃别名（仍可用，建议迁移）: `'SDatePicker'` → `'datePicker'` | `'SDatePickerRange'` → `'datePickerRange'` | `'SCascader'` → `'cascader'`: `keyof FormFieldMapType`
+**FormComType** — 表单控件类型（规范组件，不含废弃别名）: `keyof FormFieldMapType`
 
-**FormComPropsType**: `Omit< HTMLAttributes<object>, 'onChange' | 'onFocus' | 'onBlur' > & ComponentProps<FormFieldMapType[FormComType]>`
+**DeprecatedComType** — 已废弃的组件别名（仅用于运行时向后兼容，不参与 FormComType 联合， 避免扩大 fieldProps 的类型联合、触发 TS2590）: `| 'SDatePicker'`
 
-**FormItemType**: `FormComType | 'placeholder'`
+**FormItemType** — 表单项 type 的完整取值：规范组件类型 + 废弃别名 + 占位符: `FormComType | DeprecatedComType | 'placeholder'`
+
+**SFormItems** — SForm 表单项配置 判别式联合：`type` 决定渲染哪种控件，`fieldProps` 类型根据 `type` 自动推导。 `tsx const items: SFormItems[] = [ { label: '姓名', name: 'name', type: 'input', required: true }, { label: '部门', name: 'dept', type: 'select', fieldProps: { options } }, ]; `: `(FormComFieldItem | NonFieldItem) & CommonItemProps`
+
+**ItemsProps** — ItemRender 内部使用的单项配置（fieldProps 宽松，避免在联合类型上解构）: `CommonItemProps & { type?: FormItemType; fieldProps?: Record<string, any>; }`
 
 **GroupItemsType** — 分组表单项配置 用于 SForm.Group 的 groupItems，将表单分成多个带标题的区块。
 
 - container?: React.ComponentType<any> — 自定义分组容器组件
 - columns?: number — 该分组的列数
 - title?: ReactNode — 分组标题
-- items?: Array<SFormItems<FormItemType>> — 该分组的表单项
+- items?: Array<SFormItems> — 该分组的表单项
 - rowProps?: RowProps
 - formName?: string — 嵌套表单的字段前缀
 

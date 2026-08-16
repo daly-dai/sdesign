@@ -1,4 +1,4 @@
-# SDetail — 详情展示，支持 8 种渲染类型（text/dict/file/img 等）
+# SDetail — 详情展示，支持 8 种渲染类型（text/dict/file/rangeTime/tag 等）
 
 ## 使用边界
 
@@ -30,9 +30,9 @@
 - detailName?: string — 从 dataSource 中取值的 key 前缀，支持嵌套路径如 "user.profile"
 - style?: CSSProperties — 组件样式
 - className?: string — 组件类名
-- columns?: number | string — 列数或 grid-template-columns 值 - `number`: 等分列数，如 `3` → `repeat(3, 1fr)` - `string`: 直接作为 CSS grid-template-columns 值，如 `"300px 1fr 1fr"`
+- columns?: number | string — 列数或 grid-template-columns 值 - `number`: 等分列数，如 `3` → `repeat(3, max-content 1fr)` - `string`: 按空格拆分后每组前加 `max-content` label 轨道，如 `"300px 1fr"` → `"max-content 300px max-content 1fr"`
 - column?: number — 【已废弃】列数，请改用 `columns` 传入时内部映射为 `columns`，`columns` 优先级更高
-- gap?: number — Grid 间距（px），对应 CSS `gap` 属性
+- gap?: number | string — Grid 间距，对应 CSS `gap` 属性
 - labelWidth?: number | string — label 列宽度，作用于每个 Grid item 内部的 label 子元素
 - layout?: 'horizontal' | 'vertical' — 布局方式 - `'horizontal'`: label 与 value 同行（默认） - `'vertical'`: label 与 value 各占一行
 - colon?: boolean — 是否在 label 后显示冒号

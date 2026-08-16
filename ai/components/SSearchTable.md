@@ -64,7 +64,7 @@
 - transformRequestParams?: `(params: any) => any` — 请求参数转换函数
 - transformResponseData?: `(data: any) => any` — 响应数据转换函数
 
-### formProps → SForm (SearchProps) (extends SFormProps)
+### formProps → SForm (SearchProps) (extends SFormProps<Values>)
 
 > 完整 API: ai/components/SForm.md
 
@@ -178,7 +178,7 @@ export default () => {
         }}
         requestFn={mockRequest}
         formProps={{ items: searchItems, columns: 3 }}
-        tableProps={{ columns, rowKey: 'id', isSeq: true }}
+        tableProps={{ columns, rowKey: 'id' }}
       />
     </SConfigProvider>
   );

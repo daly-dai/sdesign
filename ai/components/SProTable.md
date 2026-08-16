@@ -19,7 +19,7 @@
 
 **SProTableRef** — SProTable Ref 方法
 
-- refresh: () => void — 刷新当前页（携带当前表单值）
+- refresh: () => void — 刷新（重新查询，回第一页）
 - reset: () => void — 重置搜索条件并刷新
 - getForm: () => FormInstance<any> — 获取内部表单实例
 - clearData: () => void — 清空表格数据（不触发请求）
