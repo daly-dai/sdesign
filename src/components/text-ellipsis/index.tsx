@@ -6,6 +6,10 @@ import { TextEllipsisProps, TypographyText } from './types';
 const { Text } = Typography;
 
 // 统一的文字省略组件
+/**
+ * @deprecated 已废弃：请使用 antd 原生能力（Table 列 `ellipsis` 或 `Typography.Text ellipsis`）。
+ * 保留仅用于向后兼容，不再维护。
+ */
 const STextEllipsis: FC<TextEllipsisProps> = ({
   width,
   style = {},

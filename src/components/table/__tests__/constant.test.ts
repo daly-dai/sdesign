@@ -38,4 +38,16 @@ describe('convertToText', () => {
   it('负数原样返回', () => {
     expect(convertToText(-1)).toBe(-1);
   });
+
+  it('布尔 true 返回 "true"', () => {
+    expect(convertToText(true)).toBe('true');
+  });
+
+  it('布尔 false 返回 "false"', () => {
+    expect(convertToText(false)).toBe('false');
+  });
+
+  it('bigint 转字符串', () => {
+    expect(convertToText(9007199254740993n)).toBe('9007199254740993');
+  });
 });

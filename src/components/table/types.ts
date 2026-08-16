@@ -57,7 +57,6 @@ export type SColumnsType<RecordType> = SColumn<RecordType>[];
  *     { title: '时间', dataIndex: 'createTime', render: 'datetime' },
  *   ]}
  *   dataSource={data}
- *   isSeq
  * />
  * ```
  */
@@ -65,6 +64,4 @@ export interface STableProps<RecordType = Record<string, unknown>>
   extends Omit<TableProps<RecordType>, 'columns'> {
   /** 列定义，支持 dictKey 和字符串 render */
   columns?: SColumnsType<RecordType>;
-  /** 是否显示序号列 */
-  isSeq?: boolean;
 }

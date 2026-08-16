@@ -1,8 +1,9 @@
 import { useRequest, useUpdateEffect } from 'ahooks';
 import { Form, type TablePaginationConfig } from 'antd';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type {
+  ProListItems,
   ProService,
   UseProTableOptions,
   UseProTableReturn,
@@ -15,10 +16,10 @@ const DEFAULTS = {
   list: 'list',
 };
 
-function useProTable<TParams = any>(
-  requestFn: ProService<TParams>,
+function useProTable<TParams = any, TResponse = any>(
+  requestFn: ProService<TParams, TResponse>,
   options: UseProTableOptions = {},
-): UseProTableReturn {
+): UseProTableReturn<TResponse> {
   const {
     form: externalForm,
     defaultParams,
@@ -50,13 +51,11 @@ function useProTable<TParams = any>(
     [paginationFields],
   );
 
+  // 当前 pageSize 状态：search 保持用户上次选择的 pageSize，而非硬编码重置回 10
+  const [pageSize, setPageSize] = useState(10);
+
   // ---- 请求 ----
-  const {
-    run,
-    mutate,
-    data: raw = {} as Record<string, unknown>,
-    loading,
-  } = useRequest(
+  const { run, mutate, data, loading } = useRequest(
     async (params: Record<string, unknown>) => {
       let p = params;
       if (dispatchParamsRef.current) p = dispatchParamsRef.current(p);
@@ -68,17 +67,21 @@ function useProTable<TParams = any>(
     { ...serviceProps, manual: true },
   );
 
+  // 解构默认值 `= {}` 只对 undefined 生效；接口返回 null / mutate(null) 时
+  // data 为 null，统一兜底避免后续 raw[pf.list] 抛 TypeError
+  const raw = (data ?? {}) as Record<string, unknown>;
+
   // ---- 搜索 ----
   const search = useCallback(() => {
     const formVals = form.getFieldsValue() ?? {};
     let params: Record<string, unknown> = {
       [pf.current]: 1,
-      [pf.pageSize]: 10,
+      [pf.pageSize]: pageSize,
       ...extraParamsRef.current,
       ...formVals,
     };
     run(params);
-  }, [form, pf, run]);
+  }, [form, pf, pageSize, run]);
 
   searchRef.current = search;
 
@@ -89,11 +92,12 @@ function useProTable<TParams = any>(
 
   // ---- 分页回调（提取为 useCallback 避免 pagination 内联函数导致级联重渲染）----
   const handlePageChange = useCallback(
-    (pageNum: number, pageSize: number) => {
+    (pageNum: number, pageSizeVal: number) => {
       const formVals = form.getFieldsValue() ?? {};
+      setPageSize(pageSizeVal);
       let params: Record<string, unknown> = {
         [pf.current]: pageNum,
-        [pf.pageSize]: pageSize,
+        [pf.pageSize]: pageSizeVal,
         ...extraParamsRef.current,
         ...formVals,
       };
@@ -146,7 +150,7 @@ function useProTable<TParams = any>(
 
   // ---- refreshDeps 响应式：依赖变化时重置到第一页 -------
   useUpdateEffect(() => {
-    if (!ready) return;
+    if (!ready || manual) return;
     hasAutoRunRef.current = true;
     searchRef.current();
   }, [...refreshDeps]);
@@ -154,7 +158,8 @@ function useProTable<TParams = any>(
   // ---- 聚合 ----
   const tableProps = useMemo(
     () => ({
-      dataSource: (raw[pf.list] as any[]) ?? [],
+      dataSource: ((raw[pf.list] as any[]) ??
+        []) as unknown as ProListItems<TResponse>,
       pagination,
       loading,
     }),

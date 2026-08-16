@@ -1,4 +1,10 @@
-import React, { forwardRef, memo, useImperativeHandle, useMemo } from 'react';
+import React, {
+  forwardRef,
+  isValidElement,
+  memo,
+  useImperativeHandle,
+  useMemo,
+} from 'react';
 
 import { SForm, STable, STitle } from '@dalydb/sdesign';
 import useProTable from '@dalydb/sdesign/hooks/useProTable';
@@ -13,7 +19,9 @@ const TABLE_WRAPPER_STYLE: React.CSSProperties = { marginTop: 12 };
 const isTitleConfig = (
   v: unknown,
 ): v is { children?: React.ReactNode; actionNode?: React.ReactNode } =>
-  typeof v === 'object' && v !== null && !('$$typeof' in v);
+  // React 元素的 $$typeof 是 Symbol（Symbol.for('react.element')），
+  // 不能用字符串 '$$typeof' in v 检测；必须用 isValidElement
+  typeof v === 'object' && v !== null && !isValidElement(v);
 
 function SProTableInner<RecordType = Record<string, unknown>>(
   {
@@ -63,10 +71,15 @@ function SProTableInner<RecordType = Record<string, unknown>>(
   const { pagination: consumerPagination, ...restConsumerTableProps } =
     consumerTableProps ?? {};
 
-  const mergedPagination =
-    hookTableProps.pagination && consumerPagination
-      ? { ...hookTableProps.pagination, ...consumerPagination }
-      : hookTableProps.pagination;
+  // pagination 合并策略：
+  // - 用户显式传 false → 关闭分页（不能回退到 hook 的分页对象，否则 false 被吞）
+  // - 用户传对象 → 与 hook 分页 deep-merge
+  // - 用户未传 → 使用 hook 内置分页
+  const mergedPagination = useMemo(() => {
+    if (consumerPagination === false) return false;
+    if (consumerPagination === undefined) return hookTableProps.pagination;
+    return { ...hookTableProps.pagination, ...consumerPagination };
+  }, [consumerPagination, hookTableProps.pagination]);
 
   // margin 解析为 CSS style 对象，useMemo 缓存避免每次渲染生成新引用。
   // marginStyle + style 合并也同样缓存，减少外层 div 的无效 diff。

@@ -124,7 +124,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
   // 过滤 + 构建 Grid items
   const visibleItems = useMemo<SDetailItem[]>(() => {
     if (!isArray(items) || items.length === 0) return [];
-    return items.filter((item) => !item.hidden);
+    return items.filter((item) => item && !item.hidden);
   }, [items]);
 
   // Grid 容器样式
@@ -192,7 +192,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
         : 'sdetail-item-horizontal';
 
     const labelNode =
-      label !== null ? (
+      label !== null && label !== undefined ? (
         <div className="sdetail-label" style={finalLabelStyle}>
           {label}
           {colon && typeof label === 'string' && <span>:</span>}
@@ -222,18 +222,23 @@ const DetailInstance: React.FC<SDetailProps> = ({
     );
   };
 
+  // 透传剩余 props（data-testid / aria-* / 其他 HTML 属性），
+  // 之前只消费 container，其余被静默丢弃导致可测性与 a11y 受损。
+  // 放在 grid 容器上（isCard=false 时 DynamicContainer 直接返回 children，无法透传）
+  const { container: customContainer, ...restDivProps } = restProps;
+
   return (
     <DynamicContainer
       id={componentId}
       style={style}
       className={className}
       isCard={hasCardBg}
-      CustomContainer={restProps.container as React.ComponentType<any>}
+      CustomContainer={customContainer as React.ComponentType<any>}
     >
       {detailTitle}
       {detailTitle && <div style={{ height: gap }} />}
       {loading ? (
-        <div className="sdetail-grid" style={gridStyle}>
+        <div className="sdetail-grid" style={gridStyle} {...restDivProps}>
           {Array.from({ length: visibleItems.length || colCount * 2 }).map(
             (_, i) => (
               <div
@@ -252,7 +257,7 @@ const DetailInstance: React.FC<SDetailProps> = ({
           )}
         </div>
       ) : (
-        <div className="sdetail-grid" style={gridStyle}>
+        <div className="sdetail-grid" style={gridStyle} {...restDivProps}>
           {visibleItems.map((item, index) => renderGridItem(item, index))}
         </div>
       )}

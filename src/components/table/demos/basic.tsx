@@ -35,7 +35,6 @@ export default () => (
       columns={columns}
       dataSource={data}
       rowKey="id"
-      isSeq
       pagination={{ pageSize: 10 }}
     />
   </SConfigProvider>

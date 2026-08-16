@@ -1,7 +1,7 @@
 import { Tag, Typography } from 'antd';
 import isNil from 'lodash/isNil';
 import React, { FC, ReactNode, memo, useContext, useMemo } from 'react';
-import { DetailItemType, DictReflect } from '../../types';
+import { DetailItemType, DictReflect, ItemType } from '../../types';
 
 import { ConfigContext } from '@dalydb/sdesign/components/config-provider/contexts';
 import SFile from '@dalydb/sdesign/components/file';
@@ -49,9 +49,9 @@ const wrapTypography = (
 };
 
 // 在模块级别定义类型渲染器，避免每次渲染重新创建
-const TYPE_RENDERERS: Record<string, (props: RendererProps) => ReactNode> = {
+const TYPE_RENDERERS: Record<ItemType, (props: RendererProps) => ReactNode> = {
   text: ({ value, emptyText, copyable, ellipsis }) =>
-    isNil(value) || value === ''
+    isNil(value) || value === '' || value === false
       ? emptyText ?? DEFAULT_EMPTY
       : wrapTypography(value, copyable, ellipsis),
   empty: ({ emptyText }) => emptyText ?? DEFAULT_EMPTY,
@@ -76,6 +76,8 @@ const TYPE_RENDERERS: Record<string, (props: RendererProps) => ReactNode> = {
   },
   file: ({ value, fileProps, emptyText }) => {
     if (isNil(value)) return emptyText ?? DEFAULT_EMPTY;
+    if (Array.isArray(value) && value.length === 0)
+      return emptyText ?? DEFAULT_EMPTY;
     if (!Array.isArray(value)) {
       return (
         <SFile {...fileProps} style={{ color: '#1677ff' }} fileData={value} />
@@ -168,7 +170,17 @@ const DetailItem: FC<
       return render(value, dataSource);
     }
     const renderer = TYPE_RENDERERS[type];
-    if (!renderer) return emptyText ?? DEFAULT_EMPTY;
+    if (!renderer) {
+      // 运行时防御：type 为动态数据（后端返回 / as any 绕过）时可能不在 ItemType 联合内
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(
+          `[SDetail] 未找到 type "${String(
+            type,
+          )}" 的渲染器，已回退为空值占位。`,
+        );
+      }
+      return emptyText ?? DEFAULT_EMPTY;
+    }
     return renderer({
       type,
       value,

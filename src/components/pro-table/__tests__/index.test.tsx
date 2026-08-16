@@ -223,6 +223,20 @@ describe('SProTable 组件', () => {
       expect(attr('sprotable-title', 'type')).toBe('page');
     });
 
+    it('title 传 ReactNode 时 STitle type 仍为 page（不被元素 type 覆盖）', () => {
+      render(
+        <SProTable
+          request={{ service: makeService() }}
+          title={<span>标题</span>}
+          tableProps={{ columns: [], rowKey: 'id' }}
+        />,
+      );
+
+      // 修复前 isTitleConfig 误判 React 元素为配置对象，
+      // {...reactElement} 会用元素 type（'span'）覆盖 STitle 的 type="page"
+      expect(attr('sprotable-title', 'type')).toBe('page');
+    });
+
     it('tableTitle 渲染表格标题', () => {
       render(
         <SProTable
@@ -342,6 +356,18 @@ describe('SProTable 组件', () => {
 
       // pagination 存在（hook + consumer 合并后）
       expect(attr('sprotable-table', 'haspagination')).toBe('true');
+    });
+
+    it('consumer pagination={false} 关闭分页（不被 hook pagination 吞掉）', () => {
+      render(
+        <SProTable
+          request={{ service: makeService() }}
+          tableProps={{ columns: [], rowKey: 'id', pagination: false }}
+        />,
+      );
+
+      // hook 返回了分页对象（truthy），但用户显式 false 应优先
+      expect(attr('sprotable-table', 'haspagination')).toBe('false');
     });
   });
 

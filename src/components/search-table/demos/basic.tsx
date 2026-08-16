@@ -88,7 +88,7 @@ export default () => {
         }}
         requestFn={mockRequest}
         formProps={{ items: searchItems, columns: 3 }}
-        tableProps={{ columns, rowKey: 'id', isSeq: true }}
+        tableProps={{ columns, rowKey: 'id' }}
       />
     </SConfigProvider>
   );

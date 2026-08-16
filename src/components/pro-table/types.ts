@@ -12,7 +12,7 @@ import type { STableProps } from '../table/types';
  * SProTable Ref 方法
  */
 export interface SProTableRef {
-  /** 刷新当前页（携带当前表单值） */
+  /** 刷新（重新查询，回第一页） */
   refresh: () => void;
   /** 重置搜索条件并刷新 */
   reset: () => void;

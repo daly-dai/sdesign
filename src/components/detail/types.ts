@@ -70,7 +70,7 @@ export type DetailItemType = {
 export type SDetailItemType = DetailItemType & {
   /** 详情项标签 */
   label?: ReactNode;
-  /** 数据源中的字段名，支持嵌套 ['a', 'b'] */
+  /** 数据源中的字段名；数组表示取多个顶层字段组成数组（如 rangeTime 的 ['start','end']），非嵌套路径 */
   name?: string | string[];
   /** 栅格占位（映射为 grid-column: span N） */
   span?: number;
@@ -157,8 +157,8 @@ export interface SDetailProps {
   /**
    * 列数或 grid-template-columns 值
    *
-   * - `number`: 等分列数，如 `3` → `repeat(3, 1fr)`
-   * - `string`: 直接作为 CSS grid-template-columns 值，如 `"300px 1fr 1fr"`
+   * - `number`: 等分列数，如 `3` → `repeat(3, max-content 1fr)`
+   * - `string`: 按空格拆分后每组前加 `max-content` label 轨道，如 `"300px 1fr"` → `"max-content 300px max-content 1fr"`
    *
    * @default 3
    */
@@ -169,8 +169,8 @@ export interface SDetailProps {
    * 传入时内部映射为 `columns`，`columns` 优先级更高
    */
   column?: number;
-  /** Grid 间距（px），对应 CSS `gap` 属性 @default 16 */
-  gap?: number;
+  /** Grid 间距，对应 CSS `gap` 属性 @default 16 */
+  gap?: number | string;
   /** label 列宽度，作用于每个 Grid item 内部的 label 子元素 @default 'auto' */
   labelWidth?: number | string;
 
@@ -191,6 +191,10 @@ export interface SDetailProps {
   emptyText?: ReactNode;
   /** 加载中骨架屏 */
   loading?: boolean;
+  /** 透传任意 data-* 属性（如 data-testid） */
+  [key: `data-${string}`]: unknown;
+  /** 透传任意 aria-* 属性 */
+  [key: `aria-${string}`]: unknown;
 }
 
 /**

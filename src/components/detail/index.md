@@ -132,22 +132,22 @@ SDetail 是基于 CSS Grid 自渲染的高级详情展示组件，支持多种�
 
 ### SDetailItem
 
-| 属性名      | 描述                          | 类型                               | 默认值                        |
-| ----------- | ----------------------------- | ---------------------------------- | ----------------------------- |
-| label       | 标签                          | `ReactNode`                        | -                             |
-| name        | 字段名，支持 `'a.b'` 嵌套路径 | `string \| string[]`               | -                             |
-| type        | 渲染类型                      | `ItemType`                         | `'text'`                      |
-| span        | 跨列数（grid-column: span N） | `number`                           | -                             |
-| hidden      | 隐藏                          | `boolean`                          | `false`                       |
-| render      | 自定义渲染                    | `(value, dataSource) => ReactNode` | -                             |
-| copyable    | 可复制（text/dict 生效）      | `boolean`                          | -                             |
-| ellipsis    | 长文本省略（text 生效）       | `boolean \| { rows: number }`      | -                             |
-| tooltip     | label 悬浮提示                | `ReactNode`                        | -                             |
-| dictMap     | 字典映射                      | `object \| any[]`                  | -                             |
-| dictKey     | 字典 key                      | `string`                           | -                             |
-| dictReflect | 字段映射                      | `{label?: string, name?: string}`  | `{label:'label',name:'name'}` |
-| tagColorMap | tag 颜色映射（值 → 颜色）     | `Record<string, string>`           | -                             |
-| fileProps   | 文件配置                      | `Partial<FileListProps>`           | -                             |
+| 属性名      | 描述                                                                            | 类型                               | 默认值                        |
+| ----------- | ------------------------------------------------------------------------------- | ---------------------------------- | ----------------------------- |
+| label       | 标签                                                                            | `ReactNode`                        | -                             |
+| name        | 字段名；数组表示取多个顶层字段（如 rangeTime 的 `['start','end']`），非嵌套路径 | `string \| string[]`               | -                             |
+| type        | 渲染类型                                                                        | `ItemType`                         | `'text'`                      |
+| span        | 跨列数（grid-column: span N）                                                   | `number`                           | -                             |
+| hidden      | 隐藏                                                                            | `boolean`                          | `false`                       |
+| render      | 自定义渲染                                                                      | `(value, dataSource) => ReactNode` | -                             |
+| copyable    | 可复制（text/dict 生效）                                                        | `boolean`                          | -                             |
+| ellipsis    | 长文本省略（text 生效）                                                         | `boolean \| { rows: number }`      | -                             |
+| tooltip     | label 悬浮提示                                                                  | `ReactNode`                        | -                             |
+| dictMap     | 字典映射                                                                        | `object \| any[]`                  | -                             |
+| dictKey     | 字典 key                                                                        | `string`                           | -                             |
+| dictReflect | 字段映射                                                                        | `{label?: string, name?: string}`  | `{label:'label',name:'name'}` |
+| tagColorMap | tag 颜色映射（值 → 颜色）                                                       | `Record<string, string>`           | -                             |
+| fileProps   | 文件配置                                                                        | `Partial<FileListProps>`           | -                             |
 
 ### ItemType 渲染类型
 

@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.14.0
+
+### ⚠️ API Changes
+
+- **STable**：删除 `isSeq` 序号列属性（与 `render:'index'` 职责重叠），改用 `columns` 中 `render: 'index'`；同步清理类型、文档、demo
+- **STable**：补 `forwardRef`，可透传 antd Table 实例（`scrollTo` 等）
+- **STable**：`render:'ellipsis'` 由自定义 `STextEllipsis` 迁移为 antd 原生列 `ellipsis`（自带 tooltip + 标准省略号）；`STextEllipsis` 标 `@deprecated` 保留
+- **SDetail**：`name` 数组语义澄清——数组表示「取多个顶层字段组成数组」（如 rangeTime 的 `['start','end']`），非嵌套路径；字符串 `'a.b'` 不解析点号（嵌套请用顶层 `detailName`）
+- **SDetail**：`gap` 类型 `number` → `number | string`；`SDetailProps` 新增 `data-*` / `aria-*` 透传
+- **SDetail**：`TYPE_RENDERERS` 由 `Record<string, ...>` 收紧为 `Record<ItemType, ...>`（新增渲染类型时编译器强制补全渲染器）
+- **SCollapse**：`onExpand` 回调参数语义修正为「展开状态」，并修复此前回调拿到点击前旧值
+- **useProTable**：`ProService<TParams, TResponse>` 的 `TResponse` 串通到 `UseProTableReturn<TResponse>`，`tableProps.dataSource` 从响应 `list` 字段推导列表项类型
+- **useProTable**：`search()` 不再硬编码 `pageSize: 10`，保持用户上次选择的 pageSize
+
+### 🔧 Fixes
+
+- **useProTable**：修复接口返回 `null` / `mutate(null)` 时 `raw[pf.list]` 抛 TypeError
+- **useProTable**：修复 `refreshDeps` 漏 `!manual` 守卫（对齐 ahooks useAntdTable）
+- **SProTable**：修复 `title` 传 ReactNode 时内容丢失（`$$typeof` Symbol 检测错误，改用 `React.isValidElement`）
+- **SProTable**：修复 `tableProps.pagination={false}` 关不掉分页
+- **STable**：修复 `render:'datetime'` 空值渲染成当前时间、13 位时间戳字符串误解析成 1681 年
+- **STable**：修复字典值 `0`/`''`/`false` 被 `||` 回退（统一 `??`）
+- **STable**：`convertToText` 布尔/bigint 转字符串，清理冗余对象分支
+- **SForm**：修复 readonly 的 `disabled` 被 `undefined` 覆盖（单独用 `SForm.Item` readonly 仍可编辑）
+- **SForm**：实现全局 `required`（此前文档声明但未生效）
+- **SDetail**：修复 Group 强制 `hasCardBg=true` 覆盖用户配置；`label` undefined 渲染空单元格；text 值 `false` 渲染空白；file 空数组；`items` 含 null 元素抛错
+- **utils/dict**：修复 `||` 吞掉字典值 `0`/`''`
+
+### ✨ Enhancements
+
+- **SDetail**：`restProps` 透传 `data-testid` / `aria-*`；未知渲染 type 增加 dev 环境 warn
+- **脚本**：`gen-llms-txt.ts` 修正硬编码组件描述（SForm 18 种、SDetail 8 种渲染类型）与 `extractStructure` 正则误匹配（不再生成伪「STable.render」静态方法）
+
+### 🧪 Tests
+
+- 新增 `detail` 单测（11 用例：基础渲染 / name 数组 / dict / 空值 / label 缺省 / detailName / null 元素 / data-testid 透传 / Group）
+- 新增 `collapse` 单测（4 用例：onExpand 展开状态 / setCollapse / disabled）
+- `useProTable` 补 `raw=null`、`refreshDeps manual` 回归；`pro-table` 补 `pagination={false}`、`title` ReactNode；`STable` 补 datetime 空值 / 时间戳 / 字典 0；`search.test` 修正 useExpand mock 公式
+- 全量测试 372 用例通过
+
 ## 1.13.0
 
 ### ⚠️ API Changes

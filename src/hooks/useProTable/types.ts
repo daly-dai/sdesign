@@ -62,20 +62,27 @@ export type ProService<TParams = any, TResponse = any> = (
   data: TParams,
 ) => Promise<TResponse>;
 
+/** 从分页响应中提取列表项类型（默认 list 字段；自定义 list 字段名时回退 any[]） */
+export type ProListItems<TResponse> = TResponse extends {
+  list?: (infer L)[];
+}
+  ? L[]
+  : any[];
+
 /** useProTable 返回值 */
-export interface UseProTableReturn {
+export interface UseProTableReturn<TResponse = any> {
   /** 表格 props：聚合 dataSource、pagination、loading */
   tableProps: {
-    dataSource: any[];
+    dataSource: ProListItems<TResponse>;
     pagination: TablePaginationConfig | false;
     loading: boolean;
   };
-  /** 搜索（刷新当前页，携带表单值） */
+  /** 搜索（重新查询，回第一页，携带表单值） */
   search: () => void;
   /** 重置搜索并刷新 */
   reset: () => void;
   /** 表单实例 */
   form: FormInstance<any>;
   /** 直接修改数据，不触发请求。传 undefined 清空 */
-  mutate: (data?: Record<string, unknown>) => void;
+  mutate: (data?: TResponse) => void;
 }

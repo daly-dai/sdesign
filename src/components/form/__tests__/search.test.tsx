@@ -4,13 +4,26 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 // ---- Mock 依赖 ----
 vi.mock('@dalydb/sdesign/hooks/useExpand', () => ({
-  default: ({ columns, items, showExpand, defaultExpand }: any) => {
+  default: ({
+    columns,
+    items,
+    showExpand,
+    defaultExpand,
+    maxRows = 1,
+  }: any) => {
     const visibleCount = (items ?? []).filter((i: any) => !i.hidden).length;
-    const fitsOneRow = visibleCount <= columns;
+    // 对齐真实 useExpand 公式：visibleCount > maxRows * columns - 1
+    const collapsedNum = maxRows * columns - 1;
+    const showCollapse = showExpand && visibleCount > collapsedNum;
+    const expanded = defaultExpand ?? false;
     return {
-      expanded: defaultExpand ?? false,
-      showCollapse: showExpand && !fitsOneRow,
-      expandNum: fitsOneRow ? visibleCount : columns,
+      expanded,
+      showCollapse,
+      expandNum: showCollapse
+        ? expanded
+          ? visibleCount
+          : collapsedNum
+        : visibleCount,
       setExpanded: vi.fn(),
     };
   },

@@ -10,6 +10,6 @@ export interface SCollapseProps extends ButtonProps {
   collapse?: boolean;
   /** 设置折叠状态 */
   setCollapse?: (collapse: boolean) => void;
-  /** 展开/折叠回调 */
-  onExpand?: (collapse: boolean) => void;
+  /** 展开/折叠回调，参数为「展开状态」（true=展开，false=收起） */
+  onExpand?: (expand: boolean) => void;
 }

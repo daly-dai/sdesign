@@ -14,6 +14,7 @@ function InstanceForm<Values = any>({
   onFinish,
   onReset,
   readonly = false,
+  required: globalRequired,
   children,
   formName,
   layout = 'vertical',
@@ -70,6 +71,7 @@ function InstanceForm<Values = any>({
                 readonly={readonly}
                 formName={formName}
                 {...item}
+                required={item.required ?? globalRequired}
                 style={{ marginBottom: 0, ...item.style }}
               />
             </Col>

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import mockdate from 'mockdate';
 import React from 'react';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -70,30 +71,6 @@ describe('STable', () => {
     );
     expect(screen.getByText('张三')).toBeInTheDocument();
     expect(screen.getByText('李四')).toBeInTheDocument();
-  });
-
-  it('isSeq 显示序号列', () => {
-    render(
-      <Wrapper>
-        <STable isSeq columns={columns} dataSource={dataSource} />
-      </Wrapper>,
-    );
-    expect(screen.getByText('序号')).toBeInTheDocument();
-  });
-
-  it('isSeq + 分页，序号按分页偏移计算', () => {
-    render(
-      <Wrapper>
-        <STable
-          isSeq
-          columns={columns}
-          dataSource={dataSource}
-          pagination={{ current: 3, pageSize: 10, total: 100 }}
-        />
-      </Wrapper>,
-    );
-    // (3-1)*10 + 1 = 21
-    expect(screen.getByText('21')).toBeInTheDocument();
   });
 
   it('render: "datetime" 渲染为日期时间', () => {
@@ -270,6 +247,18 @@ describe('STable dictKey 组合场景', () => {
     // 字典值为 '0' 时应显示 '0' 而非回退
     expect(screen.getByText('0')).toBeInTheDocument();
   });
+
+  it('dictKey 字典值为数字 0（falsy）时正常显示，不因 || 回退', () => {
+    const dict = { score: { a: 0 } } as any;
+    const cols = [{ title: '分数', dataIndex: 'val', dictKey: 'score' }];
+    render(
+      <Wrapper dict={dict}>
+        <STable columns={cols} dataSource={[{ key: '1', val: 'a' }]} />
+      </Wrapper>,
+    );
+    // 字典值为 0（falsy）时，|| 会回退成 'a'，?? 应显示 '0'
+    expect(screen.getByText('0')).toBeInTheDocument();
+  });
 });
 
 describe('STable 自定义 render', () => {
@@ -291,19 +280,34 @@ describe('STable 自定义 render', () => {
 });
 
 describe('STable 边界场景', () => {
-  it('无分页时序号列显示自然序号', () => {
+  it('render:"datetime" 空值(undefined)不渲染成当前时间', () => {
+    mockdate.set('2026-06-15 12:00:00');
+    const cols = [
+      { title: '时间', dataIndex: 't', render: 'datetime' as const },
+    ];
+    render(
+      <Wrapper>
+        <STable columns={cols} dataSource={[{ key: '1', t: undefined }]} />
+      </Wrapper>,
+    );
+    // 修复前 dayjs(undefined) 返回当前时间，这里不应出现 mockdate 的当前时间
+    expect(screen.queryByText('2026-06-15 12:00:00')).not.toBeInTheDocument();
+    mockdate.reset();
+  });
+
+  it('render:"datetime" 13 位数字字符串时间戳正确解析（非 1681 年）', () => {
+    const cols = [
+      { title: '时间', dataIndex: 't', render: 'datetime' as const },
+    ];
     render(
       <Wrapper>
         <STable
-          isSeq
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
+          columns={cols}
+          dataSource={[{ key: '1', t: '1678447600000' }]}
         />
       </Wrapper>,
     );
-    // 无分页组件，序号 1 和 2 可以精确匹配
-    expect(screen.getByText('1')).toBeInTheDocument();
-    expect(screen.getByText('2')).toBeInTheDocument();
+    // 1678447600000 = 2023-03-10 19:26:40
+    expect(screen.getByText('2023-03-10 19:26:40')).toBeInTheDocument();
   });
 });

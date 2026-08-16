@@ -32,10 +32,6 @@ group:
 
 ## Table
 
-| 属性名 | 描述                                     | 类型    | 默认值 |
-| ------ | ---------------------------------------- | ------- | ------ |
-| isSeq  | 是否显示序号列，分页时自动按页码计算偏移 | boolean | false  |
-
 其他属性完整透传 antd Table，详见 [antd Table 文档](https://ant.design/components/table-cn#api)。
 
 ## Table.columns

@@ -307,7 +307,6 @@ export default () => {
           defaultExpand: false,
         }}
         tableProps={{
-          isSeq: true,
           columns: advancedColumns,
           rowKey: 'id',
           scroll: { x: 1500 },

@@ -331,25 +331,16 @@ const InstanceForm: FC<SFormProps> = ({
 #### FormField (控件工厂)
 
 ```typescript
-function FormField<T extends FormComType>({
-  type,
-  ...restProps
-}: FormFieldProps<T>) {
-  // 检查是否为重型组件，使用懒加载
-  const isHeavyComponent = HEAVY_COMPONENTS.includes(type as any);
+function FormField({ type, ...restProps }: FormFieldProps) {
+  const resolvedType = (type ?? 'input') as FormComType | DeprecatedComType;
 
-  // 使用 Map 优化查找性能
-  const Component = isHeavyComponent
-    ? HeavyComponentMap[type]
-    : FORM_ITEM_COM_MAP_BY_KEY.get(type ?? 'input');
+  // 静态对象查找（FORM_ITEM_COM_MAP），无懒加载
+  const Component = FORM_ITEM_COM_MAP[resolvedType] as
+    | React.ComponentType<any>
+    | undefined;
 
-  // 重型组件使用 Suspense 包裹
-  if (isHeavyComponent) {
-    return (
-      <Suspense fallback={<div>加载中...</div>}>
-        <Component {...restProps} />
-      </Suspense>
-    );
+  if (!Component) {
+    return <div>未知组件类型: {type}</div>;
   }
 
   return <Component {...restProps} />;
@@ -361,8 +352,7 @@ function FormField<T extends FormComType>({
 - **IMP-001**: 使用 `memo` 包裹所有子组件，避免不必要的重渲染
 - **IMP-002**: 使用 `useMemo` 缓存计算结果 (dynamicSpan, visibleItems, formStyle)
 - **IMP-003**: 使用 `useCallback` 缓存事件处理函数 (handleFinish, handleReset)
-- **IMP-004**: 重型组件 (cascader, table) 使用 `lazy` + `Suspense` 懒加载
-- **IMP-005**: 使用 `Map` 数据结构优化组件查找性能
+- **IMP-004**: 控件通过 `FORM_ITEM_COM_MAP` 静态对象分发（无 lazy/Suspense/Map）
 
 ### 校验规则处理
 
@@ -565,8 +555,7 @@ export default () => {
 ### 性能 (Performance)
 
 - **QUA-001**: 组件级 memo 优化，避免父组件更新导致的不必要渲染
-- **QUA-002**: 重型组件懒加载，减少首屏 bundle 体积
-- **QUA-003**: Map 数据结构优化组件查找，O(1) 时间复杂度
+- **QUA-002**: 控件静态对象分发（`FORM_ITEM_COM_MAP`），O(1) 查找
 - **QUA-004**: 性能监控 Hook 支持，可追踪表单渲染耗时
 
 ### 可维护性 (Maintainability)

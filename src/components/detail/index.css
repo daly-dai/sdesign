@@ -40,10 +40,9 @@
   flex-direction: column;
 }
 
-/* ---------- Label（subgrid 轨道 1：max-content，同列自动对齐） ---------- */
+/* ---------- Label（subgrid 轨道 1：max-content，同列自动对齐） ----------
+   color / line-height 由内联 DETAIL_LABEL_STYLE 提供，此处只保留布局相关 */
 .sdetail-label {
-  color: rgba(8, 16, 30, 55%);
-  line-height: 22px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

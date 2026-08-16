@@ -1,40 +1,26 @@
 /**
- * 将给定的参数转换为字符串或数字形式。
- * - 如果参数为 `null` 或 `undefined`，则返回 `'-'`。
- * - 如果参数为数值或字符串类型，则直接返回该参数，若参数为空字符串，则返回 `'-'`。
- * - 如果参数为数组，则将数组元素连接为字符串，如果数组为空，则返回 `'-'`。
- * - 如果参数为对象（非数组），则返回 `'-'`。额外逻辑可以针对特定对象类型进行扩展。
- * - 对于所有其他未知类型，返回 `'-'`。
+ * 将给定的参数转换为字符串或数字形式（供表格单元格默认展示）。
+ * - `null` / `undefined` → `'-'`
+ * - `string` → 原样返回，空串返回 `'-'`
+ * - `number` → 原样返回（0 是合法值）
+ * - `boolean` / `bigint` → 转字符串（避免布尔列显示 `'-'`）
+ * - `Array` → 元素连接为字符串，空数组返回 `'-'`
+ * - 其余（对象 / symbol / 函数等）→ `'-'`
  *
- * @param t 任意类型的参数，将被尝试转换为字符串或数字。
- * @returns 返回转换后的字符串或数字，特定情况下返回 `'-'`。
+ * @param t 任意类型的单元格值
+ * @returns 转换后的字符串或数字
  */
-export function convertToText(t: any): string | number {
-  // 直接处理null和undefined的情况
-  if (t === null || t === undefined) {
-    return '-';
-  }
+export function convertToText(t: unknown): string | number {
+  if (t === null || t === undefined) return '-';
 
-  // 处理字符串：空串返回 '-'，非空串原样返回
-  if (typeof t === 'string') {
-    return t || '-';
-  }
+  if (typeof t === 'string') return t || '-';
 
-  // 处理数值：0 是合法值，原样返回
-  if (typeof t === 'number') {
-    return t;
-  }
+  if (typeof t === 'number') return t;
 
-  // 特殊处理对象和数组的情况，避免将空数组误解为对象
-  if (Array.isArray(t)) {
-    return t.length === 0 ? '-' : t.join(', ');
-  }
+  if (typeof t === 'boolean' || typeof t === 'bigint') return String(t);
 
-  if (typeof t === 'object' && t !== null && !Array.isArray(t)) {
-    // 这里可以添加额外的逻辑来处理特定的对象类型
-    return '-';
-  }
+  if (Array.isArray(t)) return t.length === 0 ? '-' : t.join(', ');
 
-  // 对于未知类型，返回一个默认值或者可以抛出一个异常，取决于应用的需求
+  // 对象 / symbol / 函数等
   return '-';
 }

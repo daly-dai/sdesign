@@ -48,12 +48,12 @@ const COMPONENT_DESCRIPTIONS: Record<string, string> = {
   SCollapse: '折叠面板',
   SDatePicker: '增强日期选择器，onChange 直接返回字符串',
   SDatePickerRange: '日期范围选择器，支持 rangeKeys 拆分字段',
-  SForm: '配置化表单，items 数组声明 22 种控件、联动、分组、搜索',
+  SForm: '配置化表单，items 数组声明 18 种控件、联动、分组、搜索',
   SConfigProvider: '全局配置（字典、上传地址），STable/SDetail 自动读取',
-  STable: '增强表格，支持 dictKey 字典映射、render 快捷类型、序号列',
+  STable: '增强表格，支持 dictKey 字典映射、render 快捷类型、行号',
   SSearchTable: 'SForm.Search + STable 一体化，列表页首选',
   SDependency: '字段依赖联动组件',
-  SDetail: '详情展示，支持 8 种渲染类型（text/dict/file/img 等）',
+  SDetail: '详情展示，支持 8 种渲染类型（text/dict/file/rangeTime/tag 等）',
   SConfirm: '确认组件，支持 Popconfirm 和 Modal 两种模式',
   SErrorBoundary: '错误边界',
   SErrorCom: '错误展示',
@@ -515,7 +515,9 @@ function extractStructure(indexFile: string) {
     return { subComponents: subs, staticMethods: methods };
 
   const content = fs.readFileSync(indexFile, 'utf-8');
-  const regex = /(\w+)\.(\w+)\s*=\s*(\w+)/g;
+  // 只匹配「行首顶层静态挂载」如 SForm.Search = Search，
+  // 避免误匹配实现内部缩进的局部赋值（如 newCol.render = baseRender，其 Col 会命中大写开头）
+  const regex = /^(\w+)\.(\w+)\s*=\s*(\w+)/gm;
   let m: RegExpExecArray | null;
 
   while ((m = regex.exec(content)) !== null) {

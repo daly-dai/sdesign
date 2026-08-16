@@ -294,7 +294,7 @@ describe('useProTable — 分页表格 Hook（Phase 2.1）', () => {
       );
     });
 
-    it('翻到第3页后 reset() → form.resetFields + search 携带 pageIndex=1（非保持第3页）', () => {
+    it('翻到第3页后 reset() → form.resetFields + search 携带 pageIndex=1、pageSize 保持用户选择', () => {
       mockUseRequestData = {
         pageIndex: 3,
         pageSize: 20,
@@ -327,7 +327,7 @@ describe('useProTable — 分页表格 Hook（Phase 2.1）', () => {
 
       expect(mockFormResetFields).toHaveBeenCalledTimes(1);
       expect(mockRun).toHaveBeenCalledWith(
-        expect.objectContaining({ pageIndex: 1, pageSize: 10 }),
+        expect.objectContaining({ pageIndex: 1, pageSize: 20 }),
       );
     });
   });
@@ -698,6 +698,26 @@ describe('useProTable — 分页表格 Hook（Phase 2.1）', () => {
       });
       expect(mockRun).not.toHaveBeenCalled();
     });
+
+    it('manual=true 时 refreshDeps 变化不触发（对齐 ahooks useAntdTable）', () => {
+      const service = mockService();
+      const { rerender } = renderHook(
+        ({ dep }) => useProTable(service, { manual: true, refreshDeps: [dep] }),
+        { initialProps: { dep: 'a' } },
+      );
+
+      act(() => {
+        vi.advanceTimersByTime(0);
+      });
+      expect(mockRun).not.toHaveBeenCalled(); // mount 时 manual 不请求
+
+      rerender({ dep: 'b' });
+      act(() => {
+        vi.advanceTimersByTime(0);
+      });
+      // 修复前 refreshDeps 漏 !manual 守卫，会触发请求
+      expect(mockRun).not.toHaveBeenCalled();
+    });
   });
 
   // ═══════════════════════════════════════════════════════════════
@@ -734,7 +754,7 @@ describe('useProTable — 分页表格 Hook（Phase 2.1）', () => {
       );
     });
 
-    it('翻到第3页后调用 search() → 请求参数重置为 pageIndex=1（search 始终从第一页开始）', () => {
+    it('翻到第3页后调用 search() → pageIndex 重置为 1，但 pageSize 保持用户选择', () => {
       mockUseRequestData = {
         pageIndex: 1,
         pageSize: 10,
@@ -761,14 +781,14 @@ describe('useProTable — 分页表格 Hook（Phase 2.1）', () => {
         expect.objectContaining({ pageIndex: 3, pageSize: 20 }),
       );
 
-      // 调用 search() → 回到第一页
+      // 调用 search() → 回到第一页，但保持用户上次选择的 pageSize（修复：不再硬编码重置回 10）
       mockRun.mockClear();
       act(() => {
         result.current.search();
       });
 
       expect(mockRun).toHaveBeenCalledWith(
-        expect.objectContaining({ pageIndex: 1, pageSize: 10 }),
+        expect.objectContaining({ pageIndex: 1, pageSize: 20 }),
       );
     });
   });
@@ -923,6 +943,19 @@ describe('useProTable — 分页表格 Hook（Phase 2.1）', () => {
 
       expect(result.current.tableProps.pagination).toBe(false);
       expect(result.current.tableProps.dataSource).toEqual([]);
+    });
+
+    it('raw 为 null（接口返回 null / mutate(null)）时不抛错，dataSource 安全回退为 []', () => {
+      mockUseRequestData = null as any;
+      const service = mockService();
+      const { result } = renderHook(() =>
+        useProTable(service, { manual: true }),
+      );
+
+      // 修复前 raw[pf.list] 对 null 抛 TypeError
+      expect(() => result.current.tableProps).not.toThrow();
+      expect(result.current.tableProps.dataSource).toEqual([]);
+      expect(result.current.tableProps.pagination).toBe(false);
     });
   });
 });

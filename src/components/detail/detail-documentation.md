@@ -10,14 +10,14 @@ tags: [component, detail, display, antd, typescript]
 
 # SDetail 详情组件技术文档
 
-SDetail 是一个基于 Ant Design Descriptions 组件封装的高级详情展示组件，支持多种数据类型的自动渲染（文本、字典、文件、时间范围等），提供分组展示能力和灵活的配置选项。
+SDetail 是一个基于 CSS Grid 自渲染的高级详情展示组件，支持多种数据类型的自动渲染（文本、字典、文件、时间范围等），提供分组展示能力和灵活的配置选项。
 
 ## 1. 组件概述
 
 ### 1.1 目的与职责
 
 - **OVR-001**: 提供统一的数据详情展示能力，减少重复开发
-- **OVR-002**: 支持多种内置数据类型渲染（text、dict、file、rangeTime、checkbox、placeholder）
+- **OVR-002**: 支持 8 种内置数据类型渲染（text、empty、placeholder、dict、file、rangeTime、checkbox、tag）
 - **OVR-003**: 支持分组展示复杂详情结构
 - **OVR-004**: 与 SDesign 组件库生态集成（ConfigProvider、STitle、SFile 等）
 
@@ -41,8 +41,8 @@ SDetail 是一个基于 Ant Design Descriptions 组件封装的高级详情展�
           ┌────────────────┼────────────────┐
           │                │                │
     ┌─────▼─────┐   ┌─────▼─────┐   ┌─────▼─────┐
-    │  Antd     │   │  SDesign  │   │  工具函数  │
-    │Descriptions│   │  组件生态  │   │           │
+    │ CSS Grid  │   │  SDesign  │   │  工具函数  │
+    │  布局      │   │  组件生态  │   │           │
     └───────────┘   └───────────┘   └───────────┘
 ```
 
@@ -62,9 +62,8 @@ src/components/detail/
 ├── index.tsx              # 入口文件，组装复合组件
 ├── instance.tsx           # 主组件实现
 ├── types.ts               # TypeScript 类型定义
-├── hook.ts                # 自定义 Hook
 ├── constant.ts            # 常量定义
-├── index.style.ts         # 样式定义
+├── index.css             # 样式定义
 ├── components/
 │   ├── item-render/       # 单项渲染器
 │   │   └── index.tsx
@@ -156,7 +155,7 @@ graph TD
 | titleAction  | `ReactNode`              | 否   | -            | 标题操作区域                 |
 | column       | `number`                 | 否   | `3`          | 列数                         |
 | layout       | `horizontal \| vertical` | 否   | `horizontal` | 布局方式                     |
-| colon        | `boolean`                | 否   | `false`      | 是否显示冒号                 |
+| colon        | `boolean`                | 否   | `true`       | 是否显示冒号                 |
 | hasCardBg    | `boolean`                | 否   | `false`      | 是否显示卡片背景             |
 | labelStyle   | `CSSProperties`          | 否   | -            | 标签样式                     |
 | contentStyle | `CSSProperties`          | 否   | -            | 内容样式                     |
@@ -259,7 +258,7 @@ const TYPE_RENDERERS: Record<ItemType, (props: RendererProps) => ReactNode> = {
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │  原始数据    │────▶│ 数据预处理   │────▶│  渲染输出   │
-│ dataSource   │     │ detailName  │     │  Descriptions│
+│ dataSource   │     │ detailName  │     │  Grid Items │
 └─────────────┘     └─────────────┘     └─────────────┘
                                               │
                          ┌────────────────────┼────────────────────┐
@@ -407,11 +406,11 @@ export default () => (
 
 ### 7.1 依赖列表
 
-| 依赖   | 版本  | 用途                              |
-| ------ | ----- | --------------------------------- |
-| antd   | ^5.x  | Descriptions 组件                 |
-| lodash | ^4.x  | isArray、isString、isNil 工具函数 |
-| react  | ^18.x | useId、useMemo、memo              |
+| 依赖   | 版本  | 用途                                    |
+| ------ | ----- | --------------------------------------- |
+| antd   | ^5.x  | Skeleton、Tooltip、Tag、Typography 组件 |
+| lodash | ^4.x  | isArray、isString、isNil 工具函数       |
+| react  | ^18.x | useId、useMemo、memo                    |
 
 ### 7.2 相关组件
 

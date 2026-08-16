@@ -46,7 +46,7 @@ export function dispatchDictData(
 
     if (!result) return EMPTY_VALUE;
 
-    return result[label] || EMPTY_VALUE;
+    return result[label] ?? EMPTY_VALUE;
   }
 
   if (isObject(dictMap)) {

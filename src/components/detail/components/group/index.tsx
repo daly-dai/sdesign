@@ -30,7 +30,7 @@ const renderGroupDetail = (
     <DetailInstance
       key={key}
       {...props}
-      hasCardBg
+      hasCardBg={props.hasCardBg ?? true}
       dataSource={props.dataSource ?? fallbackDataSource ?? {}}
     />
   );

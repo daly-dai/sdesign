@@ -50,11 +50,15 @@ function useItemConfig({
   // 显式传入 marginBottom:0（配合 Row 的垂直 gutter），避免双重间距
   const styleData = style;
 
+  // readonly 时强制禁用：defaultConfig 里的 disabled:true 会被 props.disabled(undefined) 覆盖，
+  // 单独使用 SForm.Item 时不经过 Form 容器的 disabled 传递，必须在此兜底
+  const resolvedDisabled = readonly ? true : disabled;
+
   return {
     type,
     label,
     fieldProps,
-    disabled,
+    disabled: resolvedDisabled,
     defaultConfig,
     itemRules,
     itemName,

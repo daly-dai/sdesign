@@ -2,8 +2,8 @@
   "useWhen": [
     "需要展示列表数据的表格",
     "需要 dictKey 字典映射自动转换列值",
-    "需要 render 快捷类型（datetime/date/ellipsis）",
-    "需要自动序号列（isSeq）"
+    "需要 render 快捷类型（datetime/date/ellipsis/index）",
+    "需要行索引序号列（render: 'index'）"
   ],
   "dontUseWhen": [
     "列表页同时需要搜索条件 + 表格 + 分页联动，应使用 SSearchTable",
